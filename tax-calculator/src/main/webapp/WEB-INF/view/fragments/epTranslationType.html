@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<div th:fragment="epTranslationType-fragment" class="inlBlW100">
+
+    <div th:text="#{translation.title}"></div>
+    <div class="mT10 rb-grid">
+        <div>
+            <input name="translationType" class="radio-btn vertical-rb translation-type" type="radio" value="message" th:attr="data-rel-field='translationType-field'" checked>
+            <div th:text="#{translation.message}" class="rb-text"></div>
+        </div>
+        <div>
+            <input name="translationType" class="radio-btn vertical-rb translation-type" type="radio" value="publication" th:attr="data-rel-field='translationType-field'">
+            <div th:text="#{translation.publication}" class="rb-text"></div>
+        </div>
+    </div>
+
+    <input type="hidden" class="input-param" id="translationType-field" value="message" th:attr="data-name='translationType'">
+
+</div>
+</html>

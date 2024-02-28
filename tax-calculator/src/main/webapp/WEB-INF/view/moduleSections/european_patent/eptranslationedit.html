@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<div th:fragment="eptranslationedit-fragment">
+
+    <div id="translation-type-frag" class="mb20px">
+        <div th:replace="fragments/epTranslationType :: epTranslationType-fragment"></div>
+    </div>
+    <div id="translation-pages-count-frag" style="display: none" class="mb20px">
+        <div th:replace="fragments/pagesCount :: pagesCount-fragment"></div>
+    </div>
+
+</div>
+</html>

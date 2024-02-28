@@ -1,0 +1,524 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bindings version="1.0" xmlns="http://java.sun.com/xml/ns/jaxb"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+	xmlns:annox="http://annox.dev.java.net" extensionBindingPrefixes="annox"
+	schemaLocation="SP-PT-eFiling-V0-01.xsd">
+
+	<globalBindings>
+		<serializable uid="1" />
+		<xjc:javaType name="java.util.Date" xmlType="xs:date"
+			adapter="eu.ohim.sp.common.util.DateAdapter" />
+	</globalBindings>
+
+	<!-- Transaction -->
+	<bindings node="//xs:complexType[@name='TransactionBodyType']">
+		<class name="TransactionBody" />
+	</bindings>
+	<bindings node="//xs:complexType[@name='TransactionErrorDetailsType']">
+		<class name="TransactionErrorDetails" />
+	</bindings>
+	<bindings node="//xs:complexType[@name='TransactionErrorType']">
+		<class name="TransactionError" />
+	</bindings>
+	<bindings node="//xs:complexType[@name='TransactionDataType']">
+		<class name="TransactionData" />
+	</bindings>
+	<bindings node="//xs:complexType[@name='TransactionType']">
+		<class name="Transaction" />
+		<annox:annotate>
+			<annox:annotate annox:class="javax.xml.bind.annotation.XmlRootElement"
+				name="Transaction" />
+		</annox:annotate>
+	</bindings>
+
+	<!-- Patent -->
+	<bindings node="//xs:complexType[@name='PatentApplicationType']">
+		<class name="PatentApplication" />
+	</bindings>
+	<bindings node="//xs:complexType[@name='PatentDetailsType']">
+		<class name="PatentDetails" />
+	</bindings>
+	<bindings node="//xs:complexType[@name='SpcPatentDetailsType']">
+		<class name="SpcPatentDetails" />
+	</bindings>
+	<bindings node="//xs:complexType[@name='MarketPermissionDetailsType']">
+		<class name="MarketPermission" />
+	</bindings>
+	<bindings node="//xs:complexType[@name='PatentType']">
+		<class name="Patent" />
+	</bindings>
+	<bindings node="//xs:complexType[@name='TechnicalQuestionnaireType']">
+		<class name="TechnicalQuestionnaire" />
+	</bindings>
+	<bindings node="//xs:simpleType[@name='IPRKindType']">
+		<class name="IPRKind" />
+	</bindings>
+	<bindings node="//xs:simpleType[@name='CurrentStatusCodeType']">
+		<typesafeEnumClass name="CurrentStatusCode" />
+	</bindings>
+	<bindings node="//xs:complexType[@name='PatentDescriptionSheetDetailsType']">
+		<class name="PatentDescriptionSheetDetails" />
+	</bindings>
+	<bindings node="//xs:complexType[@name='PatentDescriptionSheetType']">
+		<class name="PatentDescriptionSheet" />
+	</bindings>
+	<bindings node="//xs:simpleType[@name='PatentDescriptionKindType']">
+		<typesafeEnumClass name="PatentDescriptionKind" />
+	</bindings>
+	<bindings node="//xs:complexType[@name='IPCClassDetailsType']">
+		<class name="IPCClassDetails" />
+	</bindings>
+
+	<!-- End Patent -->
+
+	<!-- Divisional application, Transformation, ParallelApp -->
+	<bindings node="//xs:complexType[@name='DivisionalApplicationDetailsType']">
+		<class name="DivisionalApplicationDetails" />
+	</bindings>
+	<bindings node="//xs:complexType[@name='TransformationPriorityDetailsType']">
+		<class name="TransformationPriorityDetails" />
+	</bindings>
+	<bindings node="//xs:complexType[@name='TransformationPriorityType']">
+		<class name="TransformationPriority" />
+	</bindings>
+	<bindings node="//xs:complexType[@name='ParallelApplicationDetailsType']">
+		<class name="ParallelApplicationDetails" />
+	</bindings>
+	<bindings node="//xs:complexType[@name='ParallelApplicationType']">
+		<class name="ParallelApplication" />
+	</bindings>
+	<bindings node="//xs:complexType[@name='PCTDetailsType']">
+		<class name="PCTDetails" />
+	</bindings>
+	<bindings node="//xs:complexType[@name='PCTType']">
+		<class name="PCT" />
+	</bindings>
+	<!-- End Divisional application -->
+
+
+	<bindings multiple="true" node="//xs:element[@name='ApplicationLanguageCode']">
+		<property name="ApplicationLanguage" />
+	</bindings>
+	<bindings multiple="true" node="//xs:element[@name='SecondLanguageCode']">
+		<property name="SecondLanguage" />
+	</bindings>
+	<bindings multiple="true" node="//xs:element[@name='CorrespondenceLanguageCode']">
+		<property name="CorrespondenceLanguage" />
+	</bindings>
+
+	<bindings multiple="true" node="//xs:element[@name='ReceivingOfficeCode']">
+		<property name="ReceivingOffice" />
+	</bindings>
+	<bindings multiple="true" node="//xs:element[@name='RegistrationOfficeCode']">
+		<property name="RegistrationOffice" />
+	</bindings>
+
+
+	<bindings node="//xs:complexType[@name='AccountType']">
+		<class name="Account" />
+	</bindings>
+
+
+	<bindings node="//xs:complexType[@name='BankTransferType']">
+		<class name="BankTransfer" />
+	</bindings>
+	<bindings node="//xs:complexType[@name='CardAccountType']">
+		<class name="CardAccount" />
+	</bindings>
+	<bindings node="//xs:complexType[@name='ContactInformationDetailsType']">
+		<class name="ContactInformationDetails" />
+	</bindings>
+	<bindings node="//xs:complexType[@name='CorrespondenceAddressKeyType']">
+		<class name="CorrespondenceAddressKey" />
+	</bindings>
+	<bindings node="//xs:complexType[@name='CorrespondenceAddressType']">
+		<class name="CorrespondenceAddress" />
+	</bindings>
+	<bindings node="//xs:complexType[@name='FormattedAddressType']">
+		<class name="FormattedAddress" />
+	</bindings>
+	<bindings node="//xs:complexType[@name='FormattedNameAddressType']">
+		<class name="FormattedNameAddress" />
+	</bindings>
+	<bindings node="//xs:complexType[@name='FormattedNameType']">
+		<class name="FormattedName" />
+	</bindings>
+	<bindings node="//xs:complexType[@name='KeyType']">
+		<class name="Key" />
+	</bindings>
+	<bindings node="//xs:complexType[@name='NameType']">
+		<class name="Name" />
+	</bindings>
+	<bindings node="//xs:complexType[@name='PartyIdentifierType']">
+		<class name="PartyIdentifier" />
+	</bindings>
+	<bindings node="//xs:complexType[@name='PartyRelationshipType']">
+		<class name="PartyRelationship" />
+	</bindings>
+	<bindings node="//xs:complexType[@name='PaymentDetailsType']">
+		<class name="PaymentDetails" />
+	</bindings>
+	<bindings node="//xs:complexType[@name='PaymentFeeDetailsType']">
+		<class name="PaymentFeeDetails" />
+	</bindings>
+	<bindings node="//xs:complexType[@name='PaymentFeeType']">
+		<class name="PaymentFee" />
+	</bindings>
+	<bindings node="//xs:complexType[@name='PaymentMethodType']">
+		<class name="PaymentMethod" />
+	</bindings>
+	<bindings node="//xs:complexType[@name='PaymentType']">
+		<class name="Payment" />
+	</bindings>
+
+	<!-- START Priorities Naming Conventions -->
+	<bindings node="//xs:complexType[@name='PriorityDetailsType']">
+		<class name="PriorityDetails" />
+	</bindings>
+	<bindings node="//xs:complexType[@name='PriorityType']">
+		<class name="Priority" />
+	</bindings>
+	<bindings multiple="true" node="//xs:element[@name='PriorityDetails']">
+		<property name="Priorities" />
+	</bindings>
+	<bindings node="//xs:element[@name='PriorityCountryCode']">
+		<property name="FilingOffice" />
+	</bindings>
+	<bindings node="//xs:element[@name='PriorityNumber']">
+		<property name="FilingNumber" />
+	</bindings>
+	<bindings
+		node="//xs:complexType[@name='PriorityType']//xs:element[@name='PriorityDate']">
+		<property name="FilingDate" />
+	</bindings>
+	<bindings node="//xs:element[@name='PriorityDocument']">
+		<property name="documents" />
+	</bindings>
+
+	<bindings node="//xs:complexType[@name='ExhibitionPriorityDetailsType']">
+		<class name="ExhibitionPriorityDetails"/>
+	</bindings>
+	<bindings multiple="true" node="//xs:element[@name='ExhibitionPriorityDetails']">
+		<property name="ExhibitionPriorities" />
+	</bindings>
+	<bindings node="//xs:complexType[@name='ExhibitionPriorityType']">
+		<class name="ExhibitionPriority"/>
+	</bindings>
+	<!-- END Priorities Naming Conventions -->
+
+
+	<bindings node="//xs:complexType[@name='DocumentIncludedDetailsType']">
+		<class name="DocumentIncludedDetails" />
+	</bindings>
+	<bindings node="//xs:complexType[@name='DocumentType']">
+		<class name="Document" />
+	</bindings>
+	<bindings node="//xs:element[@name='DocumentName']">
+		<property name="Name" />
+	</bindings>
+	<bindings node="//xs:element[@name='DocumentURI']">
+		<property name="uri" />
+	</bindings>
+	<bindings node="//xs:element[@name='DocumentFilename']">
+		<property name="FileName" />
+	</bindings>
+	<bindings node="//xs:element[@name='DocumentFileFormat']">
+		<property name="FileFormat" />
+	</bindings>
+	<bindings node="//xs:element[@name='DocumentLanguageCode']">
+		<property name="Language" />
+	</bindings>
+	<bindings node="//xs:element[@name='DocumentKind']">
+		<property name="Kind" />
+	</bindings>
+	<bindings node="//xs:element[@name='DocumentStatus']">
+		<property name="Status" />
+	</bindings>
+	<bindings node="//xs:simpleType[@name='DocumentKindType']">
+		<typesafeEnumClass name="DocumentKind" />
+	</bindings>
+	<bindings node="//xs:simpleType[@name='DocumentStatusCodeType']">
+		<typesafeEnumClass name="DocumentStatusCode" />
+	</bindings>
+
+	<bindings node="//xs:simpleType[@name='FileFormatType']">
+		<class name="FileFormat" />
+	</bindings>
+
+	<!-- START Applicant Naming Conventions -->
+	<bindings node="//xs:complexType[@name='ApplicantDetailsType']">
+		<class name="ApplicantDetails" />
+	</bindings>
+	<bindings node="//xs:complexType[@name='ApplicantType']">
+		<class name="Applicant" />
+	</bindings>
+	<bindings node="//xs:element[@name='ApplicantLegalEntity']">
+		<property name="LegalForm" />
+	</bindings>
+	<bindings node="//xs:element[@name='ApplicantCorrespondenceAddressBook']">
+		<property name="CorrespondenceAddresses" />
+	</bindings>
+	<bindings node="//xs:element[@name='ApplicantNationalityCode']">
+		<property name="Nationality" />
+	</bindings>
+	<bindings node="//xs:element[@name='ApplicantIncorporationCountryCode']">
+		<property name="IncorporationCountry" />
+	</bindings>
+	<bindings node="//xs:element[@name='ApplicantIncorporationState']">
+		<property name="IncorporationState" />
+	</bindings>
+	<bindings node="//xs:element[@name='ApplicantAddressBook']">
+		<property name="AddressBook" />
+	</bindings>
+	<bindings node="//xs:element[@name='ApplicantDomicileLocality']">
+		<property name="DomicileLocality" />
+	</bindings>
+	<bindings node="//xs:element[@name='ApplicantDomicileCountry']">
+		<property name="DomicileCountry" />
+	</bindings>
+	<!-- END Applicant Naming Conventions -->
+
+
+	<!-- START Representative Naming Conventions -->
+	<bindings node="//xs:complexType[@name='RepresentativeDetailsType']">
+		<class name="RepresentativeDetails" />
+	</bindings>
+	<bindings
+		node="//xs:complexType[@name='RepresentativeRelationshipDetailsType']">
+		<class name="RepresentativeRelationshipDetails" />
+	</bindings>
+	<bindings node="//xs:complexType[@name='RepresentativeType']">
+		<class name="Representative" />
+	</bindings>
+	<bindings
+		node="//xs:element[@name='RepresentativeCorrespondenceAddressBook']">
+		<property name="CorrespondenceAddresses" />
+	</bindings>
+	<bindings
+		node="//xs:complexType[@name='PatentType']//xs:element[@name='RepresentativeDetails']">
+		<property name="Representatives" />
+	</bindings>
+	<bindings node="//xs:element[@name='RepresentativeLegalEntity']">
+		<property name="LegalForm" />
+	</bindings>
+	<bindings node="//xs:element[@name='RepresentativeNationalityCode']">
+		<property name="Nationality" />
+	</bindings>
+	<bindings
+		node="//xs:element[@name='RepresentativeIncorporationCountryCode']">
+		<property name="IncorporationCountry" />
+	</bindings>
+	<bindings node="//xs:element[@name='RepresentativeIncorporationState']">
+		<property name="IncorporationState" />
+	</bindings>
+	<bindings node="//xs:element[@name='RepresentativeAddressBook']">
+		<property name="AddressBook" />
+	</bindings>
+	<bindings node="//xs:element[@name='RepresentativeDomicileLocality']">
+		<property name="DomicileLocality" />
+	</bindings>
+	<bindings node="//xs:element[@name='RepresentativeDomicileCountry']">
+		<property name="DomicileCountry" />
+	</bindings>
+	<bindings node="//xs:element[@name='RepresentativeEconomicConnection']">
+		<property name="EconomicConnection" />
+	</bindings>
+	<bindings node="//xs:element[@name='RepresentativeKindCode']">
+		<property name="Kind" />
+	</bindings>
+	<!-- END Representative Naming Conventions -->
+
+	<!-- START Inventor Naming Conventions -->
+	<bindings node="//xs:complexType[@name='InventorDetailsType']">
+		<class name="InventorDetails" />
+	</bindings>
+	<bindings node="//xs:complexType[@name='InventorType']">
+		<class name="Inventor" />
+	</bindings>
+	<bindings multiple="true" node="//xs:element[@name='InventorDetails']">
+		<property name="Inventors" />
+	</bindings>
+	<bindings node="//xs:element[@name='InventorAddressBook']">
+		<property name="AddressBook" />
+	</bindings>
+	<bindings node="//xs:element[@name='InventorNationalityCode']">
+		<property name="Nationality" />
+	</bindings>
+	<bindings node="//xs:element[@name='InventorCorrespondenceAddressBook']">
+		<property name="CorrespondenceAddresses" />
+	</bindings>
+
+	<!-- END Inventor Naming Conventions -->
+
+
+	<!-- START Address Naming Conventions -->
+	<bindings node="//xs:complexType[@name='AddressBookType']">
+		<class name="AddressBook" />
+	</bindings>
+	<bindings node="//xs:complexType[@name='AddressType']">
+		<class name="Address" />
+	</bindings>
+	<bindings node="//xs:element[@name='AddressStreet']">
+		<property name="Street" />
+	</bindings>
+	<bindings node="//xs:element[@name='AddressStreetNumber']">
+		<property name="StreetNumber" />
+	</bindings>
+	<bindings node="//xs:element[@name='AddressState']">
+		<property name="State" />
+	</bindings>
+	<bindings node="//xs:element[@name='AddressCity']">
+		<property name="City" />
+	</bindings>
+	<bindings node="//xs:element[@name='AddressPostcode']">
+		<property name="Postcode" />
+	</bindings>
+	<bindings node="//xs:element[@name='FormattedAddressCountryCode']">
+		<property name="Country" />
+	</bindings>
+	<!-- END Address Naming Conventions -->
+
+	<!-- START Signatory Naming Conventions -->
+	<bindings node="//xs:complexType[@name='SignatoryDetailsType']">
+		<class name="SignatoryDetails" />
+	</bindings>
+	<bindings node="//xs:complexType[@name='SignatoryType']">
+		<class name="Signatory" />
+	</bindings>
+	<bindings node="//xs:element[@name='SignatoryAddress']">
+        <property name="Address" />
+    </bindings>
+	<bindings node="//xs:element[@name='SignatoryName']">
+		<property name="Name" />
+	</bindings>
+	<bindings node="//xs:element[@name='SignatureDate']">
+		<property name="Date" />
+	</bindings>
+	<bindings node="//xs:element[@name='SignaturePlace']">
+		<property name="Place" />
+	</bindings>
+	<bindings node="//xs:element[@name='SignatureAssociatedText']">
+        <property name="AssociatedText" />
+    </bindings>
+	<bindings node="//xs:element[@name='SignatoryCapacityCode']">
+		<property name="Capacity" />
+	</bindings>
+	<bindings node="//xs:element[@name='SignatoryCapacityText']">
+		<property name="CapacityText" />
+	</bindings>
+	<bindings node="//xs:element[@name='SignatoryConfirmation']">
+        <property name="Confirmation" />
+    </bindings>
+    <bindings node="//xs:element[@name='SignatureManner']">
+        <property name="Manner" />
+    </bindings>
+    <bindings node="//xs:element[@name='SignatoryEmail']">
+        <property name="Email" />
+    </bindings>
+
+    <!-- END Signatory Naming Conventions -->
+
+
+	<bindings node="//xs:complexType[@name='TransactionContentDetailsType']">
+		<class name="TransactionContentDetails" />
+	</bindings>
+
+	<bindings node="//xs:simpleType[@name='AccountDebitKindType']">
+		<typesafeEnumClass name="AccountDebitKind" />
+	</bindings>
+	<bindings node="//xs:complexType[@name='AmountType']">
+		<class name="Amount" />
+	</bindings>
+
+	<bindings node="//xs:simpleType[@name='CardKindCodeType']">
+		<typesafeEnumClass name="CardKindCode" />
+	</bindings>
+	<bindings node="//xs:simpleType[@name='ChipCodeType']">
+		<typesafeEnumClass name="ChipCode" />
+	</bindings>
+
+	<bindings node="//xs:simpleType[@name='CorrespondenceAddressPartyType']">
+		<typesafeEnumClass name="CorrespondenceAddressParty" />
+	</bindings>
+
+	<bindings node="//xs:simpleType[@name='ExtendedISOLanguageCodeType']">
+		<class name="ExtendedISOLanguageCode" />
+	</bindings>
+	<bindings node="//xs:simpleType[@name='ExtendedWIPOST3CodeType']">
+		<class name="ExtendedWIPOST3Code" />
+	</bindings>
+	<bindings node="//xs:complexType[@name='IdentifierType']">
+		<class name="Identifier" />
+	</bindings>
+
+	<bindings node="//xs:simpleType[@name='NameKindType']">
+		<typesafeEnumClass name="NameKind" />
+	</bindings>
+
+	<bindings node="//xs:simpleType[@name='PartyKindType']">
+		<typesafeEnumClass name="PartyKind" />
+	</bindings>
+	<bindings node="//xs:simpleType[@name='PartyRelationshipKindType']">
+		<typesafeEnumClass name="PartyRelationshipKind" />
+	</bindings>
+	<bindings node="//xs:simpleType[@name='PaymentStatusCodeType']">
+		<typesafeEnumClass name="PaymentStatusCode" />
+	</bindings>
+	<bindings node="//xs:simpleType[@name='PhoneKindType']">
+		<typesafeEnumClass name="PhoneKind" />
+	</bindings>
+	<bindings node="//xs:complexType[@name='PhoneType']">
+		<class name="Phone" />
+	</bindings>
+	<bindings node="//xs:simpleType[@name='PreferredCorrespondenceKindType']">
+		<typesafeEnumClass name="PreferredCorrespondenceKind" />
+	</bindings>
+	<bindings node="//xs:simpleType[@name='SVKindType']">
+		<typesafeEnumClass name="SVKind" />
+	</bindings>
+	<bindings node="//xs:simpleType[@name='RegKindType']">
+		<typesafeEnumClass name="RegKind" />
+	</bindings>
+	<bindings node="//xs:simpleType[@name='RepresentativeKindCodeType']">
+		<typesafeEnumClass name="RepresentativeKindCode" />
+	</bindings>
+
+	<bindings node="//xs:complexType[@name='TextType']">
+		<class name="Text" />
+	</bindings>
+	<bindings
+		node="//xs:complexType[@name='TextType']//xs:attribute[@name='languageCode']">
+		<property name="Language" />
+	</bindings>
+
+	<bindings node="//xs:simpleType[@name='TransactionErrorCodeType']">
+		<typesafeEnumClass name="TransactionErrorCode" />
+	</bindings>
+	<bindings node="//xs:complexType[@name='URIType']">
+		<class name="URI" />
+	</bindings>
+
+	<bindings node="//xs:complexType[@name='EntitlementToApplyType']">
+		<class name="EntitlementToApply" />
+	</bindings>
+	<bindings node="//xs:simpleType[@name='EntitlementToApplyKindType']">
+		<class name="EntitlementToApplyKind" />
+	</bindings>
+
+	<bindings node="//xs:simpleType[@name='ISOCountryCodeType']"
+		schemaLocation="external/ISOCountryCodeType-V2011.xsd">
+		<typesafeEnumClass name="ISOCountryCode" />
+	</bindings>
+	<bindings node="//xs:simpleType[@name='ISOCurrencyCodeType']"
+		schemaLocation="external/ISOCurrencyCodeType-V2008.xsd">
+		<typesafeEnumClass name="ISOCurrencyCode" />
+	</bindings>
+	<bindings node="//xs:simpleType[@name='ISOLanguageCodeType']"
+		schemaLocation="external/ISOLanguageCodeType-V2002.xsd">
+		<typesafeEnumClass name="ISOLanguageCode" />
+	</bindings>
+	<bindings node="//xs:simpleType[@name='WIPOST3CodeType']"
+		schemaLocation="external/WIPOST3CodeType-V2011.xsd">
+		<typesafeEnumClass name="WIPOST3Code" />
+	</bindings>
+</bindings>

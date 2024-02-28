@@ -1,0 +1,156 @@
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                  http://maven.apache.org/xsd/settings-1.0.0.xsd">
+	<profiles>
+		<profile>
+			<id>local</id>
+			<properties>
+				<spring.active.profile>local</spring.active.profile>
+
+				<spring.datasource.url>jdbc:sqlserver://192.168.3.84:1435;databaseName=ipasdev</spring.datasource.url>
+				<spring.datasource.username>IPASPROD</spring.datasource.username>
+				<spring.datasource.password>IPASPROD</spring.datasource.password>
+
+				<spring.jpa.properties.hibernate.dialect>org.hibernate.dialect.SQLServer2012Dialect</spring.jpa.properties.hibernate.dialect>
+
+				<payment.rest.service.username>username1</payment.rest.service.username>
+				<payment.rest.service.password>password1</payment.rest.service.password>
+				<payment.rest.service.url>https://testportal.bpo.bg/payments/rest</payment.rest.service.url>
+
+				<portal.url>https://testportal.bpo.bg/</portal.url>
+				<portal.home.url>https://testportal.bpo.bg/web/guest/home</portal.home.url>
+				<theme.name>first-theme</theme.name>
+				<portal.management.home.url>https://testportal.bpo.bg/web/management</portal.management.home.url>
+				<tmdn.url>https://www.tmdn.org/</tmdn.url>
+				<feedback.url>https://testportal.bpo.bg/suggestions</feedback.url>
+
+				<remote.connection.master.host>172.16.1.55</remote.connection.master.host>
+				<remote.connection.master.port>4447</remote.connection.master.port>
+				<remote.connection.master.username>sp</remote.connection.master.username>
+				<remote.connection.master.password>sp</remote.connection.master.password>
+
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+
+		<profile>
+			<id>bpo-test</id>
+			<properties>
+				<spring.active.profile>bpo-test</spring.active.profile>
+
+				<spring.datasource.url>jdbc:sqlserver://172.16.1.93:1433;databaseName=ipasprod</spring.datasource.url>
+				<spring.datasource.username>IPASPROD</spring.datasource.username>
+				<spring.datasource.password>IPASPROD</spring.datasource.password>
+
+				<spring.jpa.properties.hibernate.dialect>org.hibernate.dialect.SQLServer2008Dialect</spring.jpa.properties.hibernate.dialect>
+
+				<payment.rest.service.username>username1</payment.rest.service.username>
+				<payment.rest.service.password>password1</payment.rest.service.password>
+				<payment.rest.service.url>https://testportal.bpo.bg/payments/rest</payment.rest.service.url>
+
+				<tomcat.server.url>http://172.16.1.55:8081/manager/text</tomcat.server.url>
+				<tomcat.server.credentials>bpotestserver</tomcat.server.credentials>
+
+				<portal.url>https://testportal.bpo.bg/</portal.url>
+				<portal.home.url>https://testportal.bpo.bg/web/guest/home</portal.home.url>
+				<theme.name>first-theme</theme.name>
+				<portal.management.home.url>https://testportal.bpo.bg/web/management</portal.management.home.url>
+				<tmdn.url>https://www.tmdn.org/</tmdn.url>
+				<feedback.url>https://testportal.bpo.bg/suggestions</feedback.url>
+
+				<remote.connection.master.host>172.16.1.55</remote.connection.master.host>
+				<remote.connection.master.port>4447</remote.connection.master.port>
+				<remote.connection.master.username>sp</remote.connection.master.username>
+				<remote.connection.master.password>sp</remote.connection.master.password>
+
+			</properties>
+		</profile>
+
+		<profile>
+			<id>production</id>
+			<properties>
+				<spring.active.profile>production</spring.active.profile>
+
+				<spring.datasource.url>jdbc:sqlserver://ipasdb.bpo.bg:1433;databaseName=ipasprod</spring.datasource.url>
+				<spring.datasource.username>IPASPROD</spring.datasource.username>
+				<spring.datasource.password>IPASPROD</spring.datasource.password>
+
+				<spring.jpa.properties.hibernate.dialect>org.hibernate.dialect.SQLServer2008Dialect</spring.jpa.properties.hibernate.dialect>
+
+				<payment.rest.service.username>username1</payment.rest.service.username>
+				<payment.rest.service.password>password1</payment.rest.service.password>
+				<payment.rest.service.url>https://portal.bpo.bg/payments/rest</payment.rest.service.url>
+
+				<tomcat.server.url>http://172.18.1.10:8090/manager/text</tomcat.server.url>
+				<tomcat.server.credentials>productionserver</tomcat.server.credentials>
+
+				<portal.url>https://portal.bpo.bg/</portal.url>
+				<portal.home.url>https://portal.bpo.bg/web/guest/home</portal.home.url>
+				<theme.name>first-theme</theme.name>
+				<portal.management.home.url>https://portal.bpo.bg/web/management</portal.management.home.url>
+				<tmdn.url>https://www.tmdn.org/</tmdn.url>
+				<feedback.url>https://portal.bpo.bg/suggestions</feedback.url>
+
+				<remote.connection.master.host>172.18.1.10</remote.connection.master.host>
+				<remote.connection.master.port>4447</remote.connection.master.port>
+				<remote.connection.master.username>sp</remote.connection.master.username>
+				<remote.connection.master.password>sp</remote.connection.master.password>
+
+			</properties>
+		</profile>
+
+
+
+		<profile>
+			<id>local-to-production</id>
+			<properties>
+				<spring.active.profile>production</spring.active.profile>
+
+				<spring.datasource.url>jdbc:sqlserver://172.16.1.29:1433;database=ipasProd</spring.datasource.url>
+				<spring.datasource.username>IPASPROD</spring.datasource.username>
+				<spring.datasource.password>IPASPROD</spring.datasource.password>
+
+				<spring.jpa.properties.hibernate.dialect>org.hibernate.dialect.SQLServer2008Dialect</spring.jpa.properties.hibernate.dialect>
+
+				<payment.rest.service.username>username1</payment.rest.service.username>
+				<payment.rest.service.password>password1</payment.rest.service.password>
+				<payment.rest.service.url>https://portal.bpo.bg/payments/rest</payment.rest.service.url>
+
+				<portal.url>https://portal.bpo.bg/</portal.url>
+				<portal.home.url>https://portal.bpo.bg/web/guest/home</portal.home.url>
+				<theme.name>first-theme</theme.name>
+				<portal.management.home.url>https://portal.bpo.bg/web/management</portal.management.home.url>
+				<tmdn.url>https://www.tmdn.org/</tmdn.url>
+				<feedback.url>https://portal.bpo.bg/suggestions</feedback.url>
+
+				<remote.connection.master.host>172.18.1.10</remote.connection.master.host>
+				<remote.connection.master.port>4447</remote.connection.master.port>
+				<remote.connection.master.username>sp</remote.connection.master.username>
+				<remote.connection.master.password>sp</remote.connection.master.password>
+
+			</properties>
+		</profile>
+	</profiles>
+
+	<servers>
+		<server>
+			<id>localserver</id>
+			<username>admin</username>
+			<password>admin</password>
+		</server>
+		<server>
+			<id>bpotestserver</id>
+			<username>admin</username>
+			<password>admin</password>
+		</server>
+		<server>
+			<id>productionserver</id>
+			<username>admin</username>
+			<password>admin</password>
+		</server>
+	</servers>
+
+</settings>

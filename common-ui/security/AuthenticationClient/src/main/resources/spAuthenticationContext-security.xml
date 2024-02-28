@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:sec="http://www.springframework.org/schema/security"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+				        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd
+                        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd"
+                        >
+		
+	<!-- DELEGATED CONFIGURATION -->
+	<import resource="classpath*:spDelegatedContext-security.xml" />
+	
+	<!-- FILTERS CONFIGURATION -->
+	<bean id="spLogoutFilter"
+		class="org.springframework.security.web.authentication.logout.LogoutFilter">
+        <constructor-arg ref="spLogoutSuccessHandler" />
+		<constructor-arg ref="spLogoutHandler" />
+	</bean>
+
+	<bean id="spSingleSignOutFilter"
+		class="eu.ohim.sp.common.security.authentication.filter.SPSingleSignOutFilter">
+	</bean>
+
+	<bean id="spPermissionFilter"
+		class="eu.ohim.sp.common.security.authentication.filter.SPPermissionFilter">
+	</bean>
+	
+	<bean id="spAnonymousFilter" 
+	class="eu.ohim.sp.common.security.authentication.filter.SPAnonymousFilter">
+	</bean>
+
+
+	<!-- HANDLERS CONFIGURATION -->
+	<bean id="spLogoutHandler"
+		class="eu.ohim.sp.common.security.authentication.handler.SPLogoutHandler">
+	</bean>
+
+	<bean id="spLogoutSuccessHandler"
+		class="eu.ohim.sp.common.security.authentication.handler.SPLogoutSuccessHandler">
+	</bean>
+
+	<bean id="spAccessDeniedHandler"
+		class="eu.ohim.sp.common.security.authentication.handler.SPAccessDeniedHandler">
+	</bean>
+
+</beans>

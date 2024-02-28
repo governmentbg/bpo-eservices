@@ -1,0 +1,22 @@
+<jboss xmlns="urn:jboss:1.0">
+    <jboss-deployment-dependencies xmlns="urn:jboss:deployment-dependencies:1.0">
+        <dependency name="sp-core-rules.ear" />
+        <dependency name="sp-core-application.ear" />
+		<dependency name="sp-core-configuration.ear" />
+		<dependency name="sp-core-design-search.ear" />
+		<dependency name="sp-core-document.ear" />
+		<dependency name="sp-core-epayment.ear" />
+		<dependency name="sp-core-esignature.ear" />
+		<dependency name="sp-core-fee-calculation.ear" />
+		<dependency name="sp-core-ipapplication.ear" />
+		<dependency name="sp-core-locarno-classification.ear" />
+		<dependency name="sp-core-nice-classification.ear" />
+		<dependency name="sp-core-person-search.ear" />
+		<dependency name="sp-core-report.ear" />
+		<dependency name="sp-core-resources.ear" />
+		<dependency name="sp-core-rules.ear" />
+		<dependency name="sp-core-trademark-search.ear" />
+		<dependency name="sp-core-bpo-patent-search.ear" />
+		<dependency name="sp-core-bpo-classification.ear" />
+    </jboss-deployment-dependencies>
+</jboss>

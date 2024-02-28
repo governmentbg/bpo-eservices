@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration debug="false">
+	<appender name="SPEF" class="org.apache.log4j.RollingFileAppender">
+		<param name="file" value="${jboss.home.dir}/standalone/log/sp-ds-efiling.log"/>
+		<param name="append" value="true"/>
+		<param name="encoding" value="UTF-8"/>
+
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				   value="%X{rowID} %d{dd/MM/yyyy HH:mm:ss.SSS} %X{userName} %X{RemoteIP} [%t] [%x] %-5p %50.50c {1} - Line (%L) %m%n"/>
+		</layout>
+	</appender>
+
+	<logger name="eu.ohim.sp" additivity="false">
+		<level value="debug"/>
+		<appender-ref ref="SPEF"/>
+	</logger>
+	<logger name="org.owasp" additivity="false">
+		<level value="debug"/>
+		<appender-ref ref="SPEF"/>
+	</logger>
+	<root>
+		<priority value="error"/>
+		<appender-ref ref="SPEF"/>
+	</root>
+</log4j:configuration>

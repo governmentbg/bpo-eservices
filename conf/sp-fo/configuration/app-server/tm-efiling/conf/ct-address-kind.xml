@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cotypes>
+	<cotype code="Personal" label="cotypes.addresskind.personal" />
+	<cotype code="Work" label="cotypes.addresskind.work" />
+	<cotype code="Other" label="cotypes.addresskind.other" />	
+</cotypes>

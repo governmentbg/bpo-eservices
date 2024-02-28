@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
+                      xmlns:core="http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd"
+                      xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.2.xsd"
+                      xmlns:g="http://www.milyn.org/xsd/smooks/groovy-1.1.xsd">
+  
+  
+    <!-- begin support beans -->
+    <!-- support for publication dates -->
+    <jb:bean beanId="pubDates" class="java.util.ArrayList" createOnElement="//TradeMark/PublicationDetails">
+        <jb:wiring beanIdRef="pubDate" />
+    </jb:bean>
+    <jb:bean beanId="pubDate" class="java.util.HashMap" createOnElement="//TradeMark/PublicationDetails/Publication">
+        <jb:value property="sec" data="//TradeMark/PublicationDetails/Publication/PublicationSection" />
+        <jb:value property="pub" decoder="Date" data="//TradeMark/PublicationDetails/Publication/PublicationDate">
+            <jb:decodeParam name="format">yyyy-MM-dd</jb:decodeParam>
+        </jb:value>
+    </jb:bean>
+
+   <!-- support for designated countries -->
+    <jb:bean beanId="designatedCountries" class="java.util.ArrayList" createOnElement="//TradeMark/DesignatedCountryDetails">
+        <jb:wiring beanIdRef="designatedCountry" />
+    </jb:bean>
+    <jb:bean beanId="designatedCountry" class="java.util.HashMap" createOnElement="//TradeMark/DesignatedCountryDetails/DesignatedCountry">
+        <jb:value property="code" data="//TradeMark/DesignatedCountryDetails/DesignatedCountry/DesignatedCountryCode" />
+    </jb:bean>
+    <!-- end support beans -->
+    
+    <!-- TEMP GS TMVIEW -->
+
+    <jb:bean beanId="goodsServicesDetailsTMView" class="eu.ohim.sp.integration.domain.smooks.SmooksClassDescriptionsDetailsTemp"
+             createOnElement="//TradeMark/GoodsServicesDetails/GoodsServices">
+        <jb:wiring beanIdRef="GoodsServicesTMView" property="classDescription"/>
+    </jb:bean>
+
+    <jb:bean beanId="GoodsServicesTMView" class="java.util.ArrayList"
+             createOnElement="//TradeMark/GoodsServicesDetails/GoodsServices/ClassDescriptionDetails">
+        <jb:wiring beanIdRef="GoodsServicesTerms"/>
+    </jb:bean>
+
+    <jb:bean beanId="GoodsServicesTerms" class="eu.ohim.sp.integration.domain.smooks.SmooksGoodsServicesTermsTemp"
+             createOnElement="//TradeMark/GoodsServicesDetails/GoodsServices/ClassDescriptionDetails/ClassDescription">
+        <jb:value data="//TradeMark/GoodsServicesDetails/GoodsServices/ClassDescriptionDetails/ClassDescription/ClassNumber" property="classNumber"/>
+        <jb:wiring beanIdRef="GoodsServicesDescriptionList" property="GoodsServicesDescription"/>
+    </jb:bean>
+
+    <jb:bean beanId="GoodsServicesDescriptionList" class="java.util.ArrayList"
+             createOnElement="//TradeMark/GoodsServicesDetails/GoodsServices/ClassDescriptionDetails/ClassDescription">
+        <jb:wiring beanIdRef="GoodsServicesDescription"/>
+    </jb:bean>
+
+    <jb:bean beanId="GoodsServicesDescription" class="eu.ohim.sp.integration.domain.smooks.SmooksGoodsServicesDescriptionTemp"
+             createOnElement="//TradeMark/GoodsServicesDetails/GoodsServices/ClassDescriptionDetails/ClassDescription/GoodsServicesDescription">
+        <jb:value data="//TradeMark/GoodsServicesDetails/GoodsServices/ClassDescriptionDetails/ClassDescription/GoodsServicesDescription"
+                  property="value"/>
+        <jb:value
+                data="//TradeMark/GoodsServicesDetails/GoodsServices/ClassDescriptionDetails/ClassDescription/GoodsServicesDescription/@languageCode"
+                property="languageCode" decoder="StringToLowerCase"/>
+    </jb:bean>
+
+    <!-- END TEMP GS TMVIEW -->
+   
+
+    <jb:bean beanId="trademark" class="eu.ohim.sp.external.domain.trademark.TradeMark" 
+    	createOnElement="//TransactionData/TradeMarkDetails/TradeMark">
+        
+        <jb:value data="//TradeMark/ApplicationDate" decoder="Date" property="applicationDate">
+            <jb:decodeParam name="format">yyyy-MM-dd</jb:decodeParam>
+        </jb:value>
+        <jb:value data="//TradeMark/ApplicationLanguageCode" property="applicationLanguage"/>
+        <jb:value data="//TradeMark/ApplicationNumber" property="applicationNumber"/>
+        <jb:value data="//TradeMark/ApplicationReference" property="applicationReference"/>
+        <jb:value data="//TradeMark/ExpiryDate" decoder="Date" property="expirationDate">
+            <jb:decodeParam name="format">yyyy-MM-dd</jb:decodeParam>
+        </jb:value>
+        <jb:value data="//TradeMark/MarkCurrentStatusCode" property="currentStatus"/>
+        <jb:value data="//TradeMark/KindMark" decoder="SPEnum" property="markRightKind">
+            <jb:decodeParam name="enumType">eu.ohim.sp.external.domain.trademark.MarkKind</jb:decodeParam>
+            <jb:decodeParam name="defaultValue">OTHER</jb:decodeParam>
+            <jb:decodeParam name="Individual">INDIVIDUAL</jb:decodeParam>
+            <jb:decodeParam name="Collective">COLLECTIVE</jb:decodeParam>
+            <jb:decodeParam name="Certificate">CERTIFICATE</jb:decodeParam>
+            <jb:decodeParam name="Certification">CERTIFICATION</jb:decodeParam>
+            <jb:decodeParam name="Guarantee">COLLECTIVE</jb:decodeParam>            
+            <jb:decodeParam name="Defensive">DEFENSIVE</jb:decodeParam>
+            <jb:decodeParam name="Other">OTHER</jb:decodeParam>
+        </jb:value>
+        <jb:value data="//TradeMark/OppositionStartDate" decoder="Date" property="oppositionPeriodStart">
+            <jb:decodeParam name="format">yyyy-MM-dd</jb:decodeParam>
+        </jb:value>
+        <jb:value data="//TradeMark/OppositionEndDate" decoder="Date" property="oppositionPeriodEnd">
+            <jb:decodeParam name="format">yyyy-MM-dd</jb:decodeParam>
+        </jb:value>
+
+
+        <jb:value data="//TradeMark/ReceivingOfficeNumber" property="receivingOffice"/>
+        <jb:value data="//TradeMark/ReceivingOfficeDate" decoder="Date" property="receivingDate">
+            <jb:decodeParam name="format">yyyy-MM-dd</jb:decodeParam>
+        </jb:value>
+        <jb:value data="//TradeMark/RegistrationOfficeCode" property="registrationOffice"/>
+        <jb:value data="//TradeMark/RegistrationNumber" property="registrationNumber"/>
+        <jb:value data="//TradeMark/RegistrationDate" decoder="Date" property="registrationDate">
+            <jb:decodeParam name="format">yyyy-MM-dd</jb:decodeParam>
+        </jb:value>
+
+        <jb:value data="//TradeMark/SecondLanguageCode" property="secondLanguage"/>
+
+        <!--<jb:value data="//TradeMark/MarkImageDetails/MarkImage/MarkImageColourClaimedText" property="colourSecondLanguage"/>-->
+
+        <jb:wiring beanIdRef="wordSpecifications" property="wordSpecifications" />
+        <jb:wiring beanIdRef="markDescriptions" property="markDescriptions" />
+        <jb:wiring beanIdRef="markDisclaimers" property="markDisclaimers" />
+        <jb:wiring beanIdRef="imageSpecifications" property="imageSpecifications"/>
+
+        <jb:value data="//TradeMark/MarkFeature" decoder="SPEnum" property="markKind">
+            <jb:decodeParam name="enumType">eu.ohim.sp.external.domain.trademark.MarkFeature</jb:decodeParam>
+            <jb:decodeParam name="defaultValue">OTHER</jb:decodeParam>
+            <jb:decodeParam name="Word">WORD</jb:decodeParam>
+            <jb:decodeParam name="Figurative">FIGURATIVE</jb:decodeParam>
+            <jb:decodeParam name="3-D">THREE_D</jb:decodeParam>
+            <jb:decodeParam name="3D shape">THREE_D</jb:decodeParam>
+            <jb:decodeParam name="Colour">COLOUR</jb:decodeParam>
+            <jb:decodeParam name="Sound">SOUND</jb:decodeParam>
+            <jb:decodeParam name="Hologram">HOLOGRAM</jb:decodeParam>
+            <jb:decodeParam name="Combined">COMBINED</jb:decodeParam>
+            <jb:decodeParam name="Olfactory">OLFACTORY</jb:decodeParam>
+            <jb:decodeParam name="Position">POSITION</jb:decodeParam>
+            <jb:decodeParam name="Pattern">PATTERN</jb:decodeParam>
+            <jb:decodeParam name="Motion">MOTION</jb:decodeParam>
+            <jb:decodeParam name="Multimedia">MULTIMEDIA</jb:decodeParam>
+            <jb:decodeParam name="Hologram">HOLOGRAM</jb:decodeParam>
+            <jb:decodeParam name="Other">OTHER</jb:decodeParam>
+        </jb:value>
+        <!--<jb:wiring beanIdRef="representation" property="representation"/>-->
+        <!--<jb:wiring beanIdRef="soundRepresentation" property="soundRepresentation"/>-->
+        <!--<jb:value-->
+        <!--data="//TradeMark/WordMarkSpecification/MarkVerbalElementText"-->
+        <!--property="wordElements"/>-->
+
+        <jb:wiring beanIdRef="applicantDetails" property="applicants"/>
+        <jb:wiring beanIdRef="representativeDetails" property="representatives"/>
+      <!--  
+		<jb:wiring beanIdRef="goodsServicesDetails" property="classDescriptions"/> 
+      -->
+        <jb:expression property="classDescriptions" execOnElement="//TradeMark/GoodsServicesDetails/GoodsServices">goodsServicesDetailsTMView.getClassDescriptionsDecode()</jb:expression>
+ 
+        <jb:wiring beanIdRef="priorityDetails" property="priorities"/>
+        <jb:wiring beanIdRef="seniorityDetails" property="seniorities"/>
+        <jb:wiring beanIdRef="exhibitionPriorityDetails" property="exhibitionPriorities"/>
+        <jb:wiring beanIdRef="transformationPriorityDetails" property="transformationPriorities"/>
+        <!-- jb:wiring beanIdRef="tradeMarkDocumentDetails" property="tradeMarkDocumentDetails"/> -->
+    </jb:bean>
+    
+     <!--
+       Set the publicationDate accordingly
+    -->
+    <g:groovy executeOnElement="//TradeMark/PublicationDetails">
+        <g:script>
+            <!--
+                def list = getBean('pubDates');
+                list.each() { it ->
+                        //System.out.println("=======>"+it.get('sec'));
+                        if(it.get('sec')=='Application') {
+                            //System.out.println("=======>"+it.get('pub'));
+                            eu.ohim.sp.external.domain.trademark.TradeMark t = BeanRepository.getInstance(executionContext).getBean("trademark");
+                            t.setPublicationDate(it.get('pub'));
+                        }
+                }
+            -->
+        </g:script>
+    </g:groovy>
+
+    <!--
+       Set the Designated Countries accordingly
+    -->
+
+    <jb:bean beanId="imageSpecifications" class="java.util.ArrayList" createOnElement="//TradeMark/MarkImageDetails/MarkImage">
+        <jb:wiring beanIdRef="imageSpecification"/>
+    </jb:bean>
+
+    <jb:bean beanId="imageSpecification" class="eu.ohim.sp.external.domain.trademark.ImageSpecification" createOnElement="//TradeMark/MarkImageDetails/MarkImage">
+        <jb:wiring beanIdRef="representation" property="representation"/>
+        <!--
+        <jb:wiring beanIdRef="colourClaimedText" property="colourClaimedText"/>
+        <jb:wiring beanIdRef="vienna" property="vienna"/>
+        -->
+    </jb:bean>
+
+    <jb:bean beanId="representation" class="eu.ohim.sp.external.domain.resource.Document" createOnElement="//TradeMark/MarkImageDetails/MarkImage">
+        <jb:value property="uri" data="//TradeMark/MarkImageDetails/MarkImage/MarkImageURI"  decoder="ImageExtractor"/>
+      </jb:bean>
+
+    <!-- It has to be tested on different case e.g. UK supports a list of wordSpecification, but BG supports one and could include transliteration -->
+    <jb:bean beanId="wordSpecifications" class="java.util.ArrayList" createOnElement="//TradeMark/WordMarkSpecification" >
+        <jb:wiring beanIdRef="wordSpecification"/>
+    </jb:bean>
+
+    <jb:bean beanId="wordSpecification" class="eu.ohim.sp.external.domain.trademark.WordSpecification" createOnElement="//TradeMark/WordMarkSpecification/MarkVerbalElementText">
+        <jb:value data="//TradeMark/WordMarkSpecification/MarkVerbalElementText" property="wordElements" />
+        <jb:value data="//TradeMark/WordMarkSpecification/MarkVerbalElementText/@languageCode" property="characterSet" />
+    </jb:bean>
+
+    <jb:bean beanId="markDescriptions" class="java.util.ArrayList" createOnElement="//TradeMark/MarkDescriptionDetails" >
+        <jb:wiring beanIdRef="markDescription"/>
+    </jb:bean>
+
+    <jb:bean beanId="markDescription" class="eu.ohim.sp.external.domain.trademark.MarkDescription" createOnElement="//TradeMark/MarkDescriptionDetails/MarkDescription">
+        <jb:value data="//TradeMark/MarkDescriptionDetails/MarkDescription" property="value" />
+        <jb:value data="//TradeMark/MarkDescriptionDetails/MarkDescription/@languageCode" property="language" />
+    </jb:bean>
+
+    <!-- It has to be checked if it is needed the language for every TextType that do not include it -->
+    <jb:bean beanId="markDisclaimers" class="java.util.ArrayList" createOnElement="//TradeMark/MarkDisclaimerDetails" >
+        <jb:wiring beanIdRef="markDisclaimer"/>
+    </jb:bean>
+
+    <jb:bean beanId="markDisclaimer" class="eu.ohim.sp.external.domain.trademark.MarkDisclaimer" createOnElement="//TradeMark/MarkDisclaimerDetails/MarkDisclaimer">
+        <jb:value data="//TradeMark/MarkDisclaimerDetails/MarkDisclaimer" property="value" />
+        <jb:value data="//TradeMark/MarkDisclaimerDetails/MarkDisclaimer/@languageCode" property="language" />
+    </jb:bean>
+
+    <!--<jb:bean beanId="Priority" class="eu.ohim.fsp.ext.domain.claim.Priority"-->
+    <!--createOnElement="//TradeMark/PriorityDetails/Priority">-->
+
+    <!-- START Priorities transformation -->
+    <jb:bean beanId="priorityDetails" class="java.util.ArrayList" createOnElement="//TradeMark/PriorityDetails">
+        <jb:wiring beanIdRef="Priority"/>
+    </jb:bean>
+
+    <jb:bean beanId="Priority" class="eu.ohim.sp.external.domain.claim.MarkPriority" createOnElement="//TradeMark/PriorityDetails/Priority">
+        <jb:value data="//TradeMark/PriorityDetails/Priority/PriorityCountryCode" property="filingOffice"/>
+        <jb:value data="//TradeMark/PriorityDetails/Priority/PriorityDate" decoder="Date" property="filingDate">
+            <jb:decodeParam name="format">yyyy-MM-dd</jb:decodeParam>
+        </jb:value>
+        <!-- jb:wiring beanIdRef="priorityDocuments" property="priorityDocuments"/> -->
+        <jb:value data="//TradeMark/PriorityDetails/Priority/PriorityNumber" property="filingNumber"/>
+    </jb:bean>
+    <!-- END Priorities transformation -->
+
+    <!-- START Seniorities transformation -->
+    <jb:bean beanId="seniorityDetails" class="java.util.ArrayList" createOnElement="//TradeMark/SeniorityDetails">
+        <jb:wiring beanIdRef="Seniority"/>
+    </jb:bean>
+    <jb:bean beanId="Seniority" class="eu.ohim.sp.external.domain.claim.MarkSeniority" createOnElement="//TradeMark/SeniorityDetails/Seniority">
+        <jb:value data="//TradeMark/SeniorityDetails/Seniority/InternationalTradeMarkCode" decoder="SPEnum" property="internationalTradeMarkCode">
+            <jb:decodeParam name="enumType">eu.ohim.sp.external.domain.claim.InternationalTradeMarkCode</jb:decodeParam>
+            <jb:decodeParam name="Madrid">MADRID</jb:decodeParam>
+            <jb:decodeParam name="EU">EU</jb:decodeParam>
+        </jb:value>
+        <jb:value data="//TradeMark/SeniorityDetails/Seniority/SeniorityApplicationDate" decoder="Date" property="filingDate">
+            <jb:decodeParam name="format">yyyy-MM-dd</jb:decodeParam>
+        </jb:value>
+        <jb:value data="//TradeMark/SeniorityDetails/Seniority/SeniorityApplicationNumber" property="filingNumber"/>
+        <jb:value data="//TradeMark/SeniorityDetails/Seniority/SeniorityCountryCode" property="office"/>
+        <!--  jb:wiring beanIdRef="seniorityDocuments" property="seniorityDocuments"/>-->
+        <jb:value data="//TradeMark/SeniorityDetails/Seniority/SeniorityFilingDate" decoder="Date" property="filingDate">
+            <jb:decodeParam name="format">yyyy-MM-dd</jb:decodeParam>
+        </jb:value>
+        <!-- jb:value data="//TradeMark/SeniorityDetails/Seniority/SeniorityStatusCode" decoder="SPEnum" property="seniorityKind">
+        <jb:decodeParam name="enumType">eu.ohim.fsp.ext.domain.SeniorityKind</jb:decodeParam>
+        <jb:decodeParam name="NATIONAL_OR_REGIONAL_TRADE_MARK">NATIONAL_OR_REGIONAL_TRADE_MARK</jb:decodeParam>
+        <jb:decodeParam name="INTERNATIONAL_TRADE_MARK">INTERNATIONAL_TRADE_MARK</jb:decodeParam>
+        <jb:decodeParam name="CTM">CTM</jb:decodeParam>
+        </jb:value> -->
+        <jb:value data="//TradeMark/SeniorityDetails/Seniority/SeniorityPartialIndicator" decoder="Boolean" property="partialIndicator"/>
+        <jb:value data="//TradeMark/SeniorityDetails/Seniority/SeniorityRegistrationDate" decoder="Date" property="registrationDate">
+            <jb:decodeParam name="format">yyyy-MM-dd</jb:decodeParam>
+        </jb:value>
+        <jb:value data="//TradeMark/SeniorityDetails/Seniority/SeniorityRegistrationNumber" property="registrationNumber"/>
+    </jb:bean>
+    <!-- jb:bean beanId="seniorityDocuments" class="java.util.ArrayList">
+    </jb:bean>
+    <jb:bean beanId="tradeMarkDocumentDetails" class="java.util.ArrayList">
+    </jb:bean>
+    -->
+    <!-- END Seniorities transformation -->
+
+
+    <!-- START Transformation Priority transformation -->
+    <jb:bean beanId="transformationPriorityDetails" class="java.util.ArrayList"
+             createOnElement="//TradeMark/TransformationPriorityDetails">
+        <jb:wiring beanIdRef="TransformationPriority"/>
+    </jb:bean>
+    <jb:bean beanId="TransformationPriority" class="eu.ohim.sp.external.domain.claim.IRTransformationPriority"
+             createOnElement="//TradeMark/TransformationPriorityDetails/TransformationPriority">
+        <jb:value data="//TradeMark/TransformationPriorityDetails/TransformationPriority/CancellationDate" decoder="Date" property="cancellationDate">
+            <jb:decodeParam name="format">yyyy-MM-dd</jb:decodeParam>
+        </jb:value>
+        <jb:value data="//TradeMark/TransformationPriorityDetails/TransformationPriority/PriorityDate" decoder="Date" property="priorityDate">
+            <jb:decodeParam name="format">yyyy-MM-dd</jb:decodeParam>
+        </jb:value>
+        <jb:value data="//TradeMark/TransformationPriorityDetails/TransformationPriority/RegistrationDate" decoder="Date" property="registrationDate">
+            <jb:decodeParam name="format">yyyy-MM-dd</jb:decodeParam>
+        </jb:value>
+        <jb:value data="//TradeMark/TransformationPriorityDetails/TransformationPriority/RegistrationNumber" property="registrationNumber"/>
+    </jb:bean>
+    <!-- END Transformation Priority transformation -->
+
+    <!-- START Exhibition Priorities transformation -->
+    <jb:bean beanId="exhibitionPriorityDetails" class="java.util.ArrayList" createOnElement="//TradeMark/ExhibitionPriorityDetails">
+        <jb:wiring beanIdRef="ExhibitionPriority"/>
+    </jb:bean>
+
+    <jb:bean beanId="ExhibitionPriority" class="eu.ohim.sp.external.domain.claim.MarkSeniority"
+             createOnElement="//TradeMark/ExhibitionPriorityDetails/ExhibitionPriority">
+        <jb:value data="//TradeMark/ExhibitionPriorityDetails/ExhibitionPriority/ExhibitionDate" decoder="Date" property="exhibitionDate">
+            <jb:decodeParam name="format">yyyy-MM-dd</jb:decodeParam>
+        </jb:value>
+        <!-- jb:wiring beanIdRef="exhibitionDocuments" property="exhibitionDocuments"/> -->
+        <jb:value data="//TradeMark/ExhibitionPriorityDetails/ExhibitionPriority/ExhibitionFirstDisplayDate" decoder="Date" property="exhibitionFirstDisplayDate">
+            <jb:decodeParam name="format">yyyy-MM-dd</jb:decodeParam>
+        </jb:value>
+        <jb:value data="//TradeMark/ExhibitionPriorityDetails/ExhibitionPriority/ExhibitionName" property="exhibitionName"/>
+    </jb:bean>
+    <!-- jb:bean beanId="exhibitionDocuments" class="java.util.ArrayList">
+    </jb:bean>
+    -->
+    <!-- END Exhibition Priorities transformation -->
+
+    <!-- START Class Description transformation -->
+    <jb:bean beanId="goodsServicesDetails" class="java.util.ArrayList"
+        createOnElement="//TradeMark/GoodsServicesDetails/GoodsServices/ClassDescriptionDetails">
+        <jb:wiring beanIdRef="GoodsServices"/>
+    </jb:bean>
+
+    <jb:bean beanId="GoodServicesTemp" class="eu.ohim.sp.integration.domain.smooks.SmooksGoodsServicesTemp"
+        createOnElement="//TradeMark/GoodsServicesDetails/GoodsServices/ClassDescriptionDetails/ClassDescription/ClassNumber">
+        <jb:value data="//TradeMark/GoodsServicesDetails/GoodsServices/ClassDescriptionDetails/ClassDescription/ClassNumber"
+            property="classNumber"/>
+    </jb:bean>
+    
+    <jb:bean beanId="GoodsServices" class="eu.ohim.sp.external.domain.classification.ClassDescription"
+            createOnElement="//TradeMark/GoodsServicesDetails/GoodsServices/ClassDescriptionDetails/ClassDescription">
+        <!-- Not sure why GoodServicesTemp was used instead of the commented code -->
+        <!-- jb:value data="//TradeMark/GoodsServicesDetails/GoodsServices/ClassDescriptionDetails/ClassDescription/ClassNumber" property="classNumber"/> -->
+        <jb:expression property="classNumber">GoodServicesTemp!=null?GoodServicesTemp.getClassNumber():''</jb:expression>
+        <jb:value data="//TradeMark/GoodsServicesDetails/GoodsServices/ClassDescriptionDetails/ClassDescription/GoodsServicesDescription"
+            property="classificationTerms" decoder="Terms"/>
+        <jb:value
+        data="//TradeMark/GoodsServicesDetails/GoodsServices/ClassDescriptionDetails/ClassDescription/GoodsServicesDescription/@languageCode"
+        property="language" decoder="StringToLowerCase"/>
+    </jb:bean>
+    <!-- END Class Description transformation -->
+
+    <!-- START Applicants transformation -->
+    <jb:bean beanId="applicantDetails" class="java.util.ArrayList"  createOnElement="//TradeMark/ApplicantDetails">
+        <jb:wiring beanIdRef="applicant"/>
+    </jb:bean>
+
+    <jb:bean beanId="applicant" class="eu.ohim.sp.external.domain.person.Applicant" createOnElement="//TradeMark/ApplicantDetails/ApplicantKey">
+        <jb:value data="//TradeMark/ApplicantDetails/ApplicantKey/URI" property="personNumber"/>
+    </jb:bean>
+
+    <!-- START Representatives transformation -->
+    <jb:bean beanId="representativeDetails" class="java.util.ArrayList" createOnElement="//TradeMark/RepresentativeDetails">
+        <jb:wiring beanIdRef="representative"/>
+    </jb:bean>
+
+    <jb:bean beanId="representative" class="eu.ohim.sp.external.domain.person.Representative" createOnElement="//TradeMark/RepresentativeDetails/RepresentativeKey">
+        <jb:value data="//TradeMark/RepresentativeDetails/RepresentativeKey/URI" property="personNumber"/>
+    </jb:bean>
+
+ 	    
+ 	<jb:result retainBeans="trademark"/>
+
+</smooks-resource-list>

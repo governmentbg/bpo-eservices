@@ -1,0 +1,241 @@
+package org.domain.rules;
+
+dialect "mvel"
+
+import java.util.Map;
+import java.util.HashMap;
+import java.util.TreeMap;
+import java.util.List;
+import java.util.Date;
+import java.text.DecimalFormat;
+import org.apache.log4j.Logger;
+import org.apache.commons.lang.*;
+import eu.ohim.sp.core.domain.payment.Fee;
+import eu.ohim.sp.core.domain.design.Design;
+import eu.ohim.sp.core.domain.design.DesignView;
+import eu.ohim.sp.core.domain.payment.FeeList;
+import eu.ohim.sp.core.domain.payment.FeeType;
+import eu.ohim.sp.core.domain.design.DesignApplication;
+import eu.ohim.sp.core.domain.design.ProductIndication;
+import eu.ohim.sp.core.domain.design.ProductIndicationKind;
+import java.util.ArrayList;
+import eu.ohim.sp.core.domain.design.Priority;
+
+rule "Fees reader"
+salience 1000
+no-loop
+    when
+		FeeList($feeTypeList : feeTypeList)
+        $f_basicFee : FeeType("basicFee".equals(nameKey)) from $feeTypeList
+        $f_basicDeferFee : FeeType("basicDeferFee".equals(nameKey)) from $feeTypeList
+        $f_deferFeeNext : FeeType("deferFeeNext".equals(nameKey)) from $feeTypeList
+        $f_deferFeeSetComposition : FeeType("deferFeeSetComposition".equals(nameKey)) from $feeTypeList
+        $f_priorityFee : FeeType("priorityFee".equals(nameKey)) from $feeTypeList
+        $f_basicExaminationFee : FeeType("basicExaminationFee".equals(nameKey)) from $feeTypeList
+        $f_examinationFeeNext : FeeType("examinationFeeNext".equals(nameKey)) from $feeTypeList
+        $f_examinationFeeSetComposition : FeeType("examinationFeeSetComposition".equals(nameKey)) from $feeTypeList
+
+    then
+	    TreeMap map = new TreeMap();
+	    map.put("basicFee", $f_basicFee);
+	    map.put("basicDeferFee", $f_basicDeferFee);
+	    map.put("deferFeeNext", $f_deferFeeNext);
+        map.put("deferFeeSetComposition", $f_deferFeeSetComposition);
+        map.put("priorityFee", $f_priorityFee);
+        map.put("basicExaminationFee", $f_basicExaminationFee);
+        map.put("examinationFeeNext", $f_examinationFeeNext);
+        map.put("examinationFeeSetComposition", $f_examinationFeeSetComposition);
+        
+        insert(map);
+end
+
+
+rule "DS - Rule - basicFee"
+salience 100
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        DesignApplication()
+    then
+    	Fee fee = new Fee();
+    	fee.setFeeType((FeeType) $map.get("basicFee"));
+		fee.setUnitAmount(((FeeType) $map.get("basicFee")).getDefaultValue());
+		fee.setQuantity(1);
+		fee.setAmount(fee.quantity * fee.unitAmount);
+		$results.put(fee.toString(), fee);
+
+
+end
+
+rule "DS - deferement fee when set/composition is present for a deferred design"
+salience 60
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        $desApp : DesignApplication()
+        eval(designsHasSetComposition($desApp, true))
+
+    then
+
+    	Fee fee = new Fee();
+    	fee.setFeeType((FeeType) $map.get("deferFeeSetComposition"));
+		fee.setUnitAmount(((FeeType) $map.get("deferFeeSetComposition")).getDefaultValue());
+		fee.setQuantity(1);
+		fee.setAmount(fee.quantity * fee.unitAmount);
+		$results.put(fee.toString(), fee);
+
+end
+
+
+rule "DS - deferement fees when NO set/composition is present for a deferred design"
+salience 60
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        $desApp : DesignApplication($designs : designDetails, designDetails.size() > 0)
+        eval(!designsHasSetComposition($desApp, true))
+
+    then
+    	boolean hasDeferred = false;
+		for(Design design : $designs) {
+			if(design.isPublicationDefermentIndicator()) {
+				hasDeferred = true;
+			}
+		}
+		if(hasDeferred) {
+			Fee fee = new Fee();
+			fee.setFeeType((FeeType) $map.get("basicDeferFee"));
+			fee.setUnitAmount(((FeeType) $map.get("basicDeferFee")).getDefaultValue());
+
+			fee.setQuantity(1);
+			fee.setAmount(fee.quantity * fee.unitAmount);
+			$results.put(fee.toString(), fee);
+		}
+end
+
+rule "DS - deferement fees for every other deferred design after the first deferred design"
+salience 50
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        $desApp : DesignApplication($designs : designDetails)
+
+    then
+    	int i = 1;
+		for(Design design : $designs) {
+			if(design.isPublicationDefermentIndicator())
+			{
+				i++;
+			}
+		}
+		if(i > 2) {
+			Fee fee = new Fee();
+   			fee.setFeeType((FeeType) $map.get("deferFeeNext"));
+			fee.setUnitAmount(((FeeType) $map.get("deferFeeNext")).getDefaultValue());
+			fee.setQuantity(i-2);
+			fee.setAmount(fee.quantity * fee.unitAmount);
+			$results.put(fee.toString(), fee);
+		}
+end
+
+rule "DS - examination fee when set/composition is present for a design"
+salience 80
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        $desApp : DesignApplication($designs : designDetails)
+        eval(designsHasSetComposition($desApp, false))
+
+    then
+
+    	Fee fee = new Fee();
+    	fee.setFeeType((FeeType) $map.get("examinationFeeSetComposition"));
+		fee.setUnitAmount(((FeeType) $map.get("examinationFeeSetComposition")).getDefaultValue());
+		fee.setQuantity(1);
+		fee.setAmount(fee.quantity * fee.unitAmount);
+		$results.put(fee.toString(), fee);
+
+end
+
+
+rule "DS - examination fee when NO set/composition is present for a design"
+salience 80
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        $desApp : DesignApplication($designs : designDetails, designDetails.size() > 0)
+        eval(!designsHasSetComposition($desApp, false))
+
+    then
+
+		Fee fee = new Fee();
+	   	fee.setFeeType((FeeType) $map.get("basicExaminationFee"));
+		fee.setUnitAmount(((FeeType) $map.get("basicExaminationFee")).getDefaultValue());
+		fee.setQuantity(1);
+		fee.setAmount(fee.quantity * fee.unitAmount);
+		$results.put(fee.toString(), fee);
+
+end
+
+rule "DS - examination fees for every other design after the first design"
+salience 70
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        $desApp : DesignApplication($designs : designDetails, designDetails != null, $designsSize : designDetails.size(), $designsSize > 1)
+
+    then
+		Fee fee = new Fee();
+   		fee.setFeeType((FeeType) $map.get("examinationFeeNext"));
+		fee.setUnitAmount(((FeeType) $map.get("examinationFeeNext")).getDefaultValue());
+		fee.setQuantity($designsSize - 1);
+		fee.setAmount(fee.quantity * fee.unitAmount);
+		$results.put(fee.toString(), fee);
+end
+
+rule "DS - priority fee"
+salience 90
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        DesignApplication($priorities : priorities, $prioSize: priorities.size())
+        eval($prioSize > 0)
+
+    then
+    	Fee fee = new Fee();
+   		fee.setFeeType((FeeType) $map.get("priorityFee"));
+		fee.setUnitAmount(((FeeType) $map.get("priorityFee")).getDefaultValue());
+		fee.setQuantity($prioSize);
+		fee.setAmount(fee.quantity * fee.unitAmount);
+		$results.put(fee.toString(), fee);
+
+
+end
+
+function boolean designsHasSetComposition(DesignApplication desApp, boolean deferredOnly) {
+	boolean setComp = false;
+	for(Design des : desApp.getDesignDetails()) {
+		if(des.isPublicationDefermentIndicator() && deferredOnly) {
+			for(ProductIndication prodInd : des.getProductIndications()) {
+				if(prodInd.getKind() == ProductIndicationKind.SET_COMPOSITION) {
+					setComp = true;
+				}
+			}
+		} else if(!deferredOnly) {
+			for(ProductIndication prodInd : des.getProductIndications()) {
+				if(prodInd.getKind() == ProductIndicationKind.SET_COMPOSITION) {
+					setComp = true;
+				}
+			}
+		}
+	}
+	return setComp;
+}

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feeList xmlns:tns="http://www.example.org/test/"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.example.org/test/ ../../../../../../../../../../../../configuration-xsd/src/main/xsd/fees/fees.xsd ">
+
+    <feeTypeList>
+        <code>001</code>
+        <nameKey>spcRefusalFee</nameKey>
+        <description>spcRefusalFee</description>
+        <defaultValue>90</defaultValue>
+    </feeTypeList>
+
+    <feeTypeList>
+        <code>003</code>
+        <nameKey>spcTerminationFee</nameKey>
+        <description>spcTerminationFee</description>
+        <defaultValue>90</defaultValue>
+    </feeTypeList>
+
+    <feeTypeList>
+        <code>003</code>
+        <nameKey>smallCompanyDiscount</nameKey>
+        <description>discount when small company</description>
+        <defaultValue>0.5</defaultValue>
+        <configFee>true</configFee>
+    </feeTypeList>
+
+</feeList>

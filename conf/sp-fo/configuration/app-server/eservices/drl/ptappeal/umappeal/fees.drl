@@ -1,0 +1,63 @@
+package org.domain.rules;
+
+dialect "mvel"
+
+import eu.ohim.sp.core.domain.validation.ErrorCore;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.domain.payment.FeeList;
+import eu.ohim.sp.core.domain.payment.FeeType;
+import eu.ohim.sp.core.domain.payment.Fee;
+import eu.ohim.sp.core.domain.trademark.TradeMark;
+import eu.ohim.sp.core.domain.trademark.LimitedTradeMark;
+import eu.ohim.sp.core.domain.application.AppealKind;
+import eu.ohim.sp.core.domain.application.Appeal;
+import eu.ohim.sp.core.domain.application.EServiceApplication;
+import eu.ohim.sp.core.domain.patent.PTeServiceApplication;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.TreeMap;
+import java.util.List;
+import java.util.Date;
+
+rule "Fees reader"
+salience 1000
+no-loop
+    when
+		FeeList($feeTypeList : feeTypeList)
+        $f1 : FeeType("umRefusalFee".equals(nameKey)) from $feeTypeList
+        $f3 : FeeType("umTerminationFee".equals(nameKey)) from $feeTypeList
+    then
+    	TreeMap map = new TreeMap();
+        map.put("umRefusalFee", $f1);
+        map.put("umTerminationFee", $f3);
+        insert(map);
+end
+
+rule "Basic Fee"
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        PTeServiceApplication($appeals : appeals, $patentList : patentList)
+        eval($appeals != null && $appeals.size() >0)
+        eval($patentList != null && $patentList.size() >0)
+    then
+        # Creates the base fee.
+        for(Appeal app: $appeals){
+            Fee fee = new Fee();
+        	if(app.getAppealKind() != null && (app.getAppealKind().equals(AppealKind.APPEAL_AGAINST_REFUSAL)) && $patentList.size() == 1){
+                fee.setFeeType((FeeType) $map.get("umRefusalFee"));
+                fee.setQuantity(1);
+                fee.setUnitAmount(((FeeType) $map.get("umRefusalFee")).getDefaultValue());
+                fee.setAmount(fee.quantity * fee.unitAmount);
+                $results.put("umRefusalFee", fee);
+            } else if (app.getAppealKind() != null && app.getAppealKind().equals(AppealKind.APPEAL_AGAINST_TERMINATION)){
+                fee.setFeeType((FeeType) $map.get("umTerminationFee"));
+                fee.setQuantity(1);
+                fee.setUnitAmount(((FeeType) $map.get("umTerminationFee")).getDefaultValue());
+                fee.setAmount(fee.quantity * fee.unitAmount);
+                $results.put("umTerminationFee", fee);
+        	}
+        }
+
+end

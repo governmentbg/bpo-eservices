@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<designViewTypes xmlns="http://www.example.org/designViewTypes-configuration"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.example.org/designViewTypes-configuration designViewTypes-configuration.xsd ">
+	
+	<designViewType code="" value="selectBox.SELECT" order="0" />
+
+	<designViewType code="General" value="view.type.general" order="1" />
+	<designViewType code="Perspective" value="view.type.perspective" order="2" />
+	<!-- designViewType code="Major view" value="view.type.major" / -->
+	<!-- designViewType code="Rear view" value="view.type.rear" / -->
+	<designViewType code="Front" value="view.type.front" order="3" />
+	<designViewType code="Back" value="view.type.back" order="4" />
+	<designViewType code="Left" value="view.type.left" order="5" />
+	<designViewType code="Right" value="view.type.right" order="6" />
+	<!-- designViewType code="Left view" value="view.type.left" / -->
+	<!-- designViewType code="Right view" value="view.type.right" / -->
+	<designViewType code="Top" value="view.type.top" order="7" />
+	<designViewType code="Bottom" value="view.type.bottom" order="8" />
+	<designViewType code="Partial" value="view.type.partial" order="9" />
+	
+</designViewTypes>

@@ -1,0 +1,183 @@
+package org.domain.rules;
+dialect "mvel"
+import eu.ohim.sp.core.domain.validation.ErrorCore;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.domain.contact.AddressBook;
+import eu.ohim.sp.core.domain.contact.Address;
+import eu.ohim.sp.core.domain.validation.RulesInformation;
+import eu.ohim.sp.core.domain.person.Applicant;
+import eu.ohim.sp.core.domain.person.Representative;
+import eu.ohim.sp.core.domain.resources.Colour;
+import eu.ohim.sp.core.domain.person.RepresentativeKind;
+import eu.ohim.sp.core.domain.person.PersonKind;
+import eu.ohim.sp.core.configuration.domain.xsd.Sections;
+import eu.ohim.sp.core.configuration.domain.xsd.Section;
+import eu.ohim.sp.core.configuration.domain.xsd.Field;
+import eu.ohim.sp.core.domain.application.EServiceApplication;
+import eu.ohim.sp.core.domain.contact.Address;
+import eu.ohim.sp.core.domain.contact.ContactDetails;
+import java.util.Iterator;
+import java.util.List;
+
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.Date;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Iterator;
+import java.lang.*;
+
+import org.apache.commons.lang.StringUtils;
+
+# Fills and adds an error to the error list (TEMPLATE)
+function void addError(String field, String code, String message, String section, ErrorList errorList){
+	# Error for the field
+	if(field != null){
+		errorList.addError(createError(field, code, message));
+	}
+
+	# Error for the section
+	if(section != null){
+		errorList.addError(createError(section, code, message));
+	}
+}
+
+function void addErrorArgs(String field, String code, String message, String section, ErrorList errorList, List errorArgs){
+	# Error for the field
+	if(field != null){
+		errorList.addError(createErrorArgs(field, code, message,errorArgs));
+	}
+
+	# Error for the section
+	if(section != null){
+		errorList.addError(createErrorArgs(section, code, message,errorArgs));
+	}
+}
+
+
+# Creates a new error and returns it
+function ErrorCore createError(String info, String code, String message){
+	ErrorCore errorField = new ErrorCore();
+
+	if(info != null){
+		errorField.setField(info);
+		errorField.setErrorCode(code);
+		errorField.setErrorArgs(null);
+		errorField.setDisplayMessage(message);
+		errorField.setStackTrace("");
+		errorField.setServiceName("");
+		errorField.setSection("");
+		errorField.setBusinessRule(code);
+	}
+
+	return errorField;
+}
+
+# Creates a new error and returns it
+function ErrorCore createErrorArgs(String info, String code, String message, List errorArgs ){
+	ErrorCore errorField = new ErrorCore();
+
+	if(info != null){
+		errorField.setField(info);
+		errorField.setErrorCode(code);
+		errorField.setErrorArgs((List<String>)errorArgs);
+		errorField.setDisplayMessage(message);
+		errorField.setStackTrace("");
+		errorField.setServiceName("");
+		errorField.setSection("");
+		errorField.setBusinessRule(code);
+	}
+
+	return errorField;
+}
+
+function boolean hasAnyCAFromCountry(EServiceApplication esApp, String countryId) {
+    if (esApp == null || esApp.getContactDetails() == null){
+        return false;
+    }
+
+    for(ContactDetails cd: esApp.getContactDetails()){
+        if(anyAddressFromCountry(cd.getAddress(), countryId)){
+             return true;
+        }
+    }
+    return false;
+}
+
+function boolean anyAddressFromCountry(List addresses, String countryId) {
+
+    if(addresses == null || addresses.size() == 0) {
+        return false;
+    }
+
+	Iterator itrAdd = addresses.iterator();
+
+    while(itrAdd.hasNext()){
+        Address address = (Address) itrAdd.next();
+        if (countryId.equals(address.getCountry())){
+            return true;
+        }
+    }
+
+	return false;
+}
+
+# Checks the description syntax. Returns true when valid.
+function boolean checkValidDescriptionSyntax(String value, boolean allowMultipleTerms){
+
+    if(StringUtils.isEmpty(value)){
+        return true;
+    }
+
+    if(value.indexOf('(') >= 0){
+        return checkValidSubDescriptionSyntax(value,'(',')');
+    }
+    if(value.indexOf('[') >= 0){
+        return checkValidSubDescriptionSyntax(value,'[',']');
+    }
+
+    String regex;
+    if(allowMultipleTerms){
+        regex = "(?U)[\\p{Alnum}„\"\\s-/,:;]*";
+    } else {
+        regex = "(?U)[\\p{Alnum}„\"\\s-/,:]*";
+    }
+
+    Pattern pattern = Pattern.compile(regex);
+
+    Matcher matcher = pattern.matcher(value);
+    if (matcher.matches()) {
+        return true;
+    }
+
+    return false;
+}
+
+function boolean checkValidSubDescriptionSyntax(String value, char open, char close) {
+    int openingChar = value.indexOf(open);
+    if (openingChar >= 0){
+        int closingChar = value.lastIndexOf(close);
+        if(closingChar < 0){
+            return false;
+        } else {
+            return checkValidDescriptionSyntax(value.substring(0, openingChar), true)
+                    && checkValidDescriptionSyntax(value.substring(openingChar + 1, closingChar), false)
+                    && checkValidDescriptionSyntax(value.substring(closingChar + 1), true);
+        }
+    }
+    return true;
+}
+
+function boolean shouldValidateRepresentativeEmail(RepresentativeKind kind, PersonKind personKind){
+    if(kind == null || personKind == null){
+        return true;
+    }
+    if(kind == RepresentativeKind.ASSOCIATION ||
+        (kind == RepresentativeKind.OTHER &&
+            (personKind == PersonKind.LEGAL_ENTITY || personKind == PersonKind.NATURAL_PERSON))){
+            return false;
+    } else {
+        return true;
+    }
+}

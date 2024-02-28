@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions name="AddressService"
+	targetNamespace="http://ohim.eu/sp/services/address/v3"
+	xmlns:tns="http://ohim.eu/sp/services/address/v3"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap12/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+
+	<wsdl:types>
+		<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+			<xsd:import namespace="http://ohim.eu/sp/services/address/v3" schemaLocation="../xsd/services/AddressService.xsd" />
+		</xsd:schema>
+	</wsdl:types>
+
+	<wsdl:message name="getAddressAutocomplete">
+		<wsdl:part name="parameters" element="tns:getAddressAutocomplete" />
+	</wsdl:message>
+	<wsdl:message name="getAddressAutocompleteResponse">
+		<wsdl:part name="parameters" element="tns:getAddressAutocompleteResponse" />
+	</wsdl:message>
+	
+	<wsdl:message name="matchAddress">
+		<wsdl:part name="parameters" element="tns:matchAddress" />
+	</wsdl:message>
+	<wsdl:message name="matchAddressResponse">
+		<wsdl:part name="parameters" element="tns:matchAddressResponse" />
+	</wsdl:message>
+	
+	<wsdl:message name="addressFault">
+		<wsdl:part name="parameters" element="tns:addressFault" />
+	</wsdl:message>
+
+	<wsdl:portType name="AddressServicePortType">
+		<wsdl:operation name="getAddressAutocomplete">
+			<wsdl:input name="getAddressAutocomplete" message="tns:getAddressAutocomplete" />
+			<wsdl:output name="getAddressAutocompleteResponse" message="tns:getAddressAutocompleteResponse" />
+			<wsdl:fault name="addressFault" message="tns:addressFault" />			
+		</wsdl:operation>
+		<wsdl:operation name="matchAddress">
+			<wsdl:input name="matchAddress" message="tns:matchAddress" />
+			<wsdl:output name="matchAddressResponse" message="tns:matchAddressResponse" />
+			<wsdl:fault name="addressFault" message="tns:addressFault" />			
+		</wsdl:operation>
+	</wsdl:portType>
+	
+	<wsdl:binding name="AddressServiceBinding" type="tns:AddressServicePortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="getAddressAutocomplete">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="getAddressAutocomplete">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="getAddressAutocompleteResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="addressFault">
+				<soap:fault name="addressFault" use="literal" />
+			</wsdl:fault>			
+		</wsdl:operation>
+		<wsdl:operation name="matchAddress">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="matchAddress">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="matchAddressResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="addressFault">
+				<soap:fault name="addressFault" use="literal" />
+			</wsdl:fault>			
+		</wsdl:operation>
+	</wsdl:binding>
+
+	<wsdl:service name="AddressService">
+		<wsdl:port name="AddressServicePort" binding="tns:AddressServiceBinding" >
+			<soap:address location="http://${fsp.ws.host}/${fsp.ws.context.root}${fsp.ws.address.path}${fsp.ws.wsdl.services.path}" />
+		</wsdl:port>
+	</wsdl:service>
+
+</wsdl:definitions>

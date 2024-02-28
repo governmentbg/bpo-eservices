@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://dozer.sourceforge.net http://dozer.sourceforge.net/schema/beanmapping.xsd">
+    <configuration>
+        <custom-converters>
+            <converter type="eu.ohim.sp.external.utils.MapToXsdMap">
+                <class-a>java.util.Map</class-a>
+                <class-b>eu.ohim.sp.external.domain.common.ParamsMap</class-b>
+            </converter>
+            <converter type="eu.ohim.sp.external.utils.CorePersonKindToExternalPersonKind">
+                <class-a>eu.ohim.sp.core.domain.person.PersonKind</class-a>
+                <class-b>eu.ohim.sp.external.domain.person.PersonKind</class-b>
+            </converter>
+        </custom-converters>
+    </configuration>
+
+</mappings>

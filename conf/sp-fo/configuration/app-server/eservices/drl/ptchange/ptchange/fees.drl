@@ -1,0 +1,63 @@
+package org.domain.rules;
+
+dialect "mvel"
+
+import eu.ohim.sp.core.domain.validation.ErrorCore;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.domain.payment.FeeList;
+import eu.ohim.sp.core.domain.payment.FeeType;
+import eu.ohim.sp.core.domain.payment.Fee;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.TreeMap;
+import java.util.List;
+import java.util.Date;
+import eu.ohim.sp.core.domain.application.EServiceApplication;
+import eu.ohim.sp.core.domain.person.Holder;
+import eu.ohim.sp.core.domain.person.PersonIdentifier;
+
+rule "Fees reader"
+salience 1000
+no-loop
+    when
+		FeeList($feeTypeList : feeTypeList)
+        $bF : FeeType("basicFee".equals(nameKey)) from $feeTypeList
+    then
+    	TreeMap map = new TreeMap();
+        map.put("basicFee", $bF);
+        insert(map);
+end
+
+rule "Basic Fee"
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        EServiceApplication($holders: holders)        
+    then
+        # Creates the base fee.
+        int feeQuant = 0;
+        
+for(Holder h: $holders){
+			if(h.getIdentifiers() == null || h.getIdentifiers().size() < 1){
+				feeQuant++;
+			} else {
+			    PersonIdentifier foundId  = null;
+                for(PersonIdentifier pi: h.getIdentifiers()){
+                    if(pi.getIdentifierKindCode() == null){
+                        foundId = pi;
+                    }
+                }
+                if(foundId == null || (foundId != null && foundId.getValue() == null)){
+                    feeQuant++;
+                }
+			}
+		}
+        Fee fee = new Fee();
+        fee.setFeeType((FeeType) $map.get("basicFee"));
+        fee.setQuantity(feeQuant);
+        fee.setUnitAmount(((FeeType) $map.get("basicFee")).getDefaultValue());
+        fee.setAmount(fee.quantity * fee.unitAmount);
+        # Adds the base fee to the result list
+        $results.put("basicFee", fee);
+end

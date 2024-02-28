@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<div th:fragment="serialRenewal-fragment" class="inlBlW100">
+
+    <div th:text="#{ds.renewal}"></div>
+    <div class="mT10 inlBlW100">
+        <div style="display: inline-block; width: 30%">
+            <input name="serialRenewal" class="radio-btn" type="radio" value="first_renewal" th:attr="data-rel-field='serialRenewal-field'" style="margin: 0" checked>
+            <div th:text="#{ds.first_renewal}" style="display: inline-block;"></div>
+        </div>
+        <div style="display: inline-block; width: 30%">
+            <input name="serialRenewal" class="radio-btn" type="radio" value="second_renewal" th:attr="data-rel-field='serialRenewal-field'" style="margin: 0">
+            <div th:text="#{ds.second_renewal}" style="display: inline-block;"></div>
+        </div>
+        <div style="display: inline-block; width: 30%">
+            <input name="serialRenewal" class="radio-btn " type="radio" value="third_renewal" th:attr="data-rel-field='serialRenewal-field'" style="margin: 0">
+            <div th:text="#{ds.third_renewal}" style="display: inline-block;"></div>
+        </div>
+    </div>
+
+    <input type="hidden" class="input-param" id="serialRenewal-field" value="first_renewal" th:attr="data-name='serialRenewal'">
+
+</div>
+</html>

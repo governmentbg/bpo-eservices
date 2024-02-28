@@ -1,0 +1,45 @@
+<!--
+  ~ * ConfigurationMgmt:: pom.xml 04/10/13 19:46 KARALCH $
+  ~  * . * .
+  ~  * * RRRR * Copyright © 2013 OHIM: Office for Harmonization
+  ~  * . RR R . in the Internal Market (trade marks and designs)
+  ~  * * RRR *
+  ~  * . RR RR . ALL RIGHTS RESERVED
+  ~  * * . _ . *
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>eu.ohim.sp.core</groupId>
+        <artifactId>core</artifactId>
+        <version>2.0.0-RELEASE</version>
+    </parent>
+
+    <artifactId>ConfigurationMgmt</artifactId>
+    <packaging>pom</packaging>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>eu.ohim.sp.core</groupId>
+                <artifactId>ConfigurationServiceDAO</artifactId>
+                <version>${pm.sp.core.current.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>eu.ohim.sp.core</groupId>
+                <artifactId>ConfigurationServiceBean</artifactId>
+                <version>${pm.sp.core.current.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <modules>
+        <module>ConfigurationServiceDAO</module>
+        <module>ConfigurationServiceBean</module>
+        <module>ConfigurationServiceEAR</module>
+    </modules>
+
+</project>

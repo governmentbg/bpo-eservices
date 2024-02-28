@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="qualified"
+           version="3.2" 
+           targetNamespace="http://ohim.eu/sp/domain/trademark/v3"
+           xmlns:tns="http://ohim.eu/sp/domain/trademark/v3"
+           xmlns:application="http://ohim.eu/sp/domain/application/v3"
+           xmlns:common="http://ohim.eu/sp/domain/common/v3"
+           xmlns:person="http://ohim.eu/sp/domain/person/v3"
+           xmlns:resource="http://ohim.eu/sp/domain/resource/v3"
+           xmlns:contact="http://ohim.eu/sp/domain/contact/v3"
+           xmlns:class="http://ohim.eu/sp/domain/classification/v3"
+           xmlns:payment="http://ohim.eu/sp/domain/payment/v3"
+           xmlns:claim="http://ohim.eu/sp/domain/claim/v3"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+
+    <xs:import namespace="http://ohim.eu/sp/domain/common/v3" schemaLocation="./CommonDomain.xsd"/>
+    <xs:import namespace="http://ohim.eu/sp/domain/application/v3" schemaLocation="./ApplicationDomain.xsd"/>
+    <xs:import namespace="http://ohim.eu/sp/domain/person/v3" schemaLocation="./PersonDomain.xsd"/>
+    <xs:import namespace="http://ohim.eu/sp/domain/contact/v3" schemaLocation="./ContactDomain.xsd"/>
+    <xs:import namespace="http://ohim.eu/sp/domain/payment/v3" schemaLocation="./PaymentDomain.xsd"/>
+    <xs:import namespace="http://ohim.eu/sp/domain/resource/v3" schemaLocation="./ResourceDomain.xsd"/>
+    <xs:import namespace="http://ohim.eu/sp/domain/classification/v3" schemaLocation="./ClassificationDomain.xsd"/>
+    <xs:import namespace="http://ohim.eu/sp/domain/claim/v3" schemaLocation="./ClaimDomain.xsd"/>
+
+    <xs:complexType name="Vienna">
+        <xs:sequence>
+            <xs:element name="description" type="xs:string" minOccurs="0"/>
+            <xs:element name="code" type="xs:string" minOccurs="0"/>
+            <xs:element name="dominant" type="xs:boolean"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ImageSpecification">
+        <xs:sequence>
+            <xs:element name="representation" type="resource:Document" minOccurs="0"/>
+            <xs:element name="colourClaimedIndicator" type="xs:boolean"/>
+            <xs:element name="colourClaimedText" type="common:Text" minOccurs="0" maxOccurs="unbounded"
+                    />
+            <xs:element name="colours" type="resource:Colour" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="seriesIdentifier" type="xs:short"/>
+            <xs:element name="vienna" type="tns:Vienna" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="MarkDescription">
+        <xs:complexContent>
+            <xs:extension base="common:Text">
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="MarkDisclaimer">
+        <xs:complexContent>
+            <xs:extension base="common:Text">
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="TradeMark">
+        <xs:sequence>
+            <xs:element name="receivingOffice" type="xs:string" minOccurs="0"/>
+            <xs:element name="receivingDate" type="xs:dateTime" minOccurs="0"/>
+            <xs:element name="registrationDate" type="xs:date" minOccurs="0"/>
+            <xs:element name="registrationNumber" type="xs:string" minOccurs="0"/>
+            <xs:element name="registrationOffice" type="xs:string" minOccurs="0"/>
+            <xs:element name="applicationNumber" type="xs:string" minOccurs="0"/>
+            <xs:element name="applicationDate" type="xs:dateTime" minOccurs="0"/>
+            <xs:element name="filingNumber" type="xs:string" minOccurs="0"/>
+            <xs:element name="filingDate" type="xs:dateTime" minOccurs="0"/>
+            <xs:element name="filingUser" type="xs:string" minOccurs="0"/>
+            <xs:element name="publicationDate" type="xs:dateTime" minOccurs="0"/>
+            <xs:element name="applicationReference" type="xs:string" minOccurs="0"/>
+            <xs:element name="expirationDate" type="xs:dateTime" minOccurs="0"/>
+            <xs:element name="terminationDate" type="xs:dateTime" minOccurs="0"/>
+            <xs:element name="applicationLanguage" type="xs:string" minOccurs="0"/>
+            <xs:element name="secondLanguage" type="xs:string" minOccurs="0"/>
+            <xs:element name="correspondenceLanguage" type="xs:string" minOccurs="0"/>
+            <xs:element name="currentStatus" type="xs:string" minOccurs="0"/>
+            <xs:element name="currentStatusDate" type="xs:dateTime" minOccurs="0"/>
+            <xs:element name="oppositionPeriodStart" type="xs:dateTime" minOccurs="0"/>
+            <xs:element name="oppositionPeriodEnd" type="xs:dateTime" minOccurs="0"/>
+            <xs:element name="classDescriptions" type="class:ClassDescription" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="markDescriptions" type="tns:MarkDescription" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="markDisclaimers" type="tns:MarkDisclaimer" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="wordSpecifications" type="tns:WordSpecification" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="imageSpecifications" type="tns:ImageSpecification" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="soundRepresentations" type="tns:SoundSpecification" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="markRightKind" type="tns:MarkKind" minOccurs="0"/>
+            <xs:element name="seriesIndicator" type="xs:boolean"/>
+            <xs:element name="seriesNumber" type="xs:int"/>
+            <xs:element name="markKind" type="tns:MarkFeature"/>
+            <xs:element name="priorityClaimLaterIndicator" type="xs:boolean" minOccurs="0"/>
+            <xs:element name="priorities" type="claim:MarkPriority" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="exhibitionPriorityClaimLaterIndicator" type="xs:boolean" minOccurs="0"/>
+            <xs:element name="exhibitionPriorities" type="claim:ExhibitionPriority" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="transformationPriorities" type="claim:IRTransformationPriority" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="seniorities" type="claim:MarkSeniority" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="applicants" type="person:Applicant" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="representatives" type="person:Representative" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="tradeMarkDocuments" type="resource:AttachedDocument" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="secondLanguageTranslation" type="xs:boolean" minOccurs="0"/>
+            <xs:element name="applicationUseReference" type="xs:boolean" minOccurs="0"/>
+            <xs:element name="internationalTradeMark" type="xs:boolean" minOccurs="0"/>
+            <xs:element name="divisionalApplicationDetails" type="claim:DivisionalApplicationDetails" minOccurs="0"/>
+            <xs:element name="signatures" type="application:Signatory" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="nationalSearchReportIndicator" type="xs:boolean" minOccurs="0"/>
+            <xs:element name="secondSignatoryExists" type="xs:boolean"/>
+            <xs:element name="correspondenceAddresses" type="contact:Address" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="officeSpecificId" type="xs:string" minOccurs="0"/>
+            <xs:element name="comment" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="SoundSpecification">
+        <xs:sequence>
+            <xs:element name="seriesIdentifier" type="xs:short"/>
+            <xs:element name="representation" type="resource:Document" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="TradeMarkApplication">
+        <xs:complexContent>
+            <xs:extension base="application:IPApplication">
+                <xs:sequence>
+                    <xs:element name="tradeMark" type="tns:TradeMark" minOccurs="0"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="WordSpecification">
+        <xs:sequence>
+            <xs:element name="characterSet" type="xs:string" minOccurs="0"/>
+            <xs:element name="transcriptionDetails" type="xs:string" minOccurs="0"/>
+            <xs:element name="transliterationDetails" type="xs:string" minOccurs="0"/>
+            <xs:element name="wordElements" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ENUMS -->
+
+    <xs:simpleType name="MarkFeature">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="WORD"/>
+            <xs:enumeration value="STYLIZED_CHARACTERS"/>
+            <xs:enumeration value="FIGURATIVE"/>
+            <xs:enumeration value="COMBINED"/>
+            <xs:enumeration value="THREE_D"/>
+            <xs:enumeration value="COLOUR"/>
+            <xs:enumeration value="SOUND"/>
+            <xs:enumeration value="HOLOGRAM"/>
+            <xs:enumeration value="OLFACTORY"/>
+            <xs:enumeration value="MOTION"/>
+            <xs:enumeration value="MUNICIPAL"/>
+			<xs:enumeration value="POSITION"/>
+			<xs:enumeration value="PATTERN"/>
+			<xs:enumeration value="MULTIMEDIA"/>
+            <xs:enumeration value="CHIMNEY"/>
+            <xs:enumeration value="KENNFADEN"/>
+            <xs:enumeration value="NUMBER"/>
+            <xs:enumeration value="MARK_IN_SERIES"/>
+            <xs:enumeration value="OTHER"/>
+            <xs:enumeration value="UNDEFINED"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="MarkKind">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="INDIVIDUAL"/>
+            <xs:enumeration value="COLLECTIVE"/>
+            <xs:enumeration value="CERTIFICATE"/>
+            <xs:enumeration value="CERTIFICATION"/>
+            <xs:enumeration value="GUARANTEE"/>
+            <xs:enumeration value="DEFENSIVE"/>
+            <xs:enumeration value="OTHER"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="MarkRightKind">
+        <xs:restriction base="xs:string">
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>
+

@@ -1,0 +1,59 @@
+package org.domain.rules;
+
+import java.lang.Integer;
+import java.util.TreeSet;
+import java.util.Set;
+import java.util.Collections;
+import eu.ohim.rcd.efiling.common.core.domain.validation.LocarnoInformation;
+
+dialect "mvel"
+
+rule "BRXX - Locarno restriction 0"
+salience 1000
+when
+	$locarnoInfo : LocarnoInformation(numDesigns == 0
+									|| (numDesigns == 1 && draftOpen == true)
+									|| designsLocarnoClasses.size == 0)
+then
+	$locarnoInfo.setAllowedLocarnoClasses($locarnoInfo.getAllLocarnoClasses());
+end
+
+rule "BRXX - Locarno restriction 1"
+salience 1000
+when
+	$locarnoInfo : LocarnoInformation(numDesigns > 0)
+	LocarnoInformation(designsLocarnoClasses.size == 1 && designsLocarnoClasses.contains(Integer.valueOf(32)))
+then
+	$locarnoInfo.setAllowedLocarnoClasses($locarnoInfo.getAllLocarnoClasses());
+end
+
+rule "BRXX - Locarno restriction 2"
+salience 1000
+when
+	$locarnoInfo : LocarnoInformation(numDesigns > 0)
+	LocarnoInformation(designsLocarnoClasses.size == 1 && !designsLocarnoClasses.contains(Integer.valueOf(32)))
+then
+	Set designsLocarnoClasses = new TreeSet();
+	designsLocarnoClasses.addAll($locarnoInfo.getDesignsLocarnoClasses);
+	designsLocarnoClasses.add(Integer.valueOf(32));
+	$locarnoInfo.setAllowedLocarnoClasses(designsLocarnoClasses);
+end
+
+rule "BRXX - Locarno restriction 3"
+salience 1000
+when
+	$locarnoInfo : LocarnoInformation(numDesigns > 0)
+	LocarnoInformation(designsLocarnoClasses.size == 2 && designsLocarnoClasses.contains(Integer.valueOf(32))) 
+then
+	$locarnoInfo.setAllowedLocarnoClasses($locarnoInfo.getDesignsLocarnoClasses());
+end
+
+rule "BRXX - Locarno restriction 4"
+salience 1000
+when
+	$locarnoInfo : LocarnoInformation(numDesigns > 0)
+	LocarnoInformation(designsLocarnoClasses.size > 2
+					|| (designsLocarnoClasses.size == 2 && designsLocarnoClasses.contains(Integer.valueOf(32)) == false))
+then
+	$locarnoInfo.setAllowedLocarnoClasses(Collections.emptySet());
+end

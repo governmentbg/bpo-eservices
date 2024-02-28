@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<div th:fragment="markKind-fragment" class="inlBlW100">
+
+    <div th:text="#{tmef.markKindTitle}"></div>
+    <div class="mT10 inlBlW100">
+        <div style="display: inline-block; width: 30%">
+            <input name="markKind" class="radio-btn" type="radio" value="individual" th:attr="data-rel-field='markKind-field'" style="margin: 0" checked>
+            <div th:text="#{tmef.markKind.individual}" style="display: inline-block;"></div>
+        </div>
+        <div style="display: inline-block; width: 30%">
+            <input name="markKind" class="radio-btn" type="radio" value="certificate" th:attr="data-rel-field='markKind-field'" style="margin: 0">
+            <div th:text="#{tmef.markKind.certificate}" style="display: inline-block;"></div>
+        </div>
+        <div style="display: inline-block; width: 30%">
+            <input name="markKind" class="radio-btn " type="radio" value="collective" th:attr="data-rel-field='markKind-field'" style="margin: 0">
+            <div th:text="#{tmef.markKind.collective}" style="display: inline-block;"></div>
+        </div>
+    </div>
+
+    <input type="hidden" class="input-param" id="markKind-field" value="individual" th:attr="data-name='markKind'">
+
+</div>
+</html>

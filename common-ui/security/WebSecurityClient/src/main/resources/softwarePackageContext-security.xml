@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:sec="http://www.springframework.org/schema/security"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd"
+        >
+		
+	<!-- SECURITY BEANS DEFINITIONS -->
+	<import resource="classpath*:spAuthenticationContext-security.xml" />
+	<import resource="classpath*:spSecurityFilterContext-security.xml" />
+
+    <sec:global-method-security pre-post-annotations="enabled" />
+	
+	<sec:http pattern="/**authenticationPage" security="none"/>
+	
+	<sec:http use-expressions="true" entry-point-ref="spDelegateAuthenticationEntryPoint">
+
+        <!-- AVOID CLICK-JACKING ATTACKS -->
+        <sec:headers>
+            <sec:cache-control />
+            <sec:frame-options policy="SAMEORIGIN" />
+        </sec:headers>
+
+        <!-- SECURITY FILTERS DEFINITION -->
+		<sec:custom-filter ref="spSessionExpiredFilter" position="FIRST" />
+		<sec:custom-filter ref="spCrossSiteScriptingFilter" after="FIRST" />
+		<sec:custom-filter ref="spSessionHijackingFilter" before="LOGOUT_FILTER" />
+		<sec:custom-filter ref="spLogoutFilter" position="LOGOUT_FILTER" />
+		<sec:custom-filter ref="spSingleSignOutFilter" before="CSRF_FILTER"/>
+		<sec:custom-filter ref="spDelegateAuthenticationFilter" position="PRE_AUTH_FILTER" />
+   	 	<sec:custom-filter ref="spAnonymousFilter" after="ANONYMOUS_FILTER"/>   
+		<sec:custom-filter ref="spPermissionFilter" before="LAST" />
+	    
+		<!-- SECURITY INTERCEPTOR -->
+	    <sec:intercept-url pattern="/**" access="isAuthenticated() or isAnonymous()" />
+	    <sec:intercept-url  pattern="/**authenticationPage" access="permitAll" />
+
+   		<!-- ACCESS DENIED STRATEGY -->
+		<sec:access-denied-handler ref="spAccessDeniedHandler" />
+
+   		<!-- SESSION MANAGEMENT -->
+		<sec:session-management session-fixation-protection="none" />
+        <!--<sec:csrf />-->
+
+	</sec:http>
+	
+</beans>

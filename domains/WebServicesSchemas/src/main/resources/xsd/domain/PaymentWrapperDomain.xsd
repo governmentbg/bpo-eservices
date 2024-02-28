@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="qualified"
+	version="3.2" 
+    targetNamespace="http://ohim.eu/sp/domain/epayment-wrapper/v3"
+    xmlns:tns="http://ohim.eu/sp/domain/epayment-wrapper/v3"
+    xmlns:application="http://ohim.eu/sp/domain/application/v3"
+    xmlns:payment="http://ohim.eu/sp/domain/payment/v3"
+    xmlns:common="http://ohim.eu/sp/domain/common/v3"
+    xmlns:trademark="http://ohim.eu/sp/domain/trademark/v3"
+    xmlns:design="http://ohim.eu/sp/domain/design/v3"
+    xmlns:user="http://ohim.eu/sp/domain/user/v3"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:import namespace="http://ohim.eu/sp/domain/application/v3" schemaLocation="../domain/ApplicationDomain.xsd"/>
+    <xs:import namespace="http://ohim.eu/sp/domain/payment/v3" schemaLocation="../domain/PaymentDomain.xsd"/>
+    <xs:import namespace="http://ohim.eu/sp/domain/trademark/v3" schemaLocation="../domain/TradeMarkDomain.xsd"/>
+    <xs:import namespace="http://ohim.eu/sp/domain/common/v3" schemaLocation="../domain/CommonDomain.xsd"/>
+    <xs:import namespace="http://ohim.eu/sp/domain/design/v3" schemaLocation="../domain/DesignDomain.xsd"/>
+    <xs:import namespace="http://ohim.eu/sp/domain/user/v3" schemaLocation="../domain/UserDomain.xsd"/>
+
+    <xs:complexType name="PaymentRequest">
+        <xs:sequence>
+            <xs:element name="paymentRequestId" type="xs:string" minOccurs="0"/>
+            <xs:element name="redirectionParams" type="common:ParamsMap"/>
+            <xs:element name="redirectionURL" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:simpleType name="PaymentRequestParam">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="LANG_UI"/>
+            <xs:enumeration value="PRODUCT_CODE"/>
+            <xs:enumeration value="FLOW_KEY"/>
+            <xs:enumeration value="FLOW_MODE"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="PaymentResult">
+        <xs:sequence>
+            <xs:element name="paymentStatus" type="tns:PaymentStatus" minOccurs="0"/>
+            <xs:element name="payment" type="payment:Payment" minOccurs="0" />
+            <xs:element name="resultMessage" type="xs:string" minOccurs="0"/>
+            <xs:element name="paymentRequest" type="tns:PaymentRequest" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:simpleType name="PaymentStatus">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="PAYMENT_OK"/>
+            <xs:enumeration value="PAYMENT_CANCELLED"/>
+            <xs:enumeration value="PAYMENT_ERROR"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="application" type="application:IPApplication" />
+    <xs:element name="tradeMarkApplication" type="trademark:TradeMarkApplication" substitutionGroup="tns:application" />
+    <xs:element name="designApplication" type="design:DesignApplication" substitutionGroup="tns:application" />
+
+    <!--ADDED LATER-->
+
+    <xs:complexType name="RequestPaymentApplication">
+        <xs:sequence>
+            <xs:element name="parameters" type="common:ParamsMap"/>
+            <xs:element name="paymentId" type="xs:string" minOccurs="0"/>
+            <xs:element ref="tns:application" minOccurs="0"/>
+            <xs:element name="user" type="user:User" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

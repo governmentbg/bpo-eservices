@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE tiles-definitions PUBLIC
+        "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+        "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<!-- Definitions for Tiles documentation   -->
+
+<tiles-definitions>
+
+    <!-- ************************ MAIN TEMPLATE PAGE **************************** -->
+    <!--<definition name="application_form" template="/WEB-INF/views/layout.jsp" preparer="sectionPreparer"/>-->
+
+    <!-- ************************ ERROR PAGE **************************** -->
+    <definition name="error_page" template="/WEB-INF/jsp/template/error_layout.jsp">
+        <put-attribute name="tools" value="/WEB-INF/jsp/tools.jsp"/>
+        <put-attribute name="header" value="/WEB-INF/jsp/header.jsp"/>
+        <put-attribute name="navigation_path" value="/WEB-INF/jsp/navigation_path.jsp"/>
+        <put-attribute name="error_description" value="/WEB-INF/jsp/error.jsp"/>
+        <put-attribute name="footer" value="/WEB-INF/jsp/footer.jsp"/>
+    </definition>
+
+    <definition name="tiles" template="/WEB-INF/views/template/tilesLayout.jsp">
+        <put-attribute name="header" value="/WEB-INF/views/header.jsp"/>
+        <put-attribute name="main" value="main.twocolumns"/>
+        <put-attribute name="footer" value="/WEB-INF/views/footer.jsp"/>
+        <put-attribute name="errorBox" value="/WEB-INF/views/errorBox.jsp"/>
+    </definition>
+    
+    <definition name="failureTile" template="/WEB-INF/views/template/tilesLayout.jsp">
+        <put-attribute name="header" value="/WEB-INF/views/header.jsp"/>
+        <put-attribute name="main" value="/WEB-INF/views/failureMessage.jsp"/>
+        <put-attribute name="footer" value="/WEB-INF/views/footer.jsp"/>
+        <put-attribute name="errorBox" value="/WEB-INF/views/errorBox.jsp"/>
+    </definition>
+    
+    <definition name="tiles.wiz" template="/WEB-INF/views/template/tilesLayout.wiz.jsp">
+        <put-attribute name="header" value="/WEB-INF/views/header.jsp"/>
+        <put-attribute name="main" value="main.twocolumns.wiz"/>
+        <put-attribute name="footer" value="/WEB-INF/views/footer.jsp"/>
+        <put-attribute name="errorBox" value="/WEB-INF/views/errorBox.jsp"/>
+    </definition>
+
+    <definition name="main.twocolumns" template="/WEB-INF/views/template/main_twocolumns.jsp">
+        <put-attribute name="errorBox" value="/WEB-INF/views/errorBox.jsp"/>
+        <put-attribute name="body_main_right" value="main.right"/>
+        <put-attribute name="body_main_center" value="main.center"/>
+    </definition>
+
+    <definition name="main.right" template="/WEB-INF/views/template/main_right.jsp" preparer="sectionPreparer">
+        <put-attribute name="errorBox" value="/WEB-INF/views/errorBox.jsp"/>
+        <put-attribute name="sidenav" value="main.sidenav"/>
+        <put-attribute name="cart" value="/WEB-INF/views/right_cart_section.jsp"/>
+        <put-attribute name="buttons" value="/WEB-INF/views/right_buttons.jsp"/>
+    </definition>
+
+    <definition name="main.sidenav" template="/WEB-INF/views/right_sidenav.jsp" preparer="sectionSidenavPreparer">
+    </definition>
+
+    <definition name="main.center" template="/WEB-INF/views/template/main_center.jsp" preparer="sectionPreparer">
+    </definition>
+
+    <definition name="terms.and.conditions" template="/WEB-INF/views/template/termsandconditions.jsp">
+    </definition>
+
+
+    <definition name="main.twocolumns.wiz" template="/WEB-INF/views/template/main_twocolumns.jsp">
+        <put-attribute name="body_main_right" value="main.right.wiz"/>
+        <put-attribute name="body_main_center" value="main.center.wiz"/>
+    </definition>
+
+    <definition name="main.right.wiz" template="/WEB-INF/views/template/main_right_wiz.jsp">
+        <put-attribute name="errorBox" value="/WEB-INF/views/errorBox.jsp"/>
+        <put-attribute name="applicationType" value="/WEB-INF/views/fast_track_application_type.jsp"/>
+        <put-attribute name="buttons" value="/WEB-INF/views/right_buttons.jsp"/>
+    </definition>
+
+    <definition name="main.center.wiz" template="/WEB-INF/views/template/main_centerwiz.jsp" preparer="sectionPreparer">
+    </definition>
+
+    <definition name="homepage" template="/WEB-INF/views/template/tilesLayout.wiz.jsp">
+        <put-attribute name="header" value="/WEB-INF/views/header.jsp"/>
+        <put-attribute name="main" value="home.main"/>
+        <put-attribute name="footer" value="/WEB-INF/views/footer.jsp"/>
+        <put-attribute name="errorBox" value="/WEB-INF/views/errorBox.jsp"/>
+    </definition>
+
+    <definition name="home.main" template="/WEB-INF/views/homepage/home_main.jsp">
+        <put-attribute name="usage" value="/WEB-INF/views/homepage/home_usage.jsp"/>
+        <put-attribute name="video" value="/WEB-INF/views/homepage/home_video.jsp"/>
+        <put-attribute name="lang_start_restore" value="/WEB-INF/views/homepage/home_lang_start_restore.jsp"/>
+    </definition>
+
+    <definition name="claim_section_oneform" template="/WEB-INF/views/template/claim_section_oneform.jsp"
+                preparer="claimSectionPreparer">
+    </definition>
+
+    <definition name="claim_section_wizard" template="/WEB-INF/views/template/claim_section_wizard.jsp"
+                preparer="claimSectionPreparer">
+    </definition>
+    
+    <definition name="type_mark_oneform" template="/WEB-INF/views/marktoprotect_typemark.jsp"
+                preparer="tradeMarkSectionPreparer">
+    </definition>
+
+    <definition name="type_mark_wizard" template="/WEB-INF/views/marks/wizard/mark_typemark.jsp"
+                preparer="tradeMarkSectionPreparer">
+    </definition>
+
+    <definition name="type_gi_wizard" template="/WEB-INF/views/marks/wizard/gi_typemark.jsp"
+                preparer="tradeMarkSectionPreparer">
+    </definition>
+
+    <definition name="person_section_oneform" template="/WEB-INF/views/template/person_section.jsp">
+    </definition>
+
+    <definition name="person_section_wizard" template="/WEB-INF/views/template/person_section.jsp">
+    </definition>
+
+    <definition name="signature_section" template="/WEB-INF/views/signature/signature_section.jsp" preparer="signatureSectionPreparer">
+    </definition>
+
+    <definition name="submittedpage" template="/WEB-INF/views/template/tilesLayout.jsp">
+        <put-attribute name="header" value="/WEB-INF/views/header.jsp"/>
+        <put-attribute name="main" value="/WEB-INF/views/review/submitted.jsp"/>
+        <put-attribute name="footer" value="/WEB-INF/views/footer.jsp"/>
+        <put-attribute name="errorBox" value="/WEB-INF/views/errorBox.jsp"/>
+    </definition>
+
+</tiles-definitions>

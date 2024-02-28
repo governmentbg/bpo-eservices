@@ -1,0 +1,141 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
+
+
+	<bean name="bindingResult" class="org.mockito.Mockito"
+		factory-method="mock">
+		<constructor-arg
+			value="org.springframework.validation.BindingResult" />
+	</bean>
+
+	<bean name="exhibitionPriority" class="eu.ohim.fsp.common.ui.form.ExhPriorityForm" >
+		<property name="exhibitionName" value="exhibitionName"/>
+	</bean>
+
+
+	<bean name="legalEntityForm" class="eu.ohim.fsp.common.ui.form.person.LegalEntityForm">
+	</bean>
+
+	<bean name="naturalPersonForm" class="eu.ohim.fsp.common.ui.form.person.NaturalPersonForm">
+	</bean>
+	
+	<bean name="naturalPersonSpecialForm" class="eu.ohim.fsp.common.ui.form.person.NaturalPersonSpecialForm">
+	</bean>
+
+	<bean name="priorityForm" class="eu.ohim.fsp.common.ui.form.PriorityForm" />
+
+	<bean name="seniorityForm" class="eu.ohim.fsp.common.ui.form.SeniorityForm" />
+
+	<bean name="transformationForm" class="eu.ohim.fsp.common.ui.form.TransformationForm" />
+
+	<bean name="applicant" class="eu.ohim.fsp.core.domain.Applicant">
+		<property name="applicantIdentifier" value="32442" />
+		<property name="applicantKind"  value="LEGAL_ENTITY"/> 
+		<property name="legalForm" value="legal Form" />
+		<property name="applicantIncorporationCountryCode" value="GR" />
+		<property name="taxIdNumber" value="34534534" />
+		<property name="businessVatNumber" value="546546" />
+		<property name="receiveCorrespondenceViaEmail" value="false" />
+	</bean>
+	
+	<bean name="representative" class="eu.ohim.fsp.core.domain.Representative">
+		<property name="representativeIdentifier" value="32442" />
+		<property name="representativeKind"  value="LEGAL_ENTITY"/> 
+		<property name="legalForm" value="legal Form" />
+		<property name="representativeIncorporationCountryCode" value="GR" />
+		<property name="taxIdNumber" value="34534534" />
+		<property name="businessVatNumber" value="546546" />
+	</bean>
+	
+	<bean name="legalPractitionerForm" class="eu.ohim.fsp.common.ui.form.person.LegalPractitionerForm">
+		<property name="type" value="LEGAL_PRACTITIONER"/>
+	</bean>	
+	<bean name="employeeRepresentativeForm" class="eu.ohim.fsp.common.ui.form.person.EmployeeRepresentativeForm">
+		<property name="type" value="EMPLOYEE_REPRESENTATIVE"/>
+	</bean>	
+	<bean name="professionalPractitionerForm" class="eu.ohim.fsp.common.ui.form.person.ProfessionalPractitionerForm">
+		<property name="type" value="PROFESSIONAL_PRACTITIONER"/>
+	</bean>	
+	<bean name="representativeLegalEntityForm" class="eu.ohim.fsp.common.ui.form.person.RepresentativeLegalEntityForm">
+		<property name="type" value="LEGAL_ENTITY"/>
+	</bean>	
+	<bean name="representativeNaturalPersonForm" class="eu.ohim.fsp.common.ui.form.person.RepresentativeNaturalPersonForm">	
+		<property name="type" value="NATURAL_PERSON"/>
+	</bean>	
+	
+	<bean name="goodsForm" class="eu.ohim.fsp.common.ui.form.GoodAndServiceForm">
+		<property name="classId" value="2" />
+		<property name="langId" value="en" />
+		<property name="termForms" >
+			<list>
+				<bean class="eu.ohim.fsp.common.ui.form.TermForm" >
+					<property name="description" value="Shoes"/>
+				</bean>
+				<bean class="eu.ohim.fsp.common.ui.form.TermForm" >
+					<property name="description" value="Boots"/>
+				</bean>
+				<bean class="eu.ohim.fsp.common.ui.form.TermForm" >
+					<property name="description" value="Shoe Laces"/>
+				</bean>
+			</list>
+		</property>
+ 		<property name="desc" value="Shoes; Boots; Shoe Laces"></property>
+	</bean>
+	
+	<bean name="flowBean" class="eu.ohim.fsp.common.ui.flow.FlowBeanImpl">
+		<property name="firstLang" value="en" />
+		<property name="secLang" value="es" />
+		<property name="terms">
+			<list>
+				<bean class="eu.ohim.fsp.common.ui.form.TermForm">
+					<property name="description" value="Athletics shoes" />
+					<property name="idClass" value="25"/>
+				</bean>
+				<bean class="eu.ohim.fsp.common.ui.form.TermForm">
+					<property name="description" value="Shoes (protective-)" />
+					<property name="idClass" value="9"/>
+				</bean>
+				<bean class="eu.ohim.fsp.common.ui.form.TermForm">
+					<property name="description" value="Brake shoes for vehicles" />
+					<property name="idClass" value="12"/>
+				</bean>
+				<bean class="eu.ohim.fsp.common.ui.form.TermForm">
+					<property name="description" value="Shoe polishers (non-electric-)" />
+					<property name="idClass" value="21"/>
+				</bean>
+				<bean class="eu.ohim.fsp.common.ui.form.TermForm">
+					<property name="description" value="Shoe buckles" />
+					<property name="idClass" value="26"/>
+				</bean>
+				<bean class="eu.ohim.fsp.common.ui.form.TermForm">
+					<property name="description" value="Shoe eyelets" />
+					<property name="idClass" value="26"/>
+				</bean>
+				<bean class="eu.ohim.fsp.common.ui.form.TermForm">
+					<property name="description" value="Cycling shoes" />
+					<property name="idClass" value="25"/>
+				</bean>
+				<bean class="eu.ohim.fsp.common.ui.form.TermForm">
+					<property name="description" value="Lasts for shoes [parts of machines]" />
+					<property name="idClass" value="7"/>
+				</bean>
+				<bean class="eu.ohim.fsp.common.ui.form.TermForm">
+					<property name="description" value="Synthetic rubber material for use in the manufacture of shoe soles" />
+					<property name="idClass" value="17"/>
+				</bean>
+				<bean class="eu.ohim.fsp.common.ui.form.TermForm">
+					<property name="description" value="Shoe lasts [hand tools]" />
+					<property name="idClass" value="8"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+</beans>

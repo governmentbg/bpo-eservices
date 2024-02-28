@@ -1,0 +1,615 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>eu.ohim.sp.common</groupId>
+    <artifactId>common-ui</artifactId>
+    <packaging>pom</packaging>
+
+    <name>Software Package Common UI</name>
+    <url>https://svn.oami.europa.eu/svn/emrepo/softwarepackage/common-ui/trunk</url>
+
+    <ciManagement>
+        <system>Bamboo</system>
+        <url>http://ci-prod-bamboo-master:8085/bamboo/browse/SPCOM-SONR</url>
+    </ciManagement>
+
+    <scm>
+        <connection>scm:svn:https://svn.oami.europa.eu/svn/emrepo/softwarepackage/common-ui/trunk</connection>
+        <developerConnection>scm:svn:https://svn.oami.europa.eu/svn/emrepo/softwarepackage/common-ui/trunk</developerConnection>
+        <url>https://svn.oami.europa.eu/svn/emrepo/softwarepackage/common-ui/trunk</url>
+    </scm>
+
+    <issueManagement>
+        <system>JIRA</system>
+        <url>https://jira.ohimqaportal.eu/browse/DEVSPHARMO</url>
+    </issueManagement>
+
+    <organization>
+        <name>OHIM</name>
+        <url>http://oami.europa.eu/</url>
+    </organization>
+
+    <parent>
+        <groupId>eu.ohim.sp.ui</groupId>
+        <artifactId>CFO</artifactId>
+        <version>2.0.0-RELEASE</version>
+    </parent>
+
+    <modules>
+        <module>utils</module>
+        <module>services</module>
+        <module>component</module>
+        <module>security</module>
+    </modules>
+
+    <properties>
+        <pm.springframework.version>4.3.0.RELEASE</pm.springframework.version>
+        <pm.springframework.security.version>3.2.0.RELEASE</pm.springframework.security.version>
+        <pm.sp.common-ui.current.version>2.0.0-RELEASE</pm.sp.common-ui.current.version>
+        <pm.sp.common-utils.current.version>2.0.0-RELEASE</pm.sp.common-utils.current.version>
+        <pm.sp.core.current.version>2.0.0-RELEASE</pm.sp.core.current.version>
+        <pm.sp.domains.current.version>2.0.0-RELEASE</pm.sp.domains.current.version>
+        <pm.sp.external.current.version>2.0.0-RELEASE</pm.sp.external.current.version>
+        <pm.version.plugin.checkstyle>2.9.1</pm.version.plugin.checkstyle>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- ==================================================
+                    INTERNAL DEPENDENCIES
+                 ================================================== -->
+            <dependency>
+                <groupId>eu.ohim.sp.common</groupId>
+                <artifactId>CommonUtils</artifactId>
+                <version>${pm.sp.core.current.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>eu.ohim.sp.common</groupId>
+                <artifactId>ConfigurationXSD</artifactId>
+                <version>${pm.sp.common-utils.current.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>eu.ohim.sp.common</groupId>
+                <artifactId>ui-template</artifactId>
+                <version>${pm.sp.common-ui.current.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>eu.ohim.sp.common</groupId>
+                <artifactId>ui-fileupload</artifactId>
+                <version>${pm.sp.common-ui.current.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>eu.ohim.sp.common</groupId>
+                <artifactId>ui-component</artifactId>
+                <version>${pm.sp.common-ui.current.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>eu.ohim.sp.common</groupId>
+                <artifactId>AuthenticationClient</artifactId>
+                <version>${pm.sp.common-ui.current.version}</version>
+            </dependency>
+            
+            <dependency>
+                <groupId>eu.ohim.sp.core</groupId>
+                <artifactId>ReportServiceInterface</artifactId>
+                <version>${pm.sp.core.current.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>eu.ohim.sp.core</groupId>
+                <artifactId>ResourceServiceInterface</artifactId>
+                <version>${pm.sp.core.current.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>eu.ohim.sp.domains</groupId>
+                <artifactId>CoreDomain</artifactId>
+                <version>${pm.sp.domains.current.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>eu.ohim.sp.core</groupId>
+                <artifactId>CoreUtils</artifactId>
+                <version>${pm.sp.core.current.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>eu.ohim.sp.common</groupId>
+                <artifactId>StatisticalLogging</artifactId>
+                <version>${pm.sp.common-utils.current.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>eu.ohim.sp.domains</groupId>
+                <artifactId>CoreServices</artifactId>
+                <version>${pm.sp.domains.current.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>eu.ohim.sp.external</groupId>
+                <artifactId>FilingDomain</artifactId>
+                <version>${pm.sp.external.current.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>eu.ohim.sp.external</groupId>
+                <artifactId>FilingUtils</artifactId>
+                <version>${pm.sp.external.current.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-core</artifactId>
+                <version>${pm.springframework.security.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>14.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.pdfbox</groupId>
+                <artifactId>pdfbox</artifactId>
+                <version>1.8.2</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.apache.pdfbox</groupId>
+                        <artifactId>fontbox</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.pdfbox</groupId>
+                        <artifactId>jempbox</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>eu.ohim.sp.common</groupId>
+                <artifactId>UIDomain</artifactId>
+                <version>${pm.sp.common-ui.current.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>eu.ohim.sp.common</groupId>
+                <artifactId>UIServiceInterface</artifactId>
+                <version>${pm.sp.common-ui.current.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>eu.ohim.sp.common</groupId>
+                <artifactId>UIFactory</artifactId>
+                <version>${pm.sp.common-ui.current.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>eu.ohim.sp.common</groupId>
+                <artifactId>UIUtils</artifactId>
+                <version>${pm.sp.common-ui.current.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.sf.ehcache</groupId>
+                <artifactId>ehcache-core</artifactId>
+                <version>2.4.3</version>
+            </dependency>
+
+            <!-- ================================================
+                    EXTERNAL DEPENDENCIES
+                 ================================================ -->
+
+            <!-- ==== Spring Framework ==== -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-core</artifactId>
+                <version>${pm.springframework.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-expression</artifactId>
+                <version>${pm.springframework.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-beans</artifactId>
+                <version>${pm.springframework.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-aop</artifactId>
+                <version>${pm.springframework.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>${pm.springframework.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context-support</artifactId>
+                <version>${pm.springframework.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-aspects</artifactId>
+                <version>${pm.springframework.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-tx</artifactId>
+                <version>${pm.springframework.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-jdbc</artifactId>
+                <version>${pm.springframework.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-orm</artifactId>
+                <version>${pm.springframework.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-oxm</artifactId>
+                <version>${pm.springframework.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-web</artifactId>
+                <version>${pm.springframework.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-web</artifactId>
+                <version>${pm.springframework.security.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-taglibs</artifactId>
+                <version>${pm.springframework.security.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-webmvc</artifactId>
+                <version>${pm.springframework.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-test</artifactId>
+                <version>${pm.springframework.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>${pm.springframework.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.webflow</groupId>
+                <artifactId>spring-webflow</artifactId>
+                <version>2.4.2.RELEASE</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-config</artifactId>
+                <version>${pm.springframework.security.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <!-- ==== Unit testing ==== -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.12</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-all</artifactId>
+                <version>1.9.0</version>
+                <scope>test</scope>
+            </dependency>
+
+            <!-- ==== Apache Commons ==== -->
+            <dependency>
+                <groupId>commons-fileupload</groupId>
+                <artifactId>commons-fileupload</artifactId>
+                <version>1.2.2</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>2.4</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-lang</groupId>
+                <artifactId>commons-lang</artifactId>
+                <version>2.4</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-httpclient</groupId>
+                <artifactId>commons-httpclient</artifactId>
+                <version>3.1</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-codec</groupId>
+                <artifactId>commons-codec</artifactId>
+                <version>1.6</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-logging</groupId>
+                <artifactId>commons-logging</artifactId>
+                <version>1.1.1</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-collections</groupId>
+                <artifactId>commons-collections</artifactId>
+                <version>3.2.1</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <!-- ==== JEE Dependencies ==== -->
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>javax.servlet-api</artifactId>
+                <version>3.0.1</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>jstl</artifactId>
+                <version>1.2</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.servlet.jsp</groupId>
+                <artifactId>javax.servlet.jsp-api</artifactId>
+                <version>2.2.1</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jboss.spec</groupId>
+                <artifactId>jboss-javaee-6.0</artifactId>
+                <version>3.0.1.Final</version>
+                <type>pom</type>
+                <scope>provided</scope>
+            </dependency>
+
+            <!-- ==== Tiles Dependencies ==== -->
+            <dependency>
+                <groupId>org.apache.tiles</groupId>
+                <artifactId>tiles-core</artifactId>
+                <version>2.2.2</version>
+                <scope>compile</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>jcl-over-slf4j</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.tiles</groupId>
+                <artifactId>tiles-api</artifactId>
+                <version>2.2.2</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.tiles</groupId>
+                <artifactId>tiles-jsp</artifactId>
+                <version>2.2.2</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>1.6.4</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <!-- ==== AspectJ Dependencies ==== -->
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjrt</artifactId>
+                <version>1.8.4</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjweaver</artifactId>
+                <version>1.8.4</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <!-- ==== Misc. Dependencies ==== -->
+            <dependency>
+                <groupId>log4j</groupId>
+                <artifactId>log4j</artifactId>
+                <version>1.2.16</version>
+            </dependency>
+
+            <dependency>
+                <groupId>javazoom</groupId>
+                <artifactId>mp3spi</artifactId>
+                <version>1.9.4</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mobicents.external.fmj</groupId>
+                <artifactId>tritonus_share</artifactId>
+                <version>1.0</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.googlecode.soundlibs</groupId>
+                <artifactId>tritonus-share</artifactId>
+                <version>0.3.7-1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.googlecode.soundlibs</groupId>
+                <artifactId>mp3spi</artifactId>
+                <version>1.9.5-1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.sanselan</groupId>
+                <artifactId>sanselan</artifactId>
+                <version>0.97-incubator</version>
+            </dependency>
+
+            <dependency>
+                <groupId>aopalliance</groupId>
+                <artifactId>aopalliance</artifactId>
+                <version>1.0</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jboss.as</groupId>
+                <artifactId>jboss-as-ejb-client-bom</artifactId>
+                <version>7.1.2.Final</version>
+                <type>pom</type>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.jboss</groupId>
+                        <artifactId>jboss-remote-naming</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.jboss</groupId>
+                        <artifactId>jboss-ejb-client</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss</groupId>
+                <artifactId>jboss-remote-naming</artifactId>
+                <version>1.0.7.Final</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss</groupId>
+                <artifactId>jboss-ejb-client</artifactId>
+                <version>1.0.13.Final</version>
+            </dependency>
+
+            <dependency>
+                <groupId>taglibs</groupId>
+                <artifactId>standard</artifactId>
+                <version>1.1.2</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>cglib</groupId>
+                <artifactId>cglib</artifactId>
+                <version>2.2.2</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.codehaus.jackson</groupId>
+                <artifactId>jackson-mapper-asl</artifactId>
+                <version>1.9.7</version>
+                <scope>compile</scope>
+            </dependency>
+
+
+            <!-- ==== Thumbnailator Dependencies ==== -->
+            <dependency>
+                <groupId>net.coobird</groupId>
+                <artifactId>thumbnailator</artifactId>
+                <version>0.4.5</version>
+                <scope>compile</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <configuration>
+                    <tagNameFormat>@{project.version}</tagNameFormat>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>${pm.version.plugin.checkstyle}</version>
+                <configuration>
+                    <configLocation>../conf/src/main/resources/checkstyle.xml</configLocation>
+                    <propertiesLocation>../conf/src/main/resources/checkstyle.properties</propertiesLocation>
+                    <propertyExpansion>basedir=${project.basedir}</propertyExpansion>
+                    <failsOnError>false</failsOnError>
+                    <consoleOutput>false</consoleOutput>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

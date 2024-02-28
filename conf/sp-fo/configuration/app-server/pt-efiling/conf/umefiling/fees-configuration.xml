@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<feeList>
+	<feeTypeList>
+		<code>001</code>
+		<nameKey>basicFee</nameKey>
+		<description>basic fee</description>
+		<defaultValue>40.0</defaultValue>
+	</feeTypeList>
+
+	<feeTypeList>
+		<code>002</code>
+		<nameKey>examinationFee</nameKey>
+		<description>fee for examination</description>
+		<defaultValue>180.0</defaultValue>
+	</feeTypeList>
+
+	<feeTypeList>
+		<code>003</code>
+		<nameKey>priorityFee</nameKey>
+		<description>fee for every priority</description>
+		<defaultValue>20.0</defaultValue>
+	</feeTypeList>
+
+	<feeTypeList>
+		<code>004</code>
+		<nameKey>smallCompanyDiscount</nameKey>
+		<description>discount when small company</description>
+		<defaultValue>0.5</defaultValue>
+		<configFee>true</configFee>
+	</feeTypeList>
+</feeList>

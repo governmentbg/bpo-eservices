@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://egov.bg/RegiX/PatentDepartment" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://egov.bg/RegiX/PatentDepartment" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="getAutocomplete" type="getAutocompleteType">
+		<xs:annotation>
+			<xs:documentation>Autocomplete request</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="getAutocompleteType">
+		<xs:sequence>
+			<xs:element name="word" type="xs:string"/>
+			<xs:element name="rows" type="xs:integer"/>
+			<xs:element name="ipoType" type="ipoType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="ipoType">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="MARK"/>
+			<xs:enumeration value="DESIGN"/>
+			<xs:enumeration value="PATENT"/>
+			<xs:enumeration value="PLANT"/>
+			<xs:enumeration value="SPC"/>
+			<xs:enumeration value="GEO_INDICATION"/>
+			<xs:enumeration value="EPO_PATENT"/>
+			<xs:enumeration value="UTILITY_MODEL"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

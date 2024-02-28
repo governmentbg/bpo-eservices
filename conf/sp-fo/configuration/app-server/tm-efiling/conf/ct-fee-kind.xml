@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cotypes>
+    <cotype code="TOTAL_FEE" label="cotypes.feekind.totalfee" value="0"/>
+    <cotype code="BASIC_FEE" label="cotypes.feekind.basicfee" value="215"/>
+    <cotype code="COLLECTIVE_FEE" label="cotypes.feekind.collectivefee" value="290"/>     
+    <cotype code="EXTRA_CLASS_FEE_BASIC" label="cotypes.feekind.extraclassfeebasic" value="80"/>
+    <cotype code="EXTRA_CLASS_FEE_COLLECTIVE" label="cotypes.feekind.extraclassfeecollective" value="80"/> 
+    <cotype code="NATIONAL_SEARCH_FEE" label="cotypes.feekind.nationalsearchfee" value="0"/>
+	<cotype code="ONLINE_APP_DISCOUNT" label="cotypes.feekind.onlineappdiscount" value="0"/>
+</cotypes>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+        <groupId>eu.ohim.sp.core</groupId>
+		<artifactId>Report</artifactId>
+		<version>2.0.0-RELEASE</version>
+	</parent>
+
+	<artifactId>ReportServiceEAR</artifactId>
+    <name>sp-core-report</name>
+	<packaging>ear</packaging>
+
+    <properties>
+        <skipCodeCoverage>true</skipCodeCoverage>
+    </properties>
+
+    <dependencies>
+		<dependency>
+            <groupId>eu.ohim.sp.core</groupId>
+            <artifactId>ReportServiceBean</artifactId>
+			<type>ejb</type>
+            <version>${pm.sp.core.current.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>eu.ohim.sp.core</groupId>
+			<artifactId>ITextReportServiceBean</artifactId>
+			<type>ejb</type>
+			<version>${pm.sp.core.current.version}</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<finalName>sp-core-report</finalName>
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-ear-plugin</artifactId>
+				<configuration>
+					<initializeInOrder>true</initializeInOrder>
+					<defaultLibBundleDir>APP-INF/lib</defaultLibBundleDir>
+					<generateApplicationXml>true</generateApplicationXml>
+					<modules>
+						<ejbModule>
+                            <groupId>eu.ohim.sp.core</groupId>
+                            <artifactId>ReportServiceBean</artifactId>
+							<bundleDir>/</bundleDir>
+						</ejbModule>
+						<ejbModule>
+							<groupId>eu.ohim.sp.core</groupId>
+							<artifactId>ITextReportServiceBean</artifactId>
+							<bundleDir>/</bundleDir>
+						</ejbModule>
+					</modules>
+					<archive>
+						<manifestEntries>
+							<dependencies>org.dom4j</dependencies>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.jboss.as.plugins</groupId>
+				<artifactId>jboss-as-maven-plugin</artifactId>
+				<configuration>
+					<skip>false</skip>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

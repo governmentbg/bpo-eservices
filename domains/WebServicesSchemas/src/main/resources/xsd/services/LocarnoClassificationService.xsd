@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="unqualified"
+	version="3.2"
+    targetNamespace="http://ohim.eu/sp/services/locarno-classification/v3"
+    xmlns:tns="http://ohim.eu/sp/services/locarno-classification/v3"
+    xmlns:design="http://ohim.eu/sp/domain/design/v3"
+    xmlns:common="http://ohim.eu/sp/domain/common/v3"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:import namespace="http://ohim.eu/sp/domain/design/v3" schemaLocation="../domain/DesignDomain.xsd" />
+	<xs:import namespace="http://ohim.eu/sp/domain/common/v3" schemaLocation="../domain/CommonDomain.xsd" />
+	
+    <xs:element name="getFullClassification" type="tns:GetFullClassification" />
+    <xs:element name="getFullClassificationResponse" type="tns:GetFullClassificationResponse" />
+    <xs:element name="getProductIndications" type="tns:GetProductIndications" />
+    <xs:element name="getProductIndicationsResponse" type="tns:GetProductIndicationsResponse" />
+    <xs:element name="searchProductIndication" type="tns:SearchProductIndication" />
+    <xs:element name="searchProductIndicationResponse" type="tns:SearchProductIndicationResponse" />
+
+    <xs:element name="locarnoClassificationFault" type="tns:LocarnoClassificationFault" />
+    
+    <xs:complexType name="SearchProductIndication">
+        <xs:sequence>
+            <xs:element name="indicationProduct" type="xs:string" minOccurs="0"/>
+            <xs:element name="clazz" type="xs:string" minOccurs="0"/>
+            <xs:element name="subclass" type="xs:string" minOccurs="0"/>
+            <xs:element name="lang" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="SearchProductIndicationResponse">
+        <xs:sequence>
+            <xs:element name="return" type="design:ProductIndication" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="GetProductIndications">
+        <xs:sequence>
+            <xs:element name="indicationClass" type="xs:string" minOccurs="0" />
+            <xs:element name="subclass" type="xs:string" minOccurs="0" />
+            <xs:element name="lang" type="xs:string" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="GetProductIndicationsResponse">
+        <xs:sequence>
+            <xs:element name="return" type="design:ProductIndication" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="GetFullClassification">
+        <xs:sequence>
+            <xs:element name="lang" type="xs:string" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="GetFullClassificationResponse">
+        <xs:sequence>
+            <xs:element name="return" type="design:ProductIndication" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="LocarnoClassificationFault">
+        <xs:sequence>
+            <xs:element name="fault" type="common:Fault" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema>

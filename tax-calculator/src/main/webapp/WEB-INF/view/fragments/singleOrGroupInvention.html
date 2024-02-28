@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<div th:fragment="singleOrGroupInvention-fragment" class="inlBlW100">
+
+    <div th:text="#{pt.invention}"></div>
+    <div class="mT10 rb-grid">
+        <div>
+            <input name="singleOrGroupInvention" class="radio-btn vertical-rb" type="radio" value="singleInvention" th:attr="data-rel-field='singleOrGroupInvention-field'" checked>
+            <div th:text="#{pt.singleInvention}" class="rb-text"></div>
+        </div>
+        <div>
+            <input name="singleOrGroupInvention" class="radio-btn vertical-rb" type="radio" value="groupInvention" th:attr="data-rel-field='singleOrGroupInvention-field'">
+            <div th:text="#{pt.groupInvention}" class="rb-text"></div>
+        </div>
+    </div>
+
+    <input type="hidden" class="input-param" id="singleOrGroupInvention-field" value="singleInvention" th:attr="data-name='singleOrGroupInvention'">
+
+</div>
+</html>

@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions name="ResourceService"
+	targetNamespace="http://ohim.eu/sp/services/resource/v3"
+	xmlns:tns="http://ohim.eu/sp/services/resource/v3"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap12/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+
+ 	<wsdl:types>
+		<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+			<xsd:import namespace="http://ohim.eu/sp/services/resource/v3" schemaLocation="../xsd/services/ResourceService.xsd" />
+		</xsd:schema>
+	</wsdl:types>
+
+  <wsdl:message name="getMessage">
+    <wsdl:part name="parameters" element="tns:getMessage" />
+  </wsdl:message>
+
+  <wsdl:message name="getMessageResponse">
+    <wsdl:part name="parameters" element="tns:getMessageResponse" />
+  </wsdl:message>
+
+  	<wsdl:message name="resourceFault">
+		<wsdl:part name="parameters" element="tns:resourceFault" />
+	</wsdl:message>
+
+  <wsdl:portType name="ResourceServicePortType">
+    <wsdl:operation name="getMessage">
+      <wsdl:input name="getMessage" message="tns:getMessage" />
+      <wsdl:output name="getMessageResponse" message="tns:getMessageResponse" />
+		<wsdl:fault name="resourceFault" message="tns:resourceFault" />	    
+    </wsdl:operation>
+  </wsdl:portType>
+
+  <wsdl:binding name="ResourceServiceBinding" type="tns:ResourceServicePortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="getMessage">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getMessage">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getMessageResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+		<wsdl:fault name="resourceFault">
+			<soap:fault use="literal" name="resourceFault" />
+		</wsdl:fault>      
+    </wsdl:operation>
+  </wsdl:binding>
+
+  <wsdl:service name="ResourceService">
+    <wsdl:port name="ResourceServicePort" binding="tns:ResourceServiceBinding" >
+      <soap:address location="http://${fsp.ws.host}/${fsp.ws.context.root}${fsp.ws.resource.path}${fsp.ws.wsdl.services.path}" />
+    </wsdl:port>
+  </wsdl:service>
+
+</wsdl:definitions>

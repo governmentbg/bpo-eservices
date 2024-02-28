@@ -1,0 +1,45 @@
+    <field id="mainForm.collectiveMark">
+        <visible>true</visible>
+        <usable>true</usable>
+        <required>false</required>
+        <previousCTMImportable>true</previousCTMImportable>
+        <priorityImportable>true</priorityImportable>
+        <seniorityImportable>true</seniorityImportable>
+        <transformationImportable>true</transformationImportable>
+        <generalImportable>true</generalImportable>
+        <editableImport>true</editableImport>
+        <format></format>
+        <fastTrack>true</fastTrack>
+        <fastTrackValues>false</fastTrackValues>
+    </field>
+    <field id="mainForm.certificateMark">
+        <visible>true</visible>
+        <usable>true</usable>
+        <required>false</required>
+        <previousCTMImportable>true</previousCTMImportable>
+        <priorityImportable>true</priorityImportable>
+        <seniorityImportable>true</seniorityImportable>
+        <transformationImportable>true</transformationImportable>
+        <generalImportable>true</generalImportable>
+        <editableImport>true</editableImport>
+        <format></format>
+        <fastTrack>true</fastTrack>
+        <fastTrackValues>false</fastTrackValues>
+    </field>
+    <field id="mainForm.trademarkRegulationDocuments">
+        <visible>true</visible>
+        <usable>true</usable>
+        <required>true</required>
+        <previousCTMImportable>false</previousCTMImportable>
+        <priorityImportable>false</priorityImportable>
+        <seniorityImportable>false</seniorityImportable>
+        <transformationImportable>false</transformationImportable>
+        <generalImportable>false</generalImportable>
+        <editableImport>true</editableImport>
+        <format></format>
+    </field>
+
+    <field id="mainForm.trademarkRegulationDocuments.attachment">
+        <visible>false</visible>
+        <usable>false</usable>
+    </field>

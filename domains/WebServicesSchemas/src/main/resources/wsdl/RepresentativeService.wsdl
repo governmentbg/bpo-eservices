@@ -1,0 +1,153 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions name="RepresentativeService"
+	targetNamespace="http://ohim.eu/sp/services/representative/v3"
+	xmlns:tns="http://ohim.eu/sp/services/representative/v3"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap12/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+ 	
+ 	<wsdl:types>
+		<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+			<xsd:import namespace="http://ohim.eu/sp/services/representative/v3" schemaLocation="../xsd/services/RepresentativeService.xsd" />
+		</xsd:schema>
+	</wsdl:types>
+
+
+  <wsdl:message name="getRepresentative">
+    <wsdl:part name="parameters" element="tns:getRepresentative" />
+  </wsdl:message>
+	
+  <wsdl:message name="getRepresentativeAutocompleteResponse">
+    <wsdl:part name="parameters" element="tns:getRepresentativeAutocompleteResponse" />
+  </wsdl:message>
+  
+  <wsdl:message name="saveRepresentative">
+    <wsdl:part name="parameters" element="tns:saveRepresentative" />
+  </wsdl:message>
+  <wsdl:message name="saveRepresentativeResponse">
+    <wsdl:part name="parameters" element="tns:saveRepresentativeResponse" />
+  </wsdl:message>
+  
+  <wsdl:message name="searchRepresentative">
+    <wsdl:part name="parameters" element="tns:searchRepresentative" />
+  </wsdl:message>
+  <wsdl:message name="searchRepresentativeResponse">
+    <wsdl:part name="parameters" element="tns:searchRepresentativeResponse" />
+  </wsdl:message>
+  
+  <wsdl:message name="matchRepresentative">
+    <wsdl:part name="parameters" element="tns:matchRepresentative" />
+  </wsdl:message>
+  <wsdl:message name="matchRepresentativeResponse">
+    <wsdl:part name="parameters" element="tns:matchRepresentativeResponse" />
+  </wsdl:message>
+  
+  <wsdl:message name="getRepresentativeResponse">
+    <wsdl:part name="parameters" element="tns:getRepresentativeResponse" />
+  </wsdl:message>
+  <wsdl:message name="getRepresentativeAutocomplete">
+    <wsdl:part name="parameters" element="tns:getRepresentativeAutocomplete" />
+  </wsdl:message>
+
+	<wsdl:message name="representativeFault">
+		<wsdl:part name="parameters" element="tns:representativeFault" />
+	</wsdl:message>  
+
+  <wsdl:portType name="RepresentativeServicePortType">
+    <wsdl:operation name="matchRepresentative">
+      <wsdl:input name="matchRepresentative" message="tns:matchRepresentative" />
+      <wsdl:output name="matchRepresentativeResponse" message="tns:matchRepresentativeResponse" />
+	<wsdl:fault name="representativeFault" message="tns:representativeFault" />	    
+    </wsdl:operation>
+    <wsdl:operation name="getRepresentativeAutocomplete">
+      <wsdl:input name="getRepresentativeAutocomplete" message="tns:getRepresentativeAutocomplete" />
+      <wsdl:output name="getRepresentativeAutocompleteResponse" message="tns:getRepresentativeAutocompleteResponse" />
+		<wsdl:fault name="representativeFault" message="tns:representativeFault" />	    
+    </wsdl:operation>
+    <wsdl:operation name="saveRepresentative">
+      <wsdl:input name="saveRepresentative" message="tns:saveRepresentative" />
+      <wsdl:output name="saveRepresentativeResponse" message="tns:saveRepresentativeResponse" />
+		<wsdl:fault name="representativeFault" message="tns:representativeFault" />	    
+    </wsdl:operation>
+    <wsdl:operation name="getRepresentative">
+      <wsdl:input name="getRepresentative" message="tns:getRepresentative" />
+      <wsdl:output name="getRepresentativeResponse" message="tns:getRepresentativeResponse" />
+		<wsdl:fault name="representativeFault" message="tns:representativeFault" />	    
+    </wsdl:operation>
+    <wsdl:operation name="searchRepresentative">
+      <wsdl:input name="searchRepresentative" message="tns:searchRepresentative" />
+      <wsdl:output name="searchRepresentativeResponse" message="tns:searchRepresentativeResponse" />
+		<wsdl:fault name="representativeFault" message="tns:representativeFault" />	    
+    </wsdl:operation>
+  </wsdl:portType>
+  
+  <wsdl:binding name="RepresentativeServiceBinding" type="tns:RepresentativeServicePortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="matchRepresentative">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="matchRepresentative">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="matchRepresentativeResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+		<wsdl:fault name="representativeFault">
+			<soap:fault use="literal" name="representativeFault" />
+		</wsdl:fault>      
+    </wsdl:operation>
+    <wsdl:operation name="getRepresentativeAutocomplete">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getRepresentativeAutocomplete">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getRepresentativeAutocompleteResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+		<wsdl:fault name="representativeFault">
+			<soap:fault use="literal" name="representativeFault" />
+		</wsdl:fault>      
+    </wsdl:operation>
+    <wsdl:operation name="saveRepresentative">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="saveRepresentative">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="saveRepresentativeResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+		<wsdl:fault name="representativeFault">
+			<soap:fault use="literal" name="representativeFault" />
+		</wsdl:fault>      
+    </wsdl:operation>
+    <wsdl:operation name="getRepresentative">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getRepresentative">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getRepresentativeResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+		<wsdl:fault name="representativeFault">
+			<soap:fault use="literal" name="representativeFault" />
+		</wsdl:fault>      
+    </wsdl:operation>
+    <wsdl:operation name="searchRepresentative">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="searchRepresentative">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="searchRepresentativeResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+		<wsdl:fault name="representativeFault">
+			<soap:fault use="literal" name="representativeFault" />
+		</wsdl:fault>      
+    </wsdl:operation>
+  </wsdl:binding>
+
+  <wsdl:service name="RepresentativeService">
+    <wsdl:port name="RepresentativeServicePort" binding="tns:RepresentativeServiceBinding" >
+      <soap:address location="http://${fsp.ws.host}/${fsp.ws.context.root}${fsp.ws.representative.path}${fsp.ws.wsdl.services.path}" />
+    </wsdl:port>
+  </wsdl:service>
+
+</wsdl:definitions>

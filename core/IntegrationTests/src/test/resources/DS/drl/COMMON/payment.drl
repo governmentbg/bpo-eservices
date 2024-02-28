@@ -1,0 +1,223 @@
+package org.domain.rules;
+dialect "mvel"
+
+import eu.ohim.sp.core.configuration.domain.xsd.Sections;
+import eu.ohim.sp.core.configuration.domain.xsd.Sections;
+import eu.ohim.sp.core.configuration.domain.xsd.Section;
+import eu.ohim.sp.core.configuration.domain.xsd.Field;
+import eu.ohim.sp.core.domain.validation.RulesInformation;
+import eu.ohim.sp.core.domain.payment.Payment;
+import eu.ohim.sp.core.domain.payment.PaymentKind;
+import eu.ohim.sp.core.domain.Role;
+
+rule "BR215 - Check Payer"
+salience 10000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName, $payerId : payerId)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "selectedPayer",
+		   $fieldUsable : usable,
+		   $fieldRequired : required) from $fields
+	eval($fieldUsable == true &&
+		 $fieldRequired == true)
+	Payment(payerIdentifier==null &&
+			checkPayerDetails == true)
+then
+	addError("paymentForm.selectedPayer",
+			 "BR215.payment.Empty",
+			 "This field is mandatory",
+			 "mainForm.paymentDataSection",
+			 $rulesInformation);
+end
+
+rule "BR208 - Check Payment method"
+salience 10000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName, $payerId : payerId)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "paymentMethod",
+		   $fieldUsable : usable,
+		   $fieldRequired : required) from $fields
+	eval($fieldUsable == true &&
+		 $fieldRequired == true)
+	Payment(paymentKindType==null)
+then
+	addError("paymentForm.paymentMethod",
+			 "BR208.payment.Empty",
+			 "This field is mandatory",
+			 "mainForm.paymentDataSection",
+			 $rulesInformation);
+end
+
+rule "BR198 - Check Other Payer - FirstName"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName, $payerId : payerId)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "name", $fieldUsable : usable, $fieldRequired : required) from $fields
+	Field( id == "selectedPayer", $fieldUsablePayer : usable) from $fields
+	Field( id == "paymentMethod", $fieldUsableMethod : usable) from $fields
+	eval($fieldUsablePayer == true &&
+		 $fieldUsableMethod == true &&
+		 $fieldUsable == true &&
+		 $fieldRequired == true)
+	Payment(checkPayerDetails == true &&
+			$payerId == "OTHER" &&
+			payerName != null &&
+			(payerName.firstName==null || payerName.firstName==""))
+then
+	addError("paymentForm." + "name",
+			 "BR198.payment.Empty",
+			 "This field is mandatory",
+			 "mainForm.paymentDataSection",
+			 $rulesInformation);
+end
+
+rule "BR199 - Check Other Payer - Surname"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName, $payerId : payerId)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "surname", $fieldUsable : usable, $fieldRequired : required) from $fields
+	Field( id == "selectedPayer", $fieldUsablePayer : usable) from $fields
+	Field( id == "paymentMethod", $fieldUsableMethod : usable) from $fields
+	eval($fieldUsablePayer == true &&
+		 $fieldUsableMethod == true &&
+		 $fieldUsable == true &&
+		 $fieldRequired == true)
+	Payment(checkPayerDetails == true &&
+			$payerId=="OTHER" &&
+			payerName != null &&
+			(payerName.lastName==null || payerName.lastName==""))
+then
+addError("paymentForm.surname",
+		 "BR199.payment.Empty",
+		 "This field is mandatory",
+		 "mainForm.paymentDataSection",
+		 $rulesInformation);
+end
+
+rule "BR207 - Check Other Payer - Email"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName, $payerId : payerId)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "email", $fieldUsable : usable, $fieldRequired : required) from $fields
+	Field( id == "selectedPayer", $fieldUsablePayer : usable) from $fields
+	Field( id == "paymentMethod", $fieldUsableMethod : usable) from $fields
+	eval($fieldUsablePayer == true &&
+		 $fieldUsableMethod == true &&
+		 $fieldUsable == true &&
+		 $fieldRequired == true)
+	Payment(checkPayerDetails == true &&
+			$payerId=="OTHER" &&
+			payerAddressBook != null &&
+			payerAddressBook.contactInformationDetails != null &&
+			(payerAddressBook.contactInformationDetails.email==null || payerAddressBook.contactInformationDetails.email==""))
+then
+	addError("paymentForm.email",
+			 "BR207.payment.Empty",
+			 "This field is mandatory",
+			 "mainForm.paymentDataSection",
+			 $rulesInformation);
+end
+
+rule "BR202 - Check Other Payer - Street"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName, $payerId : payerId)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "address.street", $fieldUsable : usable, $fieldRequired : required) from $fields
+	Field( id == "selectedPayer", $fieldUsablePayer : usable) from $fields
+	Field( id == "paymentMethod", $fieldUsableMethod : usable) from $fields
+	eval($fieldUsablePayer == true &&
+		 $fieldUsableMethod == true &&
+		 $fieldUsable == true &&
+		 $fieldRequired == true)
+	Payment(checkPayerDetails == true &&
+			$payerId=="OTHER" &&
+			payerAddressBook != null &&
+			payerAddressBook.address != null &&
+			(payerAddressBook.address.street==null || payerAddressBook.address.street==""))
+then
+	addError("paymentForm.address.street",
+			 "BR202.payment.Empty",
+			 "This field is mandatory",
+			 "mainForm.paymentDataSection",
+			 $rulesInformation);
+end
+
+rule "BR206 - Check Other Payer - city"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName, $payerId : payerId)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "address.city", $fieldUsable : usable, $fieldRequired : required) from $fields
+	Field( id == "selectedPayer", $fieldUsablePayer : usable) from $fields
+	Field( id == "paymentMethod", $fieldUsableMethod : usable) from $fields
+	eval($fieldUsablePayer == true &&
+		 $fieldUsableMethod == true &&
+		 $fieldUsable == true &&
+		 $fieldRequired == true)
+	Payment(checkPayerDetails == true &&
+			$payerId=="OTHER" &&
+			payerAddressBook != null &&
+			payerAddressBook.address != null &&
+			(payerAddressBook.address.city==null || payerAddressBook.address.city==""))
+then
+	addError("paymentForm.address.city",
+			 "BR206.payment.Empty",
+			 "This field is mandatory",
+			 "mainForm.paymentDataSection",
+			 $rulesInformation);
+end
+
+rule "BR203 - Check Other Payer - Postal"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName, $payerId : payerId)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "address.postalCode", $fieldUsable : usable, $fieldRequired : required) from $fields
+	Field( id == "selectedPayer", $fieldUsablePayer : usable) from $fields
+	Field( id == "paymentMethod", $fieldUsableMethod : usable) from $fields
+	eval($fieldUsablePayer == true &&
+		 $fieldUsableMethod == true &&
+		 $fieldUsable == true &&
+		 $fieldRequired == true)
+	Payment(checkPayerDetails == true &&
+			$payerId=="OTHER" &&
+			payerAddressBook != null &&
+			payerAddressBook.address != null &&
+			(payerAddressBook.address.postcode==null || payerAddressBook.address.postcode==""))
+then
+	addError("paymentForm.address.postalCode",
+			 "BR203.payment.Empty",
+			 "This field is mandatory",
+			 "mainForm.paymentDataSection",
+			 $rulesInformation);
+end
+
+rule "BR204 - Check Other Payer - Country"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName, $payerId : payerId)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "address.country", $fieldUsable : usable, $fieldRequired : required) from $fields
+	Field( id == "selectedPayer", $fieldUsablePayer : usable) from $fields
+	Field( id == "paymentMethod", $fieldUsableMethod : usable) from $fields
+	eval($fieldUsablePayer == true &&
+		 $fieldUsableMethod == true &&
+		 $fieldUsable == true &&
+		 $fieldRequired == true)
+	Payment(checkPayerDetails == true &&
+		$payerId=="OTHER" &&
+		payerAddressBook != null &&
+		payerAddressBook.address != null &&
+		(payerAddressBook.address.countryCode==null || payerAddressBook.address.countryCode==""))
+then
+	addError("paymentForm.address.country",
+			 "BR204.payment.Empty",
+			 "This field is mandatory",
+			 "mainForm.paymentDataSection",
+			 $rulesInformation);
+end

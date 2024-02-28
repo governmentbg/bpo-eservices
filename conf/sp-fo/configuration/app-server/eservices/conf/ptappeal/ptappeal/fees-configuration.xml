@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feeList xmlns:tns="http://www.example.org/test/"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.example.org/test/ ../../../../../../../../../../../../configuration-xsd/src/main/xsd/fees/fees.xsd ">
+
+    <feeTypeList>
+        <code>001</code>
+        <nameKey>oneInventionRefusalFee</nameKey>
+        <description>oneInventionRefusalFee</description>
+        <defaultValue>180</defaultValue>
+    </feeTypeList>
+
+    <feeTypeList>
+        <code>002</code>
+        <nameKey>twoInventionsRefusalFee</nameKey>
+        <description>twoInventionsRefusalFee</description>
+        <defaultValue>280</defaultValue>
+    </feeTypeList>
+
+    <feeTypeList>
+        <code>003</code>
+        <nameKey>terminationFee</nameKey>
+        <description>terminationFee</description>
+        <defaultValue>90</defaultValue>
+    </feeTypeList>
+
+    <feeTypeList>
+        <code>003</code>
+        <nameKey>smallCompanyDiscount</nameKey>
+        <description>discount when small company</description>
+        <defaultValue>0.5</defaultValue>
+        <configFee>true</configFee>
+    </feeTypeList>
+
+    <feeTypeList>
+        <code>004</code>
+        <nameKey>licenceAvailabilityDiscount</nameKey>
+        <description>discount when licence availability</description>
+        <defaultValue>0.5</defaultValue>
+        <configFee>true</configFee>
+    </feeTypeList>
+
+</feeList>

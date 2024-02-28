@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions name="UserSearchService"
+	targetNamespace="http://ohim.eu/sp/services/user-search/v3"
+	xmlns:tns="http://ohim.eu/sp/services/user-search/v3"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap12/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+
+	<wsdl:types>
+		<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+			<xsd:import namespace="http://ohim.eu/sp/services/user-search/v3" schemaLocation="../xsd/services/UserSearchService.xsd" />
+		</xsd:schema>
+	</wsdl:types>
+
+	<wsdl:message name="userFault">
+		<wsdl:part element="tns:userFault" name="parameters" />
+	</wsdl:message>
+
+	<wsdl:message name="searchUser">
+		<wsdl:part element="tns:searchUser" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="searchUserResponse">
+		<wsdl:part element="tns:searchUserResponse" name="parameters" />
+	</wsdl:message>
+
+	<wsdl:message name="getUser">
+		<wsdl:part element="tns:getUser" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="getUserResponse">
+		<wsdl:part element="tns:getUserResponse" name="parameters" />
+	</wsdl:message>
+
+	<wsdl:message name="getAllRoles">
+        <wsdl:part element="tns:getAllRoles" name="parameters" />
+    </wsdl:message>
+	<wsdl:message name="getAllRolesResponse">
+        <wsdl:part element="tns:getAllRolesResponse" name="parameters" />
+    </wsdl:message>
+
+	<wsdl:message name="getAllGroups">
+        <wsdl:part element="tns:getAllGroups" name="parameters" />
+    </wsdl:message>
+	<wsdl:message name="getAllGroupsResponse">
+        <wsdl:part element="tns:getAllGroupsResponse" name="parameters" />
+    </wsdl:message>
+
+	<wsdl:portType name="UserSearchServicePortType">
+		<wsdl:operation name="searchUser">
+			<wsdl:input message="tns:searchUser" name="searchUser" />
+			<wsdl:output message="tns:searchUserResponse" name="searchUserResponse" />
+			<wsdl:fault message="tns:userFault" name="userFault"/>
+		</wsdl:operation>
+		
+		<wsdl:operation name="getUser">
+			<wsdl:input message="tns:getUser" name="getUser" />
+			<wsdl:output message="tns:getUserResponse" name="getUserResponse" />
+			<wsdl:fault message="tns:userFault" name="userFault"/>
+		</wsdl:operation>
+
+		<wsdl:operation name="getAllRoles">
+			<wsdl:input message="tns:getAllRoles" name="getAllRoles" />
+			<wsdl:output message="tns:getAllRolesResponse" name="getAllRolesResponse" />
+			<wsdl:fault message="tns:userFault" name="userFault"/>
+		</wsdl:operation>
+		
+		<wsdl:operation name="getAllGroups">
+			<wsdl:input message="tns:getAllGroups" name="getAllGroups" />
+			<wsdl:output message="tns:getAllGroupsResponse" name="getAllGroupsResponse" />
+			<wsdl:fault message="tns:userFault" name="userFault"/>
+		</wsdl:operation>
+	</wsdl:portType>
+
+	<wsdl:binding name="UserSearchServiceBinding" type="tns:UserSearchServicePortType">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="searchUser">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="searchUser">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="searchUserResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="userFault">
+				<soap:fault use="literal" name="userFault" />
+			</wsdl:fault>
+		</wsdl:operation>
+		
+		<wsdl:operation name="getUser">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="getUser">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="getUserResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="userFault">
+				<soap:fault use="literal" name="userFault" />
+			</wsdl:fault>
+		</wsdl:operation>
+		
+		<wsdl:operation name="getAllRoles">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="getAllRoles">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="getAllRolesResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="userFault">
+				<soap:fault use="literal" name="userFault" />
+			</wsdl:fault>
+		</wsdl:operation>
+		
+		<wsdl:operation name="getAllGroups">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="getAllGroups">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="getAllGroupsResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="userFault">
+				<soap:fault use="literal" name="userFault" />
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+
+	<wsdl:service name="UserSearchService">
+		<wsdl:port name="UserSearchServicePort" binding="tns:UserSearchServiceBinding" >
+			<soap:address location="http://${fsp.ws.host}/${fsp.ws.context.root}${fsp.ws.user.path}${fsp.ws.wsdl.services.path}" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  * $Id:: legalActVersion-configuration.xsd 49260            $
+  *       . * .
+  *     * RRRR  *    Copyright © 2012 OHIM: Office for Harmonization
+  *   .   RR  R   .  in the Internal Market (trade marks and designs)
+  *   *   RRR     *
+  *    .  RR RR  .   ALL RIGHTS RESERVED
+  *     * . _ . *
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:tm="http://www.tm-xml.org/XMLSchema/common" targetNamespace="http://www.example.org/legalActVersion-configuration"
+	xmlns="http://www.example.org/legalActVersion-configuration"
+	elementFormDefault="qualified">
+
+	<xs:element name="legalActVersions">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="legalActVersion" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:simpleContent>
+							<xs:extension base="xs:string">
+								<xs:attribute name="code" type="xs:string" use="required" />
+								<xs:attribute name="applicationType" type="xs:string" use="required"/>
+								<xs:attribute name="entryIntoForceDate" type="xs:date" use="required"/>
+								<xs:attribute name="endApplicabilityDate" type="xs:date" use="optional"/>
+								<xs:attribute name="enabled" type="xs:boolean" use="required" />
+							</xs:extension>
+						</xs:simpleContent>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

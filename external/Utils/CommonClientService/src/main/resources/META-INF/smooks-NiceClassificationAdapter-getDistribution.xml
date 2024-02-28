@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
+	xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.2.xsd">
+
+	<jb:bean beanId="getDistribution"
+		class="eu.ohim.sp.external.domain.classification.wrapper.DistributionResults"
+		createOnElement="//Transaction">
+		<jb:wiring beanIdRef="distributions" property="distributionResult" />
+	</jb:bean>
+	<jb:bean beanId="distributions" class="java.util.ArrayList"
+		createOnElement="//Transaction">
+		<jb:wiring beanIdRef="DistributionResult" />
+	</jb:bean>
+	<jb:bean beanId="DistributionResult"
+		class="eu.ohim.sp.external.domain.classification.wrapper.DistributionResult"
+		createOnElement="//Transaction/TransactionBody/TransactionContentDetails/TransactionData/ProposedClassNumber/ClassificationTermDetails/ClassificationTerm">
+		
+		<jb:value
+			data="//Transaction/TransactionBody/TransactionContentDetails/TransactionData/ProposedClassNumber/ClassificationTermDetails/ClassificationTerm/@totalMatches"
+			property="totalMatches" />
+		<jb:value
+			data="//Transaction/TransactionBody/TransactionContentDetails/TransactionData/ProposedClassNumber/ClassificationTermDetails/ClassificationTerm/@totalNumber"
+			property="totalNumber" />
+		
+		<jb:value
+			data="//Transaction/TransactionBody/TransactionContentDetails/TransactionData/ProposedClassNumber/ClassificationTermDetails/ClassificationTerm/ClassNumber"
+			property="classNum" />
+		
+	</jb:bean>
+</smooks-resource-list>                      

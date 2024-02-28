@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ * SystemConfigurationServiceDao:: tm-efiling-conf.xml 07/10/13 21:16 karalch $
+  ~  * . * .
+  ~  * * RRRR * Copyright © 2013 OHIM: Office for Harmonization
+  ~  * . RR R . in the Internal Market (trade marks and designs)
+  ~  * * RRR *
+  ~  * . RR RR . ALL RIGHTS RESERVED
+  ~  * * . _ . *
+  -->
+
+<sections anonymousMode="true"
+	xmlns="http://www.example.org/sections-fields-configuration" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.example.org/sections-fields-configuration sections-fields-configuration.xsd ">
+
+
+</sections>

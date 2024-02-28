@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<revocationGrounds xmlns="http://www.example.org/revocationGrounds-configuration"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://www.example.org/revocationGrounds-configuration revocationGrounds-configuration.xsd ">
+    
+    <revocationGround    applicationType="tm-revocation" language="EN" legalActVersion="2019" nonUse="false" nonUsePeriod=""
+              code="plain_text" enabled="true">revocationGround.plain.35.1</revocationGround>
+    
+    <revocationGround    applicationType="tm-revocation" language="EN" legalActVersion="2019" nonUse="false" nonUsePeriod=""
+              code="35.1.1" enabled="true">revocationGround.35.1.1</revocationGround>
+	<revocationGround    applicationType="tm-revocation" language="EN" legalActVersion="2019" nonUse="false" nonUsePeriod=""
+              code="35.1.2" enabled="true">revocationGround.35.1.2</revocationGround>
+	<revocationGround    applicationType="tm-revocation" language="EN" legalActVersion="2019" nonUse="false" nonUsePeriod=""
+              code="35.1.3" enabled="true">revocationGround.35.1.3</revocationGround>
+	                                                                                    
+</revocationGrounds>

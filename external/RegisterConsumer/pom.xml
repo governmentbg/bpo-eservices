@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>eu.ohim.sp.external</groupId>
+		<artifactId>external</artifactId>
+		<version>2.0.0-RELEASE</version>
+	</parent>
+	
+	<artifactId>RegisterConsumer</artifactId>
+	<name>RegisterConsumer</name>
+	<packaging>pom</packaging>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>eu.ohim.sp.external</groupId>
+				<artifactId>TrademarkSearchClientBean</artifactId>
+				<version>${pm.sp.external.current.version}</version>
+				<type>ejb</type>
+			</dependency>
+            <dependency>
+                <groupId>eu.ohim.sp.external</groupId>
+                <artifactId>DesignSearchClientBean</artifactId>
+                <version>${pm.sp.external.current.version}</version>
+                <type>ejb</type>
+            </dependency>
+			<dependency>
+				<groupId>eu.ohim.sp.external</groupId>
+				<artifactId>BPOPatentSearchClientBean</artifactId>
+				<version>${pm.sp.external.current.version}</version>
+				<type>ejb</type>
+			</dependency>
+
+		</dependencies>
+	</dependencyManagement>
+	
+	<modules>
+		<module>TrademarkSearchClientBean</module>
+        <module>DesignSearchClientBean</module>
+        <module>BPOPatentSearchClientBean</module>
+        <module>BPOBackOfficeSearchClientBean</module>
+    </modules>
+
+</project>

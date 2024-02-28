@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head th:replace="commonFragments/header :: head_declaration"></head>
+<body>
+<header th:replace="commonFragments/header :: header"></header>
+
+<section>
+    <div id="page" class="main-bpo-content">
+        <div class="portlet-content pT0">
+            <header class="bpo" style="margin-bottom: 20px !important; margin-top: 0 !important;">
+                <h2 th:text="#{title.feecalculator}"></h2>
+            </header>
+
+            <div class="ui-tabs ui-tabs-top tabsList">
+
+                <ul style="background: white;border: 0;"
+                    class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all "
+                    id="info-tab">
+                    <li id="tax-calculation-tab" data-type="service" th:attr="data-relDiv = 'tax-calculation-tab-panel'"
+                        class="ui-state-default ui-corner-top tab-content ui-tabs-selected" style="overflow: hidden">
+                        <a href="javascript:void(0)">
+                            <i>
+                                <img th:src="@{/resources/images/calculator-icon.svg}" style="width: 32px">
+                                <span th:text="#{tax.calculation}"></span>
+                            </i>
+                        </a>
+                    </li>
+                    <li id="owed-taxes-tab" data-type="list" class="ui-state-default ui-corner-top tab-content"
+                        style="overflow: hidden" th:attr="data-relDiv = 'owed-taxes-tab-panel'">
+                        <a href="javascript:void(0)">
+                            <i>
+                                <img th:src="@{/resources/images/eye-icon.svg}" style="width: 46px">
+                                <span th:text="#{tax.owed}"></span>
+                            </i>
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="ui-tabs-panels">
+                    <div id="tax-calculation-tab-panel" class="ui-tabs-panel" style="display: block">
+                        <div class="search_panel ui-grid ui-outputpanel css_checked p1520">
+                            <div id="objectType-wheel" style="display:inline-block; width: 35%">
+                                <div th:text="#{title.objects}" style="display: inline-block; margin-left: 50px" class="mRL10px"></div>
+
+                                <input type="text" onclick="objectDropdownFunction()" readonly th:value="#{trademark}"
+                                       style="width: 50% !important;" name="objectTypes" id="objectTypes"
+                                       class="dropdown" autocomplete="on"
+                                       th:attr="data-object=${'trademark'}">
+
+                                <div id="objectsDropdown" class="dropdown-content">
+                                    <div th:if="${objectTypes != null}" style="overflow-y:auto; height: 300px">
+                                        <th:block th:if="${!objectTypes.isEmpty()}"
+                                                  th:each="entry : ${objectTypes}">
+                                            <a th:value="${entry}" th:text="#{${entry}}" class="objectDropdownOption" style="font-size: 17px"></a>
+                                        </th:block>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div id="applicationType-wheel" style="display:inline-block; width: 64%">
+                                <div th:replace="serviceBar :: serviceBar-fragment"></div>
+                            </div>
+                        </div>
+
+                        <div class="search_panel ui-grid ui-outputpanel css_checked p1520"
+                             style="width: 50%; display: inline-block">
+                            <h3 th:text="#{title.calculator}"></h3>
+                            <div id="calculator-panel"></div>
+                            <button id="calc-btn" style="float: right; display: none"
+                                    th:text="#{button.calculate}"></button>
+                        </div>
+
+                        <div class="search_panel ui-grid ui-outputpanel css_checked p1520"
+                             style="width: 45%; display: inline-block; float: right">
+                            <div id="fee-panel">
+                                <div th:replace="feeSection :: fee-section"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="owed-taxes-tab-panel" class="ui-tabs-panel" style="display: none">
+                        <div class="search_panel ui-grid ui-outputpanel css_checked p1520">
+
+                            <div id="objectType-wheel-owed-taxes" style="display:inline-block; width: 25%">
+                                <div th:text="#{title.objects}" style="display: inline-block; margin-left: 10px"
+                                     class="mRL10px"></div>
+
+                                <input type="text" onclick="objectDropdownFunctionOwedTaxes()" readonly th:value="#{trademark}"
+                                       style="width: 70% !important;" name="objectTypes" id="objectTypes-owed-taxes"
+                                       class="dropdown" autocomplete="on"
+                                       th:attr="data-object=${'N'}">
+
+                                <div id="objectsDropdown-owed-taxes" class="dropdown-content">
+                                    <div th:if="${objectTypesOwedTaxes != null}" style="overflow-y:auto; height: 300px">
+                                        <th:block th:if="${!objectTypesOwedTaxes.isEmpty()}"
+                                                  th:each="entry : ${objectTypesOwedTaxes}">
+                                            <a th:value="${entry.getValue()}" th:text="#{${entry.getKey()}}" class="objectDropdownOption-owed-taxes" style="font-size: 17px"></a>
+                                        </th:block>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div id="applicationNumberKind" style="display:inline-block; width: 35%">
+                                <div class="mT10 inlBlW100">
+                                    <div style="display: inline-block; margin-left: 20px">
+                                        <input name="application-number-kind" class="radio-btn" type="radio" value="fileNbr" style="margin: 0" checked>
+                                        <div th:text="#{common.fileNbr}" style="display: inline-block;"></div>
+                                    </div>
+                                    <div style="display: inline-block; margin-left: 20px">
+                                        <input name="application-number-kind" class="radio-btn" type="radio" value="regNbr" style="margin: 0">
+                                        <div th:text="#{common.regNbr}" style="display: inline-block;"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="applicationNumber" style="display:inline-block; width: 20%">
+                                <input id="application-number-field" type="text" style="width: 90%">
+                            </div>
+
+                            <div id="checkButton" style="display:inline-block; width: 15%">
+                                <button id="check-btn" style="margin-left: 50px"
+                                        th:text="#{button.check}"></button>
+                            </div>
+
+                        </div>
+
+                        <div class="search_panel ui-grid ui-outputpanel css_checked p1520">
+                            <div id="owed-taxes-panel">
+                                <div th:replace="owedTaxes :: owed-taxes-section"></div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <div id="error-text-main" style="color: red"></div>
+        </div>
+    </div>
+</section>
+
+<div type="hidden" id="calculateFeesUrl" th:attr="data-url=@{/calc}"></div>
+<div type="hidden" id="appBoxUrl" th:attr="data-url=@{/appBox}"></div>
+<div type="hidden" id="serviceBarUrl" th:attr="data-url=@{/serviceBar}"></div>
+<div type="hidden" id="checkOwedTaxesUrl" th:attr="data-url=@{/checkOwedTaxes/check}"></div>
+
+<footer th:replace="commonFragments/footer :: footer"></footer>
+</body>
+
+</html>

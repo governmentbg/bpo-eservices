@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<div th:fragment="setComposition-fragment" class="inlBlW100">
+
+    <div class="mT10 inlBlW100">
+        <div th:text="#{ds.set_composition}" style="display: inline-block"></div>
+        <div style="display: inline-block; margin-left: 20px">
+            <input name="setComposition" class="radio-btn" type="radio" value="yes" th:attr="data-rel-field='hasSetComposition-field'" style="margin: 0">
+            <div th:text="#{common.yes}" style="display: inline-block;"></div>
+        </div>
+        <div style="display: inline-block; margin-left: 20px">
+            <input name="setComposition" class="radio-btn" type="radio" value="no" th:attr="data-rel-field='hasSetComposition-field'" style="margin: 0" checked>
+            <div th:text="#{common.no}" style="display: inline-block;"></div>
+        </div>
+    </div>
+
+    <input type="hidden" class="input-param" id="hasSetComposition-field" value="no" th:attr="data-name='hasSetComposition'">
+
+</div>
+</html>

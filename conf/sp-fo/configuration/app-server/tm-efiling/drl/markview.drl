@@ -1,0 +1,146 @@
+package org.domain.rules;
+dialect "mvel"
+
+import org.apache.commons.lang.StringUtils;
+import eu.ohim.sp.core.domain.resources.Colour;
+import eu.ohim.sp.core.domain.resources.Document;
+import eu.ohim.sp.core.domain.trademark.TradeMark;
+import eu.ohim.sp.core.domain.validation.ErrorCore;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.domain.trademark.MarkFeature;
+import eu.ohim.sp.core.configuration.domain.xsd.Field;
+import eu.ohim.sp.core.domain.trademark.MarkDisclaimer;
+import eu.ohim.sp.core.domain.trademark.MarkDescription;
+import eu.ohim.sp.core.configuration.domain.xsd.Section;
+import eu.ohim.sp.core.domain.resources.AttachedDocument;
+import eu.ohim.sp.core.configuration.domain.xsd.Sections;
+import eu.ohim.sp.core.domain.validation.RulesInformation;
+import eu.ohim.sp.core.domain.trademark.WordSpecification;
+import eu.ohim.sp.core.domain.trademark.ImageSpecification
+import java.util.HashMap;
+
+
+
+rule "BR markViews - view is empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName != null && StringUtils.endsWith(coreName, "_markViews"), $fields: field )
+	Field( id == "view", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true &&
+		$fieldRequired == true)
+	ImageSpecification(representation == null)
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	HashMap co = $customObjects;
+    Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if (isSectionValidation == false){
+    	addError("view.attachment",
+                		 "BR.markViews.view.empty",
+                		 "This field is mandatory",
+                		null,
+                		 $errorList);
+    }else{
+     	addError(null, "BR.markViews.view.empty", "This field is mandatory", "mainForm.markRepresentationSection", $errorList);
+    }
+end
+
+rule "BR markViews - title is empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName != null && StringUtils.endsWith(coreName, "_markViews"), $fields: field )
+	Field( id == "title", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true &&
+		$fieldRequired == true)
+	ImageSpecification(StringUtils.isEmpty(title))
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	HashMap co = $customObjects;
+    Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if (isSectionValidation == false){
+    	addError("title",
+                		 "BR.markViews.title.empty",
+                		 "This field is mandatory",
+                		null,
+                		 $errorList);
+    }else{
+     	addError(null, "BR.markViews.title.empty", "This field is mandatory", "mainForm.markRepresentationSection", $errorList);
+    }
+end
+
+rule "BR markViews - imageNumber is empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName != null && StringUtils.endsWith(coreName, "_markViews"), $fields: field )
+	Field( id == "imageNumber", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true &&
+		$fieldRequired == true)
+	ImageSpecification(StringUtils.isEmpty(imageNumber))
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	HashMap co = $customObjects;
+    Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if (isSectionValidation == false){
+    	addError("imageNumber",
+                		 "BR.markViews.imageNumber.empty",
+                		 "This field is mandatory",
+                		null,
+                		 $errorList);
+    }else{
+     	addError(null, "BR.markViews.imageNumber.empty", "This field is mandatory", "mainForm.markRepresentationSection", $errorList);
+    }
+end
+
+
+rule "BR markViews - imageNumber format"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName != null && StringUtils.endsWith(coreName, "_markViews"), $fields: field )
+	Field( id == "imageNumber", $fieldUsable : usable, $regex : format) from $fields
+	eval($fieldUsable == true)
+	ImageSpecification(StringUtils.isNotEmpty(imageNumber) && imageNumber not matches $regex)
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	HashMap co = $customObjects;
+    Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if (isSectionValidation == false){
+    	addError("imageNumber",
+                		 "BR.markViews.imageNumber.format",
+                		 "This field has bad format",
+                		null,
+                		 $errorList);
+    }else{
+     	addError(null, "BR.markViews.imageNumber.format", "This field has bad format", "mainForm.markRepresentationSection", $errorList);
+    }
+end
+
+rule "BR markViews - title format"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName != null && StringUtils.endsWith(coreName, "_markViews"), $fields: field )
+	Field( id == "title", $fieldUsable : usable, $regex : format) from $fields
+	eval($fieldUsable == true)
+	ImageSpecification(StringUtils.isNotEmpty(title) && title not matches $regex)
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	HashMap co = $customObjects;
+    Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if (isSectionValidation == false){
+    	addError("title",
+                		 "BR.markViews.title.format",
+                		 "This field has bad format",
+                		null,
+                		 $errorList);
+    }else{
+     	addError(null, "BR.markViews.title.format", "This field has bad format", "mainForm.markRepresentationSection", $errorList);
+    }
+end

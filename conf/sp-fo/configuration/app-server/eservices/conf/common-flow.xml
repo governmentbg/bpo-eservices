@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow abstract="true" xmlns="http://www.springframework.org/schema/webflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow
+                          http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+
+	<on-start>
+		<set name="flowScopeDetails.flowModeId" value="flowRequestContext.activeFlow.id"/>
+        <evaluate
+                expression="flowBeanAction.loadApplication(requestParameters.form_id, requestParameters.lid, flowScopeSession)"
+                result="flowScope.flowBean" result-type="java.io.Serializable"/>
+		<evaluate expression="flowScope.flowBean.setReadOnly(requestParameters.draftId!=null and requestParameters.finalDraft=='true')"/>
+		<evaluate expression="flowScope.flowBean.initializationErrorCode" result="flashScope.error_code"/>
+		<evaluate expression="flowScope.flowBean.setInitializationErrorCode(null)"/> 
+		<evaluate expression="requestParameters.timeout" result="flashScope.timeout" result-type="java.io.Serializable" />
+		<evaluate expression="(requestParameters.draftId!=null)?'':flowScope.flowBean.setIdreserventity(draftApplicationService.provideProvisionalID())" />
+		<evaluate expression="flowScope.flowBean.setIdReservePayment(draftApplicationService.providePaymentID(flowScope.flowBean.getIdreserventity()))"/>
+        <!--<evaluate-->
+                <!--expression="flowBeanAction.addUserPersonDetails(flowScope.flowBean, flowRequestContext.activeFlow.id)"-->
+                <!--result="flowScope.userPersonDetails" />-->
+
+		<evaluate expression="'/submitted.htm'" result="flowScope.finalView" result-type="java.lang.String"/>
+		<evaluate expression="'error_page'" result="flowScope.errorPage" result-type="java.lang.String"/>
+		<evaluate expression="'failureTile'" result="flowScope.failureTile" result-type="java.lang.String"/>
+	</on-start>
+
+	<view-state id="savetopc" view="externalRedirect:contextRelative:saveToPC.htm?flowKey=#{requestParameters.execution}"/>
+	<view-state id="printDraftReceipt" view="externalRedirect:contextRelative:receiptServ.htm?flowKey=#{requestParameters.execution}"/>
+	<view-state id="failureState" view="#{flowScope.failureTile}" />
+	<view-state id="error" view="#{flowScope.errorPage}" model="flowBean" />
+	
+	<end-state id="submitted" view="redirect:#{flowScope.redirectToPortal? flowScope.redirectURL : flowScope.finalView }" >
+		<on-entry>
+			<evaluate result="flowScope.uuid" result-type="java.io.Serializable" 
+				expression="draftApplicationService.storeSubmittedApplication(flowBean)" />
+			<evaluate result="flowScope.redirectToPortal" expression="draftApplicationService.redirectToPortal(flowBean)" />
+			<evaluate result="flowScope.redirectURL" expression="draftApplicationService.getRedirectUrl(flowScope.flowBean.idreserventity)"/>
+		</on-entry>
+	</end-state>
+	
+	<global-transitions>
+		<transition on="GlobalLogin" validate="false">
+			<secured attributes="Login" />
+			<!--<evaluate-->
+				<!--expression="flowBeanAction.addUserPersonDetails(flowScope.flowBean, flowScope.flowModeId)"-->
+				<!--result="flowScope.userPersonDetails" />-->
+		</transition>
+			
+		<transition on="Cancel" validate="false">
+			<evaluate expression="flowBean.clear()" />
+		</transition>
+		<transition on="ChangeLanguage" validate="false">
+			<evaluate expression="false" />
+		</transition>
+		<transition on="Refresh" validate="false">
+			<evaluate
+				expression="personService.initializePersonsForRegisteredUsers(flowScope.flowBean, flowScope.flowModeId)" />
+		</transition>
+		<transition on="SaveLocally" to="savetopc" validate="false" />
+		<transition on="PrintDraftReceipt" to="printDraftReceipt" validate="false" />
+		<transition on="ImportCTM" validate="false">
+			<evaluate
+				expression="importService.getTradeMark(requestParameters.officeCode, requestParameters.importCTMId, requestParameters.extraImport, flowScope.flowModeId)"
+				result="flowScope.flowBean" />
+		</transition>
+		<transition on="ImportCTMPriority" validate="false">
+			<evaluate
+				expression="importService.getTradeMarkPriority(flowScope.flowBean, requestParameters.officeCode, requestParameters.importCTMId, requestParameters.extraImport, flowScope.flowModeId)"
+				result="flowScope.flowBean" />
+		</transition>
+		<transition on="ImportCTMSeniority" validate="false">
+			<evaluate
+				expression="importService.getTradeMarkSeniority(flowScope.flowBean, requestParameters.officeCode, requestParameters.importCTMId, requestParameters.extraImport, flowScope.flowModeId)"
+				result="flowScope.flowBean" />
+		</transition>
+		<transition on="ImportCTMTransformation" validate="false">
+			<evaluate
+				expression="importService.getTradeMarkTransformation(flowScope.flowBean, requestParameters.officeCode, requestParameters.importCTMId, requestParameters.extraImport, flowScope.flowModeId)"
+				result="flowScope.flowBean" />
+		</transition>
+		<transition on="doPayment" validate="true" >
+			<evaluate expression="true" result="flashScope.doPayment"
+				result-type="java.lang.Boolean" />
+		</transition>
+		<transition on="doSubmit" to="submitted" history="discard" validate="true" />
+		<transition on="PAYMENT_OK" to="submitted" history="discard" validate="true" />
+		<transition on="PAYMENT_CANCELLED" />			
+		<transition on="PAYMENT_ERROR">			
+			<evaluate expression="requestParameters.paymentMessage" result="flashScope.paymentMessage"
+				result-type="java.lang.String" />
+		</transition>
+	</global-transitions>
+
+	<exception-handler bean="SpFlowExecutionExceptionHandler"/>
+</flow>

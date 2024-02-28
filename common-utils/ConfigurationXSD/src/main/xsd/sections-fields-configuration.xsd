@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  * $Id::                                                                       $
+  *       . * .
+  *     * RRRR  *    Copyright © 2012 OHIM: Office for Harmonization
+  *   .   RR  R   .  in the Internal Market (trade marks and designs)
+  *   *   RRR     *
+  *    .  RR RR  .   ALL RIGHTS RESERVED
+  *     * . _ . *
+-->
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.example.org/sections-fields-configuration"
+	xmlns:tns="http://www.example.org/sections-fields-configuration"
+	elementFormDefault="qualified">
+	<complexType name="field">
+		<sequence>
+			<element name="visible" type="boolean" maxOccurs="1" minOccurs="1" />
+			<element name="selectable" type="boolean" minOccurs="0" maxOccurs="1" default="true"/> <!-- Default Value when null : true -->
+			<element name="required" type="boolean" maxOccurs="1" minOccurs="1" />
+			<element name="format" type="string" maxOccurs="1" minOccurs="0" /> <!-- Default Value when null : "" -->
+			<element name="previousCTMImportable" type="boolean" maxOccurs="1" minOccurs="0"/><!-- Default Value when null : true -->
+			<element name="priorityImportable" type="boolean" maxOccurs="1" minOccurs="0"/><!-- Default Value when null : true -->
+			<element name="seniorityImportable" type="boolean" maxOccurs="1" minOccurs="0"/><!-- Default Value when null : true -->
+			<element name="transformationImportable" type="boolean" maxOccurs="1" minOccurs="0"/><!-- Default Value when null : true -->
+			<element name="generalImportable" type="boolean" maxOccurs="1" minOccurs="0"/> <!-- Default Value when null : true -->
+			<element name="editableImport" type="boolean" maxOccurs="1" minOccurs="0"/> <!-- Default Value when null : true -->
+			<element name="usable" type="boolean" maxOccurs="1" minOccurs="0"/>
+			<element name="defaultValue" type="string" maxOccurs="1" minOccurs="0"/>
+			<element name="fastTrack" type="boolean" maxOccurs="1" minOccurs="0"/> <!-- Default Value when null : false -->
+			<element name="fastTrackValues" type="string" minOccurs="0"/>
+		</sequence>
+		<attribute name="id" type="string" use="required"></attribute>
+	</complexType>
+
+	<complexType name="section">
+		<sequence>
+			<element name="view-state-id" type="string" />
+			<element name="view-state-order" type="int" />
+			<element name="coreName" type="string"/>
+			<element name="visible" type="boolean" />
+			<element name="selectable" type="boolean" minOccurs="0" maxOccurs="1" default="true"/> <!-- Default Value when null : true -->
+			<element name="secured" type="string" minOccurs="0"/>
+			<element name="order" type="int" minOccurs="0"/>
+			<element name="path" type="string" />
+			<element name="field" type="tns:field" maxOccurs="unbounded" minOccurs="0"/>
+			<element name="subsection" type="tns:section" maxOccurs="unbounded" minOccurs="0"/>
+			<element name="previousCTMImportable" type="boolean" minOccurs="0" maxOccurs="1"/> <!-- Default Value when null : true -->
+			<element name="priorityImportable" type="boolean" minOccurs="0" maxOccurs="1"/><!-- Default Value when null : true -->
+			<element name="seniorityImportable" type="boolean" minOccurs="0" maxOccurs="1"/><!-- Default Value when null : true -->
+			<element name="transformationImportable" type="boolean" minOccurs="0" maxOccurs="1"/><!-- Default Value when null : true -->
+			<element name="generalImportable" type="boolean" minOccurs="0" maxOccurs="1"/><!-- Default Value when null : true -->
+			<element name="editableImport" type="boolean" maxOccurs="1" minOccurs="0"/> <!-- Default Value when null : true -->
+			<element name="validateImport" type="boolean" maxOccurs="1" minOccurs="0" default="false" /> <!-- Default Value when null : false -->
+			<element name="fastTrack" type="boolean" maxOccurs="1" minOccurs="0"/> <!-- Default Value when null : false -->
+		</sequence>
+
+		<attribute name="id" type="tns:availableSectionId" use="required" />
+		<attribute name="description" type="string"/>
+	</complexType>
+
+	<simpleType name="availableSectionId">
+		<annotation>
+			<documentation>Available section id
+			</documentation>
+		</annotation>
+		<restriction base="NMTOKEN">
+			<enumeration value="importPreviousDesign" />
+			<enumeration value="designsDetails" />
+            <enumeration value="design" />
+            <enumeration value="designViews" />
+            <enumeration value="locarnoAddClass" />
+            <enumeration value="locarnoNewProduct" />
+            <enumeration value="locarnoNewComplexProduct"/>
+            <enumeration value="designers" />
+            <enumeration value="designer_notAGroup" />
+			<enumeration value="designs_reference" />
+            <enumeration value="designer_group" />
+			<enumeration value="previousCTM" />
+			<enumeration value="defermentOfPublication" />
+			<enumeration value="entitlement" />
+			<enumeration value="termsAndConditions" />
+			<enumeration value="divisionalApplicationSection" />
+			<enumeration value="claim" />
+            <enumeration value="applicant" />
+            <enumeration value="representative" />
+            <enumeration value="person" />
+			<enumeration value="marktitle" />
+			<enumeration value="languages" />
+			<enumeration value="markreference" />
+			<enumeration value="typemark" />
+			<enumeration value="goodsandservices" />
+			<enumeration value="goodsandservices_descriptions" />
+			<enumeration value="signature" />
+			<enumeration value="applicationCA"/>
+			<enumeration value="buttons1" />
+			<enumeration value="review" />
+			<enumeration value="payment_iframe" />
+			<enumeration value="otherAttachments" />
+			<enumeration value="buttons2" />
+			<enumeration value="paymentOK" />
+			<enumeration value="paymentCancelled"/>
+			<enumeration value="paymentError" />
+			<enumeration value="review" />
+			<enumeration value="markDetails" />
+			<enumeration value="similar" />
+			<enumeration value="buttons3" />
+			<enumeration value="paymentSection" />
+			<enumeration value="buttons4" />
+			<enumeration value="reviewPage" />
+			<enumeration value="buttons5" />
+			<enumeration value="priority"/>
+			<enumeration value="seniority"/>
+			<enumeration value="exhibition"/>
+			<enumeration value="transformation"/>
+			<enumeration value="ctmTransformation"/>
+			<enumeration value="conversion"/>
+			<enumeration value="representative_form_association"/>
+			<enumeration value="representative_naturalperson"/>
+			<enumeration value="representative_legalentity"/>
+			<enumeration value="representative_legalpractitioner"/>
+			<enumeration value="representative_employeerepresentative"/>
+			<enumeration value="representative_professionalpractitioner"/>
+			<enumeration value="representative_lawyercompany"/>
+			<enumeration value="representative_lawyerassociation"/>
+			<enumeration value="representative_temporary"/>
+			<enumeration value="applicant_legalentity"/>
+			<enumeration value="applicant_naturalperson"/>
+			<enumeration value="applicant_naturalpersonspecial"/>
+			<enumeration value="applicant_university"/>			
+			<enumeration value="holder"/>
+            <enumeration value="holder_legalentity"/>
+			<enumeration value="holder_naturalperson"/>
+			<enumeration value="assignee"/>
+			<enumeration value="assignee_legalentity"/>
+			<enumeration value="assignee_naturalperson"/>
+            <enumeration value="nationalSearchReport"/>
+			<enumeration value="geoindication"/>
+			<enumeration value="oriname"/>
+			<enumeration value="wordmark"/>
+			<enumeration value="wordmark_markViews"/>
+			<enumeration value="figurative"/>
+			<enumeration value="figurative_markViews"/>
+			<enumeration value="figwordmark"/>
+			<enumeration value="figwordmark_markViews"/>
+			<enumeration value="3dmark"/>
+			<enumeration value="3dmark_markViews"/>
+			<enumeration value="colourmark"/>
+			<enumeration value="colourmark_markViews"/>
+			<enumeration value="soundmark"/>
+			<enumeration value="soundmark_markViews"/>
+			<enumeration value="other"/>
+			<enumeration value="other_markViews"/>
+			<enumeration value="3dwordmark"/>
+			<enumeration value="3dwordmark_markViews"/>
+			<enumeration value="shapemark"/>
+			<enumeration value="shapemark_markViews"/>
+			<enumeration value="hologrammark"/>
+			<enumeration value="hologrammark_markViews"/>
+			<enumeration value="positionmark"/>
+			<enumeration value="positionmark_markViews"/>
+			<enumeration value="motionmark"/>
+			<enumeration value="motionmark_markViews"/>
+			<enumeration value="multimediamark"/>
+			<enumeration value="multimediamark_markViews"/>
+			<enumeration value="patternmark"/>
+			<enumeration value="patternmark_markViews"/>
+			<enumeration value="signature_first"/>
+			<enumeration value="signature_second"/>
+			<enumeration value="registration"/>
+			<enumeration value="payment_iframe"/>
+            <enumeration value="similarMarks"/>
+            <enumeration value="registration_certificate"/>
+            <enumeration value="tm_section"/>
+            <enumeration value="tm_details_section"/>
+            <enumeration value="opposed_tm_section"/>
+            <enumeration value="opposed_trademark_section"/>
+            <enumeration value="opposition_basis_section"/>
+            <enumeration value="opposition_basis_details_section"/>
+            <enumeration value="sec_earlierTradeMark"/>
+            <enumeration value="sec_earlierTradeMark_earlier_trademark_details"/>
+            <enumeration value="sec_wellKnow"/>
+            <enumeration value="sec_wellKnow_earlier_trademark_details"/>
+			<enumeration value="sec_reputation"/>
+			<enumeration value="sec_reputation_earlier_trademark_details"/>
+			<enumeration value="sec_agentApplied"/>
+			<enumeration value="sec_agentApplied_earlier_trademark_details"/>
+            <enumeration value="sec_contestedApplication"/>
+            <enumeration value="sec_contestedApplication_earlier_trademark_details"/>
+            <enumeration value="sec_nonRegistered"/>
+            <enumeration value="sec_nonRegistered_earlier_trademark_details"/>
+            <enumeration value="sec_privacyRight"/>
+            <enumeration value="sec_privacyRight_earlier_trademark_details"/>
+            <enumeration value="sec_industrialPropertyRight"/>
+            <enumeration value="sec_industrialPropertyRight_earlier_trademark_details"/>
+            <enumeration value="sec_rightsAuthor"/>
+            <enumeration value="sec_rightsAuthor_earlier_trademark_details"/>
+            <enumeration value="sec_rightsPortraitName"/>
+            <enumeration value="sec_rightsPortraitName_earlier_trademark_details"/>
+            <enumeration value="sec_rightsPlantVariation"/>
+            <enumeration value="sec_rightsPlantVariation_earlier_trademark_details"/>
+            <enumeration value="sec_foreignTradeMark"/>
+            <enumeration value="sec_foreignTradeMark_earlier_trademark_details"/>
+            <enumeration value="sec_businessName"/>
+            <enumeration value="sec_businessName_earlier_trademark_details"/>
+            <enumeration value="sec_medicinalProduct"/>
+            <enumeration value="sec_medicinalProduct_earlier_trademark_details"/>
+            <enumeration value="sec_otherRights"/>
+            <enumeration value="sec_otherRights_earlier_trademark_details"/>
+			<enumeration value="sec_badFaith" />
+			<enumeration value="sec_badFaith_earlier_trademark_details" />
+			<enumeration value="sec_earlierGI" />
+			<enumeration value="sec_earlierGI_earlier_trademark_details" />
+            <enumeration value="signature_details_section"/>
+            <enumeration value="ds_section"/>
+            <enumeration value="ds_details_section"/>
+			
+			<!-- TM-BO section ids  -->            
+            <enumeration value="tmbo-tdm-basicInformation"/>
+            <enumeration value="tmbo-tab-files"/>
+			<enumeration value="tmbo-tab-trademarks"/>
+			<enumeration value="tmbo-tab-designs"/>
+			<enumeration value="tmbo-tab-oppositions"/>
+			<enumeration value="tmbo-tab-tasks"/>
+			<enumeration value="tmbo-tab-myTasks"/>
+			<enumeration value="tmbo-tab-groupTasks"/>
+			<enumeration value="tmbo-tab-unallocatedTasks"/>
+
+			<enumeration value="licence" />
+			<enumeration value="appeal" />
+			<enumeration value="gshelper" />
+			<enumeration value="security_measure" />
+			<enumeration value="sec_everyPerson" />
+			<enumeration value="sec_everyPerson_earlier_trademark_details"/>
+			<enumeration value="sec_personLegalInterest" />
+			<enumeration value="sec_personLegalInterest_earlier_trademark_details"/>
+			<enumeration value="sec_courtAdmittedOwner" />
+			<enumeration value="sec_courtAdmittedOwner_earlier_trademark_details"/>
+
+			<enumeration value="holder_is_inventor" />
+			<enumeration value="partial_invalidity" />
+
+			<enumeration value="licensee"/>
+			<enumeration value="remcreditor" />
+			<enumeration value="assignee_security" />
+			<enumeration value="assignee_bankruptcy"/>
+			<enumeration value="changetype"/>
+
+            <enumeration value="personChange"/>
+            <enumeration value="personChange_address"/>
+            <enumeration value="personChange_correspondenceAddress"/>
+
+			<enumeration value="patent" />
+			<enumeration value="patent_view"/>
+			<enumeration value="inventor"/>
+			<enumeration value="inventor_notAGroup"/>
+			<enumeration value="parallel_application"/>
+			<enumeration value="national_parallel_application"/>
+			<enumeration value="international_parallel_application"/>
+			<enumeration value="european_parallel_application"/>
+			<enumeration value="national_transformation"/>
+			<enumeration value="international_transformation"/>
+			<enumeration value="patent_classified"/>
+			<enumeration value="patent_declarations"/>
+			<enumeration value="pct"/>
+			<enumeration value="application_kind"/>
+			<enumeration value="patent_import"/>
+			<enumeration value="application_declarations"/>
+
+			<enumeration value="patent_details" />
+			<enumeration value="patent_details_spc" />
+
+			<enumeration value="notifications" />
+			<enumeration value="technical_questionnaire" />
+			<enumeration value="certificate_requested" />
+			<enumeration value="market_permission" />
+
+			<enumeration value="userdoc" />
+			<enumeration value="foreign_registration" />
+			<enumeration value="representative_intellectual" />
+			<enumeration value="representative_intlprepresentative" />
+        </restriction>
+	</simpleType>
+
+	<element name="sections">
+		<complexType>
+			<sequence>
+				<element name="section" type="tns:section" maxOccurs="unbounded"
+					minOccurs="1"></element>
+			</sequence>
+			<attribute name="anonymousMode" type="boolean" default="false"/>
+			<attribute name="navigationPath" type="boolean" default="false"/>
+		</complexType>
+	</element>
+
+</schema>

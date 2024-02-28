@@ -1,0 +1,222 @@
+package org.domain.rules;
+dialect "mvel"
+
+import java.util.Map;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Calendar;
+import org.apache.commons.lang.StringUtils;
+import eu.ohim.sp.core.domain.design.Design;
+import eu.ohim.sp.core.domain.design.DesignView;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.configuration.domain.xsd.Field;
+import eu.ohim.sp.core.domain.design.ProductIndication;
+import eu.ohim.sp.core.configuration.domain.xsd.Section;
+import eu.ohim.sp.core.domain.resources.AttachedDocument;
+import eu.ohim.sp.core.domain.validation.RulesInformation;
+
+
+rule "BR At lest one design view for design"
+salience 1000
+when
+	$errorList : ErrorList()
+	Design (views == null || (views != null && views.size() <= 0)) 
+	$rulesInformation : RulesInformation($customObjects : customObjects ) 
+then
+	
+	HashMap co = $customObjects;
+	Boolean imported = co.get("imported"); 
+		
+	if (imported == false){	
+ 		addError("views", "BR.design.views.emtpy", "You must add at least one design view for design", null, $errorList); 	
+ 	}else{
+ 		addError(null, "BR.design.views.emtpy", "You must add at least one design view for design", "mainForm.designDataSection", $errorList);  		
+ 	}  
+end
+
+rule "BR005 - Every design must have one design view of type 1"
+salience 1000
+when
+	$errorList : ErrorList()
+	Design(views != null , $views : views, views.size() > 0)
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	boolean type1 = false;
+
+	for (DesignView designView : $views){
+		if (type1 == false && designView != null && designView.getType() != null){
+			if (designView.getType().equals("General")) {
+				type1 = true;
+			}
+		}
+	}
+	if (type1 == false){
+	    HashMap co = $customObjects;
+        Boolean imported = co.get("imported");
+
+        if (imported == false){
+		    addError("views", "BR.design.views",  "You must add at least one design view of type 'General view'", null, $errorList);
+		} else {
+            addError(null, "BR.design.views",  "You must add at least one design view of type 'General view'", "mainForm.designDataSection", $errorList);
+		}
+	}
+end
+
+
+rule "BR(Design View) File - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "designView_details", $fields : field ) 
+	Field( id == "view", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	DesignView(view == null)	
+	$rulesInformation : RulesInformation($customObjects : customObjects )	
+then
+	HashMap co = $customObjects;
+	Boolean imported = co.get("imported");
+	
+	if (imported == false){	
+		addError("view.attachment",	 "BRMandatory", "This field is mandatory", null, $errorList); 	
+	}else{
+		addError(null,	"BRMandatory", "This field is mandatory", "mainForm.designDataSection", $errorList);
+	} 
+end
+
+
+rule "BR(Design View) Description - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "designView_details", $fields : field ) 
+	Field( id == "description", $fieldUsable : usable, $fieldRequired : required ) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	DesignView(StringUtils.isEmpty(description)== true)
+	$rulesInformation : RulesInformation($customObjects : customObjects )		
+then
+	HashMap co = $customObjects;
+	Boolean imported = co.get("imported");
+	
+	if (imported == false){
+		addError("description", "BRMandatory", "This field is mandatory", null,	 $errorList);	
+	}else{
+		addError(null,"BR.design.description.empty","The Design View description field is mandatory.", "mainForm.designDataSection", $errorList); 
+	}	 
+end
+
+
+rule "BR(Design View) publicationSize - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "designView_details", $fields : field ) 
+	Field( id == "publicationSize", $fieldUsable : usable, $fieldRequired : required ) from $fields	
+	eval($fieldUsable == true && $fieldRequired == true)
+	DesignView(StringUtils.isEmpty(publicationSize) == true)	
+	$rulesInformation : RulesInformation($customObjects : customObjects )	
+then
+	HashMap co = $customObjects;
+	Boolean imported = co.get("imported");
+	
+	if (imported == false){	
+		addError("publicationSize",	 "BRMandatory",	 "This field is mandatory",	 null, $errorList);	 
+	}else{
+		addError(null,"BR.design.publicationSize.empty","The Design View type publication size field is mandatory.", "mainForm.designDataSection", $errorList); 	
+	}
+end
+
+rule "BR(Design View) Type - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "designView_details", $fields : field ) 
+	Field( id == "type", $fieldUsable : usable, $fieldRequired : required ) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	DesignView(StringUtils.isEmpty(type)== true)
+	$rulesInformation : RulesInformation($customObjects : customObjects )				
+then
+	HashMap co = $customObjects;
+	Boolean imported = co.get("imported");
+
+	if (imported == false){	
+		addError("type", "BRMandatory",	 "This field is mandatory",	 null, $errorList);	 
+	}else{
+		addError(null, "BR.design.type.empty","The Design view type field is mandatory.", "mainForm.designDataSection", $errorList); 	 	
+	}
+end
+
+rule "BR(Design View) - size validation"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "designView_details", $fields : field ) 
+	Field( id == "view") from $fields	
+	DesignView($view:view)	
+	$rulesInformation : RulesInformation($customObjects : customObjects )	
+then
+	HashMap co = $customObjects;
+	Boolean imported = co.get("imported");
+			
+	if ($view!=null && $view.getDocument()!=null) {
+		Long sizeMb = $view.getDocument().getFileSize()/10000000;	
+		if (sizeMb>50) {
+			if (imported == false){
+				addError("view.attachment", "BR.design.view.size", "This size view must be lower 50 Mb", null, $errorList); 	 
+			}
+		}
+	}
+end
+
+rule "BR(Design) - publicationDefermentIndicator - Content"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "defermentTillDate", $fieldUsable : usable, $fieldRequired : required ) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Design(publicationDefermentIndicator==true)	
+	Design($publicationDefermentTillDate: publicationDefermentTillDate)
+	$rulesInformation : RulesInformation($customObjects : customObjects )		
+then
+	HashMap co = $customObjects;
+	Boolean imported = co.get("imported");
+		
+	Calendar c1 = Calendar.getInstance();
+	Calendar c2 = Calendar.getInstance();
+			 	
+	if ($publicationDefermentTillDate!=null) {
+
+		c1.add(Calendar.MONTH, 12);
+		c2.add(Calendar.HOUR, -24);
+		Date date1=c1.getTime();
+		Date date2=c2.getTime();
+				 
+		if ( (date2.compareTo($publicationDefermentTillDate)>0) || ($publicationDefermentTillDate.compareTo(date1)>0)) {	
+			if (imported == false){ 			
+				addError("defermentTillDate", "BR.design.deferredDate", "The date cannot surpass a maximum of 12 months after filing of the application (or date of priority when invoked).", null, $errorList);
+			}		 
+ 		} 		 
+ 		
+	} else {
+		if (imported == false){
+			addError("defermentTillDate", "BRMandatory", "This field is mandatory", null, $errorList); 	
+		}	
+ 	}			
+end
+
+rule "BR Design productIndications"
+salience 1000
+when
+ 	$errorList : ErrorList() 		
+	Design (productIndications == null || (productIndications != null && (productIndications.size() <= 0 || productIndications.size() > 1)))
+	$rulesInformation : RulesInformation($customObjects : customObjects )	
+then 
+	HashMap co = $customObjects;
+	Boolean imported = co.get("imported");
+	
+	if (imported == false){	
+		addError("locarno", "BR009.design.proIndication.emptyOrMoreThanOne", "You must add only one product indication",  null, $errorList);
+	}else{
+		addError(null, "BR009.design.proIndication.emptyOrMoreThanOne", "You must add only one product indication",  "mainForm.designDataSection", $errorList);
+	}
+end

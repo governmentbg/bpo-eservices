@@ -1,0 +1,16 @@
+<!--
+  * $Id:: jaxb-bindings.xjb 14329 2012-10-29 13:02:02Z karalch                  $
+  *       . * .
+  *     * RRRR  *    Copyright © 2012 OHIM: Office for Harmonization
+  *   .   RR  R   .  in the Internal Market (trade marks and designs)
+  *   *   RRR     *
+  *    .  RR RR  .   ALL RIGHTS RESERVED
+  *     * . _ . *
+-->
+<jxb:bindings version="1.0"
+xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
+xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<jxb:globalBindings>
+	  <jxb:serializable uid="1"/>
+	</jxb:globalBindings>
+</jxb:bindings>

@@ -1,0 +1,82 @@
+<assembly
+        xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
+
+    <id>release</id>
+    <formats>
+        <format>dir</format>
+    </formats>
+
+    <includeBaseDirectory>false</includeBaseDirectory>
+
+    <dependencySets>
+        <!-- copy sp-ds-efiling.war -->
+        <dependencySet>
+            <useProjectArtifact>false</useProjectArtifact>
+            <includes>
+                <include>eu.ohim.sp.ui:ds-efiling-ui</include>
+            </includes>
+            <outputDirectory>${servlet.container.app.root}</outputDirectory>
+            <outputFileNameMapping>${artifact.name}.${artifact.extension}</outputFileNameMapping>
+        </dependencySet>
+    </dependencySets>
+
+    <fileSets>
+        <!-- tomcat ds-efiling specific configuration -->
+        <fileSet>
+            <outputDirectory>${servlet.container.conf.root}/ds-efiling</outputDirectory>
+            <directory>${basedir}/sp-fo/configuration/servlet-container/ds-efiling/</directory>
+        </fileSet>
+
+        <!-- core ds-efiling specific configuration -->
+        <fileSet>
+            <outputDirectory>${app.server.conf.root}/ds-efiling/</outputDirectory>
+            <directory>${basedir}/sp-fo/configuration/app-server/ds-efiling/</directory>
+        </fileSet>
+
+        <!-- ds-efiling sql scripts -->
+        <fileSet>
+            <outputDirectory>${db.server.conf.root}/mysql/ds-efiling/</outputDirectory>
+            <directory>${basedir}/sp-fo/configuration/db-server/mysql/ds-efiling/</directory>
+        </fileSet>
+
+		<fileSet>
+			<outputDirectory>${db.server.conf.root}/oracle/ds-efiling/</outputDirectory>
+			<directory>${basedir}/sp-fo/configuration/db-server/oracle/ds-efiling/</directory>
+		</fileSet>
+
+        <fileSet>
+            <outputDirectory>${db.server.conf.root}/postgresql/ds-efiling/</outputDirectory>
+            <directory>${basedir}/sp-fo/configuration/db-server/postgresql/ds-efiling/</directory>
+        </fileSet>
+
+		<!-- apache static resources -->
+        <fileSet>
+            <outputDirectory>${web.server.app.root}/sp-ui-dsefiling/resources</outputDirectory>
+            <directory>${basedir}/../ds-efiling/ds-efiling-ui/src/main/webapp/resources</directory>
+        </fileSet>
+
+        <fileSet>
+            <outputDirectory>${web.server.app.root}/sp-ui-dsefiling/resources/scripts/developers</outputDirectory>
+            <directory>${basedir}/../common-ui/component/UIComponent/src/main/resources/META-INF/resources/scripts</directory>
+        </fileSet>
+
+        <fileSet>
+            <outputDirectory>${web.server.app.root}/sp-ui-dsefiling/</outputDirectory>
+            <directory>${basedir}/../ds-efiling/ds-efiling-ui/src/main/webapp</directory>
+            <excludes>
+                <exclude>instance</exclude>
+                <exclude>META-INF</exclude>
+                <exclude>resources</exclude>
+                <exclude>WEB-INF</exclude>
+                <exclude>error.jsp</exclude>
+                <exclude>index.jsp</exclude>
+            </excludes>
+            <includes>
+                <include>robots.txt</include>
+            </includes>
+        </fileSet>
+    </fileSets>
+
+</assembly>

@@ -1,0 +1,75 @@
+package org.domain.rules;
+dialect "mvel"
+
+import java.util.Date;
+import java.util.Calendar;
+import eu.ohim.sp.core.domain.design.DesignDivisionalApplicationDetails;
+
+
+
+rule "BR - Content"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+    Field( id == "designsLinked", $fieldUsable : usable, $fieldRequired : required) from $fields
+    eval($fieldUsable == true && $fieldRequired == true)
+	DesignDivisionalApplicationDetails (designs == null ||  (designs != null && designs.size() <= 0))		
+then
+	addError("designsLinked", 	 "BRMandatory",	 "This field is mandatory",	 null,	 $errorList);
+end
+
+
+rule "BR Divisional application Date - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )	
+	Field( id == "dateDivisionalApplication", $fieldUsable : usable, $fieldRequired : required , $format:format) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	DesignDivisionalApplicationDetails (initialApplicationDate == null)
+				
+then
+	addError("dateDivisionalApplication",  "BRMandatory", "This field is mandatory", null,	 $errorList);
+end
+
+rule "BR Divisional application Date - Date should not be in future"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )	
+	Field( id == "dateDivisionalApplication", $fieldUsable : usable, $fieldRequired : required , $format:format) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	DesignDivisionalApplicationDetails (initialApplicationDate != null, $initialApplicationDate : initialApplicationDate)		
+then
+	Calendar c1 = Calendar.getInstance();
+	Calendar c2 = Calendar.getInstance();
+			 	
+	if ($initialApplicationDate != null ) {
+
+		c1.add(Calendar.MONTH, -6);
+		c2.add(Calendar.HOUR, -24);
+		Date date1=c1.getTime();
+		Date date2=c2.getTime();		
+		 
+		if ( (date2.compareTo($initialApplicationDate)<0) || ($initialApplicationDate.compareTo(date1)<0)) {
+			addError("dateDivisionalApplication",  "BR19.Divisional.Date.After", "Date should not be in future or earlier than 6 monts in the past", null,	 $errorList);
+ 		} 		 
+ 		
+	}
+
+end
+
+
+rule "BR Divisional application Number - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )	
+	Field(id == "numberDivisionalApplication", $fieldUsable : usable, $fieldRequired : required , $regex:format) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	DesignDivisionalApplicationDetails ($initialApplicationNumber:initialApplicationNumber, StringUtils.isEmpty(initialApplicationNumber) )			
+then
+	addError("numberDivisionalApplication",	 "BRMandatory",	 "This field is mandatory",	 null,	 $errorList);
+end
+

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="qualified"
+           version="3.2" 
+           targetNamespace="http://ohim.eu/sp/domain/payment/v3"
+           xmlns:tns="http://ohim.eu/sp/domain/payment/v3"
+           xmlns:common="http://ohim.eu/sp/domain/common/v3"
+           xmlns:person="http://ohim.eu/sp/domain/person/v3"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:import namespace="http://ohim.eu/sp/domain/common/v3" schemaLocation="./CommonDomain.xsd"/>
+    <xs:import namespace="http://ohim.eu/sp/domain/person/v3" schemaLocation="./PersonDomain.xsd"/>
+
+    <xs:complexType name="Account">
+        <xs:sequence>
+            <xs:element name="accountIdentifier" type="xs:string" minOccurs="0"/>
+            <xs:element name="accountKind" type="xs:string" minOccurs="0"/>
+            <xs:element name="accountHolderName" type="common:Text" minOccurs="0"/>
+            <xs:element name="accountDebitKind" type="tns:AccountDebitKind" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="BankTransfer">
+        <xs:sequence>
+            <xs:element name="bankTransferIdentifier" type="xs:string" minOccurs="0"/>
+            <xs:element name="bankTransferDate" type="xs:dateTime" minOccurs="0"/>
+            <xs:element name="originBankName" type="xs:string" minOccurs="0"/>
+            <xs:element name="bankDestinationAccount" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="CardAccount">
+        <xs:sequence>
+            <xs:element name="cardPrimaryAccountNumber" type="xs:string" minOccurs="0"/>
+            <xs:element name="cardNetworkIdentifier" type="xs:string" minOccurs="0"/>
+            <xs:element name="cardKindCode" type="tns:CardKindCode" minOccurs="0"/>
+            <xs:element name="cardCustomerIdentifier" type="xs:string" minOccurs="0"/>
+            <xs:element name="cardValidityStartDate" type="xs:dateTime" minOccurs="0"/>
+            <xs:element name="cardExpiryDate" type="xs:dateTime" minOccurs="0"/>
+            <xs:element name="cardIssuesIdentifier" type="xs:string" minOccurs="0"/>
+            <xs:element name="cardIssueNumber" type="xs:string" minOccurs="0"/>
+            <xs:element name="cardCV2Identifier" type="xs:string" minOccurs="0"/>
+            <xs:element name="chipCodeType" type="xs:string" minOccurs="0"/>
+            <xs:element name="cardChipApplicationIdentifier" type="xs:string" minOccurs="0"/>
+            <xs:element name="cardHolderName" type="common:Text" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="FeeType">
+        <xs:sequence>
+            <xs:element name="code" type="xs:string" minOccurs="0" />
+            <xs:element name="description" type="xs:string" minOccurs="0" />
+            <xs:element name="currencyCode" type="xs:string" minOccurs="0" />
+            <xs:element name="defaultValue" type="xs:double" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="Fee">
+        <xs:sequence>
+            <xs:element name="id" type="xs:string" minOccurs="1" maxOccurs="1" />
+            <xs:element name="feeType" type="tns:FeeType" minOccurs="1" maxOccurs="1" />
+            <xs:element name="amount" type="xs:double" minOccurs="1" maxOccurs="1" />
+            <xs:element name="quantity" type="xs:integer" minOccurs="0" maxOccurs="1" />
+            <xs:element name="unitAmount" type="xs:double" minOccurs="0" maxOccurs="1" />
+            <xs:element name="legalDate" type="xs:dateTime" minOccurs="0" maxOccurs="1" />
+            <xs:element name="status" type="xs:string" minOccurs="0" maxOccurs="1" />
+            <xs:element name="statusDate" type="xs:dateTime" minOccurs="0" maxOccurs="1" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="MatchedFee">
+        <xs:sequence>
+            <xs:element name="matchedAmount" type="xs:double" minOccurs="0"/>
+            <xs:element name="fee" type="tns:Fee" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="Payment">
+        <xs:sequence>
+            <xs:element name="kind" type="tns:PaymentKind" minOccurs="0" />
+            <xs:element name="identifier" type="xs:string" minOccurs="0" />
+            <xs:element name="reference" type="xs:string" minOccurs="0" />
+            <xs:element name="status" type="tns:PaymentStatusCode" minOccurs="0" />
+            <xs:element name="amount" type="xs:double" minOccurs="0" />
+            <xs:element name="currencyCode" type="xs:string" minOccurs="0" />
+            <xs:element name="date" type="xs:dateTime" minOccurs="0" />
+            <xs:element name="comment" type="xs:string" minOccurs="0" />
+            <xs:element name="account" type="tns:Account" minOccurs="0" />
+            <xs:element name="cardAccount" type="tns:CardAccount" minOccurs="0" />
+            <xs:element name="bankTransfer" type="tns:BankTransfer" minOccurs="0" />
+            <xs:element name="payer" type="person:PersonRole" minOccurs="0" />
+            <xs:element name="payerIdentifier" type="person:PersonRoleKind" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="PaymentFee">
+        <xs:complexContent>
+            <xs:extension base="tns:Payment">
+                <xs:sequence>
+                    <xs:element name="fees" type="tns:MatchedFee" minOccurs="0" maxOccurs="unbounded"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <!--ENUM-->
+
+    <xs:simpleType name="AccountDebitKind">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="BASIC_FEE_IMMEDIATE"/>
+            <xs:enumeration value="BASIC_FEE_END_OF_PERIOD"/>
+            <xs:enumeration value="BASIC_AND_CLASS_FEE_IMMEDIATE"/>
+            <xs:enumeration value="BASIC_AND_CLASS_FEE_END_OF_PERIOD"/>
+            <xs:enumeration value="DO_NOT_USE_CURRENT_ACCOUNT"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="CardKindCode">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="CREDIT_CARD"/>
+            <xs:enumeration value="DEBIT_CARD"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="PaymentKind">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="CREDIT_CARD"/>
+            <xs:enumeration value="BANK_TRANSFER"/>
+            <xs:enumeration value="DEBIT_CARD"/>
+            <xs:enumeration value="ONLINE_PAYMENT"/>
+            <xs:enumeration value="POSTAL_ORDER"/>
+            <xs:enumeration value="CURRENT_ACCOUNT"/>
+            <xs:enumeration value="OTHER"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="PaymentStatusCode">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="DONE"/>
+            <xs:enumeration value="ATTACHED"/>
+            <xs:enumeration value="TO_FOLLOW"/>
+            <xs:enumeration value="BANK_TRANSFER_TO_FOLLOW"/>
+            <xs:enumeration value="UNDEFINED"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>	

@@ -1,0 +1,194 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
+
+    <bean id="flowBeanMock" class="org.mockito.Mockito" factory-method="mock">
+        <constructor-arg value="eu.ohim.sp.common.ui.flow.FlowBean" />
+    </bean>
+
+	<bean name="fileService" class="org.mockito.Mockito"
+		factory-method="mock">
+		<constructor-arg
+			value="eu.ohim.sp.common.ui.service.interfaces.FileServiceInterface" />
+	</bean>
+
+	<bean name="classificationService" class="org.mockito.Mockito"
+		factory-method="mock">
+		<constructor-arg
+			value="eu.ohim.sp.core.classification.ClassificationServiceInterface" />
+	</bean>
+
+	<bean name="userService" class="org.mockito.Mockito"
+		factory-method="mock">
+		<constructor-arg
+			value="eu.ohim.sp.core.user.UserServiceInterface" />
+	</bean>
+
+	<bean name="systemConfigurationService" class="org.mockito.Mockito"
+		factory-method="mock">
+		<constructor-arg
+			value="eu.ohim.sp.core.configuration.SystemConfigurationServiceInterface" />
+	</bean>
+
+	<bean name="reportService" class="org.mockito.Mockito"
+		factory-method="mock">
+		<constructor-arg
+			value="eu.ohim.sp.core.report.ReportServiceInterface" />
+	</bean>
+
+    <bean name="submittedMap" class="org.mockito.Mockito"
+          factory-method="mock">
+        <constructor-arg value="eu.ohim.sp.common.ui.form.SubmittedMap"/>
+    </bean>
+
+	<bean id="usedProvisionalNumbers" class="org.mockito.Mockito"
+          factory-method="mock">
+        <constructor-arg value="eu.ohim.sp.common.ui.form.UsedProvisionalNumbers"/>
+	</bean>
+
+	<bean name="businessRulesService" class="org.mockito.Mockito"
+		factory-method="mock">
+		<constructor-arg
+			value="eu.ohim.sp.core.rules.BusinessRulesServiceInterface" />
+	</bean>
+	
+	<bean name="configurationServiceDelegator" class="org.mockito.Mockito"
+		factory-method="mock">
+		<constructor-arg
+			value="eu.ohim.sp.common.ui.service.interfaces.ConfigurationServiceDelegatorInterface" />
+	</bean>
+	
+	
+	<bean name="goodsServicesService" class="org.mockito.Mockito"
+		factory-method="mock">
+		<constructor-arg
+			value="eu.ohim.sp.common.ui.service.interfaces.GoodsServicesServiceInterface" />
+	</bean>
+
+	<bean name="personService" class="org.mockito.Mockito"
+		factory-method="mock">
+		<constructor-arg
+			value="eu.ohim.sp.common.ui.service.interfaces.PersonServiceInterface" />
+	</bean>
+
+	<bean name="applicationService" class="org.mockito.Mockito"
+		factory-method="mock">
+		<constructor-arg
+			value="eu.ohim.sp.core.application.TMApplicationServiceInterface" />
+	</bean>
+
+	<bean name="applicantService" class="org.mockito.Mockito"
+		factory-method="mock">
+		<constructor-arg value="eu.ohim.sp.core.person.ApplicantServiceInterface" />
+	</bean>
+
+	<bean name="documentService" class="org.mockito.Mockito"
+		factory-method="mock">
+		<constructor-arg value="eu.ohim.sp.core.document.DocumentServiceInterface" />
+	</bean>
+
+	<bean name="feeManagementServiceInterface" class="org.mockito.Mockito"
+		factory-method="mock">
+		<constructor-arg value="eu.ohim.sp.core.fee.FeeManagementServiceInterface" />
+	</bean>
+
+	<bean name="businessRulesServiceInterface" class="org.mockito.Mockito"
+		factory-method="mock">
+		<constructor-arg
+			value="eu.ohim.sp.core.rules.BusinessRulesServiceInterface" />
+	</bean>
+	
+	<bean name="engineWrapper" class="org.mockito.Mockito"
+		factory-method="mock">
+		<constructor-arg
+			value="eu.ohim.sp.common.ui.service.EngineWrapper" />
+	</bean>
+	
+	<bean name="tradeMarkService" class="org.mockito.Mockito"
+		factory-method="mock">
+		<constructor-arg value="eu.ohim.sp.core.register.TradeMarkServiceInterface" />
+	</bean>
+	
+	<bean name="representativeService" class="org.mockito.Mockito"
+		factory-method="mock">
+		<constructor-arg
+			value="eu.ohim.sp.core.person.RepresentativeServiceInterface" />
+	</bean>
+
+	<bean name="paymentService" class="org.mockito.Mockito"
+		factory-method="mock">
+		<constructor-arg value="eu.ohim.sp.core.paymentreq.PaymentServiceInterface" />
+	</bean>
+
+
+	<bean name="validator" class="org.mockito.Mockito" factory-method="mock">
+		<constructor-arg value="org.springframework.validation.Validator" />
+	</bean>
+	
+	<context:property-placeholder location="tm-efiling.properties"/>
+	
+
+	<bean name="flowScopeDetails"
+		class="eu.ohim.sp.common.ui.interceptors.FlowScopeDetails">
+		<property name="flowModeId" value="oneform" />
+		<property name="stateId" value="mainform" />
+	</bean>
+
+	<!-- **************************************************************** -->
+	<!-- ************************* Data Binder ************************** -->
+	<!-- **************************************************************** -->
+	<!-- Custom Date Binder -->
+	<bean id="customDateEditor" class="org.springframework.beans.propertyeditors.CustomDateEditor">
+		<constructor-arg>
+			<bean class="java.text.SimpleDateFormat">
+				<constructor-arg>
+					<value>dd/MM/yyyy</value>
+				</constructor-arg>
+				<property name="lenient" value="false" />
+			</bean>
+		</constructor-arg>
+		<constructor-arg>
+			<value>true</value>
+		</constructor-arg>
+		<constructor-arg>
+			<value>10</value>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="fieldPropertyEditor"
+		class="	eu.ohim.sp.common.ui.FieldPropertyEditor"/>
+	
+	
+	<bean id="localeResolver"
+		class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+		<property name="defaultLocale" value="en" />
+	</bean>
+
+	<bean id="messageSource"
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="defaultEncoding" value="UTF-8"/>
+		<property name="basenames">
+			<list>
+				<value>messages</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="fileUploadConfigurationFactory" class="eu.ohim.sp.common.ui.FileUploadConfigurationFactory">
+		<property name="configurationService" ref="configurationServiceDelegator" />
+	</bean>
+
+	<context:component-scan base-package="eu.ohim.sp.common.ui.controller" />
+	<context:component-scan base-package="eu.ohim.sp.common.ui.webflow" />
+	<context:component-scan base-package="eu.ohim.sp.common.ui.preparer" />
+	<context:component-scan base-package="eu.ohim.sp.common.ui.validator" />
+	<context:component-scan base-package="eu.ohim.sp.common.ui.service" />
+	<context:component-scan base-package="eu.ohim.sp.common.ui.adapter" />
+
+</beans>

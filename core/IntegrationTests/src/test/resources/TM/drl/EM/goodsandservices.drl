@@ -1,0 +1,15 @@
+package org.domain.rules;
+dialect "mvel"
+
+import eu.ohim.sp.core.domain.validation.ErrorCore;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.domain.validation.RulesInformation;
+
+rule "G&S Expression Checker"
+salience 1000
+no-loop
+when
+	$rulesInformation : RulesInformation( $description : descGS, sectionName == "goodsandservices")
+then
+	$rulesInformation.getErrorList().addAllErrors(checkDescription(null,$description,"BRGS", "desc", "Terms"));
+end

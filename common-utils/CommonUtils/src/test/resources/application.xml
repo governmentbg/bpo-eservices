@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:Transaction xmlns:ns2="http://fsp.ohim.eu/XMLSchema">
+    <TradeMarkTransactionBody>
+        <TransactionContentDetails>
+            <TransactionCode>Trade Mark E-Filing</TransactionCode>
+            <TransactionData>
+                <TradeMarkApplication>
+                    <TradeMarkDetails>
+                        <TradeMark>
+                            <RegistrationOfficeCode>EM</RegistrationOfficeCode>
+                            <ReceivingOfficeCode>EM</ReceivingOfficeCode>
+                            <ApplicationReference></ApplicationReference>
+                            <ApplicationLanguageCode>en</ApplicationLanguageCode>
+                            <SecondLanguageCode>es</SecondLanguageCode>
+                            <CorrespondenceLanguageCode>en</CorrespondenceLanguageCode>
+                            <MarkCurrentStatusCode></MarkCurrentStatusCode>
+                            <KindMark>Individual</KindMark>
+                            <MarkFeature>Word</MarkFeature>
+                            <TradeDistinctivenessIndicator>false</TradeDistinctivenessIndicator>
+                            <WordMarkSpecification>
+                                <MarkVerbalElementText languageCode="en">coka
+                                </MarkVerbalElementText>
+                                <MarkTransliteration></MarkTransliteration>
+                            </WordMarkSpecification>
+                            <GoodsServicesDetails>
+                                <GoodsServices>
+                                    <ClassDescriptionDetails>
+                                        <ClassDescription>
+                                            <ClassNumber>44</ClassNumber>
+                                            <ClassificationTermDetails>
+                                                <ClassificationTerm>
+                                                    <ClassificationTermText>dsfsdfsdfsdfsdf</ClassificationTermText>
+                                                    <ClassificationTermAssessment>Term not found
+                                                    </ClassificationTermAssessment>
+                                                </ClassificationTerm>
+                                                <ClassificationTermLanguageCode>en</ClassificationTermLanguageCode>
+                                            </ClassificationTermDetails>
+                                            <FullClassCoverageIndicator>false</FullClassCoverageIndicator>
+                                        </ClassDescription>
+                                    </ClassDescriptionDetails>
+                                </GoodsServices>
+                            </GoodsServicesDetails>
+                            <ApplicantDetails>
+                                <Applicant>
+                                    <ApplicantIdentifier identifierKindCode="Company Number" />
+                                    <ApplicantIdentifier identifierKindCode="VAT Number" />
+                                    <ApplicantIdentifier identifierKindCode="Tax Office" />
+                                    <ApplicantNationalityCode>AU</ApplicantNationalityCode>
+                                    <ApplicantAddressBook>
+                                        <FormattedNameAddress>
+                                            <Name>
+                                                <FormattedName>
+                                                    <FirstName>sgdf</FirstName>
+                                                    <LastName>gdfgdfg</LastName>
+                                                </FormattedName>
+                                                <NameKind>Natural Person</NameKind>
+                                            </Name>
+                                            <Address>
+                                                <FormattedAddress>
+                                                    <AddressStreet>dfgdfg</AddressStreet>
+                                                    <AddressCity>dfgdfgdfg</AddressCity>
+                                                    <AddressPostcode>243</AddressPostcode>
+                                                    <FormattedAddressCountryCode>AU</FormattedAddressCountryCode>
+                                                    <AddressStreetNumber>34</AddressStreetNumber>
+                                                </FormattedAddress>
+                                            </Address>
+                                        </FormattedNameAddress>
+                                        <ContactInformationDetails>
+                                            <Email>fsdfsdf@sdfds.com</Email>
+                                        </ContactInformationDetails>
+                                        <OtherIndicator>false</OtherIndicator>
+                                    </ApplicantAddressBook>
+                                    <ApplicantIsOwner>false</ApplicantIsOwner>
+                                </Applicant>
+                            </ApplicantDetails>
+                            <RepresentativeDetails>
+                                <Representative>
+                                    <RepresentativeIdentifier identifierKindCode="VAT Number" />
+                                    <RepresentativeIdentifier identifierKindCode="Tax Office" />
+                                    <RepresentativeKindCode>Lawyer</RepresentativeKindCode>
+                                    <RepresentativeNationalityCode>AT</RepresentativeNationalityCode>
+                                    <RepresentativeAddressBook>
+                                        <FormattedNameAddress>
+                                            <Name>
+                                                <FormattedName>
+                                                    <FirstName>dfgdfgdfgdg</FirstName>
+                                                    <LastName>sdfsdfsdf</LastName>
+                                                    <OrganizationName>fsdf</OrganizationName>
+                                                </FormattedName>
+                                            </Name>
+                                            <Address>
+                                                <FormattedAddress>
+                                                    <AddressStreet>sdfsdf</AddressStreet>
+                                                    <AddressCity>fdssdfsdf</AddressCity>
+                                                    <AddressPostcode>43223</AddressPostcode>
+                                                    <FormattedAddressCountryCode>AT</FormattedAddressCountryCode>
+                                                    <AddressStreetNumber>34</AddressStreetNumber>
+                                                </FormattedAddress>
+                                            </Address>
+                                        </FormattedNameAddress>
+                                        <ContactInformationDetails>
+                                            <Email>bcbxcvbxvcb@fsdf.com</Email>
+                                        </ContactInformationDetails>
+                                        <OtherIndicator>false</OtherIndicator>
+                                    </RepresentativeAddressBook>
+                                    <RepresentedPartyKindCode>Owner</RepresentedPartyKindCode>
+                                </Representative>
+                            </RepresentativeDetails>
+                            <TradeMarkDocumentDetails>
+                                <TradeMarkDocument>
+                                    <DocumentName>receiptEFEM201400000000414.pdf</DocumentName>
+                                    <DocumentURI>ATTACHMENTS/receipt.pdf</DocumentURI>
+                                    <DocumentFilename>receipt.pdf</DocumentFilename>
+                                    <DocumentFileFormat>application/pdf</DocumentFileFormat>
+                                    <DocumentKind>Application Receipt</DocumentKind>
+                                </TradeMarkDocument>
+                            </TradeMarkDocumentDetails>
+                            <NumberOfRenewals>0</NumberOfRenewals>
+                        </TradeMark>
+                    </TradeMarkDetails>
+                    <PaymentDetails>
+                        <Payment>
+                            <PayerName>
+                                <FormattedName>
+                                    <FirstName></FirstName>
+                                    <LastName></LastName>
+                                    <OrganizationName></OrganizationName>
+                                </FormattedName>
+                            </PayerName>
+                            <PaymentStatus>To follow</PaymentStatus>
+                            <PayerAddressBook>
+                                <FormattedNameAddress>
+                                    <Address>
+                                        <FormattedAddress />
+                                    </Address>
+                                </FormattedNameAddress>
+                                <ContactInformationDetails />
+                                <OtherIndicator>false</OtherIndicator>
+                            </PayerAddressBook>
+                        </Payment>
+                    </PaymentDetails>
+                    <SignatoryDetails>
+                        <Signatory>
+                            <SignatoryName>
+                                <FreeFormatName>
+                                    <FreeFormatNameDetails>
+                                        <FreeFormatNameLine>fgdfgdfg</FreeFormatNameLine>
+                                    </FreeFormatNameDetails>
+                                </FreeFormatName>
+                            </SignatoryName>
+                            <SignatoryCapacityCode>Applicant</SignatoryCapacityCode>
+                        </Signatory>
+                    </SignatoryDetails>
+                    <ApplicationFilingNumber>EFEM201400000000414</ApplicationFilingNumber>
+                </TradeMarkApplication>
+            </TransactionData>
+        </TransactionContentDetails>
+    </TradeMarkTransactionBody>
+</ns2:Transaction>

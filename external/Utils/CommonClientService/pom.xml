@@ -1,0 +1,162 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>eu.ohim.sp.external</groupId>
+        <artifactId>Utils</artifactId>
+        <version>2.0.0-RELEASE</version>
+    </parent>
+
+    <artifactId>CommonClientService</artifactId>
+    <name>CommonClientService</name>
+    <packaging>jar</packaging>
+
+    <properties>
+        <org.milyn.milyn-smooks-javabean.version>1.7.0</org.milyn.milyn-smooks-javabean.version>
+        <jersey.version>1.19</jersey.version>
+        <groovy.version>1.5.8</groovy.version>
+        <sonar.skip>true</sonar.skip>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>eu.ohim.sp.common</groupId>
+            <artifactId>CommonUtils</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>eu.ohim.sp.common</groupId>
+            <artifactId>ConfigurationXSD</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>eu.ohim.sp.domains</groupId>
+            <artifactId>CoreDomain</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>eu.ohim.sp.domains</groupId>
+            <artifactId>CoreServices</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>eu.ohim.sp.domains</groupId>
+            <artifactId>ExternalDomain</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.dozer</groupId>
+            <artifactId>dozer</artifactId>
+        </dependency>
+
+        <!-- rest consumers and smooks transforms -->
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-client</artifactId>
+            <version>${jersey.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-json</artifactId>
+            <version>${jersey.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.milyn</groupId>
+            <artifactId>milyn-smooks-all</artifactId>
+            <version>${org.milyn.milyn-smooks-all.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.milyn</groupId>
+            <artifactId>milyn-smooks-javabean</artifactId>
+            <version>${org.milyn.milyn-smooks-javabean.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>eu.ohim.sp.external</groupId>
+            <artifactId>sp-mule-utils</artifactId>
+            <version>${pm.sp.external.current.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.spec</groupId>
+            <artifactId>jboss-javaee-6.0</artifactId>
+            <type>pom</type>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+            <version>${groovy.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>asm</artifactId>
+                    <groupId>asm</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>asm-util</artifactId>
+                    <groupId>asm</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>asm-analysis</artifactId>
+                    <groupId>asm</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>asm-tree</artifactId>
+                    <groupId>asm</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.sourceforge.json</groupId>
+            <artifactId>com.springsource.net.sf.json</artifactId>
+            <version>2.2.2</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.commons</groupId>
+                    <artifactId>com.springsource.org.apache.commons.lang</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>net.sf.ezmorph</groupId>
+            <artifactId>ezmorph</artifactId>
+            <version>1.0.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>1.9.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>nu.xom</groupId>
+            <artifactId>com.springsource.nu.xom</artifactId>
+            <version>1.1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>com.springsource.org.codehaus.jackson</artifactId>
+            <version>1.4.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.9.4</version>
+        </dependency>
+    </dependencies>
+    <build>
+    </build>
+</project>

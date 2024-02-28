@@ -1,0 +1,33 @@
+package org.domain.rules;
+
+dialect "mvel"
+
+import eu.ohim.sp.core.domain.resources.Document;
+import eu.ohim.sp.core.domain.resources.FODocument;
+import java.util.HashMap;
+
+rule "Path creator - FODocument"
+salience 1000
+no-loop
+    when
+        $document : FODocument(customProperties.containsKey("filingNumber"),
+								customProperties.containsKey("applicationType"),
+								$path : ("/" + customProperties.get("applicationType") + "/" + customProperties.get("filingNumber")))
+		$map : HashMap();
+    then
+		$map.put("path", $path);
+end
+
+rule "Path creator - Document"
+salience 1000
+no-loop
+    when
+        $document : Document(customProperties.containsKey("customPath"),
+								customProperties.containsKey("applicationType"),
+								$path : ("/" + customProperties.get("applicationType") +
+								(customProperties.containsKey("filingNumber")?("/" + customProperties.get("filingNumber")) : "") +
+								"/" + customProperties.get("customPath")))
+		$map : HashMap();
+    then
+		$map.put("path", $path);
+end

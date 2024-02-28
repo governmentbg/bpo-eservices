@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://egov.bg/RegiX/PatentDepartment" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://egov.bg/RegiX/PatentDepartment" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="getEBDPatentByRegNum" type="getEBDPatentByRegNumType">
+		<xs:annotation>
+			<xs:documentation>Справка за статус на патент по регистров номер </xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="getEBDPatentByRegNumType">
+		<xs:sequence>
+			<xs:element name="regnum" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

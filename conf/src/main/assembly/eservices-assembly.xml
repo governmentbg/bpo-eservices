@@ -1,0 +1,85 @@
+<assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2"
+		  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		  xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
+
+	<id>release</id>
+	<formats>
+		<format>dir</format>
+	</formats>
+
+	<includeBaseDirectory>false</includeBaseDirectory>
+
+	<dependencySets>
+		<!-- copy sp-ui-eservices.war -->
+		<dependencySet>
+            <useProjectArtifact>false</useProjectArtifact>
+			<includes>
+				<include>eu.ohim.sp.ui:eservices-ui</include>
+			</includes>
+			<outputDirectory>${servlet.container.app.root}</outputDirectory>
+			<outputFileNameMapping>${artifact.name}.${artifact.extension}</outputFileNameMapping>
+		</dependencySet>
+	</dependencySets>
+
+	<fileSets>
+		<!-- tomcat eservices specific configuration -->
+		<fileSet>
+			<outputDirectory>${servlet.container.conf.root}/eservices</outputDirectory>
+			<directory>${basedir}/sp-fo/configuration/servlet-container/eservices/</directory>
+		</fileSet>
+
+		<!-- core eservices specific configuration -->
+		<fileSet>
+			<outputDirectory>${app.server.conf.root}/eservices/</outputDirectory>
+			<directory>${basedir}/sp-fo/configuration/app-server/eservices/</directory>
+		</fileSet>
+
+		<!-- eservices sql scripts -->
+		<fileSet>
+			<outputDirectory>${db.server.conf.root}/mysql/eservices/</outputDirectory>
+			<directory>${basedir}/sp-fo/configuration/db-server/mysql/eservices/</directory>
+		</fileSet>
+
+		<fileSet>
+			<outputDirectory>${db.server.conf.root}/oracle/eservices/</outputDirectory>
+			<directory>${basedir}/sp-fo/configuration/db-server/oracle/eservices/</directory>
+		</fileSet>
+
+		<fileSet>
+			<outputDirectory>${db.server.conf.root}/postgresql/eservices/</outputDirectory>
+			<directory>${basedir}/sp-fo/configuration/db-server/postgresql/eservices/</directory>
+		</fileSet>
+
+		<!-- apache static resources -->
+        <fileSet>
+            <outputDirectory>${web.server.app.root}/sp-ui-eservices/resources</outputDirectory>
+            <directory>${basedir}/../eservices/eservices-ui/src/main/webapp/resources</directory>
+        </fileSet>
+
+		<fileSet>
+			<outputDirectory>${web.server.app.root}/sp-ui-eservices/resources/scripts/developers</outputDirectory>
+			<directory>${basedir}/../common-ui/component/UIComponent/src/main/resources/META-INF/resources/scripts</directory>
+		</fileSet>
+
+        <fileSet>
+            <outputDirectory>${web.server.app.root}/sp-ui-eservices/</outputDirectory>
+            <directory>${basedir}/../eservices/eservices-ui/src/main/webapp</directory>
+            <excludes>
+                <exclude>instance</exclude>
+                <exclude>META-INF</exclude>
+                <exclude>resources</exclude>
+                <exclude>WEB-INF</exclude>
+                <exclude>error.jsp</exclude>
+                <exclude>error404.jsp</exclude>
+                <exclude>errorFlowSession.jsp</exclude>
+            </excludes>
+            <includes>
+                <include>resources/*.*</include>
+                <include>robots.txt</include>
+            </includes>
+        </fileSet>
+
+
+	</fileSets>
+
+</assembly>

@@ -1,0 +1,306 @@
+<assembly
+		xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
+
+	<id>release</id>
+	<formats>
+		<format>dir</format>
+	</formats>
+
+	<includeBaseDirectory>false</includeBaseDirectory>
+
+	<componentDescriptors>
+		<componentDescriptor>core-modules-component.xml</componentDescriptor>
+		<componentDescriptor>docs-component.xml</componentDescriptor>
+	</componentDescriptors>
+
+	<dependencySets>
+
+		<!-- JBoss Core EARs and Jackrabbit RAR -->
+		<dependencySet>
+            <useProjectArtifact>false</useProjectArtifact>
+			<includes>
+				<include>eu.ohim.sp*:*:ear</include>
+			</includes>
+			<outputDirectory>${app.server.app.root}/deployments/</outputDirectory>
+			<outputFileNameMapping>${artifact.name}.${artifact.extension}</outputFileNameMapping>
+		</dependencySet>
+
+		<dependencySet>
+            <useProjectArtifact>false</useProjectArtifact>
+			<includes>
+				<include>eu.ohim.sp*:*:rar</include>
+			</includes>
+			<outputDirectory>${installation.root}/jackrabbit/deployments/</outputDirectory>
+			<outputFileNameMapping>${artifact.name}.${artifact.extension}</outputFileNameMapping>
+		</dependencySet>
+
+		<!-- Mule modules -->
+		<dependencySet>
+            <useProjectArtifact>false</useProjectArtifact>
+			<includes>
+				<include>eu.ohim.sp.integration:*:zip</include>
+			</includes>
+			<outputDirectory>${esb.server.app.root}/</outputDirectory>
+			<outputFileNameMapping>${artifact.name}.${artifact.extension}</outputFileNameMapping>
+		</dependencySet>
+
+        <!-- JBoss modules -->
+        <dependencySet>
+            <useProjectArtifact>false</useProjectArtifact>
+            <includes>
+                <include>org.apache.velocity:*:jar</include>
+            </includes>
+            <outputDirectory>${installation.root}/modules/org/apache/velocity/main</outputDirectory>
+            <unpack>false</unpack>
+            <outputFileNameMapping>${artifact.artifactId}-${artifact.version}.${artifact.extension}</outputFileNameMapping>
+        </dependencySet>
+
+		<dependencySet>
+            <useProjectArtifact>false</useProjectArtifact>
+			<includes>
+				<include>net.sf.dozer:*:jar</include>
+			</includes>
+			<outputDirectory>${installation.root}/modules/net/sf/dozer/main</outputDirectory>
+			<unpack>false</unpack>
+			<outputFileNameMapping>${artifact.artifactId}-${artifact.version}.${artifact.extension}</outputFileNameMapping>
+		</dependencySet>
+
+		<dependencySet>
+            <useProjectArtifact>false</useProjectArtifact>
+			<includes>
+				<include>org.apache.commons:commons-lang3:jar</include>
+			</includes>
+			<outputDirectory>${installation.root}/modules/net/sf/dozer/main</outputDirectory>
+			<unpack>false</unpack>
+			<outputFileNameMapping>${artifact.artifactId}-${artifact.version}.${artifact.extension}</outputFileNameMapping>
+		</dependencySet>
+
+		<dependencySet>
+            <useProjectArtifact>false</useProjectArtifact>
+			<includes>
+				<include>javax.jcr:jcr:jar</include>
+			</includes>
+			<outputDirectory>${installation.root}/modules/javax/jcr/main</outputDirectory>
+			<unpack>false</unpack>
+			<outputFileNameMapping>${artifact.artifactId}-${artifact.version}.${artifact.extension}</outputFileNameMapping>
+		</dependencySet>
+
+        <dependencySet>
+            <useProjectArtifact>false</useProjectArtifact>
+            <includes>
+                <include>org.jboss:jboss-remote-naming:jar</include>
+            </includes>
+            <outputDirectory>${installation.root}/modules/org/jboss/remote-naming/main</outputDirectory>
+            <unpack>false</unpack>
+            <outputFileNameMapping>${artifact.artifactId}-${artifact.version}.${artifact.extension}</outputFileNameMapping>
+        </dependencySet>
+
+        <dependencySet>
+            <useProjectArtifact>false</useProjectArtifact>
+            <includes>
+                <include>org.jboss.remoting3:jboss-remoting:jar</include>
+            </includes>
+            <outputDirectory>${installation.root}/modules/org/jboss/remoting3/main</outputDirectory>
+            <unpack>false</unpack>
+            <outputFileNameMapping>${artifact.artifactId}-${artifact.version}.${artifact.extension}</outputFileNameMapping>
+        </dependencySet>
+
+	</dependencySets>
+
+	<fileSets>
+
+		<!-- JBoss modules -->
+		<fileSet>
+			<outputDirectory>${installation.root}/modules</outputDirectory>
+			<directory>${basedir}/sp-fo/installation/app-server/modules/</directory>
+            <excludes>
+                <exclude>eu/</exclude>
+            </excludes>
+		</fileSet>
+
+        <fileSet>
+            <outputDirectory>${app.server.app.root}/modules/eu</outputDirectory>
+            <directory>${basedir}/sp-fo/installation/app-server/modules/eu</directory>
+        </fileSet>
+
+        <!-- JBoss installation -->
+		<fileSet>
+			<outputDirectory>${installation.root}/app-server</outputDirectory>
+			<directory>${basedir}/sp-fo/installation/app-server/</directory>
+			<excludes>
+				<exclude>modules</exclude>
+			</excludes>
+			<includes>
+				<include>*.*</include>
+				<include>cluster/**/*</include>
+			</includes>
+		</fileSet>
+
+        <!-- JBoss common configuration -->
+        <fileSet>
+            <outputDirectory>${app.server.conf.root}/common/</outputDirectory>
+            <directory>${basedir}/sp-fo/configuration/app-server/common/</directory>
+            <includes>
+                <include>conf/**</include>
+                <include>drl/*.*</include>
+            </includes>
+        </fileSet>
+
+        <fileSet>
+            <outputDirectory>${app.server.conf.root}/</outputDirectory>
+            <directory>${basedir}/sp-fo/configuration/app-server/</directory>
+            <excludes>
+                <exclude>tm-efiling</exclude>
+                <exclude>ds-efiling</exclude>
+				<exclude>pt-efiling</exclude>
+                <exclude>eservices</exclude>
+                <exclude>common</exclude>
+            </excludes>
+            <includes>
+				<include>freemarker/**</include>
+                <include>fo-config.properties</include>
+				<include>sp-core.properties</include>
+            </includes>
+        </fileSet>
+
+        <!-- Jackrabbit binaries -->
+        <fileSet>
+            <outputDirectory>${installation.root}/jackrabbit/deployments</outputDirectory>
+            <directory>${basedir}/sp-fo/installation/jackrabbit/deployments</directory>
+        </fileSet>
+
+        <!-- Jackrabbit libraries -->
+        <fileSet>
+            <outputDirectory>${installation.root}/jackrabbit/lib</outputDirectory>
+            <directory>${basedir}/sp-fo/installation/jackrabbit/lib</directory>
+        </fileSet>
+
+        <!-- Jackrabbit configuration -->
+        <fileSet>
+            <outputDirectory>${installation.root}/jackrabbit/conf</outputDirectory>
+            <directory>${basedir}/sp-fo/installation/jackrabbit/conf</directory>
+        </fileSet>
+
+        <!-- Tomcat configuration -->
+        <fileSet>
+            <outputDirectory>${installation.root}/servlet-container</outputDirectory>
+            <directory>${basedir}/sp-fo/installation/servlet-container/</directory>
+        </fileSet>
+
+		<!-- Tomcat common configuration -->
+		<fileSet>
+			<outputDirectory>${servlet.container.conf.root}</outputDirectory>
+			<directory>${basedir}/sp-fo/configuration/servlet-container/</directory>
+			<excludes>
+				<exclude>tm-efiling</exclude>
+				<exclude>ds-efiling</exclude>
+				<exclude>pt-efiling</exclude>
+                <exclude>eservices</exclude>
+			</excludes>
+			<includes>
+				<include>*.*</include>
+			</includes>
+		</fileSet>
+
+        <!-- Apache configuration -->
+        <fileSet>
+            <outputDirectory>${web.server.conf.root}</outputDirectory>
+            <directory>${basedir}/sp-fo/configuration/web-server/</directory>
+            <includes>
+                <include>certificates/*</include>
+                <include>*.*</include>
+            </includes>
+        </fileSet>
+
+        <!-- Mule libraries -->
+        <fileSet>
+            <outputDirectory>${installation.root}/esb</outputDirectory>
+            <directory>${basedir}/sp-fo/installation/esb/</directory>
+        </fileSet>
+
+		<!-- Mule configuration -->
+		<fileSet>
+			<outputDirectory>${esb.server.conf.root}/</outputDirectory>
+			<directory>${basedir}/sp-fo/configuration/esb/</directory>
+		</fileSet>
+
+		<!-- SQL scripts -->
+		<fileSet>
+			<outputDirectory>${db.server.conf.root}</outputDirectory>
+			<directory>${basedir}/sp-fo/configuration/db-server/mysql/</directory>
+			<excludes>
+				<exclude>tm-efiling</exclude>
+				<exclude>ds-efiling</exclude>
+				<exclude>pt-efiling</exclude>
+				<exclude>eservices</exclude>
+			</excludes>
+			<includes>
+				<include>*.*</include>
+			</includes>
+		</fileSet>
+
+		<fileSet>
+			<outputDirectory>${db.server.conf.root}</outputDirectory>
+			<directory>${basedir}/sp-fo/configuration/db-server/oracle/</directory>
+			<excludes>
+				<exclude>tm-efiling</exclude>
+				<exclude>ds-efiling</exclude>
+				<exclude>pt-efiling</exclude>
+				<exclude>eservices</exclude>
+			</excludes>
+			<includes>
+				<include>*.*</include>
+			</includes>
+		</fileSet>
+
+		<fileSet>
+			<outputDirectory>${db.server.conf.root}</outputDirectory>
+			<directory>${basedir}/sp-fo/configuration/db-server/postgresql/</directory>
+			<excludes>
+				<exclude>tm-efiling</exclude>
+				<exclude>ds-efiling</exclude>
+				<exclude>pt-efiling</exclude>
+				<exclude>eservices</exclude>
+			</excludes>
+			<includes>
+				<include>*.*</include>
+			</includes>
+		</fileSet>
+
+		<fileSet>
+			<outputDirectory>${db.server.conf.root}/mysql/common/</outputDirectory>
+			<directory>${basedir}/sp-fo/configuration/db-server/mysql/common/</directory>
+		</fileSet>
+
+		<fileSet>
+			<outputDirectory>${db.server.conf.root}/oracle/common/</outputDirectory>
+			<directory>${basedir}/sp-fo/configuration/db-server/oracle/common/</directory>
+		</fileSet>
+
+		<fileSet>
+			<outputDirectory>${db.server.conf.root}/postgresql/common/</outputDirectory>
+			<directory>${basedir}/sp-fo/configuration/db-server/postgresql/common/</directory>
+		</fileSet>
+
+        <fileSet>
+            <outputDirectory>${db.server.conf.root}/placeholder-replacement/</outputDirectory>
+            <directory>${basedir}/sp-fo/configuration/db-server/placeholder-replacement/</directory>
+        </fileSet>
+
+        <!-- Installation scripts -->
+        <fileSet>
+            <outputDirectory>scripts</outputDirectory>
+            <directory>${basedir}/sp-fo/installation/scripts/</directory>
+            <includes>
+                <include>**/**</include>
+            </includes>
+            <excludes>
+                <exclude>.gradle</exclude>
+            </excludes>
+        </fileSet>
+
+	</fileSets>
+
+</assembly>

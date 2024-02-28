@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<div th:fragment="ptChangeType-fragment(obj)" class="inlBlW100">
+
+    <div th:text="#{tm.changeTypeTitle}"></div>
+    <div class="mT10 rb-grid">
+        <div th:if="${obj == 'pt'}">
+            <input name="changeType" class="radio-btn vertical-rb" type="radio" value="thirdPersonObjection" th:attr="data-rel-field='changeType-field'">
+            <div th:text="#{thirdPersonObjection}" class="rb-text"></div>
+        </div>
+        <div th:if="${obj == 'pt' || obj == 'um' || obj == 'ep' || obj == 'sv' || obj == 'spc'}">
+            <input name="changeType" class="radio-btn vertical-rb" type="radio" value="standpointReply" th:attr="data-rel-field='changeType-field'">
+            <div th:text="#{standpointReply}" class="rb-text"></div>
+        </div>
+        <div th:if="${obj == 'ep'}">
+            <input name="changeType" class="radio-btn vertical-rb" type="radio" value="notificationCorrection" th:attr="data-rel-field='changeType-field'">
+            <div th:text="#{notificationCorrection}" class="rb-text"></div>
+        </div>
+        <div th:if="${obj == 'pt' || obj == 'um' || obj == 'ep' || obj == 'sv' || obj == 'spc'}">
+            <input name="changeType" class="radio-btn vertical-rb" type="radio" value="duplicateIssuance" th:attr="data-rel-field='changeType-field'">
+            <div th:text="#{duplicateIssuance}" class="rb-text"></div>
+        </div>
+        <div th:if="${obj == 'ep'}">
+            <input name="changeType" class="radio-btn vertical-rb" type="radio" value="translationCorrection" th:attr="data-rel-field='changeType-field'">
+            <div th:text="#{translationCorrection}" class="rb-text"></div>
+        </div>
+<!--        <div th:if="${obj == 'pt' || obj == 'um'}">-->
+<!--            <input name="changeType" class="radio-btn vertical-rb" type="radio" value="attachmentChanges" th:attr="data-rel-field='changeType-field'">-->
+<!--            <div th:text="#{attachmentChanges}" class="rb-text"></div>-->
+<!--        </div>-->
+        <div th:if="${obj == 'pt' || obj == 'sv' || obj == 'spc'}">
+            <input name="changeType" class="radio-btn vertical-rb" type="radio" value="firstTimeLimitExtension" th:attr="data-rel-field='changeType-field'">
+            <div th:text="#{ptFirstTimeLimitExtension}" class="rb-text"></div>
+        </div>
+        <div th:if="${obj == 'pt' || obj == 'spc'}">
+            <input name="changeType" class="radio-btn vertical-rb" type="radio" value="secondTimeLimitExtension" th:attr="data-rel-field='changeType-field'">
+            <div th:text="#{ptSecondTimeLimitExtension}" class="rb-text"></div>
+        </div>
+        <div th:if="${obj == 'pt' || obj == 'um' || obj == 'ep' || obj == 'sv' || obj == 'spc'}">
+            <input name="changeType" class="radio-btn vertical-rb" type="radio" value="licenceDeletion" th:attr="data-rel-field='changeType-field'">
+            <div th:text="#{licenceDeletion}" class="rb-text"></div>
+        </div>
+        <div th:if="${obj == 'pt' || obj == 'um' || obj == 'ep' || obj == 'sv' || obj == 'spc'}">
+            <input name="changeType" class="radio-btn vertical-rb" type="radio" value="remRenewal" th:attr="data-rel-field='changeType-field'">
+            <div th:text="#{remRenewal}" class="rb-text"></div>
+        </div>
+        <div th:if="${obj == 'pt' || obj == 'um' || obj == 'ep' || obj == 'sv' || obj == 'spc'}">
+            <input name="changeType" class="radio-btn vertical-rb" type="radio" value="remChange" th:attr="data-rel-field='changeType-field'">
+            <div th:text="#{remChange}" class="rb-text"></div>
+        </div>
+        <div th:if="${obj == 'pt' || obj == 'um' || obj == 'ep' || obj == 'sv' || obj == 'spc'}">
+            <input name="changeType" class="radio-btn vertical-rb" type="radio" value="remDeletion" th:attr="data-rel-field='changeType-field'">
+            <div th:text="#{remDeletion}" class="rb-text"></div>
+        </div>
+        <div th:if="${obj == 'pt' || obj == 'um' || obj == 'ep' || obj == 'sv'}">
+            <input name="changeType" class="radio-btn vertical-rb" type="radio" value="enforcement" th:attr="data-rel-field='changeType-field'">
+            <div th:text="#{enforcement}" class="rb-text"></div>
+        </div>
+        <div th:if="${obj == 'pt' || obj == 'um' || obj == 'ep' || obj == 'sv' || obj == 'spc'}">
+            <input name="changeType" class="radio-btn vertical-rb" type="radio" value="securityDeletion" th:attr="data-rel-field='changeType-field'">
+            <div th:text="#{securityDeletion}" class="rb-text"></div>
+        </div>
+        <div th:if="${obj == 'pt' || obj == 'um' || obj == 'ep' || obj == 'sv' || obj == 'spc'}">
+            <input name="changeType" class="radio-btn vertical-rb" type="radio" value="bankruptcyDeletion" th:attr="data-rel-field='changeType-field'">
+            <div th:text="#{bankruptcyDeletion}" class="rb-text"></div>
+        </div>
+        <div th:if="${obj == 'pt' || obj == 'um' || obj == 'sv' || obj == 'spc'}">
+            <input name="changeType" class="radio-btn vertical-rb" type="radio" value="applicationTechErrorRepairRequest" th:attr="data-rel-field='changeType-field'">
+            <div th:text="#{applicationTechErrorRepairRequest}" class="rb-text"></div>
+        </div>
+        <div th:if="${obj == 'pt' || obj == 'um' || obj == 'ep' || obj == 'sv' || obj == 'spc'}">
+            <input name="changeType" class="radio-btn vertical-rb" type="radio" value="registerTechErrorRepairRequest" th:attr="data-rel-field='changeType-field'">
+            <div th:text="#{ptRegisterTechErrorRepairRequest}" class="rb-text"></div>
+        </div>
+        <div th:if="${obj == 'ep'}">
+            <input name="changeType" class="radio-btn vertical-rb" type="radio" value="applicationTechErrorRepairRequest" th:attr="data-rel-field='changeType-field'">
+            <div th:text="#{ptActionTechErrorRepairRequest}" class="rb-text"></div>
+        </div>
+        <div th:if="${obj == 'pt' || obj == 'um' || obj == 'ep' || obj == 'sv' || obj == 'spc'}">
+            <input name="changeType" class="radio-btn vertical-rb" type="radio" value="bpoErrorRepairRequest" th:attr="data-rel-field='changeType-field'">
+            <div th:text="#{ptBpoErrorRepairRequest}" class="rb-text"></div>
+        </div>
+        <div th:if="${obj == 'pt' || obj == 'um' || obj == 'ep' || obj == 'sv' || obj == 'spc'}">
+            <input name="changeType" class="radio-btn vertical-rb" type="radio" value="dossierAccess" th:attr="data-rel-field='changeType-field'">
+            <div th:text="#{dossierAccess}" class="rb-text"></div>
+        </div>
+        <div th:if="${obj == 'pt' || obj == 'um' || obj == 'ep' || obj == 'sv' || obj == 'spc'}">
+            <input name="changeType" class="radio-btn vertical-rb" type="radio" value="refundRequest" th:attr="data-rel-field='changeType-field'">
+            <div th:text="#{refundRequest}" class="rb-text"></div>
+        </div>
+        <div th:if="${obj == 'pt' || obj == 'um' || obj == 'ep'}">
+            <input name="changeType" class="radio-btn vertical-rb" type="radio" value="termRecovery" th:attr="data-rel-field='changeType-field'">
+            <div th:text="#{termRecovery}" class="rb-text"></div>
+        </div>
+        <div th:if="${obj == 'pt'}">
+            <input name="changeType" class="radio-btn vertical-rb" type="radio" value="licenceAvailability" th:attr="data-rel-field='changeType-field'">
+            <div th:text="#{licenceAvailability}" class="rb-text"></div>
+        </div>
+        <div th:if="${obj == 'pt'}">
+            <input name="changeType" class="radio-btn vertical-rb" type="radio" value="licenceAvailabilityWithdrawal" th:attr="data-rel-field='changeType-field'">
+            <div th:text="#{licenceAvailabilityWithdrawal}" class="rb-text"></div>
+        </div>
+        <div th:if="${obj == 'pt'}">
+            <input name="changeType" class="radio-btn vertical-rb" type="radio" value="fastTrack" th:attr="data-rel-field='changeType-field'">
+            <div th:text="#{fastTrack}" class="rb-text"></div>
+        </div>
+        <div th:if="${obj == 'pt'}">
+            <input name="changeType" class="radio-btn vertical-rb" type="radio" value="fastTrackWithdrawal" th:attr="data-rel-field='changeType-field'">
+            <div th:text="#{fastTrackWithdrawal}" class="rb-text"></div>
+        </div>
+        <div th:if="${obj == 'pt' || obj == 'um'}">
+            <input name="changeType" class="radio-btn vertical-rb" type="radio" value="priorityDeclaration" th:attr="data-rel-field='changeType-field'">
+            <div th:text="#{priorityDeclaration}" class="rb-text"></div>
+        </div>
+        <div th:if="${obj == 'pt' || obj == 'um' || obj == 'sv'}">
+            <input name="changeType" class="radio-btn vertical-rb" type="radio" value="priorityCertificatePresentation" th:attr="data-rel-field='changeType-field'">
+            <div th:text="#{priorityCertificatePresentation}" class="rb-text"></div>
+        </div>
+        <div th:if="${obj == 'pt' || obj == 'um' || obj == 'sv'}">
+            <input name="changeType" class="radio-btn vertical-rb" type="radio" value="priorityCertificateIssuance" th:attr="data-rel-field='changeType-field'">
+            <div th:text="#{priorityCertificateIssuance}" class="rb-text"></div>
+        </div>
+        <div th:if="${obj == 'pt'}">
+            <input name="changeType" class="radio-btn vertical-rb" type="radio" value="exhibitionEvidence" th:attr="data-rel-field='changeType-field'">
+            <div th:text="#{exhibitionEvidence}" class="rb-text"></div>
+        </div>
+        <div th:if="${obj == 'ep'}">
+            <input name="changeType" class="radio-btn vertical-rb" type="radio" value="actionCorrection" th:attr="data-rel-field='changeType-field'">
+            <div th:text="#{actionCorrection}" class="rb-text"></div>
+        </div>
+        <div th:if="${obj == 'um'}">
+            <input name="changeType" class="radio-btn vertical-rb" type="radio" value="replyTermExtent" th:attr="data-rel-field='changeType-field'">
+            <div th:text="#{replyTermExtent}" class="rb-text"></div>
+        </div>
+        <div th:if="${obj == 'um'}">
+            <input name="changeType" class="radio-btn vertical-rb" type="radio" value="delayWithdrawal" th:attr="data-rel-field='changeType-field'">
+            <div th:text="#{delayWithdrawal}" class="rb-text"></div>
+        </div>
+        <div th:if="${obj == 'um'}">
+            <input name="changeType" class="radio-btn vertical-rb" type="radio" value="privilegeClaim" th:attr="data-rel-field='changeType-field'">
+            <div th:text="#{privilegeClaim}" class="rb-text"></div>
+        </div>
+        <div th:if="${obj == 'pt' || obj == 'um' || obj == 'ep' || obj == 'sv' || obj == 'spc'}">
+            <input name="changeType" class="radio-btn vertical-rb" type="radio" value="submitAdditionalDocuments" th:attr="data-rel-field='changeType-field'">
+            <div th:text="#{submitAdditionalDocuments}" class="rb-text"></div>
+        </div>
+    </div>
+
+    <input type="hidden" class="input-param" id="changeType-field" value="" th:attr="data-name='changeType'">
+
+</div>
+</html>

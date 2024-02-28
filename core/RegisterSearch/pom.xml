@@ -1,0 +1,70 @@
+<!--
+  ~ * RegisterSearch:: pom.xml 03/09/13 11:10 karalch $
+  ~  * . * .
+  ~  * * RRRR * Copyright © 2013 OHIM: Office for Harmonization
+  ~  * . RR R . in the Internal Market (trade marks and designs)
+  ~  * * RRR *
+  ~  * . RR RR . ALL RIGHTS RESERVED
+  ~  * * . _ . *
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+        <groupId>eu.ohim.sp.core</groupId>
+        <artifactId>core</artifactId>
+		<version>2.0.0-RELEASE</version>
+	</parent>
+
+	<artifactId>RegisterSearch</artifactId>
+	<packaging>pom</packaging>
+
+	<dependencyManagement>
+		<dependencies>
+            <dependency>
+                <groupId>eu.ohim.sp.core</groupId>
+                <artifactId>TradeMarkSearchServiceBean</artifactId>
+                <version>${pm.sp.core.current.version}</version>
+                <type>ejb</type>
+            </dependency>
+            <dependency>
+                <groupId>eu.ohim.sp.core</groupId>
+                <artifactId>IPApplicationServiceBean</artifactId>
+                <version>${pm.sp.core.current.version}</version>
+                <type>ejb</type>
+            </dependency>
+            <dependency>
+                <groupId>eu.ohim.sp.core</groupId>
+                <artifactId>DesignSearchServiceBean</artifactId>
+                <version>${pm.sp.core.current.version}</version>
+                <type>ejb</type>
+            </dependency>
+            <dependency>
+                <groupId>eu.ohim.sp.core</groupId>
+                <artifactId>BPOPatentSearchServiceBean</artifactId>
+                <version>${pm.sp.core.current.version}</version>
+                <type>ejb</type>
+            </dependency>
+            <dependency>
+                <groupId>eu.ohim.sp.core</groupId>
+                <artifactId>BPOBackOfficeSearchServiceBean</artifactId>
+                <version>${pm.sp.core.current.version}</version>
+                <type>ejb</type>
+            </dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<modules>
+		<module>IPApplicationServiceBean</module>
+        <module>DesignSearchServiceBean</module>
+		<module>TradeMarkSearchServiceBean</module>
+		<module>DesignSearchServiceEAR</module>
+        <module>IPApplicationServiceEAR</module>
+        <module>TradeMarkSearchServiceEAR</module>
+        <module>BPOPatentSearchServiceBean</module>
+        <module>BPOPatentSearchServiceEAR</module>
+        <module>BPOBackOfficeSearchServiceBean</module>
+        <module>BPOBackOfficeSearchServiceEAR</module>
+    </modules>
+</project>

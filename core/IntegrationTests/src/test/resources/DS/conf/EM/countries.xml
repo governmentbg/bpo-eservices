@@ -1,0 +1,758 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<countries xmlns="http://www.example.org/country-configuration"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://www.example.org/country-configuration country-configuration.xsd ">
+    <country isEU="true" partOfEEA="true" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="false" code="" enabled="true"
+             isRepresentative="true" isApplicant="true">selectBox.SELECT</country>
+    <country isEU="true" partOfEEA="true" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="false" code="AT" enabled="true"
+             isRepresentative="true" isApplicant="true">country.AUSTRIA</country>
+    <country isEU="true" partOfEEA="true" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="BE" enabled="true"
+             isRepresentative="true" isApplicant="true">country.BELGIUM</country>
+    <country isEU="true" partOfEEA="true" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="false" code="BX" enabled="true"
+             isRepresentative="false" isApplicant="false">country.BENELUX</country>
+    <country isEU="true" partOfEEA="true" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="false" code="BG" enabled="true"
+             isRepresentative="true" isApplicant="true">country.BULGARIA</country>
+    <country isEU="true" partOfEEA="true" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="false" code="CY" enabled="true"
+             isRepresentative="true" isApplicant="true">country.CYPRUS</country>
+    <country isEU="true" partOfEEA="true" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="false" code="CZ" enabled="true"
+             isRepresentative="true" isApplicant="true">country.CZECH_REPUBLIC</country>
+    <country isEU="true" partOfEEA="true" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="false" code="DK" enabled="true"
+             isRepresentative="true" isApplicant="true">country.DENMARK</country>
+    <country isEU="true" partOfEEA="true" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="false" code="EE" enabled="true"
+             isRepresentative="true" isApplicant="true">country.ESTONIA</country>
+    <country isEU="true" partOfEEA="true" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="false" code="FI" enabled="true"
+             isRepresentative="true" isApplicant="true">country.FINLAND</country>
+    <country isEU="true" partOfEEA="true" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="false" code="FR" enabled="true"
+             isRepresentative="true" isApplicant="true">country.FRANCE</country>
+    <country isEU="true" partOfEEA="true" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="false" code="DE" enabled="true"
+             isRepresentative="true" isApplicant="true">country.GERMANY</country>
+    <country isEU="true" partOfEEA="true" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="false" code="GR" enabled="true"
+             isRepresentative="true" isApplicant="true">country.GREECE</country>
+    <country isEU="true" partOfEEA="true" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="false" code="HU" enabled="true"
+             isRepresentative="true" isApplicant="true">country.HUNGARY</country>
+    <country isEU="true" partOfEEA="true" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="true" code="IE" enabled="true"
+             isRepresentative="true" isApplicant="true">country.IRELAND</country>
+    <country isEU="true" partOfEEA="true" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="false" code="IT" enabled="true"
+             isRepresentative="true" isApplicant="true">country.ITALY</country>
+    <country isEU="true" partOfEEA="true" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="false" code="LV" enabled="true"
+             isRepresentative="true" isApplicant="true">country.LATVIA</country>
+    <country isEU="true" partOfEEA="true" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="false" code="LT" enabled="true"
+             isRepresentative="true" isApplicant="true">country.LITHUANIA</country>
+    <country isEU="true" partOfEEA="true" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="LU" enabled="true"
+             isRepresentative="true" isApplicant="true">country.LUXEMBOURG</country>
+    <country isEU="true" partOfEEA="true" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="false" code="MT" enabled="true"
+             isRepresentative="true" isApplicant="true">country.MALTA</country>
+    <country isEU="true" partOfEEA="true" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="NL" enabled="true"
+             isRepresentative="true" isApplicant="true">country.NETHERLANDS</country>
+    <country isEU="true" partOfEEA="true" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="false" code="PL" enabled="true"
+             isRepresentative="true" isApplicant="true">country.POLAND</country>
+    <country isEU="true" partOfEEA="true" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="false" code="PT" enabled="true"
+             isRepresentative="true" isApplicant="true">country.PORTUGAL</country>
+    <country isEU="true" partOfEEA="true" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="false" code="RO" enabled="true"
+             isRepresentative="true" isApplicant="true">country.ROMANIA</country>
+    <country isEU="true" partOfEEA="true" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="false" code="SK" enabled="true"
+             isRepresentative="true" isApplicant="true">country.SLOVAKIA</country>
+    <country isEU="true" partOfEEA="true" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="false" code="SI" enabled="true"
+             isRepresentative="true" isApplicant="true">country.SLOVENIA</country>
+    <country isEU="true" partOfEEA="true" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="false" code="ES" enabled="true"
+             isRepresentative="true" isApplicant="true">country.SPAIN</country>
+    <country isEU="true" partOfEEA="true" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="false" code="SE" enabled="true"
+             isRepresentative="true" isApplicant="true">country.SWEDEN</country>
+    <country isEU="true" partOfEEA="true" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="true" code="GB" enabled="true"
+             isRepresentative="true" isApplicant="true">country.UNITED_KINGDOM</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="AF" enabled="true"
+             isRepresentative="false" isApplicant="true">country.AFGHANISTAN</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="AP" enabled="true"
+             isRepresentative="false" isApplicant="false">country.ARIPO</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="AL" enabled="true"
+             isRepresentative="false" isApplicant="true">country.ALBANIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="DZ" enabled="true"
+             isRepresentative="false" isApplicant="true">country.ALGERIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="true" hasStateInc="false" code="AS" enabled="true"
+             isRepresentative="false" isApplicant="true">country.AMERICAN_SAMOA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="AD" enabled="true"
+             isRepresentative="false" isApplicant="true">country.ANDORRA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="AO" enabled="true"
+             isRepresentative="false" isApplicant="true">country.ANGOLA</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="AI" enabled="true"
+             isRepresentative="false" isApplicant="true">country.ANGUILLA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="AQ" enabled="true"
+             isRepresentative="false" isApplicant="true">country.ANTARCTICA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="AG" enabled="true"
+             isRepresentative="false" isApplicant="true">country.ANTIGUA_AND_BARBUDA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="AR" enabled="true"
+             isRepresentative="false" isApplicant="true">country.ARGENTINA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="AM" enabled="true"
+             isRepresentative="false" isApplicant="true">country.ARMENIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="AW" enabled="true"
+             isRepresentative="false" isApplicant="true">country.ARUBA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="true" code="AU" enabled="true"
+             isRepresentative="false" isApplicant="true">country.AUSTRALIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="AZ" enabled="true"
+             isRepresentative="false" isApplicant="true">country.AZERBAIJAN</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="BS" enabled="true"
+             isRepresentative="false" isApplicant="true">country.BAHAMAS</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="BH" enabled="true"
+             isRepresentative="false" isApplicant="true">country.BAHRAIN</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="BD" enabled="true"
+             isRepresentative="false" isApplicant="true">country.BANGLADESH</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="BB" enabled="true"
+             isRepresentative="false" isApplicant="true">country.BARBADOS</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="BY" enabled="true"
+             isRepresentative="false" isApplicant="true">country.BELARUS</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="BZ" enabled="true"
+             isRepresentative="false" isApplicant="true">country.BELIZE</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="BJ" enabled="true"
+             isRepresentative="false" isApplicant="true">country.BENIN</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="BM" enabled="true"
+             isRepresentative="false" isApplicant="true">country.BERMUDA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="BT" enabled="true"
+             isRepresentative="false" isApplicant="true">country.BHUTAN</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="BO" enabled="true"
+             isRepresentative="false" isApplicant="true">country.BOLIVIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="BA" enabled="true"
+             isRepresentative="false" isApplicant="true">country.BOSNIA_HERZEGOVINA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="BW" enabled="true"
+             isRepresentative="false" isApplicant="true">country.BOTSWANA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="BV" enabled="true"
+             isRepresentative="false" isApplicant="true">country.BOUVET_ISLAND</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="true" code="BR" enabled="true"
+             isRepresentative="false" isApplicant="true">country.BRAZIL</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="IO" enabled="true"
+             isRepresentative="false" isApplicant="true">country.BRITISH_INDIAN_OCEAN</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="BN" enabled="true"
+             isRepresentative="false" isApplicant="true">country.BRUNEI</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="BF" enabled="true"
+             isRepresentative="false" isApplicant="true">country.BURKINA_FASO</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="BI" enabled="true"
+             isRepresentative="false" isApplicant="true">country.BURUNDI</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="KH" enabled="true"
+             isRepresentative="false" isApplicant="true">country.CAMBODIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="CM" enabled="true"
+             isRepresentative="false" isApplicant="true">country.CAMEROON</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="true" code="CA" enabled="true"
+             isRepresentative="false" isApplicant="true">country.CANADA</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="CV" enabled="true"
+             isRepresentative="false" isApplicant="true">country.CAPE_VERDE</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="KY" enabled="true"
+             isRepresentative="false" isApplicant="true">country.CAYMAN_ISLANDS</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="CF" enabled="true"
+             isRepresentative="false" isApplicant="true">country.CENTRAL_AFRICAN_REP</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="TD" enabled="true"
+             isRepresentative="false" isApplicant="true">country.CHAD</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="CL" enabled="true"
+             isRepresentative="false" isApplicant="true">country.CHILE</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="CN" enabled="true"
+             isRepresentative="false" isApplicant="true">country.CHINA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="CX" enabled="true"
+             isRepresentative="false" isApplicant="true">country.CHRISTMAS_ISLAND</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="CC" enabled="true"
+             isRepresentative="false" isApplicant="true">country.COCOS_(KEELING)_ISL</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="CO" enabled="true"
+             isRepresentative="false" isApplicant="true">country.COLOMBIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="KM" enabled="true"
+             isRepresentative="false" isApplicant="true">country.COMOROS</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="CK" enabled="true"
+             isRepresentative="false" isApplicant="true">country.COOK_ISLANDS</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="CR" enabled="true"
+             isRepresentative="false" isApplicant="true">country.COSTA_RICA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="HR" enabled="true"
+             isRepresentative="false" isApplicant="true">country.CROATIA_(Hrvatska)</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="CU" enabled="true"
+             isRepresentative="false" isApplicant="true">country.CUBA</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             code="CW" enabled="false" hasState="false" hasStateInc="false"
+             isRepresentative="false" isApplicant="true">country.CURACAO</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="DJ" enabled="true"
+             isRepresentative="false" isApplicant="true">country.DJIBOUTI</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="DM" enabled="true"
+             isRepresentative="false" isApplicant="true">country.DOMINICA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="DO" enabled="true"
+             isRepresentative="false" isApplicant="true">country.DOMINICAN_REPUBLIC</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="TL" enabled="true"
+             isRepresentative="false" isApplicant="true">country.EAST_TIMOR</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="EC" enabled="true"
+             isRepresentative="false" isApplicant="true">country.ECUADOR</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="EG" enabled="true"
+             isRepresentative="false" isApplicant="true">country.EGYPT</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="SV" enabled="true"
+             isRepresentative="false" isApplicant="true">country.EL_SALVADOR</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="GQ" enabled="true"
+             isRepresentative="false" isApplicant="true">country.EQUATORIAL_GUINEA</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="ER" enabled="true"
+             isRepresentative="false" isApplicant="true">country.ERITREA</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="ET" enabled="true"
+             isRepresentative="false" isApplicant="true">country.ETHIOPIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="FK" enabled="true"
+             isRepresentative="false" isApplicant="true">country.FALKLAND_ISLANDS</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="FO" enabled="true"
+             isRepresentative="false" isApplicant="true">country.FAEROE_ISLANDS</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="FJ" enabled="true"
+             isRepresentative="false" isApplicant="true">country.FIJI</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="GF" enabled="true"
+             isRepresentative="false" isApplicant="false">country.FRENCH_GUIANA</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="PF" enabled="true"
+             isRepresentative="false" isApplicant="true">country.FRENCH_POLYNESIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="TF" enabled="true"
+             isRepresentative="false" isApplicant="true">country.FRENCH_SOUTHERN_TERR</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="MK" enabled="true"
+             isRepresentative="false" isApplicant="true">country.FYROM</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="GA" enabled="true"
+             isRepresentative="false" isApplicant="true">country.GABON</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="GM" enabled="true"
+             isRepresentative="false" isApplicant="true">country.GAMBIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="GE" enabled="true"
+             isRepresentative="false" isApplicant="true">country.GEORGIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="GH" enabled="true"
+             isRepresentative="false" isApplicant="true">country.GHANA</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="GI" enabled="true"
+             isRepresentative="true" isApplicant="true">country.GIBRALTAR</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="GL" enabled="true"
+             isRepresentative="false" isApplicant="true">country.GREENLAND</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="GD" enabled="true"
+             isRepresentative="false" isApplicant="true">country.GRENADA</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="GP" enabled="true"
+             isRepresentative="false" isApplicant="false">country.GUADELOUPE</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="true" hasStateInc="false" code="GU" enabled="true"
+             isRepresentative="false" isApplicant="true">country.GUAM</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="GT" enabled="true"
+             isRepresentative="false" isApplicant="true">country.GUATEMALA</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="GG" enabled="true"
+             isRepresentative="false" isApplicant="true">country.GUERNSEY</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="GN" enabled="true"
+             isRepresentative="false" isApplicant="true">country.GUINEA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="GW" enabled="true"
+             isRepresentative="false" isApplicant="true">country.GUINEA-BISSAU</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="GY" enabled="true"
+             isRepresentative="false" isApplicant="true">country.GUYANA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="HT" enabled="true"
+             isRepresentative="false" isApplicant="true">country.HAITI</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="HM" enabled="true"
+             isRepresentative="false" isApplicant="true">country.HEARD_Mc_DONALD_ISL</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="HN" enabled="true"
+             isRepresentative="false" isApplicant="true">country.HONDURAS</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="HK" enabled="true"
+             isRepresentative="false" isApplicant="true">country.HONG_KONG</country>
+    <country isEU="false" partOfEEA="true" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="IS" enabled="true"
+             isRepresentative="false" isApplicant="true">country.ICELAND</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="true" code="IN" enabled="true"
+             isRepresentative="false" isApplicant="true">country.INDIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="ID" enabled="true"
+             isRepresentative="false" isApplicant="true">country.INDONESIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="IR" enabled="true"
+             isRepresentative="false" isApplicant="true">country.IRAN</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="IQ" enabled="true"
+             isRepresentative="false" isApplicant="true">country.IRAQ</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="IL" enabled="true"
+             isRepresentative="false" isApplicant="true">country.ISRAEL</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="IM" enabled="true"
+             isRepresentative="false" isApplicant="true">country.ISLE_OF_MAN</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="CI" enabled="true"
+             isRepresentative="false" isApplicant="true">country.IVORY_COAST</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="JM" enabled="true"
+             isRepresentative="false" isApplicant="true">country.JAMAICA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="JP" enabled="true"
+             isRepresentative="false" isApplicant="true">country.JAPAN</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="JE" enabled="true"
+             isRepresentative="false" isApplicant="true">country.JERSEY</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="JO" enabled="true"
+             isRepresentative="false" isApplicant="true">country.JORDAN</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="KZ" enabled="true"
+             isRepresentative="false" isApplicant="true">country.KAZAKHSTAN</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="KE" enabled="true"
+             isRepresentative="false" isApplicant="true">country.KENYA</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="KI" enabled="true"
+             isRepresentative="false" isApplicant="true">country.KIRIBATI</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="KW" enabled="true"
+             isRepresentative="false" isApplicant="true">country.KUWAIT</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="KG" enabled="true"
+             isRepresentative="false" isApplicant="true">country.KYRGYZSTAN</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="LA" enabled="true"
+             isRepresentative="false" isApplicant="true">country.LAOS</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="LB" enabled="true"
+             isRepresentative="false" isApplicant="true">country.LEBANON</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="LS" enabled="true"
+             isRepresentative="false" isApplicant="true">country.LESOTHO</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="LR" enabled="true"
+             isRepresentative="false" isApplicant="true">country.LIBERIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="LY" enabled="true"
+             isRepresentative="false" isApplicant="true">country.LIBYA</country>
+    <country isEU="false" partOfEEA="true" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="LI" enabled="true"
+             isRepresentative="false" isApplicant="true">country.LIECHTENSTEIN</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="MO" enabled="true"
+             isRepresentative="false" isApplicant="true">country.MACAU</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="MG" enabled="true"
+             isRepresentative="false" isApplicant="true">country.MADAGASCAR</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="MW" enabled="true"
+             isRepresentative="false" isApplicant="true">country.MALAWI</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="MY" enabled="true"
+             isRepresentative="false" isApplicant="true">country.MALAYSIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="MV" enabled="true"
+             isRepresentative="false" isApplicant="true">country.MALDIVES</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="ML" enabled="true"
+             isRepresentative="false" isApplicant="true">country.MALI</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="MH" enabled="true"
+             isRepresentative="false" isApplicant="true">country.MARSHALL_ISLANDS</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="MQ" enabled="true"
+             isRepresentative="false" isApplicant="false">country.MARTINIQUE</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="MR" enabled="true"
+             isRepresentative="false" isApplicant="true">country.MAURITANIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="MU" enabled="true"
+             isRepresentative="false" isApplicant="true">country.MAURITIUS</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="YT" enabled="true"
+             isRepresentative="false" isApplicant="true">country.MAYOTTE</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="true" code="MX" enabled="true"
+             isRepresentative="false" isApplicant="true">country.MEXICO</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="FM" enabled="true"
+             isRepresentative="false" isApplicant="true">country.MICRONESIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="MD" enabled="true"
+             isRepresentative="false" isApplicant="true">country.MOLDOVA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="MC" enabled="true"
+             isRepresentative="false" isApplicant="true">country.MONACO</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="MN" enabled="true"
+             isRepresentative="false" isApplicant="true">country.MONGOLIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="ME" enabled="true"
+             isRepresentative="false" isApplicant="true">country.MONTENEGRO</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="MS" enabled="true"
+             isRepresentative="false" isApplicant="true">country.MONTSERRAT</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="MA" enabled="true"
+             isRepresentative="false" isApplicant="true">country.MOROCCO</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="MZ" enabled="true"
+             isRepresentative="false" isApplicant="true">country.MOZAMBIQUE</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="MM" enabled="true"
+             isRepresentative="false" isApplicant="true">country.MYANMAR</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="NA" enabled="true"
+             isRepresentative="false" isApplicant="true">country.NAMIBIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="NR" enabled="true"
+             isRepresentative="false" isApplicant="true">country.NAURU</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="NP" enabled="true"
+             isRepresentative="false" isApplicant="true">country.NEPAL</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="AN" enabled="true"
+             isRepresentative="false" isApplicant="true">country.NETHERLANDS_ANTILLES</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="NC" enabled="true"
+             isRepresentative="false" isApplicant="true">country.NEW_CALEDONIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="NZ" enabled="true"
+             isRepresentative="false" isApplicant="true">country.NEW_ZEALAND</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="NI" enabled="true"
+             isRepresentative="false" isApplicant="true">country.NICARAGUA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="NE" enabled="true"
+             isRepresentative="false" isApplicant="true">country.NIGER</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="NG" enabled="true"
+             isRepresentative="false" isApplicant="true">country.NIGERIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="NU" enabled="true"
+             isRepresentative="false" isApplicant="true">country.NIUE</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="NF" enabled="true"
+             isRepresentative="false" isApplicant="true">country.NORFOLK_ISLAND</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="KP" enabled="true"
+             isRepresentative="false" isApplicant="true">country.NORTH_KOREA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="true" hasStateInc="false" code="MP" enabled="true"
+             isRepresentative="false" isApplicant="true">country.NORTHERN_MARIANA_ISL</country>
+    <country isEU="false" partOfEEA="true" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="NO" enabled="true"
+             isRepresentative="false" isApplicant="true">country.NORWAY</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="OA" enabled="true"
+             isRepresentative="false" isApplicant="false">country.OAPI</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="EM" enabled="true"
+             isRepresentative="false" isApplicant="false">country.OHIM</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="OM" enabled="true"
+             isRepresentative="false" isApplicant="true">country.OMAN</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="PK" enabled="true"
+             isRepresentative="false" isApplicant="true">country.PAKISTAN</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="PW" enabled="true"
+             isRepresentative="false" isApplicant="true">country.PALAU</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="PA" enabled="true"
+             isRepresentative="false" isApplicant="true">country.PANAMA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="PG" enabled="true"
+             isRepresentative="false" isApplicant="true">country.PAPUA_NEW_GUINEA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="PY" enabled="true"
+             isRepresentative="false" isApplicant="true">country.PARAGUAY</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="PE" enabled="true"
+             isRepresentative="false" isApplicant="true">country.PERU</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="PH" enabled="true"
+             isRepresentative="false" isApplicant="true">country.PHILIPPINES</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="PN" enabled="true"
+             isRepresentative="false" isApplicant="true">country.PITCAIRN</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="true" hasStateInc="false" code="PR" enabled="true"
+             isRepresentative="false" isApplicant="true">country.PUERTO_RICO</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="QA" enabled="true"
+             isRepresentative="false" isApplicant="true">country.QATAR</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="CD" enabled="true"
+             isRepresentative="false" isApplicant="true">country.REPUBLIC_OF_THE_CONGO</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="RE" enabled="true"
+             isRepresentative="false" isApplicant="false">country.REUNION</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="RU" enabled="true"
+             isRepresentative="false" isApplicant="true">country.RUSSIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="RW" enabled="true"
+             isRepresentative="false" isApplicant="true">country.RWANDA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="KN" enabled="true"
+             isRepresentative="false" isApplicant="true">country.SAINT_KITTS_AND_NEVIS</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="LC" enabled="true"
+             isRepresentative="false" isApplicant="true">country.SAINT_LUCIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="SH" enabled="true"
+             isRepresentative="false" isApplicant="true">country.SAINT_HELENA</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="PM" enabled="true"
+             isRepresentative="false" isApplicant="true">country.SAINT_PIERRE_MIQUELON</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="VC" enabled="true"
+             isRepresentative="false" isApplicant="true">country.SNT_VINCENT_AGRENAD</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="WS" enabled="true"
+             isRepresentative="false" isApplicant="true">country.SAMOA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="SM" enabled="true"
+             isRepresentative="false" isApplicant="true">country.SAN_MARINO</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="ST" enabled="true"
+             isRepresentative="false" isApplicant="true">country.SAO_TOME_AND_PRINCIPE</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="SA" enabled="true"
+             isRepresentative="false" isApplicant="true">country.SAUDI_ARABIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="SN" enabled="true"
+             isRepresentative="false" isApplicant="true">country.SENEGAL</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="RS" enabled="true"
+             isRepresentative="false" isApplicant="true">country.SERBIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="SC" enabled="true"
+             isRepresentative="false" isApplicant="true">country.SEYCHELLES</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="SL" enabled="true"
+             isRepresentative="false" isApplicant="true">country.SIERRA_LEONE</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="SG" enabled="true"
+             isRepresentative="false" isApplicant="true">country.SINGAPORE</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="SB" enabled="true"
+             isRepresentative="false" isApplicant="true">country.SOLOMON_ISLANDS</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="SO" enabled="true"
+             isRepresentative="false" isApplicant="true">country.SOMALIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="ZA" enabled="true"
+             isRepresentative="false" isApplicant="true">country.SOUTH_AFRICA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="KR" enabled="true"
+             isRepresentative="false" isApplicant="true">country.SOUTH_KOREA</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="GS" enabled="true"
+             isRepresentative="false" isApplicant="true">country.STH_GEORGIA_STH_SAND</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="LK" enabled="true"
+             isRepresentative="false" isApplicant="true">country.SRI_LANKA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="SD" enabled="true"
+             isRepresentative="false" isApplicant="true">country.SUDAN</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="SR" enabled="true"
+             isRepresentative="false" isApplicant="true">country.SURINAME</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="SJ" enabled="true"
+             isRepresentative="false" isApplicant="true">country.SVAL_N_JAN_MAYEN_ISL</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="SZ" enabled="true"
+             isRepresentative="false" isApplicant="true">country.SWAZILAND</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="CH" enabled="true"
+             isRepresentative="false" isApplicant="true">country.SWITZERLAND</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="SY" enabled="true"
+             isRepresentative="false" isApplicant="true">country.SYRIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="TW" enabled="true"
+             isRepresentative="false" isApplicant="true">country.TAIWAN</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="TJ" enabled="true"
+             isRepresentative="false" isApplicant="true">country.TAJIKISTAN</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="TZ" enabled="true"
+             isRepresentative="false" isApplicant="true">country.TANZANIA,_UN_REP_OF</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="TH" enabled="true"
+             isRepresentative="false" isApplicant="true">country.THAILAND</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="TG" enabled="true"
+             isRepresentative="false" isApplicant="true">country.TOGO</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="TK" enabled="true"
+             isRepresentative="false" isApplicant="true">country.TOKELAU</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="TO" enabled="true"
+             isRepresentative="false" isApplicant="true">country.TONGA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="TT" enabled="true"
+             isRepresentative="false" isApplicant="true">country.TRINIDAD_AND_TOBAGO</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="TN" enabled="true"
+             isRepresentative="false" isApplicant="true">country.TUNISIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="TR" enabled="true"
+             isRepresentative="false" isApplicant="true">country.TURKEY</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="TM" enabled="true"
+             isRepresentative="false" isApplicant="true">country.TURKMENISTAN</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="TC" enabled="true"
+             isRepresentative="false" isApplicant="true">country.TURKS_AND_CAICOS_ISL</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="TV" enabled="true"
+             isRepresentative="false" isApplicant="true">country.TUVALU</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="UG" enabled="true"
+             isRepresentative="false" isApplicant="true">country.UGANDA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="UA" enabled="true"
+             isRepresentative="false" isApplicant="true">country.UKRAINE</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="AE" enabled="true"
+             isRepresentative="false" isApplicant="true">country.UNITED_ARAB_EMIRATES</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="true" hasStateInc="true" code="US" enabled="true"
+             isRepresentative="false" isApplicant="true">country.UNITED_STATES</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="UM" enabled="true"
+             isRepresentative="true" isApplicant="true">country.US_MINOR_OUTLYIN_ISL</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="UY" enabled="true"
+             isRepresentative="false" isApplicant="true">country.URUGUAY</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="UZ" enabled="true"
+             isRepresentative="false" isApplicant="true">country.UZBEKISTAN</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="VU" enabled="true"
+             isRepresentative="false" isApplicant="true">country.VANUATU</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="VA" enabled="true"
+             isRepresentative="false" isApplicant="true">country.VATICAN_CITY_STATE</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="VE" enabled="true"
+             isRepresentative="false" isApplicant="true">country.VENEZUELA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="VN" enabled="true"
+             isRepresentative="false" isApplicant="true">country.VIETNAM</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="VG" enabled="true"
+             isRepresentative="false" isApplicant="true">country.VIRGIN_ISL_(BRITISH)</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="true" hasStateInc="false" code="VI" enabled="true"
+             isRepresentative="false" isApplicant="true">country.VIRGIN_ISLANDS_(U.S.)</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="WF" enabled="true"
+             isRepresentative="false" isApplicant="true">country.WALLIS_AND_FUTUNA_ISL</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="EH" enabled="true"
+             isRepresentative="false" isApplicant="true">country.WESTERN_SAHARA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="WO" enabled="true"
+             isRepresentative="false" isApplicant="false">country.WIPO</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="YE" enabled="true"
+             isRepresentative="false" isApplicant="true">country.YEMEN</country>
+    <country isEU="true" partOfEEA="true" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="YU" enabled="true"
+             isRepresentative="false" isApplicant="false">country.YUGOSLAVIA</country>
+    <country isEU="true" partOfEEA="true" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="CS" enabled="true"
+             isRepresentative="false" isApplicant="false">country.CZECHOSLOVAKIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="ZM" enabled="true"
+             isRepresentative="false" isApplicant="true">country.ZAMBIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="ZW" enabled="true"
+             isRepresentative="false" isApplicant="true">country.ZIMBABWE</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="XX" enabled="true"
+             isRepresentative="false" isApplicant="true">country.COUNTRYLESS</country>
+</countries>

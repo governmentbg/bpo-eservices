@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ * SystemConfigurationServiceDao:: payerType.xml 07/10/13 21:16 karalch $
+  ~  * . * .
+  ~  * * RRRR * Copyright © 2013 OHIM: Office for Harmonization
+  ~  * . RR R . in the Internal Market (trade marks and designs)
+  ~  * * RRR *
+  ~  * . RR RR . ALL RIGHTS RESERVED
+  ~  * * . _ . *
+  -->
+
+<payerTypes xmlns="http://www.example.org/payerType-configuration"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.example.org/payerType-configuration payerType-configuration.xsd ">
+	<payerType code="" value="selectBox.SELECT" active="true" />
+	<payerType code="APPLICANT" value="payer.type.applicant" active="true" />
+	<payerType code="REPRESENTATIVE"	value="payer.type.representative" active="true" />
+	<payerType code="OTHER"	value="payer.type.other" active="true" />	
+</payerTypes>

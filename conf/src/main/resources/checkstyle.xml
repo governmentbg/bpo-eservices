@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module PUBLIC "-//Puppy Crawl//DTD Check Configuration 1.3//EN" "http://www.puppycrawl.com/dtds/configuration_1_3.dtd">
+
+<!--
+    This configuration file was written by the eclipse-cs plugin configuration editor
+-->
+<!--
+    Checkstyle-Configuration: OHIM new
+    Description: none
+-->
+<module name="Checker">
+  <property name="severity" value="warning"/>
+  <module name="TreeWalker">
+    <module name="FileContentsHolder"/>
+    <module name="PackageName">
+      <metadata name="net.sf.eclipsecs.core.comment" value="Package names must be lower case."/>
+      <property name="id" value="2"/>
+      <property name="format" value="^[a-z]+(\.[a-z][a-z0-9]*)*$"/>
+    </module>
+    <module name="TypeName">
+      <metadata name="net.sf.eclipsecs.core.comment" value="Type names must start with upper case. Does not check whether is noun or not."/>
+      <property name="id" value="3"/>
+    </module>
+    <module name="MemberName">
+      <metadata name="net.sf.eclipsecs.core.comment" value="Variable names must be in mixed case starting with lower case."/>
+      <property name="id" value="4"/>
+    </module>
+    <module name="LocalVariableName">
+      <metadata name="net.sf.eclipsecs.core.comment" value="Variable names must be in mixed case starting with lower case."/>
+      <property name="id" value="4"/>
+    </module>
+    <module name="ConstantName">
+      <metadata name="net.sf.eclipsecs.core.comment" value="Constant names must be uppercase using underscore to separate words"/>
+      <property name="id" value="5"/>
+      <property name="format" value="^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$|^logger$"/>
+    </module>
+    <module name="ParameterName">
+      <metadata name="net.sf.eclipsecs.core.comment" value="Parameter names must be in mixed case starting with lower case."/>
+      <property name="id" value="4"/>
+    </module>
+    <module name="MethodName">
+      <metadata name="net.sf.eclipsecs.core.comment" value="Method names should be written in mixed case."/>
+      <property name="id" value="6"/>
+    </module>
+    <module name="AbstractClassName">
+      <metadata name="net.sf.eclipsecs.core.comment" value="Prefix abstract classes with Abstract word."/>
+      <property name="id" value="28"/>
+      <property name="format" value="^Abstract.*$"/>
+    </module>
+    <module name="LocalFinalVariableName">
+      <metadata name="net.sf.eclipsecs.core.comment" value="Variable names must be in mixed case starting with lower case."/>
+      <property name="id" value="4"/>
+    </module>
+    <module name="StaticVariableName">
+      <metadata name="net.sf.eclipsecs.core.comment" value="Variable names must be in mixed case starting with lower case."/>
+      <property name="id" value="4"/>
+    </module>
+    <module name="LineLength">
+      <metadata name="net.sf.eclipsecs.core.comment" value="File content must be kept within 120 columns."/>
+      <property name="severity" value="info"/>
+      <property name="id" value="33"/>
+      <property name="max" value="120"/>
+    </module>
+    <module name="ImportOrder">
+      <metadata name="net.sf.eclipsecs.core.comment" value="Imports should be sorted with most fundamental packages first."/>
+      <property name="severity" value="info"/>
+      <property name="id" value="37"/>
+      <property name="groups" value="java,org,com,*,eu.ohim"/>
+      <property name="separated" value="true"/>
+      <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
+    </module>
+    <module name="ModifierOrder">
+      <property name="id" value="42"/>
+      <message key="annotation.order" value="''{0}'' annotation modifier does not precede non-annotation modifiers."/>
+    </module>
+    <module name="ReturnCount">
+      <metadata name="net.sf.eclipsecs.core.comment" value="Use only 1 return per method."/>
+      <property name="id" value="43"/>
+      <property name="max" value="3"/>
+    </module>
+    <module name="BooleanExpressionComplexity">
+      <metadata name="net.sf.eclipsecs.core.comment" value="Complex conditional expresions must be avoided."/>
+      <property name="id" value="56"/>
+    </module>
+    <module name="MagicNumber">
+      <metadata name="net.sf.eclipsecs.core.comment" value="Usage of magic numbers should be avoided."/>
+      <property name="id" value="60"/>
+      <property name="ignoreNumbers" value="-1, 0, 1, 2, 3"/>
+    </module>
+    <module name="EmptyStatement">
+      <metadata name="net.sf.eclipsecs.core.comment" value="Empty statement must not be used."/>
+      <property name="id" value="61"/>
+    </module>
+    <module name="InterfaceIsType">
+      <metadata name="net.sf.eclipsecs.core.comment" value="Always refer objects by their interface."/>
+      <property name="id" value="62"/>
+    </module>
+    <module name="NestedIfDepth">
+      <metadata name="net.sf.eclipsecs.core.comment" value="Avoid nesting conditions more than 3 deep."/>
+      <property name="id" value="63"/>
+      <property name="max" value="3"/>
+    </module>
+    <module name="EmptyBlock">
+      <metadata name="net.sf.eclipsecs.core.comment" value="Never use empty blocks."/>
+      <property name="id" value="66"/>
+      <property name="tokens" value="LITERAL_CATCH,LITERAL_DO,LITERAL_ELSE,LITERAL_FINALLY,LITERAL_FOR,LITERAL_IF,              STATIC_INIT,LITERAL_TRY,LITERAL_WHILE"/>
+    </module>
+    <module name="LeftCurly">
+      <metadata name="net.sf.eclipsecs.core.comment" value="Bracket at the end of the line."/>
+      <property name="id" value="73"/>
+      <property name="maxLineLength" value="120"/>
+      <property name="tokens" value="LITERAL_CATCH,CLASS_DEF,CTOR_DEF,LITERAL_DO,LITERAL_ELSE,LITERAL_FINALLY,              LITERAL_FOR,LITERAL_IF,INTERFACE_DEF,METHOD_DEF,LITERAL_SWITCH,              LITERAL_SYNCHRONIZED,LITERAL_TRY,LITERAL_WHILE"/>
+    </module>
+    <module name="LeftCurly">
+      <property name="maxLineLength" value="120"/>
+      <property name="tokens" value="LITERAL_CATCH,CLASS_DEF,CTOR_DEF,LITERAL_DO,LITERAL_ELSE,LITERAL_FINALLY,              LITERAL_FOR,LITERAL_IF,INTERFACE_DEF,METHOD_DEF,LITERAL_SWITCH,              LITERAL_SYNCHRONIZED,LITERAL_TRY,LITERAL_WHILE"/>
+    </module>
+    <module name="MethodParamPad">
+      <property name="id" value="83"/>
+      <property name="tokens" value="CTOR_DEF,METHOD_CALL,METHOD_DEF,LITERAL_NEW,SUPER_CTOR_CALL"/>
+    </module>
+    <module name="WhitespaceAfter">
+      <property name="id" value="83"/>
+    </module>
+    <module name="ParenPad">
+      <property name="tokens" value="CTOR_CALL,METHOD_CALL,SUPER_CTOR_CALL"/>
+    </module>
+    <module name="NoWhitespaceAfter">
+      <property name="id" value="83"/>
+    </module>
+    <module name="WhitespaceAround">
+      <property name="tokens" value="COLON,NOT_EQUAL,QUESTION,DIV,BXOR,MINUS,LCURLY,RCURLY,STAR,              TYPE_EXTENSION_AND,BAND,LAND,MOD,PLUS,LT,SL,SL_ASSIGN,LE,ASSIGN,EQUAL,GT,GE,              SR,BSR,BOR,LOR,LITERAL_ASSERT,LITERAL_ASSERT,LITERAL_CATCH,LITERAL_DO,              LITERAL_ELSE,LITERAL_FINALLY,LITERAL_FOR,LITERAL_IF,LITERAL_RETURN,SLIST,              LITERAL_SYNCHRONIZED,LITERAL_TRY,WILDCARD_TYPE,LITERAL_WHILE"/>
+    </module>
+    <module name="NoWhitespaceBefore"/>
+    <module name="EmptyForIteratorPad">
+      <property name="option" value="space"/>
+    </module>
+    <module name="TypecastParenPad">
+      <property name="tokens" value="RPAREN,TYPECAST"/>
+    </module>
+    <module name="RightCurly">
+      <property name="tokens" value="LITERAL_CATCH,LITERAL_ELSE,LITERAL_FINALLY,LITERAL_IF,LITERAL_TRY"/>
+    </module>
+    <module name="BooleanExpressionComplexity"/>
+    <module name="ClassDataAbstractionCoupling"/>
+    <module name="ClassFanOutComplexity"/>
+    <module name="CyclomaticComplexity">
+      <property name="max" value="7"/>
+    </module>
+    <module name="JavaNCSS"/>
+    <module name="NPathComplexity"/>
+    <module name="FinalClass"/>
+    <module name="InnerTypeLast"/>
+    <module name="HideUtilityClassConstructor"/>
+    <module name="InterfaceIsType"/>
+    <module name="MutableException"/>
+    <module name="ThrowsCount"/>
+    <module name="VisibilityModifier"/>
+    <module name="CovariantEquals"/>
+    <module name="DefaultComesLast"/>
+    <module name="DeclarationOrder"/>
+    <module name="EqualsAvoidNull"/>
+    <module name="EqualsHashCode"/>
+    <module name="ExplicitInitialization"/>
+    <module name="FallThrough"/>
+    <module name="HiddenField">
+      <property name="ignoreConstructorParameter" value="true"/>
+      <property name="ignoreSetter" value="true"/>
+    </module>
+    <module name="IllegalInstantiation"/>
+    <module name="IllegalCatch"/>
+    <module name="IllegalThrows"/>
+    <module name="IllegalTokenText"/>
+    <module name="IllegalType">
+      <property name="tokens" value="METHOD_DEF,PARAMETER_DEF,VARIABLE_DEF"/>
+    </module>
+    <module name="InnerAssignment"/>
+    <module name="JUnitTestCase"/>
+    <module name="MissingCtor"/>
+    <module name="MissingSwitchDefault"/>
+    <module name="MultipleStringLiterals"/>
+    <module name="MultipleVariableDeclarations"/>
+    <module name="NestedForDepth"/>
+    <module name="NestedTryDepth"/>
+    <module name="NoClone"/>
+    <module name="NoFinalizer"/>
+    <module name="PackageDeclaration"/>
+    <module name="ParameterAssignment"/>
+    <module name="RedundantThrows">
+      <property name="suppressLoadErrors" value="true"/>
+    </module>
+    <module name="SimplifyBooleanExpression"/>
+    <module name="SimplifyBooleanReturn"/>
+    <module name="StringLiteralEquality"/>
+    <module name="SuperClone"/>
+    <module name="SuperFinalize"/>
+    <module name="ArrayTrailingComma"/>
+    <module name="UnnecessaryParentheses"/>
+    <module name="OneStatementPerLine"/>
+    <module name="AvoidInlineConditionals">
+      <property name="severity" value="ignore"/>
+      <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
+    </module>
+    <module name="DoubleCheckedLocking">
+      <property name="severity" value="ignore"/>
+      <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="error"/>
+    </module>
+    <module name="UncommentedMain"/>
+    <module name="ClassTypeParameterName"/>
+    <module name="MethodTypeParameterName"/>
+    <module name="IllegalImport"/>
+    <module name="RedundantImport"/>
+    <module name="MethodLength"/>
+    <module name="OuterTypeNumber"/>
+    <module name="MethodCount"/>
+    <module name="GenericWhitespace"/>
+    <module name="RedundantModifier"/>
+    <module name="AvoidNestedBlocks"/>
+    <module name="AnnotationUseStyle"/>
+    <module name="MissingOverride"/>
+    <module name="PackageAnnotation"/>
+    <module name="SuppressWarnings"/>
+    <module name="JavadocMethod">
+      <property name="scope" value="package"/>
+      <property name="allowUndeclaredRTE" value="true"/>
+      <property name="suppressLoadErrors" value="true"/>
+    </module>
+    <module name="JavadocStyle">
+      <property name="checkFirstSentence" value="false"/>
+    </module>
+    <module name="JavadocType"/>
+    <module name="AnonInnerLength"/>
+    <module name="RegexpSinglelineJava">
+      <metadata name="net.sf.eclipsecs.core.comment" value="No Exception.printStackTrace()."/>
+      <property name="severity" value="error"/>
+      <property name="format" value=".printStackTrace\(\);$"/>
+      <property name="message" value="Exception.printStackTrace() is not allowed, use logger instead."/>
+      <property name="ignoreComments" value="true"/>
+    </module>
+    <module name="RegexpSinglelineJava">
+      <metadata name="net.sf.eclipsecs.core.comment" value="No System.out.println()."/>
+      <property name="severity" value="error"/>
+      <property name="format" value="^\s*System.out.println(.*);$"/>
+      <property name="message" value="System.out.println() is not allowed, use logger instead."/>
+      <property name="ignoreComments" value="true"/>
+    </module>
+    <module name="RegexpSinglelineJava">
+      <metadata name="net.sf.eclipsecs.core.comment" value="No System.err.println()."/>
+      <property name="severity" value="error"/>
+      <property name="format" value="^\s*System.err.println(.*);$"/>
+      <property name="message" value="System.err.println() is not allowed, use logger instead."/>
+      <property name="ignoreComments" value="true"/>
+    </module>
+    <module name="RegexpSinglelineJava">
+      <metadata name="net.sf.eclipsecs.core.comment" value="No System.exit()."/>
+      <property name="severity" value="error"/>
+      <property name="format" value="^\s*System.exit(.*);$"/>
+      <property name="message" value="System.exit() is not allowed."/>
+      <property name="ignoreComments" value="true"/>
+    </module>
+    <module name="FinalLocalVariable">
+      <property name="severity" value="ignore"/>
+      <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
+    </module>
+    <module name="DesignForExtension"/>
+  </module>
+  <module name="FileTabCharacter">
+    <metadata name="net.sf.eclipsecs.core.comment" value="TAB character must be avoided."/>
+    <property name="id" value="34"/>
+  </module>
+  <module name="Translation"/>
+  <module name="JavadocPackage"/>
+  <module name="RegexpSingleline">
+    <property name="severity" value="info"/>
+    <property name="format" value="(?&lt;!^\s*\*)\s+$"/>
+    <property name="message" value="Line has trailing spaces."/>
+    <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="warning"/>
+  </module>
+  <module name="SuppressionCommentFilter">
+    <property name="offCommentFormat" value="This file was generated by the JavaTM Architecture for XML Binding\(JAXB\) Reference Implementation"/>
+    <property name="checkC" value="false"/>
+  </module>
+</module>

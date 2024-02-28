@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<feeList>
+	<feeTypeList>
+		<code>001</code>
+		<nameKey>basicFee</nameKey>
+		<description>basic fee</description>
+		<defaultValue>500.0</defaultValue>
+	</feeTypeList>
+	<feeTypeList>
+		<code>001</code>
+		<nameKey>publicationFee</nameKey>
+		<description>publication fee</description>
+		<defaultValue>50.0</defaultValue>
+	</feeTypeList>
+</feeList>

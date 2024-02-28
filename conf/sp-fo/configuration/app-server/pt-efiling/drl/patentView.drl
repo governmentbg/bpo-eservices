@@ -1,0 +1,24 @@
+package org.domain.rules;
+dialect "mvel"
+
+import java.util.HashMap;
+import org.apache.commons.lang.*;
+import org.apache.commons.lang.StringUtils;
+import eu.ohim.sp.core.domain.patent.PatentView;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.configuration.domain.xsd.Sections;
+import eu.ohim.sp.core.configuration.domain.xsd.Section;
+import eu.ohim.sp.core.configuration.domain.xsd.Field;
+import eu.ohim.sp.core.domain.validation.RulesInformation;
+
+rule "BR PatentView attachment content - empty"
+salience 500
+when
+	$errorList : ErrorList()
+	Section ($fields : field)
+	Field(id=="view", $fieldUsable: usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	PatentView(view == null)
+then
+    addError("view", "BR.view.empty", "You have to add view file", null, $errorList);
+end

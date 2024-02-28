@@ -1,0 +1,123 @@
+package org.domain.rules;
+
+dialect "mvel"
+
+import eu.ohim.sp.core.domain.patent.PatentApplication;
+import eu.ohim.sp.core.domain.validation.ErrorCore;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.domain.payment.FeeList;
+import eu.ohim.sp.core.domain.payment.FeeType;
+import eu.ohim.sp.core.domain.payment.Fee;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.TreeMap;
+import java.util.List;
+import java.util.Date;
+import eu.ohim.sp.core.domain.patent.PCT;
+
+rule "Fees reader"
+salience 1000
+no-loop
+    when
+		FeeList($feeTypeList : feeTypeList)
+        $basicFee : FeeType("basicFee".equals(nameKey)) from $feeTypeList
+        $publicationFee : FeeType("publicationFee".equals(nameKey)) from $feeTypeList
+        $priorityFee : FeeType("priorityFee".equals(nameKey)) from $feeTypeList
+        $certificateFee : FeeType("certificateFee".equals(nameKey)) from $feeTypeList
+        $imageFeeForCertificate : FeeType("imageFeeForCertificate".equals(nameKey)) from $feeTypeList
+    then
+    	TreeMap map = new TreeMap();
+        map.put("basicFee", $basicFee);
+        map.put("publicationFee", $publicationFee);
+        map.put("priorityFee", $priorityFee);
+        map.put("certificateFee", $certificateFee);
+        map.put("imageFeeForCertificate", $imageFeeForCertificate);
+        insert(map);
+end
+
+rule "Basic Fee"
+salience 100
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        PatentApplication(patent != null)
+    then
+
+        FeeType feeType =  (FeeType) $map.get("basicFee");
+        Fee fee = new Fee();
+            fee.setFeeType(feeType);
+            fee.setQuantity(1);
+            fee.setUnitAmount(feeType.getDefaultValue());
+            fee.setAmount(fee.getUnitAmount());
+        $results.put("basicFee", fee);
+end
+
+rule "Publication Fee"
+salience 90
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        PatentApplication(patent != null)
+    then
+        FeeType feeType = (FeeType) $map.get("publicationFee");
+         Fee fee = new Fee();
+                    fee.setFeeType(feeType);
+                    fee.setQuantity(1);
+                    fee.setUnitAmount(feeType.getDefaultValue());
+                    fee.setAmount(fee.getUnitAmount());
+        $results.put("publicationFee", fee);
+end
+
+rule "Priority Fee"
+salience 80
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        PatentApplication(patent != null && patent.priorities != null && patent.priorities.size() > 0, $prioSize: patent.priorities.size())
+    then
+        FeeType feeType = (FeeType) $map.get("priorityFee");
+        Fee fee = new Fee();
+                            fee.setFeeType(feeType);
+                            fee.setQuantity((Integer)$prioSize);
+                            fee.setUnitAmount(feeType.getDefaultValue());
+                            fee.setAmount(fee.getUnitAmount()*fee.getQuantity());
+        $results.put("priorityFee", fee);
+end
+
+rule "Certificate Fee"
+salience 70
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        PatentApplication(patent != null && certificateRequestedIndicator != null && $certificateRequested: certificateRequestedIndicator && $certificateRequested)
+    then
+        FeeType feeType = (FeeType) $map.get("certificateFee");
+        Fee fee = new Fee();
+                            fee.setFeeType(feeType);
+                            fee.setQuantity(1);
+                            fee.setUnitAmount(feeType.getDefaultValue());
+                            fee.setAmount(fee.getUnitAmount());
+        $results.put("certificateFee", fee);
+end
+
+
+rule "Images for Certificate Fee "
+salience 60
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        PatentApplication(patent != null && certificateRequestedIndicator != null && $certificateRequested: certificateRequestedIndicator && $certificateRequested && patent.patentViews != null && patent.patentViews.size() > 0, $pviewsSize: patent.patentViews.size())
+    then
+FeeType feeType = (FeeType) $map.get("imageFeeForCertificate");
+        Fee fee = new Fee();
+                            fee.setFeeType(feeType);
+                            fee.setQuantity((Integer)$pviewsSize);
+                            fee.setUnitAmount(feeType.getDefaultValue());
+                            fee.setAmount(fee.getUnitAmount()*fee.getQuantity());
+        $results.put("imageFeeForCertificate", fee);
+end

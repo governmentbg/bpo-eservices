@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="unqualified"
+	version="3.2"
+	targetNamespace="http://ohim.eu/sp/services/designer/v3"
+	xmlns:tns="http://ohim.eu/sp/services/designer/v3"
+	xmlns:common="http://ohim.eu/sp/domain/common/v3"
+	xmlns:person="http://ohim.eu/sp/domain/person/v3"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	
+	<xs:import namespace="http://ohim.eu/sp/domain/person/v3" schemaLocation="../domain/PersonDomain.xsd" />
+	<xs:import namespace="http://ohim.eu/sp/domain/common/v3" schemaLocation="../domain/CommonDomain.xsd" />		
+
+	<xs:element name="searchDesigner" type="tns:SearchDesigner" />
+	<xs:element name="searchDesignerResponse" type="tns:SearchDesignerResponse" />
+	
+	<xs:element name="getDesigner" type="tns:GetDesigner" />
+	<xs:element name="getDesignerResponse" type="tns:GetDesignerResponse" />
+	
+	<xs:element name="getDesignerAutocomplete" type="tns:GetDesignerAutocomplete" />
+	<xs:element name="getDesignerAutocompleteResponse" type="tns:GetDesignerAutocompleteResponse" />
+	
+	
+	<xs:element name="matchDesigner" type="tns:MatchDesigner" />
+	<xs:element name="matchDesignerResponse" type="tns:MatchDesignerResponse" />
+	
+	<xs:element name="saveDesigner" type="tns:SaveDesigner" />
+	<xs:element name="saveDesignerResponse" type="tns:SaveDesignerResponse" />
+	
+	<xs:element name="designerFault" type="tns:DesignerFault" />
+
+
+	<xs:complexType name="SearchDesigner">
+        <xs:complexContent>
+            <xs:extension base="person:PersonRequest">
+                <xs:sequence>
+                    <xs:element name="designerId" type="xs:string" minOccurs="0" />
+                    <xs:element name="designerName" type="xs:string" minOccurs="0" />
+                    <xs:element name="designerCountry" type="xs:string" minOccurs="0" />
+                    <xs:element name="numberOfResults" type="xs:int" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SearchDesignerResponse">
+		<xs:sequence>
+			<xs:element name="return" type="person:Designer" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="GetDesigner">
+		<xs:sequence>
+            <xs:element name="module" type="xs:string" minOccurs="0" />
+            <xs:element name="office" type="xs:string" minOccurs="0" />
+			<xs:element name="designerId" type="xs:string" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="GetDesignerResponse">
+		<xs:sequence>
+			<xs:element name="return" type="person:Designer" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="GetDesignerAutocomplete">
+        <xs:complexContent>
+            <xs:extension base="person:AutocompleteRequest">
+            </xs:extension>
+        </xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="GetDesignerAutocompleteResponse">
+		<xs:sequence>
+			<xs:element name="return" type="xs:string" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="MatchDesigner">
+        <xs:complexContent>
+            <xs:extension base="person:PersonRequest">
+                <xs:sequence>
+                    <xs:element name="designer" type="person:Designer" minOccurs="0" />
+                    <xs:element name="numberOfResults" type="xs:int" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+	</xs:complexType>
+    <xs:complexType name="MatchDesignerResponse">
+		<xs:sequence>
+			<xs:element name="return" type="person:Designer" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="SaveDesigner">
+        <xs:complexContent>
+            <xs:extension base="person:PersonRequest">
+                <xs:sequence>
+                    <xs:element name="user" type="xs:string" minOccurs="0" />
+                    <xs:element name="designer" type="person:Designer" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SaveDesignerResponse">
+		<xs:sequence>
+			<xs:element name="return" type="common:Result" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="DesignerFault">
+		<xs:sequence>
+			<xs:element name="return" type="common:Fault" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>	
+
+</xs:schema>

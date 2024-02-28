@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="qualified"
+	version="3.2"
+	targetNamespace="http://ohim.eu/sp/domain/application/v3"
+	xmlns:tns="http://ohim.eu/sp/domain/application/v3"
+    xmlns:person="http://ohim.eu/sp/domain/person/v3"
+    xmlns:contact="http://ohim.eu/sp/domain/contact/v3"
+    xmlns:payment="http://ohim.eu/sp/domain/payment/v3"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:import namespace="http://ohim.eu/sp/domain/person/v3" schemaLocation="./PersonDomain.xsd"/>
+    <xs:import namespace="http://ohim.eu/sp/domain/contact/v3" schemaLocation="./ContactDomain.xsd"/>
+    <xs:import namespace="http://ohim.eu/sp/domain/payment/v3" schemaLocation="./PaymentDomain.xsd"/>
+
+    <xs:complexType name="DraftApplication">
+        <xs:sequence>
+            <xs:element name="username" type="xs:string" minOccurs="0" />
+            <xs:element name="applicationId" type="xs:string" minOccurs="0" />
+            <xs:element name="provisionalId" type="xs:string" />
+            <xs:element name="office" type="xs:string" minOccurs="0" />
+            <xs:element name="statuses" type="tns:DraftStatus" maxOccurs="unbounded" />
+            <xs:element name="currentStatus" type="tns:DraftStatus"/>
+            <xs:element name="paymentId" type="xs:string" minOccurs="0" />
+            <xs:element name="dateCreated" type="xs:date" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="DraftStatus">
+        <xs:sequence>
+            <xs:element name="modifiedDate" type="xs:date" />
+            <xs:element name="message" type="xs:string" />
+            <xs:element name="status" type="tns:ApplicationStatus" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="IPApplication">
+        <xs:sequence>
+            <xs:element name="applicationFilingNumber" type="xs:string" minOccurs="0" />
+            <xs:element name="applicationFilingDate" type="xs:dateTime" minOccurs="0" />
+            <xs:element name="fees" type="payment:Fee" maxOccurs="unbounded" minOccurs="0" />
+            <xs:element name="payments" type="payment:PaymentFee" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="NumberingResult">
+		<xs:sequence>
+			<xs:element  name="number" type="xs:string" />
+			<xs:element  name="timestamp" type="xs:dateTime" />
+		</xs:sequence>
+	</xs:complexType>
+
+    <xs:simpleType name="ApplicationKind">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="TRADEMARK_APPLICATION"/>
+            <xs:enumeration value="TRADEMARK_OPPOSITION"/>
+            <xs:enumeration value="TRADEMARK_CANCELLATION"/>
+            <xs:enumeration value="TRADEMARK_RECORDAL"/>
+            <xs:enumeration value="DESIGN_APPLICATION"/>
+            <xs:enumeration value="DESIGN_INVALIDITY"/>
+            <xs:enumeration value="DESIGN_RECORDAL"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="ApplicationStatus">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="STATUS_INITIALIZED"/>
+            <xs:enumeration value="STATUS_STORED_TEMP"/>
+            <xs:enumeration value="STATUS_WAITING_CC_PAYMENT"/>
+            <xs:enumeration value="STATUS_CC_PAYMENT_DONE"/>
+            <xs:enumeration value="STATUS_CC_PAYMENT_PENDING"/>
+            <xs:enumeration value="STATUS_CC_PAYMENT_CANCELLED"/>
+            <xs:enumeration value="STATUS_CC_PAYMENT_FAILURE"/>
+            <xs:enumeration value="STATUS_CC_PAYMENT_FAILURE_SERVICE_ERRORS_RESPONSE"/>
+            <xs:enumeration value="STATUS_CC_PAYMENT_UNKNOWN"/>
+            <xs:enumeration value="STATUS_VALIDATION_SUCCESS"/>
+            <xs:enumeration value="STATUS_SUBMITTED_ATTACHMENTS_PENDING"/>
+            <xs:enumeration value="STATUS_FAIL_TO_STORE_ATTACHMENTS"/>
+            <xs:enumeration value="STATUS_SUBMITTED"/>
+            <xs:enumeration value="STATUS_SUBMITTED_SAFE_MODE"/>
+            <xs:enumeration value="STATUS_SUBMITTED_B2B"/>
+            <xs:enumeration value="STATUS_UNDER_PROCESS"/>
+            <xs:enumeration value="STATUS_FAILED_TO_BE_TRANSFERRED"/>
+            <xs:enumeration value="STATUS_EXPORTED"/>
+            <xs:enumeration value="STATUS_FAILED_TO_BE_TRANSFERRED_PERMANENTLY"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="Signatory">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string" minOccurs="0"/>
+            <xs:element name="date" type="xs:dateTime" minOccurs="0"/>
+            <xs:element name="capacity" type="person:PersonRoleKind" minOccurs="0"/>
+            <xs:element name="capacityText" type="xs:string" minOccurs="0"/>
+            <xs:element name="manner" type="xs:string" minOccurs="0"/>
+            <xs:element name="associatedText" type="xs:string" minOccurs="0"/>
+            <xs:element name="confirmation" type="xs:boolean" minOccurs="0"/>
+            <xs:element name="email" type="xs:string" minOccurs="0"/>
+            <xs:element name="userId" type="xs:string" minOccurs="0"/>
+            <xs:element name="address" type="contact:Address" minOccurs="0"/>
+            <xs:element name="place" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema>

@@ -1,0 +1,244 @@
+package org.domain.rules;
+
+dialect "mvel"
+
+import eu.ohim.sp.core.domain.patent.PatentApplication;
+import eu.ohim.sp.core.domain.validation.ErrorCore;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.domain.payment.FeeList;
+import eu.ohim.sp.core.domain.payment.FeeType;
+import eu.ohim.sp.core.domain.payment.Fee;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.TreeMap;
+import java.util.List;
+import java.util.Date;
+import eu.ohim.sp.core.domain.patent.PCT;
+
+rule "Fees reader"
+salience 1000
+no-loop
+    when
+		FeeList($feeTypeList : feeTypeList)
+        $basicFee : FeeType("basicFee".equals(nameKey)) from $feeTypeList
+        $claimFee : FeeType("claimFee".equals(nameKey)) from $feeTypeList
+        $priorityFee : FeeType("priorityFee".equals(nameKey)) from $feeTypeList
+        $formalExaminationFee : FeeType("formalExaminationFee".equals(nameKey)) from $feeTypeList
+        $expertiseAndCheckOneInventionFee : FeeType("expertiseAndCheckOneInventionFee".equals(nameKey)) from $feeTypeList
+        $expertiseAndCheckMultipleInventionsFee : FeeType("expertiseAndCheckMultipleInventionsFee".equals(nameKey)) from $feeTypeList
+        $examinationRequestedOneInventionFee : FeeType("examinationRequestedOneInventionFee".equals(nameKey)) from $feeTypeList
+        $examinationRequestedMultipleInventionsFee : FeeType("examinationRequestedMultipleInventionsFee".equals(nameKey)) from $feeTypeList
+        $publicationFee : FeeType("publicationFee".equals(nameKey)) from $feeTypeList
+        $anticipationOfPublicationFee : FeeType("anticipationOfPublicationFee".equals(nameKey)) from $feeTypeList
+        $smallCompanyDiscount : FeeType("smallCompanyDiscount".equals(nameKey)) from $feeTypeList
+        $licenceAvailabilityDiscount : FeeType("licenceAvailabilityDiscount".equals(nameKey)) from $feeTypeList
+    then
+    	TreeMap map = new TreeMap();
+        map.put("basicFee", $basicFee);
+        map.put("claimFee", $claimFee);
+        map.put("priorityFee", $priorityFee);
+        map.put("formalExaminationFee", $formalExaminationFee);
+        map.put("expertiseAndCheckOneInventionFee", $expertiseAndCheckOneInventionFee);
+        map.put("expertiseAndCheckMultipleInventionsFee", $expertiseAndCheckMultipleInventionsFee);
+        map.put("examinationRequestedOneInventionFee", $examinationRequestedOneInventionFee);
+        map.put("examinationRequestedMultipleInventionsFee", $examinationRequestedMultipleInventionsFee);
+        map.put("publicationFee", $publicationFee);
+        map.put("anticipationOfPublicationFee", $anticipationOfPublicationFee);
+        map.put("smallCompanyDiscount", $smallCompanyDiscount);
+        map.put("licenceAvailabilityDiscount", $licenceAvailabilityDiscount);
+        insert(map);
+end
+
+rule "Basic Fee"
+salience 100
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        PatentApplication(patent != null, $smallCompany: smallCompany, $licenceAvailability: licenceAvailability, $pcts: patent.pcts )
+    then
+
+        boolean pctFeesPayed = feesArePayedInPCT($pcts);
+        FeeType feeType =  (FeeType) $map.get("basicFee");
+        Fee fee = new Fee();
+        if(!pctFeesPayed){
+           fee = calculateDoubleDiscountedFee($map, feeType, $smallCompany, $licenceAvailability, 1);
+        } else {
+             fee.setFeeType(feeType);
+             fee.setQuantity(1);
+             fee.setUnitAmount(0.0);
+             fee.setAmount(0.0);
+        }
+
+        $results.put("basicFee", fee);
+end
+
+rule "Claim Fee"
+salience 90
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        PatentApplication(patent != null && patent.claimsCountInt >10, $claimsCount: patent.claimsCountInt, $licenceAvailability: licenceAvailability)
+    then
+        FeeType feeType = (FeeType) $map.get("claimFee");
+        Fee fee = calculateDoubleDiscountedFee($map, feeType, false, $licenceAvailability, (Integer) $claimsCount  - 10);
+
+        $results.put("claimFee", fee);
+end
+
+rule "Priority Fee"
+salience 80
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        PatentApplication(patent != null && patent.priorities != null && patent.priorities.size() > 0, $prioSize: patent.priorities.size(),
+            $licenceAvailability: licenceAvailability)
+    then
+        FeeType feeType = (FeeType) $map.get("priorityFee");
+        Fee fee = calculateDoubleDiscountedFee($map, feeType, false, $licenceAvailability, (Integer)$prioSize);
+
+        $results.put("priorityFee", fee);
+end
+
+rule "Formal Examination Fee"
+salience 70
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        PatentApplication($licenceAvailability: licenceAvailability, $smallCompany: smallCompany)
+    then
+        FeeType feeType = (FeeType) $map.get("formalExaminationFee");
+        Fee fee = calculateDoubleDiscountedFee($map, feeType, $smallCompany, $licenceAvailability, 1);
+        $results.put("formalExaminationFee", fee);
+end
+
+
+rule "Expertise And Check One Invention Fee "
+salience 60
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        PatentApplication($smallCompany: smallCompany, $licenceAvailability: licenceAvailability,
+        patent != null && patent.independentClaimsCountInt == 1)
+    then
+
+        FeeType feeType =  (FeeType) $map.get("expertiseAndCheckOneInventionFee");
+        Fee fee = calculateDoubleDiscountedFee($map, feeType, $smallCompany, $licenceAvailability, 1);
+
+        $results.put("expertiseAndCheckOneInventionFee", fee);
+end
+
+rule "Expertise And Check Multiple Inventions Fee "
+salience 60
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        PatentApplication($smallCompany: smallCompany, $licenceAvailability: licenceAvailability,
+        patent != null && patent.independentClaimsCountInt > 1)
+    then
+        FeeType feeType =  (FeeType) $map.get("expertiseAndCheckMultipleInventionsFee");
+        Fee fee = calculateDoubleDiscountedFee($map, feeType, $smallCompany, $licenceAvailability, 1);
+
+        $results.put("expertiseAndCheckMultipleInventionsFee", fee);
+end
+
+rule "Examination Requested One Invention Fee "
+salience 50
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        PatentApplication($smallCompany: smallCompany, $licenceAvailability: licenceAvailability,
+        patent != null && patent.independentClaimsCountInt == 1 && examinationRequested == true)
+    then
+        FeeType feeType =  (FeeType) $map.get("examinationRequestedOneInventionFee");
+        Fee fee = calculateDoubleDiscountedFee($map, feeType, $smallCompany, $licenceAvailability, 1);
+
+        $results.put("examinationRequestedOneInventionFee", fee);
+end
+
+rule "Examination Requested Multiple Inventions Fee "
+salience 50
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        PatentApplication($smallCompany: smallCompany, $licenceAvailability: licenceAvailability,
+        patent != null && patent.independentClaimsCountInt > 1 && examinationRequested == true)
+    then
+        FeeType feeType =  (FeeType) $map.get("examinationRequestedMultipleInventionsFee");
+        Fee fee = calculateDoubleDiscountedFee($map, feeType, $smallCompany, $licenceAvailability, 1);
+
+        $results.put("examinationRequestedMultipleInventionsFee", fee);
+end
+
+
+rule "Publication Fee"
+salience 40
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        PatentApplication($licenceAvailability: licenceAvailability, examinationRequested == true)
+    then
+        FeeType feeType =  (FeeType) $map.get("publicationFee");
+        Fee fee = calculateDoubleDiscountedFee($map, feeType, false, $licenceAvailability, 1);
+
+        $results.put("publicationFee", fee);
+end
+
+rule "Anticipation Of Publication Fee"
+salience 30
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        PatentApplication(anticipationOfPublication == true, $licenceAvailability: licenceAvailability)
+    then
+        FeeType feeType =  (FeeType) $map.get("anticipationOfPublicationFee");
+        Fee fee = calculateDoubleDiscountedFee($map, feeType, false, $licenceAvailability, 1);
+
+        $results.put("anticipationOfPublicationFee", fee);
+end
+
+
+function Fee calculateDoubleDiscountedFee(TreeMap map, FeeType feeType, boolean isSmallCompany, boolean isLicenceAvailability, int quantity){
+    FeeType smallCompanyDiscountFeeType =  (FeeType) map.get("smallCompanyDiscount");
+    FeeType licenceAvailabilityDiscountFeeType =  (FeeType) map.get("licenceAvailabilityDiscount");
+
+    Fee fee = new Fee();
+    fee.setFeeType(feeType);
+    fee.setQuantity(quantity);
+    fee.setUnitAmount(feeType.getDefaultValue());
+    fee.setAmount(fee.getUnitAmount());
+
+    if(isSmallCompany){
+         fee.setAmount(fee.getAmount() - (fee.getAmount()*smallCompanyDiscountFeeType.getDefaultValue()));
+    }
+    if(isLicenceAvailability){
+        fee.setAmount(fee.getAmount() - (fee.getAmount()*licenceAvailabilityDiscountFeeType.getDefaultValue()));
+    }
+
+    fee.setAmount(fee.getAmount()*fee.getQuantity());
+
+    return fee;
+}
+
+function boolean feesArePayedInPCT(List pcts){
+    if( pcts == null || pcts.size() == 0){
+        return false;
+    }
+    for(int i =0; i< pcts.size(); i++){
+        PCT pct = (PCT) pcts.get(i);
+        if(pct.isPayedFees()){
+            return true;
+        }
+    }
+
+    return false;
+}

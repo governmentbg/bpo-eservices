@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<languages xmlns="http://www.example.org/language-configuration"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.example.org/language-configuration language-configuration.xsd ">
+	<language code="" value="selectBox.SELECT" />
+	<language code="fi" value="language.Finish" />
+</languages>

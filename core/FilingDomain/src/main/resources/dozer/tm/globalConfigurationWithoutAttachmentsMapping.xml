@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ * FspDomain:: globalConfigurationWithoutAttachmentsMapping.xml 02/09/13 18:15 karalch $
+  ~  * . * .
+  ~  * * RRRR * Copyright © 2013 OHIM: Office for Harmonization
+  ~  * . RR R . in the Internal Market (trade marks and designs)
+  ~  * * RRR *
+  ~  * . RR RR . ALL RIGHTS RESERVED
+  ~  * * . _ . *
+  -->
+
+<mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://dozer.sourceforge.net http://dozer.sourceforge.net/schema/beanmapping.xsd">
+
+	<configuration>
+		<custom-converters>
+			<converter type="eu.ohim.sp.core.domain.converter.EmailConverter">
+				<class-a>java.lang.String</class-a>
+				<class-b>eu.ohim.sp.core.domain.contact.Email</class-b>
+			</converter>
+			<converter type="eu.ohim.sp.core.domain.converter.FSPEnumConverter" >
+				<class-a>java.lang.Enum</class-a>
+				<class-b>java.lang.Enum</class-b>
+			</converter>
+			<converter type="eu.ohim.sp.core.domain.converter.FSPEnumConverter">
+				<class-a>java.lang.Enum</class-a>
+				<class-b>java.lang.String</class-b>
+			</converter>
+            <converter type="eu.ohim.sp.core.domain.converter.FSPEnumConverter">
+                <class-a>eu.ohim.sp.filing.domain.tm.ExtendedISOLanguageCode</class-a>
+                <class-b>java.lang.String</class-b>
+            </converter>
+			<converter type="eu.ohim.sp.core.domain.converter.FSPEnumConverter">
+				<class-a>eu.ohim.sp.filing.domain.tm.ExtendedWIPOST3Code</class-a>
+				<class-b>java.lang.String</class-b>
+			</converter>
+			<converter type="eu.ohim.sp.core.domain.converter.TextConverter">
+				<class-a>java.lang.String</class-a>
+				<class-b>eu.ohim.sp.filing.domain.tm.Text</class-b>
+			</converter>
+			<converter type="eu.ohim.sp.core.domain.converter.GoodsServicesDetailsConverter">
+				<class-a>eu.ohim.sp.core.domain.trademark.ClassDescription</class-a>
+				<class-b>eu.ohim.sp.filing.domain.tm.ClassDescription</class-b>
+			</converter>
+			<converter type="eu.ohim.sp.core.domain.converter.FSPEnumConverter">
+				<class-a>eu.ohim.sp.filing.domain.tm.SeniorityKind</class-a>
+				<class-b>eu.ohim.sp.core.domain.claim.SeniorityKind</class-b>
+			</converter>
+			<converter type="eu.ohim.sp.core.domain.converter.FSPEnumConverter">
+				<class-a>eu.ohim.sp.filing.domain.tm.WIPOST3Code</class-a>
+				<class-b>java.lang.String</class-b>
+			</converter>
+			<converter type="eu.ohim.sp.core.domain.converter.MarkImageConverter">
+				<class-a>eu.ohim.sp.core.domain.trademark.ImageSpecification</class-a>
+				<class-b>eu.ohim.sp.filing.domain.tm.MarkImage</class-b>
+			</converter>
+			<converter type="eu.ohim.sp.core.domain.converter.MultimediaConverter">
+				<class-a>eu.ohim.sp.core.domain.trademark.MediaRepresentation</class-a>
+				<class-b>eu.ohim.sp.filing.domain.tm.MarkMedia</class-b>
+			</converter>
+			<converter type="eu.ohim.sp.core.domain.converter.NullConverter">
+				<class-a>eu.ohim.sp.core.domain.resources.AttachedDocument</class-a>
+				<class-b>eu.ohim.sp.filing.domain.tm.Document</class-b>
+			</converter>
+            <converter type="eu.ohim.sp.core.domain.converter.PhoneConverter">
+                <class-a>eu.ohim.sp.filing.domain.tm.Phone</class-a>
+                <class-b>eu.ohim.sp.core.domain.contact.Phone</class-b>
+            </converter>
+            <converter type="eu.ohim.sp.core.domain.converter.PhoneConverter">
+                <class-a>eu.ohim.sp.core.domain.contact.Phone</class-a>
+                <class-b>java.lang.String</class-b>
+            </converter>
+            <converter type="eu.ohim.sp.core.domain.converter.tm.TradeMarkApplicationTransactionConverter">
+                <class-a>eu.ohim.sp.core.domain.trademark.TMeServiceApplication</class-a>
+                <class-b>eu.ohim.sp.filing.domain.tm.Transaction</class-b>
+            </converter>
+
+        </custom-converters>
+	</configuration>
+</mappings>

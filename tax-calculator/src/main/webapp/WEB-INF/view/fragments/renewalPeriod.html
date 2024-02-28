@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<div th:fragment="renewalPeriod-fragment" class="inlBlW100">
+
+    <div th:text="#{ds.renewal_period}"></div>
+    <div class="mT10 inlBlW100">
+        <div style="display: inline-block; width: 30%">
+            <input name="renewalPeriod" class="radio-btn" type="radio" value="yes" th:attr="data-rel-field='renewalPeriod-field'" style="margin: 0">
+            <div th:text="#{common.yes}" style="display: inline-block;"></div>
+        </div>
+        <div style="display: inline-block; width: 30%">
+            <input name="renewalPeriod" class="radio-btn" type="radio" value="no" th:attr="data-rel-field='renewalPeriod-field'" style="margin: 0" checked>
+            <div th:text="#{common.no}" style="display: inline-block;"></div>
+        </div>
+    </div>
+
+    <input type="hidden" class="input-param" id="renewalPeriod-field" value="no" th:attr="data-name='renewalPeriod'">
+
+</div>
+</html>

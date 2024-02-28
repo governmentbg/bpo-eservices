@@ -1,0 +1,96 @@
+<!--
+  ~ * DesignService:: pom.xml 14/08/13 14:48 karalch $
+  ~  * . * .
+  ~  * * RRRR * Copyright © 2013 OHIM: Office for Harmonization
+  ~  * . RR R . in the Internal Market (trade marks and designs)
+  ~  * * RRR *
+  ~  * . RR RR . ALL RIGHTS RESERVED
+  ~  * * . _ . *
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>eu.ohim.sp.core</groupId>
+        <artifactId>RegisterSearch</artifactId>
+        <version>2.0.0-RELEASE</version>
+    </parent>
+
+    <artifactId>DesignSearchServiceBean</artifactId>
+    <packaging>ejb</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>eu.ohim.sp.common</groupId>
+            <artifactId>CommonUtils</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>eu.ohim.sp.common</groupId>
+            <artifactId>ConfigurationXSD</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>eu.ohim.sp.core</groupId>
+            <artifactId>CoreUtils</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>eu.ohim.sp.external</groupId>
+            <artifactId>DesignSearchClientBean</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>eu.ohim.sp.domains</groupId>
+            <artifactId>CoreDomain</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>eu.ohim.sp.domains</groupId>
+            <artifactId>CoreServices</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.spec</groupId>
+            <artifactId>jboss-javaee-6.0</artifactId>
+            <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-ejb-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib</classpathPrefix>
+                            <classpathLayoutType>custom</classpathLayoutType>
+                            <customClasspathLayout>$${artifact.artifactId}.$${artifact.extension}
+                            </customClasspathLayout>
+                        </manifest>
+                        <manifestEntries>
+                            <Dependencies>eu.ohim.sp, org.apache.commons.lang</Dependencies>
+                        </manifestEntries>
+                    </archive>
+                    <ejbVersion>3.0</ejbVersion>
+                </configuration>
+            </plugin>
+
+            <!-- <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.4</version>
+            </plugin> -->
+        </plugins>
+
+    </build>
+
+</project>

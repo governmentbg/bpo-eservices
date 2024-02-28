@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="qualified"
+           version="3.2"
+           targetNamespace="http://ohim.eu/sp/domain/patent/v3"
+           xmlns:tns="http://ohim.eu/sp/domain/patent/v3"
+           xmlns:application="http://ohim.eu/sp/domain/application/v3"
+           xmlns:person="http://ohim.eu/sp/domain/person/v3"
+           xmlns:resource="http://ohim.eu/sp/domain/resource/v3"
+           xmlns:contact="http://ohim.eu/sp/domain/contact/v3"
+           xmlns:claim="http://ohim.eu/sp/domain/claim/v3"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:import namespace="http://ohim.eu/sp/domain/application/v3" schemaLocation="./ApplicationDomain.xsd"/>
+    <xs:import namespace="http://ohim.eu/sp/domain/person/v3" schemaLocation="./PersonDomain.xsd"/>
+    <xs:import namespace="http://ohim.eu/sp/domain/resource/v3" schemaLocation="./ResourceDomain.xsd"/>
+    <xs:import namespace="http://ohim.eu/sp/domain/contact/v3" schemaLocation="./ContactDomain.xsd"/>
+    <xs:import namespace="http://ohim.eu/sp/domain/claim/v3" schemaLocation="./ClaimDomain.xsd"/>
+
+    <xs:complexType name="Patent">
+        <xs:sequence>
+            <xs:element name="receivingOffice" type="xs:string" minOccurs="0"/>
+            <xs:element name="receivingDate" type="xs:dateTime" minOccurs="0"/>
+            <xs:element name="registrationDate" type="xs:date" minOccurs="0"/>
+            <xs:element name="registrationNumber" type="xs:string" minOccurs="0"/>
+            <xs:element name="registrationOffice" type="xs:string" minOccurs="0"/>
+            <xs:element name="applicationNumber" type="xs:string" minOccurs="0"/>
+            <xs:element name="applicationDate" type="xs:dateTime" minOccurs="0"/>
+            <xs:element name="filingNumber" type="xs:string" minOccurs="0"/>
+            <xs:element name="filingDate" type="xs:dateTime" minOccurs="0"/>
+            <xs:element name="filingUser" type="xs:string" minOccurs="0"/>
+            <xs:element name="expirationDate" type="xs:dateTime" minOccurs="0"/>
+            <xs:element name="publicationDate" type="xs:dateTime" minOccurs="0"/>
+            <xs:element name="applicationLanguage" type="xs:string" minOccurs="0"/>
+            <xs:element name="secondLanguage" type="xs:string" minOccurs="0"/>
+            <xs:element name="groupStatusCode" type="xs:string" minOccurs="0"/>
+            <xs:element name="currentStatusCode" type="xs:string" minOccurs="0"/>
+            <xs:element name="currentStatusDate" type="xs:dateTime" minOccurs="0"/>
+            <xs:element name="patentTitle" type="xs:string" minOccurs="0"/>
+            <xs:element name="patentTitleSecondLang" type="xs:string" minOccurs="0"/>
+            <xs:element name="patentAbstract" type="xs:string" minOccurs="0"/>
+            <xs:element name="patentAbstractSecondLang" type="xs:string" minOccurs="0"/>
+            <xs:element name="applicants" type="person:Applicant" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="representatives" type="person:Representative" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="inventors" type="person:Inventor" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

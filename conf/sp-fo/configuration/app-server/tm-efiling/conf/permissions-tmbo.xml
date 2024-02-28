@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<roles xmlns="http://www.example.org/permissions-tmbo" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.example.org/permissions-tmbo permissions-tmbo.xsd ">
+	<role name="ROLE_TMBO-MANAGER">
+		<permissions>
+			<permission>attachment_access</permission>
+			<permission>attachment_read</permission>
+			<permission>classification_allow</permission>
+			<permission>taskcomment_add</permission>
+			<permission>taskcomment_edit</permission>
+			<permission>taskcomment_delete</permission>
+			<permission>taskcomment_read</permission>
+			<permission>taskcomment_list</permission>
+			<permission>fileupload_show</permission>
+			<permission>fileupload_read</permission>
+			<permission>fileupload_save</permission>
+			<permission>inboxtask_access</permission>
+			<permission>inboxtask_search</permission>
+			<permission>inboxtask_todossier</permission>
+			<permission>tm_list</permission>
+			<permission>tm_save</permission>
+			<permission>letter_access</permission>
+			<permission>person_save</permission>
+			<permission>person_search</permission>
+			<permission>task_read</permission>
+			<permission>task_allocate</permission>
+			<permission>task_complete</permission>
+			<permission>task_create</permission>
+			<permission>task_save</permission>
+			<permission>task_delete</permission>
+			<permission>task_add</permission>
+			<permission>attachment_remove</permission>
+			<permission>letter_send</permission>
+			<permission>task_all_rights</permission>
+			<permission>task_limited_rights</permission>
+		</permissions>
+	</role>
+	<role name="ROLE_TMBO-EXAMINER">
+		<permissions>
+			<permission>attachment_access</permission>
+			<permission>attachment_read</permission>
+			<permission>classification_allow</permission>
+			<permission>taskcomment_add</permission>
+			<permission>taskcomment_edit</permission>
+			<permission>taskcomment_delete</permission>
+			<permission>taskcomment_read</permission>
+			<permission>taskcomment_list</permission>
+			<permission>fileupload_show</permission>
+			<permission>fileupload_read</permission>
+			<permission>fileupload_save</permission>
+			<permission>inboxtask_access</permission>
+			<permission>inboxtask_search</permission>
+			<permission>inboxtask_todossier</permission>
+			<permission>tm_list</permission>
+			<permission>tm_save</permission>
+			<permission>tm_read</permission>
+			<permission>letter_access</permission>
+			<permission>person_save</permission>
+			<permission>person_search</permission>
+			<permission>task_read</permission>
+			<permission>task_allocate</permission>
+			<permission>task_complete</permission>
+			<permission>task_create</permission>
+			<permission>task_save</permission>
+			<permission>task_delete</permission>
+			<permission>task_add</permission>
+			<permission>attachment_remove</permission>
+			<permission>letter_send</permission>
+			<permission>task_all_rights</permission>
+			<permission>task_limited_rights</permission>
+		</permissions>
+	</role>
+</roles>

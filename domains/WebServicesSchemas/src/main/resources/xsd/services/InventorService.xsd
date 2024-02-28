@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="unqualified"
+	version="3.2"
+	targetNamespace="http://ohim.eu/sp/services/inventor/v3"
+	xmlns:tns="http://ohim.eu/sp/services/inventor/v3"
+	xmlns:common="http://ohim.eu/sp/domain/common/v3"
+	xmlns:person="http://ohim.eu/sp/domain/person/v3"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	
+	<xs:import namespace="http://ohim.eu/sp/domain/person/v3" schemaLocation="../domain/PersonDomain.xsd" />
+	<xs:import namespace="http://ohim.eu/sp/domain/common/v3" schemaLocation="../domain/CommonDomain.xsd" />		
+
+	<xs:element name="searchInventor" type="tns:SearchInventor" />
+	<xs:element name="searchInventorResponse" type="tns:SearchInventorResponse" />
+	
+	<xs:element name="getInventor" type="tns:GetInventor" />
+	<xs:element name="getInventorResponse" type="tns:GetInventorResponse" />
+	
+	<xs:element name="getInventorAutocomplete" type="tns:GetInventorAutocomplete" />
+	<xs:element name="getInventorAutocompleteResponse" type="tns:GetInventorAutocompleteResponse" />
+	
+	
+	<xs:element name="matchInventor" type="tns:MatchInventor" />
+	<xs:element name="matchInventorResponse" type="tns:MatchInventorResponse" />
+	
+	<xs:element name="saveInventor" type="tns:SaveInventor" />
+	<xs:element name="saveInventorResponse" type="tns:SaveInventorResponse" />
+	
+	<xs:element name="inventorFault" type="tns:InventorFault" />
+
+
+	<xs:complexType name="SearchInventor">
+        <xs:complexContent>
+            <xs:extension base="person:PersonRequest">
+                <xs:sequence>
+                    <xs:element name="inventorId" type="xs:string" minOccurs="0" />
+                    <xs:element name="inventorName" type="xs:string" minOccurs="0" />
+                    <xs:element name="inventorCountry" type="xs:string" minOccurs="0" />
+                    <xs:element name="numberOfResults" type="xs:int" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SearchInventorResponse">
+		<xs:sequence>
+			<xs:element name="return" type="person:Inventor" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="GetInventor">
+		<xs:sequence>
+            <xs:element name="module" type="xs:string" minOccurs="0" />
+            <xs:element name="office" type="xs:string" minOccurs="0" />
+			<xs:element name="inventorId" type="xs:string" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="GetInventorResponse">
+		<xs:sequence>
+			<xs:element name="return" type="person:Inventor" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="GetInventorAutocomplete">
+        <xs:complexContent>
+            <xs:extension base="person:AutocompleteRequest">
+            </xs:extension>
+        </xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="GetInventorAutocompleteResponse">
+		<xs:sequence>
+			<xs:element name="return" type="xs:string" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="MatchInventor">
+        <xs:complexContent>
+            <xs:extension base="person:PersonRequest">
+                <xs:sequence>
+                    <xs:element name="inventor" type="person:Inventor" minOccurs="0" />
+                    <xs:element name="numberOfResults" type="xs:int" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+	</xs:complexType>
+    <xs:complexType name="MatchInventorResponse">
+		<xs:sequence>
+			<xs:element name="return" type="person:Inventor" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="SaveInventor">
+        <xs:complexContent>
+            <xs:extension base="person:PersonRequest">
+                <xs:sequence>
+                    <xs:element name="user" type="xs:string" minOccurs="0" />
+                    <xs:element name="inventor" type="person:Inventor" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SaveInventorResponse">
+		<xs:sequence>
+			<xs:element name="return" type="common:Result" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="InventorFault">
+		<xs:sequence>
+			<xs:element name="return" type="common:Fault" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>	
+
+</xs:schema>

@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions name="TrademarkSearchService"
+	targetNamespace="http://ohim.eu/sp/services/trademark-search/v3"
+    xmlns:tns="http://ohim.eu/sp/services/trademark-search/v3"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap12/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	
+    <wsdl:types>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://ohim.eu/sp/services/trademark-search/v3" schemaLocation="../xsd/services/TrademarkSearchService.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+
+    <wsdl:message name="getPreclearanceReport">
+        <wsdl:part element="tns:getPreclearanceReport" name="parameters"/>
+    </wsdl:message>
+    <wsdl:message name="getTradeMarkResponse">
+        <wsdl:part element="tns:getTradeMarkResponse" name="parameters"/>
+    </wsdl:message>
+    <wsdl:message name="getInternationalTradeMarkResponse">
+        <wsdl:part element="tns:getInternationalTradeMarkResponse" name="parameters"/>
+    </wsdl:message>
+    <wsdl:message name="getPreclearanceReportResponse">
+        <wsdl:part element="tns:getPreclearanceReportResponse" name="parameters"/>
+    </wsdl:message>
+    <wsdl:message name="getTradeMarkAutocompleteResponse">
+        <wsdl:part element="tns:getTradeMarkAutocompleteResponse" name="parameters"/>
+    </wsdl:message>
+    <wsdl:message name="getTradeMark">
+        <wsdl:part element="tns:getTradeMark" name="parameters"/>
+    </wsdl:message>
+    <wsdl:message name="getInternationalTradeMark">
+        <wsdl:part element="tns:getInternationalTradeMark" name="parameters"/>
+    </wsdl:message>
+    <wsdl:message name="getTradeMarkAutocomplete">
+        <wsdl:part element="tns:getTradeMarkAutocomplete" name="parameters"/>
+    </wsdl:message>
+    <wsdl:message name="trademarkFault">
+        <wsdl:part name="parameters" element="tns:trademarkFault"/>
+    </wsdl:message>
+    
+    <wsdl:portType name="TrademarkSearchServicePortType">
+        <wsdl:operation name="getTradeMark">
+            <wsdl:input message="tns:getTradeMark" name="getTradeMark" />
+            <wsdl:output message="tns:getTradeMarkResponse" name="getTradeMarkResponse"/>
+            <wsdl:fault message="tns:trademarkFault" name="trademarkFault" />
+        </wsdl:operation>
+        <wsdl:operation name="getTradeMarkAutocomplete">
+            <wsdl:input message="tns:getTradeMarkAutocomplete" name="getTradeMarkAutocomplete"/>
+            <wsdl:output message="tns:getTradeMarkAutocompleteResponse" name="getTradeMarkAutocompleteResponse"/>
+            <wsdl:fault name="trademarkFault" message="tns:trademarkFault"/>
+        </wsdl:operation>
+        <wsdl:operation name="getPreclearanceReport">
+            <wsdl:input message="tns:getPreclearanceReport" name="getPreclearanceReport"/>
+            <wsdl:output message="tns:getPreclearanceReportResponse" name="getPreclearanceReportResponse"/>
+            <wsdl:fault name="trademarkFault" message="tns:trademarkFault"/>
+        </wsdl:operation>
+        <wsdl:operation name="getInternationalTradeMark">
+            <wsdl:input message="tns:getInternationalTradeMark" name="getInternationalTradeMark"/>
+            <wsdl:output message="tns:getInternationalTradeMarkResponse" name="getInternationalTradeMarkResponse"/>
+            <wsdl:fault name="trademarkFault" message="tns:trademarkFault"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    
+    <wsdl:binding name="TrademarkSearchServiceBinding" type="tns:TrademarkSearchServicePortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="getTradeMark">
+            <soap:operation soapAction="" style="document"/>
+            <wsdl:input name="getTradeMark">
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="getTradeMarkResponse">
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="trademarkFault">
+                <soap:fault use="literal" name="trademarkFault"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="getTradeMarkAutocomplete">
+            <soap:operation soapAction="" style="document"/>
+            <wsdl:input name="getTradeMarkAutocomplete">
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="getTradeMarkAutocompleteResponse">
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="trademarkFault">
+                <soap:fault use="literal" name="trademarkFault"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="getPreclearanceReport">
+            <soap:operation soapAction="" style="document"/>
+            <wsdl:input name="getPreclearanceReport">
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="getPreclearanceReportResponse">
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="trademarkFault">
+                <soap:fault use="literal" name="trademarkFault"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="getInternationalTradeMark">
+            <soap:operation soapAction="" style="document"/>
+            <wsdl:input name="getInternationalTradeMark">
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="getInternationalTradeMarkResponse">
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="trademarkFault">
+                <soap:fault use="literal" name="trademarkFault"/>
+            </wsdl:fault>
+        </wsdl:operation>
+    </wsdl:binding>
+    
+    <wsdl:service name="TrademarkSearchService">
+        <wsdl:port name="TrademarkSearchServicePort" binding="tns:TrademarkSearchServiceBinding" >
+            <soap:address location="http://${fsp.ws.host}/${fsp.ws.context.root}${fsp.ws.trademark.path}${fsp.ws.wsdl.services.path}"/>
+        </wsdl:port>
+    </wsdl:service>
+    
+</wsdl:definitions>

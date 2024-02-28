@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions name="ApplicantService"
+	targetNamespace="http://ohim.eu/sp/services/applicant/v3"
+	xmlns:tns="http://ohim.eu/sp/services/applicant/v3"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap12/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+
+	<wsdl:types>
+		<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+			<xsd:import namespace="http://ohim.eu/sp/services/applicant/v3" schemaLocation="../xsd/services/ApplicantService.xsd" />
+		</xsd:schema>
+	</wsdl:types>
+	
+	<wsdl:message name="searchApplicant">
+		<wsdl:part  name="parameters" element="tns:searchApplicant" />
+	</wsdl:message>
+	<wsdl:message name="searchApplicantResponse">
+		<wsdl:part name="parameters" element="tns:searchApplicantResponse" />
+	</wsdl:message>
+
+	<wsdl:message name="getApplicant">
+		<wsdl:part name="parameters" element="tns:getApplicant" />
+	</wsdl:message>
+	<wsdl:message name="getApplicantResponse">
+		<wsdl:part name="parameters" element="tns:getApplicantResponse" />
+	</wsdl:message>
+
+	<wsdl:message name="getApplicantAutocomplete">
+		<wsdl:part name="parameters" element="tns:getApplicantAutocomplete" />
+	</wsdl:message>
+	<wsdl:message name="getApplicantAutocompleteResponse">
+		<wsdl:part name="parameters" element="tns:getApplicantAutocompleteResponse" />
+	</wsdl:message>
+
+	<wsdl:message name="matchApplicant">
+		<wsdl:part name="parameters" element="tns:matchApplicant" />
+	</wsdl:message>
+	<wsdl:message name="matchApplicantResponse">
+		<wsdl:part name="parameters" element="tns:matchApplicantResponse" />
+	</wsdl:message>
+	
+	<wsdl:message name="saveApplicant">
+		<wsdl:part name="parameters" element="tns:saveApplicant" />
+	</wsdl:message>
+	<wsdl:message name="saveApplicantResponse">
+		<wsdl:part name="parameters" element="tns:saveApplicantResponse" />
+	</wsdl:message>
+
+	<wsdl:message name="applicantFault">
+		<wsdl:part name="parameters" element="tns:applicantFault" />
+	</wsdl:message>
+
+	<wsdl:portType name="ApplicantServicePortType">
+		<wsdl:operation name="searchApplicant">
+			<wsdl:input name="searchApplicant" message="tns:searchApplicant" />
+			<wsdl:output name="searchApplicantResponse" message="tns:searchApplicantResponse" />
+			<wsdl:fault name="applicantFault" message="tns:applicantFault" />			
+		</wsdl:operation>
+		<wsdl:operation name="getApplicant">
+			<wsdl:input name="getApplicant" message="tns:getApplicant" />
+			<wsdl:output name="getApplicantResponse" message="tns:getApplicantResponse" />
+			<wsdl:fault name="applicantFault" message="tns:applicantFault" />			
+		</wsdl:operation>
+		<wsdl:operation name="getApplicantAutocomplete">
+			<wsdl:input name="getApplicantAutocomplete" message="tns:getApplicantAutocomplete" />
+			<wsdl:output name="getApplicantAutocompleteResponse" message="tns:getApplicantAutocompleteResponse" />
+			<wsdl:fault name="applicantFault" message="tns:applicantFault" />			
+		</wsdl:operation>
+		<wsdl:operation name="matchApplicant">
+			<wsdl:input name="matchApplicant" message="tns:matchApplicant" />
+			<wsdl:output name="matchApplicantResponse" message="tns:matchApplicantResponse" />
+			<wsdl:fault name="applicantFault" message="tns:applicantFault" />			
+		</wsdl:operation>
+		<wsdl:operation name="saveApplicant">
+			<wsdl:input name="saveApplicant" message="tns:saveApplicant" />
+			<wsdl:output name="saveApplicantResponse" message="tns:saveApplicantResponse" />
+			<wsdl:fault name="applicantFault" message="tns:applicantFault" />
+		</wsdl:operation>
+	</wsdl:portType>
+
+	<wsdl:binding name="ApplicantServiceBinding" type="tns:ApplicantServicePortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="searchApplicant">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="searchApplicant">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="searchApplicantResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="applicantFault">
+				<soap:fault use="literal" name="applicantFault" />
+			</wsdl:fault>			
+		</wsdl:operation>
+		<wsdl:operation name="getApplicant">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="getApplicant">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="getApplicantResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="applicantFault">
+				<soap:fault use="literal" name="applicantFault" />
+			</wsdl:fault>			
+		</wsdl:operation>
+		<wsdl:operation name="getApplicantAutocomplete">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="getApplicantAutocomplete">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="getApplicantAutocompleteResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="applicantFault">
+				<soap:fault use="literal" name="applicantFault" />
+			</wsdl:fault>			
+		</wsdl:operation>
+		<wsdl:operation name="matchApplicant">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="matchApplicant">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="matchApplicantResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="applicantFault">
+				<soap:fault use="literal" name="applicantFault" />
+			</wsdl:fault>	
+		</wsdl:operation>
+		<wsdl:operation name="saveApplicant">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="saveApplicant">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="saveApplicantResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="applicantFault">
+				<soap:fault use="literal" name="applicantFault" />
+			</wsdl:fault>			
+		</wsdl:operation>
+	</wsdl:binding>
+
+	<wsdl:service name="ApplicantService">
+		<wsdl:port name="ApplicantServicePort" binding="tns:ApplicantServiceBinding" >
+			<soap:address location="http://${fsp.ws.host}/${fsp.ws.context.root}${fsp.ws.applicant.path}${fsp.ws.wsdl.services.path}" />
+		</wsdl:port>
+	</wsdl:service>
+
+</wsdl:definitions>

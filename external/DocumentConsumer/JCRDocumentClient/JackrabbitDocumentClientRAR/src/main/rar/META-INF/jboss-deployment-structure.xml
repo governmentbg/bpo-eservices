@@ -1,0 +1,8 @@
+<jboss-deployment-structure xmlns="urn:jboss:deployment-structure:1.1">
+    <deployment>
+        <dependencies>
+            <!-- Adds a dependency on a ejb jar. This could also be done with a Class-Path entry -->
+            <module name="deployment.jackrabbit-webapp.war" optional="true" />
+        </dependencies>
+    </deployment>
+</jboss-deployment-structure>

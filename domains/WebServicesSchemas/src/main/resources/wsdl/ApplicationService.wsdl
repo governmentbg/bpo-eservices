@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions name="ApplicationService"
+	targetNamespace="http://ohim.eu/sp/services/application/v3"
+	xmlns:tns="http://ohim.eu/sp/services/application/v3"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap12/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	
+	<wsdl:types>
+		<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+			<xsd:import namespace="http://ohim.eu/sp/services/application/v3" schemaLocation="../xsd/services/ApplicationService.xsd" />
+		</xsd:schema>
+	</wsdl:types>
+
+	<wsdl:message name="saveApplication">
+		<wsdl:part name="parameters" element="tns:saveApplication" />
+	</wsdl:message>
+	<wsdl:message name="saveApplicationResponse">
+		<wsdl:part name="parameters" element="tns:saveApplicationResponse" />
+	</wsdl:message>
+
+	<wsdl:message name="loadApplication">
+		<wsdl:part name="parameters" element="tns:loadApplication" />
+	</wsdl:message>
+	<wsdl:message name="loadApplicationResponse">
+		<wsdl:part name="parameters" element="tns:loadApplicationResponse" />
+	</wsdl:message>
+
+	<wsdl:message name="getApplicationNumber">
+		<wsdl:part name="parameters" element="tns:getApplicationNumber" />
+	</wsdl:message>
+	<wsdl:message name="getApplicationNumberResponse">
+		<wsdl:part name="parameters" element="tns:getApplicationNumberResponse" />
+	</wsdl:message>
+
+	<wsdl:message name="checkExistingApplication">
+		<wsdl:part name="parameters" element="tns:checkExistingApplication" />
+	</wsdl:message>
+	<wsdl:message name="checkExistingApplicationResponse">
+		<wsdl:part name="parameters" element="tns:checkExistingApplicationResponse" />
+	</wsdl:message>
+
+	<wsdl:message name="applicationFault">
+		<wsdl:part name="parameters" element="tns:applicationFault" />
+	</wsdl:message>
+
+	<wsdl:portType name="ApplicationServicePortType">
+		<wsdl:operation name="saveApplication">
+			<wsdl:input message="tns:saveApplication" name="saveApplication" />
+			<wsdl:output message="tns:saveApplicationResponse" name="saveApplicationResponse" />
+			<wsdl:fault name="applicationFault" message="tns:applicationFault" />
+		</wsdl:operation>
+		<wsdl:operation name="loadApplication">
+			<wsdl:input message="tns:loadApplication" name="loadApplication" />
+			<wsdl:output message="tns:loadApplicationResponse" name="loadApplicationResponse" />
+			<wsdl:fault name="applicationFault" message="tns:applicationFault" />
+		</wsdl:operation>
+		<wsdl:operation name="getApplicationNumber">
+			<wsdl:input message="tns:getApplicationNumber" name="getApplicationNumber" />
+			<wsdl:output message="tns:getApplicationNumberResponse" name="getApplicationNumberResponse" />
+			<wsdl:fault name="applicationFault" message="tns:applicationFault" />
+		</wsdl:operation>
+		<wsdl:operation name="checkExistingApplication">
+			<wsdl:input message="tns:checkExistingApplication" name="checkExistingApplication" />
+			<wsdl:output message="tns:checkExistingApplicationResponse" name="checkExistingApplicationResponse" />
+			<wsdl:fault name="applicationFault" message="tns:applicationFault" />
+		</wsdl:operation>
+	</wsdl:portType>
+	
+	<wsdl:binding name="ApplicationServiceBinding" type="tns:ApplicationServicePortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+
+		<wsdl:operation name="saveApplication">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="saveApplication">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="saveApplicationResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="applicationFault">
+				<soap:fault use="literal" name="applicationFault" />
+			</wsdl:fault>
+		</wsdl:operation>
+
+		<wsdl:operation name="loadApplication">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="loadApplication">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="loadApplicationResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="applicationFault">
+				<soap:fault use="literal" name="applicationFault" />
+			</wsdl:fault>
+		</wsdl:operation>
+
+		<wsdl:operation name="getApplicationNumber">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="getApplicationNumber">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="getApplicationNumberResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="applicationFault">
+				<soap:fault use="literal" name="applicationFault" />
+			</wsdl:fault>
+		</wsdl:operation>
+
+		<wsdl:operation name="checkExistingApplication">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="checkExistingApplication">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="checkExistingApplicationResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="applicationFault">
+				<soap:fault use="literal" name="applicationFault" />
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+
+	<wsdl:service name="ApplicationService">
+		<wsdl:port name="ApplicationServicePort" binding="tns:ApplicationServiceBinding" >
+			<soap:address location="http://${fsp.ws.host}/${fsp.ws.context.root}${fsp.ws.application.path}${fsp.ws.wsdl.services.path}" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tradeMarkStatusList xmlns="http://www.example.org/tradeMarkStatus-configuration"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.example.org/tradeMarkStatus-configuration tradeMarkStatus-configuration.xsd ">
+       <tradeMarkStatus code="" language="en" enabled="true">selectBox.SELECT</tradeMarkStatus>
+       <tradeMarkStatus code="Registered" language="en" enabled="true">tradeMarkStatus.Registered</tradeMarkStatus>
+       <tradeMarkStatus code="Filed" language="en" enabled="true">tradeMarkStatus.Filed</tradeMarkStatus>
+       <tradeMarkStatus code="Expired" language="en" enabled="true">tradeMarkStatus.Expired</tradeMarkStatus>
+       <tradeMarkStatus code="Ended" language="en" enabled="true">tradeMarkStatus.Ended</tradeMarkStatus>
+       <tradeMarkStatus code="Application filed" language="en" enabled="true">tradeMarkStatus.AppFiled</tradeMarkStatus>
+       <tradeMarkStatus code="Application examination" language="en" enabled="true">tradeMarkStatus.AppExamination</tradeMarkStatus>
+       <tradeMarkStatus code="Application pre-publication A" language="en" enabled="true">tradeMarkStatus.AppPrePubA</tradeMarkStatus>
+       <tradeMarkStatus code="Application published" language="en" enabled="true">tradeMarkStatus.AppPublished</tradeMarkStatus>
+       <tradeMarkStatus code="Application registered" language="en" enabled="true">tradeMarkStatus.AppRegistered</tradeMarkStatus>
+       <tradeMarkStatus code="Application refused" language="en" enabled="true">tradeMarkStatus.AppRefused</tradeMarkStatus>
+       <tradeMarkStatus code="Application under examination" language="en" enabled="true">tradeMarkStatus.AppUnderExamination</tradeMarkStatus>
+       <tradeMarkStatus code="Application withdrawn" language="en" enabled="true">tradeMarkStatus.AppWithdrawn</tradeMarkStatus>
+       <tradeMarkStatus code="Registration pending" language="en" enabled="true">tradeMarkStatus.RegPending</tradeMarkStatus>
+       <tradeMarkStatus code="Registration published" language="en" enabled="true">tradeMarkStatus.RegPublished</tradeMarkStatus>
+       <tradeMarkStatus code="Application opposed" language="en" enabled="true">tradeMarkStatus.AppOpposed</tradeMarkStatus>
+       <tradeMarkStatus code="Appeal pending" language="en" enabled="true">tradeMarkStatus.AppealPendind</tradeMarkStatus>
+       <tradeMarkStatus code="Cancellation pending" language="en" enabled="true">tradeMarkStatus.CancelPending</tradeMarkStatus>
+       <tradeMarkStatus code="Registration cancellation pending" language="en" enabled="true">tradeMarkStatus.RegCancelPending</tradeMarkStatus>
+       <tradeMarkStatus code="Registration cancelled" language="en" enabled="true">tradeMarkStatus.RegCancel</tradeMarkStatus>
+       <tradeMarkStatus code="Registration expired" language="en" enabled="true">tradeMarkStatus.RegExpired</tradeMarkStatus>
+       <tradeMarkStatus code="Registration surrendered" language="en" enabled="true">tradeMarkStatus.RegSurrended</tradeMarkStatus>
+</tradeMarkStatusList>

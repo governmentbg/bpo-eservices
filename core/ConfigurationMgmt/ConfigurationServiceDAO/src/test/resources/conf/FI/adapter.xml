@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ * SystemConfigurationServiceDao:: adapter.xml 07/10/13 21:16 karalch $
+  ~  * . * .
+  ~  * * RRRR * Copyright © 2013 OHIM: Office for Harmonization
+  ~  * . RR R . in the Internal Market (trade marks and designs)
+  ~  * * RRR *
+  ~  * . RR RR . ALL RIGHTS RESERVED
+  ~  * * . _ . *
+  -->
+
+<adapters xmlns="http://www.example.org/adapter-configuration"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.example.org/adapter-configuration adapter-configuration.xsd ">
+	<adapter enabled="${enable.classification.service.adapter}" wsdlLocation="${wsdlLocation.classification.service.adapter}" name="classification"/>
+	<adapter enabled="${enable.trademark.service.adapter}" wsdlLocation="${wsdlLocation.trademark.service.adapter}" name="trademark" />
+	<adapter enabled="${enable.applicant.service.adapter}" wsdlLocation="${wsdlLocation.applicant.service.adapter}" name="applicant" />
+	<adapter enabled="${enable.representative.service.adapter}" wsdlLocation="${wsdlLocation.representative.service.adapter}" name="representative" />
+	<adapter enabled="${enable.payment.service.adapter}" wsdlLocation="${wsdlLocation.payment.service.adapter}" name="payment" />
+	<adapter enabled="${enable.user.service.adapter}" wsdlLocation="${wsdlLocation.user.service.adapter}" name="user" />
+	<adapter enabled="${enable.application.service.adapter}" wsdlLocation="${wsdlLocation.application.service.adapter}" name="application" />	
+	<adapter enabled="${enable.resource.service.adapter}" wsdlLocation="${wsdlLocation.resource.service.adapter}" name="resource" />
+</adapters>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://egov.bg/RegiX/PatentDepartment" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://egov.bg/RegiX/PatentDepartment" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="getSPCByRegNum" type="getSPCByRegNumType">
+		<xs:annotation>
+			<xs:documentation>Справка по регистрационен номер на патент, за който се отнася този SPC</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="getSPCByRegNumType">
+		<xs:sequence>
+			<xs:element name="appnum" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

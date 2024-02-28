@@ -1,0 +1,644 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>eu.ohim.sp.core</groupId>
+    <artifactId>core</artifactId>
+    <packaging>pom</packaging>
+
+    <name>Software Package Core</name>
+    <url>https://svn.oami.europa.eu/svn/emrepo/softwarepackage/core/trunk</url>
+
+    <ciManagement>
+        <system>Bamboo</system>
+        <url>http://ci-prod-bamboo-master:8085/bamboo/browse/SPCOR-SONR</url>
+    </ciManagement>
+
+    <scm>
+        <connection>scm:svn:https://svn.oami.europa.eu/svn/emrepo/softwarepackage/core/trunk</connection>
+        <developerConnection>scm:svn:https://svn.oami.europa.eu/svn/emrepo/softwarepackage/core/trunk</developerConnection>
+        <url>https://svn.oami.europa.eu/svn/emrepo/softwarepackage/core/trunk</url>
+    </scm>
+
+    <issueManagement>
+        <system>JIRA</system>
+        <url>https://jira.ohimqaportal.eu/browse/DEVSPHARMO</url>
+    </issueManagement>
+
+    <organization>
+        <name>OHIM</name>
+        <url>http://oami.europa.eu/</url>
+    </organization>
+
+    <parent>
+        <groupId>eu.ohim.sp.ui</groupId>
+        <artifactId>CFO</artifactId>
+        <version>2.0.0-RELEASE</version>
+    </parent>
+
+    <modules>
+        <module>CoreUtils</module>
+        <module>FilingDomain</module>
+        <module>FilingUtils</module>
+        <module>ConfigurationMgmt</module>
+        <module>Rules</module>
+        <module>ApplicationMgmt</module>
+        <module>DocumentMgmt</module>
+        <module>FeeCalculation</module>
+        <module>PersonSearch</module>
+        <module>Classification</module>
+        <module>ESignature</module>
+        <module>RegisterSearch</module>
+        <module>EPayment</module>
+        <module>Report</module>
+        <module>Resources</module>
+        <module>authentication</module>
+    </modules>
+
+    <properties>
+        <submitted.tm.apps.message.queue.jndi>java:jboss/exported/jms/queue/em/trademark/application/1_0</submitted.tm.apps.message.queue.jndi>
+        <connection.factory.jndi>java:/ConnectionFactory</connection.factory.jndi>
+
+        <pm.sp.common.current.version>2.0.0-RELEASE</pm.sp.common.current.version>
+        <pm.sp.core.current.version>2.0.0-RELEASE</pm.sp.core.current.version>
+        <pm.sp.domains.current.version>2.0.0-RELEASE</pm.sp.domains.current.version>
+
+        <!-- JBoss application server host/ip, ports and credentials per environment -->
+        <jboss.as.master.node.url>localhost</jboss.as.master.node.url>
+        <jboss.as.master.node.port>9999</jboss.as.master.node.port>
+        <jboss.as.master.node.username>admin</jboss.as.master.node.username>
+        <jboss.as.master.node.password>123456</jboss.as.master.node.password>
+        <jboss.as.master.node.remoting.port>4447</jboss.as.master.node.remoting.port>
+        <jboss.as.master.node.application-users.username>fsp</jboss.as.master.node.application-users.username>
+        <jboss.as.master.node.application-users.password>123456</jboss.as.master.node.application-users.password>
+
+        <jackrabbit.url>http://localhost:8080/jackrabbit-webapp-2.6.2/rmi</jackrabbit.url>
+<!--        <sonar.jacoco.reportPath>${user.dir}/target/jacoco-unit.exec</sonar.jacoco.reportPath> -->
+
+        <javadocPluginVersion>2.9.1</javadocPluginVersion>
+        <pm.version.plugin.checkstyle>2.9.1</pm.version.plugin.checkstyle>
+
+        <!-- spring dependencies only for .jar standalone adapters -->
+        <pm.springframework.version>4.3.0.RELEASE</pm.springframework.version>
+        <pm.springframework.security.version>3.2.0.RELEASE</pm.springframework.security.version>
+        <pm.sp.common-ui.current.version>2.0.0-RELEASE</pm.sp.common-ui.current.version>
+        <pm.sp.common-utils.current.version>2.0.0-RELEASE</pm.sp.common-utils.current.version>
+    </properties>
+
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- ******************************************** -->
+            <!-- *** Provided Software Packages libraries *** -->
+            <!-- ******************************************** -->
+            <dependency>
+                <groupId>eu.ohim.sp.common</groupId>
+                <artifactId>CommonUtils</artifactId>
+                <version>${pm.sp.common.current.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>eu.ohim.sp.core</groupId>
+                <artifactId>CoreUtils</artifactId>
+                <version>${pm.sp.core.current.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>eu.ohim.sp.domains</groupId>
+                <artifactId>CoreDomain</artifactId>
+                <version>${pm.sp.domains.current.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>eu.ohim.sp.domains</groupId>
+                <artifactId>ExternalDomain</artifactId>
+                <version>${pm.sp.domains.current.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>eu.ohim.sp.domains</groupId>
+                <artifactId>CoreServices</artifactId>
+                <version>${pm.sp.domains.current.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>eu.ohim.sp.domains</groupId>
+                <artifactId>ExternalServices</artifactId>
+                <version>${pm.sp.domains.current.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>eu.ohim.sp.external</groupId>
+                <artifactId>FilingDomain</artifactId>
+                <version>${pm.sp.core.current.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>eu.ohim.sp.core</groupId>
+                <artifactId>ApplicationServiceQualifiers</artifactId>
+                <version>${pm.sp.core.current.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>eu.ohim.sp.common</groupId>
+                <artifactId>ConfigurationXSD</artifactId>
+                <version>${pm.sp.common.current.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>eu.ohim.sp.external</groupId>
+                <artifactId>FilingUtils</artifactId>
+                <version>${pm.sp.core.current.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>eu.ohim.sp.external</groupId>
+                <artifactId>TrademarkSearchClientBean</artifactId>
+                <version>${pm.sp.core.current.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>eu.ohim.sp.external</groupId>
+                <artifactId>DesignSearchClientBean</artifactId>
+                <version>${pm.sp.core.current.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>eu.ohim.sp.external</groupId>
+                <artifactId>BPOPatentSearchClientBean</artifactId>
+                <version>${pm.sp.core.current.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>eu.ohim.sp.external</groupId>
+                <artifactId>BPOBackOfficeSearchClientBean</artifactId>
+                <version>${pm.sp.core.current.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>eu.ohim.sp.external</groupId>
+                <artifactId>UserSearchClientBean</artifactId>
+                <version>${pm.sp.core.current.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>eu.ohim.sp.external</groupId>
+                <artifactId>PersonSearchClientBean</artifactId>
+                <version>${pm.sp.core.current.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>eu.ohim.sp.external</groupId>
+                <artifactId>ApplicationClientBean</artifactId>
+                <version>${pm.sp.core.current.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>eu.ohim.sp.external</groupId>
+                <artifactId>LocarnoClassificationClientBean</artifactId>
+                <version>${pm.sp.core.current.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>eu.ohim.sp.external</groupId>
+                <artifactId>BPOClassificationClientBean</artifactId>
+                <version>${pm.sp.core.current.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>eu.ohim.sp.external</groupId>
+                <artifactId>NiceClassificationClientBean</artifactId>
+                <version>${pm.sp.core.current.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>eu.ohim.sp.external</groupId>
+                <artifactId>CMISDocumentClientBean</artifactId>
+                <version>${pm.sp.core.current.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>eu.ohim.sp.external</groupId>
+                <artifactId>JCRDocumentClientBean</artifactId>
+                <version>${pm.sp.core.current.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>eu.ohim.sp.external</groupId>
+                <artifactId>EPaymentClientBean</artifactId>
+                <version>${pm.sp.core.current.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>eu.ohim.sp.external</groupId>
+                <artifactId>ResourceClientBean</artifactId>
+                <version>${pm.sp.core.current.version}</version>
+            </dependency>
+            <!-- ====================================================
+                        EXTERNAL REFERENCES
+                 ==================================================== -->
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-entitymanager</artifactId>
+                <version>4.1.9.Final</version>
+            </dependency>
+            <dependency>
+                <groupId>net.sf.dozer</groupId>
+                <artifactId>dozer</artifactId>
+                <version>5.4.0</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.eclipse.birt.runtime</groupId>
+                <artifactId>org.eclipse.birt.runtime</artifactId>
+                <version>4.2.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.drools</groupId>
+                <artifactId>drools-core</artifactId>
+                <version>5.3.2.Final</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.drools</groupId>
+                <artifactId>drools-compiler</artifactId>
+                <version>5.3.2.Final</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.drools</groupId>
+                <artifactId>knowledge-api</artifactId>
+                <version>5.3.2.Final</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.eclipse.jdt.core.compiler</groupId>
+                <artifactId>ecj</artifactId>
+                <version>4.5.1</version>
+            </dependency>
+
+            <!-- ******************************************** -->
+            <!-- ************ Java EE libraries ************* -->
+            <!-- ******************************************** -->
+            <dependency>
+                <groupId>org.jboss.as</groupId>
+                <artifactId>jboss-as-ejb-client-bom</artifactId>
+                <version>7.1.2.Final</version>
+                <type>pom</type>
+                <scope>provided</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.jboss</groupId>
+                        <artifactId>jboss-remote-naming</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss</groupId>
+                <artifactId>jboss-remote-naming</artifactId>
+                <version>1.0.7.Final</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.spec</groupId>
+                <artifactId>jboss-javaee-6.0</artifactId>
+                <version>3.0.3.Final</version>
+                <type>pom</type>
+                <scope>provided</scope>
+            </dependency>
+
+            <!-- ******************************************** -->
+            <!-- ***** Apache Commons Libraries - Log4j ***** -->
+            <!-- ******************************************** -->
+            <dependency>
+                <groupId>log4j</groupId>
+                <artifactId>log4j</artifactId>
+                <version>1.2.16</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>commons-lang</groupId>
+                <artifactId>commons-lang</artifactId>
+                <version>2.6</version>
+                <scope>compile</scope>
+            </dependency>
+            <dependency>
+                <groupId>commons-beanutils</groupId>
+                <artifactId>commons-beanutils</artifactId>
+                <version>1.8.3</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>2.4</version>
+                <scope>compile</scope>
+            </dependency>
+            <dependency>
+                <groupId>commons-logging</groupId>
+                <artifactId>commons-logging</artifactId>
+                <version>1.1.1</version>
+                <scope>compile</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>1.6.4</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <!-- ******************************************** -->
+            <!-- ************* Test Frameworks ************** -->
+            <!-- ******************************************** -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.11</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-all</artifactId>
+                <version>1.9.0</version>
+                <scope>test</scope>
+            </dependency>            
+            <dependency>
+                <groupId>xerces</groupId>
+                <artifactId>xercesImpl</artifactId>
+                <version>2.11.0</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>xml-apis</groupId>
+                <artifactId>xml-apis</artifactId>
+                <version>1.4.01</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>dependency-updates-report</report>
+                            <report>plugin-upates-report</report>
+                            <report>property-updates-report</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+        </plugins>
+    </reporting>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>${basedir}/src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/*.*</include>
+                </includes>
+            </resource>
+
+            <resource>
+                <directory>${basedir}/src/main/xsd</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/*.*</include>
+                </includes>
+            </resource>
+        </resources>
+
+        <testResources>
+            <testResource>
+                <directory>${basedir}/src/test/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/*.*</include>
+                </includes>
+                <excludes>
+                    <exclude>**/*.pdf</exclude>
+                    <exclude>**/*.jpg</exclude>
+                    <exclude>**/*.zip</exclude>
+                </excludes>
+            </testResource>
+            <testResource>
+                <directory>${basedir}/src/test/resources</directory>
+                <filtering>false</filtering>
+                <includes>
+                    <include>**/*.pdf</include>
+                    <include>**/*.jpg</include>
+                    <include>**/*.zip</include>
+                </includes>
+            </testResource>
+        </testResources>
+
+        <pluginManagement>
+            <plugins>
+
+				<!-- The Clean Plugin is used when you want to remove files generated
+					at build-time in a project's directory -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-clean-plugin</artifactId>
+				</plugin>
+
+				<!-- This plugin provides the ability to run Ant tasks from within Maven.
+					You can even embed your Ant scripts in the POM -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-antrun-plugin</artifactId>
+					<version>1.7</version>
+				</plugin>
+
+				<!-- The Eclipse Plugin is used to generate Eclipse IDE files (*.classpath,
+					*.wtpmodules and the .settings folder) for use with a project. -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-eclipse-plugin</artifactId>
+					<version>2.9</version>
+				</plugin>
+
+				<!-- This plugin provides the capability to build and sign jars. -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<version>2.4</version>
+					<configuration>
+						<finalName>${project.artifactId}</finalName>
+						<archive>
+							<manifest>
+								<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+							</manifest>
+						</archive>
+					</configuration>
+				</plugin>
+
+                <!-- This plugin generates J2EE Enterprise Javabean (EJB) file as well
+                    as the associated client jar. -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-ejb-plugin</artifactId>
+                    <version>2.3</version>
+                </plugin>
+
+                <!-- This plugin generates J2EE Enterprise Archive (EAR) file. It can
+                    also generate the deployment descriptor file -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-ear-plugin</artifactId>
+                    <version>2.7</version>
+                    <configuration>
+                        <applicationName>${project.build.finalName}</applicationName>
+                        <version>6</version>
+                        <fileNameMapping>no-version</fileNameMapping>
+                        <archive>
+                            <manifest>
+                                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                            </manifest>
+                        </archive>
+                    </configuration>
+                </plugin>
+
+				<!-- This plugin generates the ESB files -->
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>jboss-packaging-maven-plugin</artifactId>
+					<version>2.1.1</version>
+					<!-- Enable packaging types and lifecycle bindings. -->
+					<extensions>true</extensions>
+					<configuration>
+						<removeDependencyVersions>true</removeDependencyVersions>
+						<archive>
+							<manifest>
+								<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+							</manifest>
+						</archive>
+					</configuration>
+				</plugin>
+
+				<!-- A resource adapter is a system-level software driver that a Java
+					application uses to connect to an enterprise information system (EIS). The
+					RAR plugin has the capability to store these resource adapters to an archive
+					(Resource Adapter Archive or RAR) which can be deployed to a J2EE server. -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-rar-plugin</artifactId>
+					<version>2.2</version>
+				</plugin>
+
+				<!-- The dependency plugin provides the capability to manipulate artifacts.
+					It can copy and/or unpack artifacts from local or remote repositories to
+					a specified location -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-dependency-plugin</artifactId>
+					<version>2.4</version>
+				</plugin>
+
+                <!--JBoss Plugin for deploy/redeploy/undeploy applications -->
+                <plugin>
+                    <groupId>org.jboss.as.plugins</groupId>
+                    <artifactId>jboss-as-maven-plugin</artifactId>
+                    <version>7.1.1.Final</version>
+                    <configuration>
+                        <skip>true</skip>
+                        <hostname>${jboss.as.master.node.url}</hostname>
+                        <port>${jboss.as.master.node.port}</port>
+                        <username>${jboss.as.master.node.username}</username>
+                        <password>${jboss.as.master.node.password}</password>
+                    </configuration>
+                </plugin>
+
+                <!-- Wraps the JAXB XJC compiler and provides the capability to generate
+                    java sources from schemas -->
+                <plugin>
+                    <groupId>org.jvnet.jaxb2.maven2</groupId>
+                    <artifactId>maven-jaxb2-plugin</artifactId>
+                    <version>0.8.1</version>
+                </plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-checkstyle-plugin</artifactId>
+					<version>${pm.version.plugin.checkstyle}</version>
+					<configuration>
+						<configLocation>../conf/src/main/resources/checkstyle.xml</configLocation>
+						<propertiesLocation>../conf/src/main/resources/checkstyle.properties</propertiesLocation>
+						<propertyExpansion>basedir=${project.basedir}</propertyExpansion>
+						<failsOnError>false</failsOnError>
+						<consoleOutput>false</consoleOutput>
+					</configuration>
+				</plugin>
+            </plugins>
+        </pluginManagement>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9.1</version>
+                <configuration>
+                    <author>false</author>
+                    <doctitle>Software Package API Specification - ${project.version}</doctitle>
+                    <detectLinks>true</detectLinks>
+                    <show>public</show>
+                    <splitindex>true</splitindex>
+                    <additionalJOption>-noqualifier all</additionalJOption>
+                    <sourcepath>${basedir}/CoreDomain/src/main/java;${basedir}/CoreServices/src/main/java;${basedir}/ExternalServices/src/main/java;
+                    </sourcepath>
+                    <links>
+                        <link>http://download.oracle.com/javase/7/docs/api/</link>
+                    </links>
+                    <additionalDependencies>
+                        <dependency>
+                            <groupId>org.jboss.spec</groupId>
+                            <artifactId>jboss-javaee-6.0</artifactId>
+                            <version>3.0.3.Final</version>
+                            <type>pom</type>
+                            <scope>provided</scope>
+                        </dependency>
+                        <dependency>
+                            <groupId>commons-lang</groupId>
+                            <artifactId>commons-lang</artifactId>
+                            <version>2.6</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>commons-io</groupId>
+                            <artifactId>commons-io</artifactId>
+                            <version>2.4</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>eu.ohim.sp.common</groupId>
+                            <artifactId>CommonUtils</artifactId>
+                            <version>2.0.0-RELEASE</version>
+                        </dependency>
+                    </additionalDependencies>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>javadoc-javadoc</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>javadoc</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>javadoc-jar</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>aggregate-jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

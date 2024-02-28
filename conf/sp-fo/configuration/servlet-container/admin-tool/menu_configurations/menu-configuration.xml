@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:menu xmlns:tns="http://www.example.org/test/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://www.example.org/test/ menu-configuration.xsd ">
+    <module name="design">
+        <section>
+            <key>section1</key>
+            <items>
+                <item label="oneform" rights="dsefiling_config_read">dsefiling/sections/oneform</item>
+                <item label="wizard" rights="dsefiling_config_read">dsefiling/sections/wizard</item>
+                <item label="ext_service" rights="dsefiling_services_config_read">dsefiling/ext_service</item>
+                <item label="fees" rights="fees_config_read">eu.ohim.sp.core.rules.dsefiling/fees</item>
+                <item label="file_upload" rights="dsefiling_config_read">dsefiling/file_upload</item>
+            </items>
+        </section>
+        <section>
+            <key>section2</key>
+            <items>
+                <item label="exhibitions" rights="dsefiling_config_read">dsefiling/exhibitions</item>
+                <item label="viewsPublications" rights="general_config_read">general/viewsPublications/designViewPublicationSizes</item>
+                <item label="viewsTypes" rights="general_config_read">general/viewsTypes/designViewTypes</item>
+            </items>
+        </section>
+        <section>
+            <key>section4</key>
+            <items>
+                <item label="i18n" rights="config_read_labels">ds-efiling/labels</item>
+                <item label="monitor_is" rights="status_services">dsefiling/monitor_is</item>
+                <item label="clear_cache" rights="dsefiling_config_read">clear_cache</item>
+            </items>
+        </section>
+    </module>
+    <module name="trademark">
+        <section>
+            <key>section1</key>
+            <items>
+                <item label="oneform" rights="tmefiling_config_read">tmefiling/sections/oneform</item>
+                <item label="wizard" rights="tmefiling_config_read">tmefiling/sections/wizard</item>
+                <item label="ext_service" rights="tmefiling_services_config_read">tmefiling/ext_service</item>
+                <item label="fees" rights="fees_config_read">eu.ohim.sp.core.rules.tmefiling/fees</item>
+                <item label="file_upload" rights="tmefiling_config_read">tmefiling/file_upload</item>
+            </items>
+        </section>
+        <section>
+            <key>section2</key>
+            <items>
+                <item label="colours" rights="tmefiling_config_read">tmefiling/colours</item>
+                <item label="exhibitions" rights="tmefiling_config_read">tmefiling/exhibitions</item>
+            </items>
+        </section>
+        <section>
+            <key>section4</key>
+            <items>
+                <item label="i18n" rights="config_read_labels">tm-efiling/labels</item>
+                <item label="monitor_is" rights="status_services">tmefiling/monitor_is</item>
+                <item label="clear_cache" rights="tmefiling_config_read">clear_cache</item>
+            </items>
+        </section>
+    </module>
+    <module name="eservices">
+        <section>
+            <key>section1</key>
+            <items>
+                <item label="ext_service" rights="eservices_services_config_read">eservices/ext_service</item>
+                <item label="file_upload" rights="eservices_config_read">eservices/file_upload</item>
+            </items>
+        </section>
+        <section>
+            <key>sectionTmRenewal</key>
+            <items>
+                <item label="oneform" rights="eservices_config_read">eservices/sections/tm-renewal</item>
+                <item label="fees" rights="fees_config_read">eu.ohim.sp.core.rules.tmrenewal/fees</item>
+            </items>
+        </section>
+        <section>
+            <key>sectionTmChange</key>
+            <items>
+                <item label="oneform" rights="eservices_config_read">eservices/sections/tm-change</item>
+                <item label="fees" rights="fees_config_read">eu.ohim.sp.core.rules.tmchange/fees</item>
+            </items>
+        </section>
+        <section>
+            <key>sectionTmTransfer</key>
+            <items>
+                <item label="oneform" rights="eservices_config_read">eservices/sections/tm-transfer</item>
+                <item label="fees" rights="fees_config_read">eu.ohim.sp.core.rules.tmtransfer/fees</item>
+            </items>
+        </section>
+        <section>
+            <key>sectionTmOpposition</key>
+            <items>
+                <item label="wizard" rights="eservices_config_read">eservices/sections/tm-opposition</item>
+                <item label="fees" rights="fees_config_read">eu.ohim.sp.core.rules.tmopposition/fees</item>
+            </items>
+        </section>
+        <section>
+            <key>sectionTmInvalidity</key>
+            <items>
+                <item label="wizard" rights="eservices_config_read">eservices/sections/tm-invalidity</item>
+                <item label="fees" rights="fees_config_read">eu.ohim.sp.core.rules.tminvalidity/fees</item>
+            </items>
+        </section>
+        <section>
+            <key>sectionTmRevocation</key>
+            <items>
+                <item label="wizard" rights="eservices_config_read">eservices/sections/tm-revocation</item>
+                <item label="fees" rights="fees_config_read">eu.ohim.sp.core.rules.tmrevocation/fees</item>
+            </items>
+        </section>
+        <section>
+            <key>sectionDsRenewal</key>
+            <items>
+                <item label="oneform" rights="eservices_config_read">eservices/sections/ds-renewal</item>
+                <item label="fees" rights="fees_config_read">eu.ohim.sp.core.rules.dsrenewal/fees</item>
+            </items>
+        </section>
+        <section>
+            <key>sectionDsChange</key>
+            <items>
+                <item label="oneform" rights="eservices_config_read">eservices/sections/ds-change</item>
+                <item label="fees" rights="fees_config_read">eu.ohim.sp.core.rules.dschange/fees</item>
+            </items>
+        </section>
+        <section>
+            <key>sectionDsTransfer</key>
+            <items>
+                <item label="oneform" rights="eservices_config_read">eservices/sections/ds-transfer</item>
+                <item label="fees" rights="fees_config_read">eu.ohim.sp.core.rules.dstransfer/fees</item>
+            </items>
+        </section>       
+        <section>
+            <key>section2</key>
+            <items>
+                <item label="exhibitions" rights="eservices_config_read">eservices/exhibitions</item>
+            </items>
+        </section>
+        <section>
+            <key>section4</key>
+            <items>
+                <item label="i18n" rights="config_read_labels">e-services/labels</item>
+                <item label="clear_cache" rights="eservices_config_read">clear_cache</item>
+            </items>
+        </section>
+    </module>
+    <module name="common">
+        <section>
+            <key>section2</key>
+            <items>
+                <item label="countries" rights="general_config_read">general/countries</item>
+                <item label="languages/first-lang-conf" rights="general_config_read">general/languages/first-lang-conf</item>
+                <item label="languages/second-lang-conf" rights="general_config_read">general/languages/second-lang-conf</item>
+                <item label="nationalities" rights="general_config_read">general/nationalities</item>
+            </items>
+        </section>
+        <section>
+            <key>section3</key>
+            <items>
+                <item label="disp_app_list" rights="monitor_applications">p/disp_app_list</item>
+            </items>
+        </section>
+        <section>
+            <key>section4</key>
+            <items>
+                <item label="monitor_is" rights="status_services">general/monitor_is</item>
+            </items>
+        </section>
+    </module>
+</tns:menu>

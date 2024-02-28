@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="qualified"
+           version="3.2" 
+           targetNamespace="http://ohim.eu/sp/domain/design/v3"
+           xmlns:tns="http://ohim.eu/sp/domain/design/v3"
+           xmlns:application="http://ohim.eu/sp/domain/application/v3"
+           xmlns:person="http://ohim.eu/sp/domain/person/v3"
+           xmlns:resource="http://ohim.eu/sp/domain/resource/v3"
+           xmlns:contact="http://ohim.eu/sp/domain/contact/v3"
+           xmlns:claim="http://ohim.eu/sp/domain/claim/v3"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:import namespace="http://ohim.eu/sp/domain/application/v3" schemaLocation="./ApplicationDomain.xsd"/>
+    <xs:import namespace="http://ohim.eu/sp/domain/person/v3" schemaLocation="./PersonDomain.xsd"/>
+    <xs:import namespace="http://ohim.eu/sp/domain/resource/v3" schemaLocation="./ResourceDomain.xsd"/>
+    <xs:import namespace="http://ohim.eu/sp/domain/contact/v3" schemaLocation="./ContactDomain.xsd"/>
+    <xs:import namespace="http://ohim.eu/sp/domain/claim/v3" schemaLocation="./ClaimDomain.xsd"/>
+
+    <xs:complexType name="Design">
+        <xs:sequence>
+            <xs:element name="applicationLanguage" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="secondLanguage" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="designIdentifier" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="applicationNumber" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="registrationNumber" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="registrationOffice" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="registrationDate" type="xs:date" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="expiryDate" type="xs:date" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="divisionalApplicationDetails" type="tns:DesignDivisionalApplicationDetails" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="designers" type="person:Designer" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="views" type="tns:DesignView" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="productIndications" type="tns:ProductIndication" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="ornamentationIndicator" type="xs:boolean" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="priorities" type="claim:DesignPriority" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="exhibitionPriorities" type="claim:DesignExhibitionPriority" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="publicationDefermentIndicator" type="xs:boolean" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="publicationDefermentTillDate" type="xs:date" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="verbalElements" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="description" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="distinctiveFeatures" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="colours" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="currentStatus" type="tns:DesignStatusCode" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="currentStatusDate" type="xs:date" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="specimenIndicator" type="xs:boolean" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="documentIncluded" type="resource:AttachedDocument" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="sequenceNumber" type="xs:integer" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="numberOfRenewals" type="xs:integer" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="DesignView">
+        <xs:sequence>
+            <xs:element name="view" type="resource:AttachedDocument" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="sequence" type="xs:integer" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="description" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="publishInColour" type="xs:boolean" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="publishInBlackWhite" type="xs:boolean" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="publicationSize" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="type" type="xs:string" minOccurs="0" maxOccurs="1"/>
+
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="DesignDivisionalApplicationDetails">
+        <xs:sequence>
+            <xs:element name="attachment" type="resource:AttachedDocument" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="productIndications" type="tns:ProductIndication" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="designs" type="tns:Design" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ProductIndication">
+        <xs:sequence>
+            <xs:element name="description" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="version" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="languageCode" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="classes" type="tns:ProductIndicationClass" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ProductIndicationClass">
+        <xs:sequence>
+            <xs:element name="mainClass" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="subClass" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="description" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="terms" type="tns:ProductIndicationTerm" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ProductIndicationTerm">
+        <xs:sequence>
+            <xs:element name="indprodID" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="text" type="xs:string" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="DesignApplication">
+        <xs:complexContent>
+            <xs:extension base="application:IPApplication">
+                <xs:sequence>
+                    <xs:element name="receivingOfficeDate" type="xs:date" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="receivingOffice" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="receiptNumber" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="applicationDate" type="xs:date" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="applicationNumber" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="user" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="publicationDate" type="xs:date" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="applicationLanguage" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="secondLanguage" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="priorityClaimLaterIndicator" type="xs:boolean" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="exhibitionPriorityClaimLaterIndicator" type="xs:boolean" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="designDetails" type="tns:Design" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="applicants" type="person:Applicant" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="representatives" type="person:Representative" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="documentIncluded" type="resource:AttachedDocument" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="signatures" type="application:Signatory" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="correspondenceAddresses" type="contact:Address" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="reference" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="correspondenceLanguage" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="correspondenceKind" type="contact:CorrespondenceKind" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="designers" type="person:Designer" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="divisionalApplicationDetails" type="claim:DivisionalApplicationDetails" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="priorities" type="claim:DesignPriority" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="exhibitionPriorities" type="claim:DesignExhibitionPriority" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="applicantURI" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="representativeURI" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <!-- ENUMS -->
+
+    <xs:simpleType name="DesignStatusCode">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Filed"/>
+            <xs:enumeration value="Withdrawn"/>
+            <xs:enumeration value="Rejected"/>
+            <xs:enumeration value="Registered"/>
+            <xs:enumeration value="Cancelled"/>
+            <xs:enumeration value="Expired"/>
+            <xs:enumeration value="Undefined"/>
+            <!-- SP additional values -->
+            <xs:enumeration value="Ended"/>
+            <xs:enumeration value="Registered and fully published"/>
+            <xs:enumeration value="Registered and subject to deferment"/>
+            <xs:enumeration value="Lack of effects"/>
+            <xs:enumeration value="Design surrendered"/>
+            <xs:enumeration value="Invalidity procedure pending"/>
+            <xs:enumeration value="Design declared invalid"/>
+            <xs:enumeration value="Design lapsed"/>
+            <xs:enumeration value="Expiring"/>
+            <xs:enumeration value="Application published"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>

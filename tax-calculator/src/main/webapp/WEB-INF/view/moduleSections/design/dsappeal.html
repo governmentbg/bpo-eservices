@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<div th:fragment="dsappeal-fragment">
+
+    <div id="set-composition-frag" class="mb20px">
+        <div th:replace="fragments/setComposition :: setComposition-fragment"></div>
+    </div>
+
+    <div id="total-designs-count-frag" class="mb20px">
+        <div th:replace="fragments/totalDesignsCount :: totalDesignsCount-fragment"></div>
+    </div>
+
+    <div id="appeal-kind-frag" class="mb20px">
+        <div th:replace="fragments/appealKind :: appealKind-fragment(obj = 'ds')"></div>
+    </div>
+
+</div>
+</html>

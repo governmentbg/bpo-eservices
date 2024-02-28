@@ -1,0 +1,1300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://dozer.sourceforge.net http://dozer.sourceforge.net/schema/beanmapping.xsd">
+
+
+    <mapping map-null="false">
+        <class-a>eu.ohim.sp.core.domain.contact.Address</class-a>
+        <class-b>eu.ohim.sp.filing.domain.pt.Address</class-b>
+        <field>
+            <a>this</a>
+            <b>formattedAddress</b>
+        </field>
+        <field>
+            <a>country</a>
+            <b>addressCountryCode</b>
+        </field>
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>eu.ohim.sp.core.domain.contact.Address</class-a>
+        <class-b>eu.ohim.sp.filing.domain.pt.AddressBook</class-b>
+        <field>
+            <a>this</a>
+            <b>formattedNameAddress.address.formattedAddress</b>
+        </field>
+        <field>
+            <a>postalName</a>
+            <b>formattedNameAddress.name.freeFormatName.freeFormatNameDetails.freeFormatNameLine[0].value</b>
+        </field>
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>eu.ohim.sp.core.domain.person.Person</class-a>
+        <class-b>eu.ohim.sp.filing.domain.pt.ContactInformationDetails</class-b>
+        <field>
+            <a>emails</a>
+            <b>email</b>
+            <a-hint>eu.ohim.sp.core.domain.contact.Email</a-hint>
+            <b-hint>java.lang.String</b-hint>
+        </field>
+        <field>
+            <a>phones</a>
+            <b>phone</b>
+            <a-hint>eu.ohim.sp.core.domain.contact.Phone</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.pt.Phone</b-hint>
+        </field>
+        <field>
+            <a>phones</a>
+            <b>fax</b>
+            <a-hint>eu.ohim.sp.core.domain.contact.Phone</a-hint>
+            <b-hint>java.lang.String</b-hint>
+        </field>
+        <field>
+            <a>urls</a>
+            <b>url</b>
+        </field>
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>eu.ohim.sp.core.domain.person.Representative</class-a>
+        <class-b>eu.ohim.sp.filing.domain.pt.Representative</class-b>
+        <field>
+            <a>identifiers</a>
+            <b>representativeIdentifier</b>
+        </field>
+        <field>
+            <a>addresses[0]</a>
+            <b>addressBook</b>
+            <a-hint>eu.ohim.sp.core.domain.contact.Address</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.pt.AddressBook</b-hint>
+        </field>
+        <field>
+            <a>name</a>
+            <b>addressBook.formattedNameAddress.name.formattedName</b>
+        </field>
+        <field>
+            <a>kind</a>
+            <b>addressBook.formattedNameAddress.name.nameKind</b>
+        </field>
+        <field>
+            <a>representativeKind</a>
+            <b>kind</b>
+        </field>
+        <field>
+            <a>this</a>
+            <b>addressBook.contactInformationDetails</b>
+        </field>
+        <field>
+            <a>correspondenceAddresses</a>
+            <b>correspondenceAddresses</b>
+            <a-hint>eu.ohim.sp.core.domain.contact.Address</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.pt.AddressBook</b-hint>
+        </field>
+        <field>
+            <a>correspondenceEmails</a>
+            <b>correspondenceAddresses[0].contactInformationDetails.email</b>
+            <a-hint>eu.ohim.sp.core.domain.contact.Email</a-hint>
+            <b-hint>java.lang.String</b-hint>
+        </field>
+        <field>
+            <a>correspondencePhones</a>
+            <b>correspondenceAddresses[0].contactInformationDetails.phone</b>
+            <a-hint>eu.ohim.sp.core.domain.contact.Phone</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.pt.Phone</b-hint>
+        </field>
+        <field>
+            <a>correspondencePhones</a>
+            <b>correspondenceAddresses[0].contactInformationDetails.fax</b>
+            <a-hint>eu.ohim.sp.core.domain.contact.Phone</a-hint>
+            <b-hint>java.lang.String</b-hint>
+        </field>
+        <field>
+            <a>personRoleRelationships[0]</a>
+            <b>this</b>
+            <a-hint>eu.ohim.sp.core.domain.person.PersonRoleRelationship</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.pt.Representative</b-hint>
+        </field>
+        <field>
+            <a>powReauthorizationIndicator</a>
+            <b get-method="isPowReauthorizationIndicator">powReauthorizationIndicator</b>
+        </field>
+        <field>
+            <a>powValidityIndefiniteIndicator</a>
+            <b get-method="isPowValidityIndefiniteIndicator">powValidityIndefiniteIndicator</b>
+        </field>
+        <field>
+            <a>powRevokesPreviousIndicator</a>
+            <b get-method="isPowRevokesPreviousIndicator">powRevokesPreviousIndicator</b>
+        </field>
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>eu.ohim.sp.core.domain.person.PersonRoleRelationship
+        </class-a>
+        <class-b>eu.ohim.sp.filing.domain.pt.Representative</class-b>
+        <field>
+            <a>documents</a>
+            <b>representativeDocumentDetails.documentIncluded</b>
+            <a-hint>eu.ohim.sp.core.domain.resources.AttachedDocument</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.pt.Document</b-hint>
+        </field>
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>eu.ohim.sp.core.domain.contact.ContactDetails</class-a>
+        <class-b>eu.ohim.sp.filing.domain.pt.CorrespondenceAddress</class-b>
+        <field>
+            <a>address[0]</a>
+            <b>correspondenceAddressBook</b>
+            <a-hint>eu.ohim.sp.core.domain.contact.Address</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.pt.AddressBook</b-hint>
+        </field>
+        <field map-id="custom-contact-map">
+            <a>this</a>
+            <b>correspondenceAddressBook.contactInformationDetails</b>
+        </field>
+        <field>
+            <a>electronicCorrespondence</a>
+            <b get-method="isElectronicCorrespondenceIndicator">electronicCorrespondenceIndicator</b>
+        </field>
+    </mapping>
+
+    <mapping map-id="custom-contact-map" map-null="false">
+        <class-a>eu.ohim.sp.core.domain.contact.ContactDetails</class-a>
+        <class-b>eu.ohim.sp.filing.domain.pt.ContactInformationDetails</class-b>
+        <field>
+            <a>phone</a>
+            <b>phone</b>
+        </field>
+        <field>
+            <a>email</a>
+            <b>email</b>
+        </field>
+        <field>
+            <a>fax</a>
+            <b>fax</b>
+        </field>
+        <field>
+            <a>url</a>
+            <b>url</b>
+        </field>
+    </mapping>
+
+
+    <mapping map-null="false">
+        <class-a>eu.ohim.sp.core.domain.payment.Payment</class-a>
+        <class-b>eu.ohim.sp.filing.domain.pt.Payment</class-b>
+        <field>
+            <a>payer.addresses[0]</a>
+            <b>payerAddressBook</b>
+            <a-hint>eu.ohim.sp.core.domain.contact.Address</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.pt.AddressBook</b-hint>
+        </field>
+        <field>
+            <a>identifier</a>
+            <b>paymentIdentifier</b>
+        </field>
+        <field>
+            <a>kind</a>
+            <b>paymentKind</b>
+        </field>
+        <field>
+            <a>payer.name</a>
+            <b>payerName.formattedName</b>
+        </field>
+        <field>
+            <a>payer</a>
+            <b>payerAddressBook.contactInformationDetails</b>
+        </field>
+        <field>
+            <a>bankTransfer</a>
+            <b>paymentMethod.bankTransfer</b>
+            <a-hint>eu.ohim.sp.core.domain.payment.BankTransfer</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.pt.BankTransfer</b-hint>
+        </field>
+        <field>
+            <a>account</a>
+            <b>paymentMethod.account</b>
+            <a-hint>eu.ohim.sp.core.domain.payment.Account</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.pt.Account</b-hint>
+        </field>
+        <field>
+            <a>cardAccount</a>
+            <b>paymentMethod.cardAccount</b>
+            <a-hint>eu.ohim.sp.core.domain.payment.CardAccount</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.pt.CardAccount</b-hint>
+        </field>
+        <field>
+            <a>comment</a>
+            <b>comment.value</b>
+        </field>
+        <field>
+            <a get-method="getStatus">status</a>
+            <b get-method="getPaymentStatus">paymentStatus</b>
+        </field>
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>eu.ohim.sp.core.domain.application.Signatory</class-a>
+        <class-b>eu.ohim.sp.filing.domain.pt.Signatory</class-b>
+        <field>
+            <a>name</a>
+            <b>name.freeFormatName.freeFormatNameDetails.freeFormatNameLine[0].value</b>
+        </field>
+        <field>
+            <a>userId</a>
+            <b>signatoryUserId</b>
+        </field>
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>eu.ohim.sp.core.domain.payment.PaymentFee</class-a>
+        <class-b>eu.ohim.sp.filing.domain.pt.Payment</class-b>
+        <field>
+            <a>fees</a>
+            <b>paymentFeeDetails.paymentFee</b>
+            <a-hint>eu.ohim.sp.core.domain.payment.MatchedFee</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.pt.PaymentFee</b-hint>
+        </field>
+        <field>
+            <a>payLaterAttachedDocuments</a>
+            <b>paymentDocument</b>
+        </field>
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>eu.ohim.sp.core.domain.payment.MatchedFee</class-a>
+        <class-b>eu.ohim.sp.filing.domain.pt.PaymentFee</class-b>
+        <field>
+            <a>fee.feeType.nameKey</a>
+            <b>feeReference</b>
+        </field>
+        <field>
+            <a>fee.amount</a>
+            <b>feeAmount.value</b>
+        </field>
+        <field>
+            <a>fee.quantity</a>
+            <b>feeUnitQuantity</b>
+        </field>
+        <field>
+            <a>fee.unitAmount</a>
+            <b>feeUnitAmount.value</b>
+        </field>
+        <field>
+            <a get-method="getExpirationExtentYearsFromEntitlement">fee.expirationExtentYearsFromEntitlement</a>
+            <b get-method="getExpirationExtentYearsFromEntitlement">expirationExtentYearsFromEntitlement</b>
+        </field>
+        <field>
+            <a get-method="getExpirationExtentNewDate">fee.expirationExtentNewDate</a>
+            <b get-method="getExpirationExtentNewDate">expirationExtentNewDate</b>
+        </field>
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>eu.ohim.sp.core.domain.person.Applicant</class-a>
+        <class-b>eu.ohim.sp.filing.domain.pt.Applicant</class-b>
+        <field>
+            <a>owner</a>
+            <b get-method="isApplicantIsOwner">applicantIsOwner</b>
+        </field>
+    </mapping>
+
+
+    <mapping map-null="false">
+        <class-a>eu.ohim.sp.core.domain.person.PersonRole</class-a>
+        <class-b>eu.ohim.sp.filing.domain.pt.Applicant</class-b>
+        <field>
+            <a>identifiers</a>
+            <b>applicantIdentifier</b>
+        </field>
+        <field>
+            <a>addresses[0]</a>
+            <b>addressBook</b>
+            <a-hint>eu.ohim.sp.core.domain.contact.Address</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.pt.AddressBook</b-hint>
+        </field>
+        <field>
+            <a>correspondenceAddresses</a>
+            <b>correspondenceAddresses</b>
+            <a-hint>eu.ohim.sp.core.domain.contact.Address</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.pt.AddressBook</b-hint>
+        </field>
+        <field>
+            <a>kind</a>
+            <b>addressBook.formattedNameAddress.name.nameKind</b>
+        </field>
+        <field>
+            <a>name</a>
+            <b>addressBook.formattedNameAddress.name.formattedName</b>
+        </field>
+        <field>
+            <a>this</a>
+            <b>addressBook.contactInformationDetails</b>
+            <a-hint>eu.ohim.sp.core.domain.person.Person</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.pt.ContactInformationDetails</b-hint>
+        </field>
+
+        <field>
+            <a>correspondenceEmails</a>
+            <b>correspondenceAddresses[0].contactInformationDetails.email</b>
+            <a-hint>eu.ohim.sp.core.domain.contact.Email</a-hint>
+            <b-hint>java.lang.String</b-hint>
+        </field>
+        <field>
+            <a>correspondencePhones</a>
+            <b>correspondenceAddresses[0].contactInformationDetails.phone</b>
+            <a-hint>eu.ohim.sp.core.domain.contact.Phone</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.pt.Phone</b-hint>
+        </field>
+        <field>
+            <a>correspondencePhones</a>
+            <b>correspondenceAddresses[0].contactInformationDetails.fax</b>
+            <a-hint>eu.ohim.sp.core.domain.contact.Phone</a-hint>
+            <b-hint>java.lang.String</b-hint>
+        </field>
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>eu.ohim.sp.core.domain.person.Inventor</class-a>
+        <class-b>eu.ohim.sp.filing.domain.pt.Inventor</class-b>
+        <field>
+            <a>identifiers</a>
+            <b>inventorIdentifier</b>
+        </field>
+        <field>
+            <a>personRoleRelationships[0].documents</a>
+            <b>inventorDocumentDetails.documentIncluded</b>
+        </field>
+        <field>
+            <a>addresses[0]</a>
+            <b>addressBook</b>
+            <a-hint>eu.ohim.sp.core.domain.contact.Address</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.pt.AddressBook</b-hint>
+        </field>
+        <field>
+            <a>name</a>
+            <b>addressBook.formattedNameAddress.name.formattedName</b>
+        </field>
+        <field>
+            <a>kind</a>
+            <b>addressBook.formattedNameAddress.name.nameKind</b>
+        </field>
+        <field>
+            <a>this</a>
+            <b>addressBook.contactInformationDetails</b>
+            <a-hint>eu.ohim.sp.core.domain.person.Person</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.pt.ContactInformationDetails</b-hint>
+        </field>
+        <field>
+            <a get-method="isBelongsToAGroup">belongsToAGroup</a>
+            <b get-method="isInventorGroupIndicator">inventorGroupIndicator</b>
+        </field>
+        <field>
+            <a>groupName</a>
+            <b>inventorGroupName</b>
+        </field>
+        <field>
+            <a get-method="isImportedFromApplicant">importedFromApplicant</a>
+            <b get-method="isInventorImportedFromApplicant">inventorImportedFromApplicant</b>
+        </field>
+        <field>
+            <a get-method="isWaiver">waiver</a>
+            <b get-method="isInventorWaiverIndicator">inventorWaiverIndicator</b>
+        </field>
+    </mapping>
+
+
+    <mapping map-null="false">
+        <class-a>eu.ohim.sp.core.domain.patent.Patent</class-a>
+        <class-b>eu.ohim.sp.filing.domain.pt.Patent</class-b>
+
+        <field custom-converter="eu.ohim.sp.core.domain.converter.pt.SVKindEnumConverter">
+            <a>svKind</a>
+            <b>svKind</b>
+        </field>
+        <field>
+            <a>titleTransliteration</a>
+            <b>titleTransliteration.value</b>
+        </field>
+        <field>
+            <a>taxon</a>
+            <b>taxon.value</b>
+        </field>
+        <field>
+            <a>latinClassification</a>
+            <b>latinClassification.value</b>
+        </field>
+        <field custom-converter="eu.ohim.sp.core.domain.converter.pt.RegKindEnumConverter">
+            <a>regKind</a>
+            <b>regKind</b>
+        </field>
+        <field>
+            <a>firstPermissionBGNumber</a>
+            <b>firstPermissionBGNumber.value</b>
+        </field>
+        <field>
+            <a>firstPermissionBGDate</a>
+            <b>firstPermissionBGDate</b>
+        </field>
+        <field>
+            <a>firstPermissionBGNotificationDate</a>
+            <b>firstPermissionBGNotificationDate</b>
+        </field>
+        <field>
+            <a>firstPermissionEUNumber</a>
+            <b>firstPermissionEUNumber.value</b>
+        </field>
+        <field>
+            <a>firstPermissionEUDate</a>
+            <b>firstPermissionEUDate</b>
+<!--        <b>firstPermissionEUDate.value</b>    -->
+        </field>
+
+        <field>
+            <a>patentValidated</a>
+            <b get-method="isPatentValidated">patentValidated</b>
+        </field>
+
+        <field>
+            <a>patentTitle</a>
+            <b>patentTitle.value</b>
+        </field>
+        <field>
+            <a>patentTitleSecondLang</a>
+            <b>patentTitleSecondLang.value</b>
+        </field>
+        <field>
+            <a>patentAbstract</a>
+            <b>patentAbstract.value</b>
+        </field>
+        <field>
+            <a>patentAbstractSecondLang</a>
+            <b>patentAbstractSecondLang.value</b>
+        </field>
+        <field>
+            <a>groupStatusCode</a>
+            <b>patentGroupStatusCode</b>
+        </field>
+        <field>
+            <a>currentStatusCode</a>
+            <b>patentCurrentStatus</b>
+        </field>
+        <field>
+            <a>currentStatusDate</a>
+            <b>patentCurrentStatusDate</b>
+        </field>
+
+        <field>
+            <a>pagesCount</a>
+            <b>patentDescriptionSheetPagesCount</b>
+        </field>
+
+        <field>
+            <a>claimsCount</a>
+            <b>patenClaimsCount</b>
+        </field>
+
+        <field>
+            <a>independentClaimsCount</a>
+            <b>patenIndependentClaimsCount</b>
+        </field>
+
+        <field>
+            <a>drawingsCount</a>
+            <b>patenDrawingsCount</b>
+        </field>
+
+        <field>
+            <a>drawingNumber</a>
+            <b>patenDrawingNumber</b>
+        </field>
+
+        <field>
+            <a>unpublished</a>
+            <b get-method="isUnpublishedIndicator">unpublishedIndicator</b>
+        </field>
+
+        <field custom-converter="eu.ohim.sp.core.domain.converter.pt.PatentDescriptonsConverter">
+            <a>this</a>
+            <b>patentDescriptionSheetDetails</b>
+            <a-hint>eu.ohim.sp.core.domain.patent.Patent</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.pt.PatentDescriptionSheetDetails</b-hint>
+        </field>
+
+        <field>
+            <a>patentViews</a>
+            <b>patentRepresentationSheetDetails.patentRepresentationSheet[0].viewDetails.view</b>
+            <a-hint>eu.ohim.sp.core.domain.patent.PatentView</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.pt.ViewType</b-hint>
+        </field>
+
+        <field>
+            <a>applicants</a>
+            <b>applicantDetails.applicant</b>
+            <a-hint>eu.ohim.sp.core.domain.person.Applicant</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.pt.Applicant</b-hint>
+        </field>
+
+        <field>
+            <a>representatives</a>
+            <b>representatives.representative</b>
+            <a-hint>eu.ohim.sp.core.domain.person.Representative</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.pt.Representative</b-hint>
+        </field>
+
+        <field>
+            <a>inventors</a>
+            <b>inventors.inventor</b>
+            <a-hint>eu.ohim.sp.core.domain.person.Inventor</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.pt.Inventor</b-hint>
+        </field>
+
+        <field>
+            <a>contactDetails</a>
+            <b>correspondenceAddress</b>
+            <a-hint>eu.ohim.sp.core.domain.contact.ContactDetails</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.pt.CorrespondenceAddress</b-hint>
+        </field>
+
+        <field>
+            <a>pcts</a>
+            <b>pctDetails.pct</b>
+            <a-hint>eu.ohim.sp.core.domain.patent.PCT</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.pt.PCT</b-hint>
+        </field>
+
+        <field>
+            <a>priorities</a>
+            <b>priorities.priority</b>
+            <a-hint>eu.ohim.sp.core.domain.patent.PatentPriority</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.pt.Priority</b-hint>
+        </field>
+
+        <field>
+            <a>exhibitions</a>
+            <b>exhibitionPriorities.exhibitionPriority</b>
+            <a-hint>eu.ohim.sp.core.domain.claim.ExhibitionPriority</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.pt.ExhibitionPriority</b-hint>
+        </field>
+
+
+        <field>
+            <a>divisionalApplicationDetails[0]</a>
+            <b>divisionalApplicationDetails</b>
+            <a-hint>eu.ohim.sp.core.domain.application.DivisionalApplicationDetails</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.pt.DivisionalApplicationDetails</b-hint>
+        </field>
+
+        <field>
+            <a>transformationPriorities</a>
+            <b>transformationPriorityDetails.transformationPriority</b>
+            <a-hint>eu.ohim.sp.core.domain.patent.PatentTransformation</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.pt.TransformationPriority</b-hint>
+        </field>
+
+        <field>
+            <a>parallelApplications</a>
+            <b>parallelApplication.parallelApplication</b>
+            <a-hint>eu.ohim.sp.core.domain.patent.ParallelApplication</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.pt.ParallelApplication</b-hint>
+        </field>
+
+        <field>
+            <a>ipcClasses</a>
+            <b>ipcClassDetails.ipcClass</b>
+        </field>
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>eu.ohim.sp.core.domain.patent.TechnicalQuestionnaire</class-a>
+        <class-b>eu.ohim.sp.filing.domain.pt.TechnicalQuestionnaire</class-b>
+        <field>
+            <a>originSupportReproductionAbstract</a>
+            <b>originSupportReproductionAbstract.value</b>
+        </field>
+        <field>
+            <a>testConditionsAbstract</a>
+            <b>testConditionsAbstract.value</b>
+        </field>
+        <field>
+            <a>characteristicsAbstract</a>
+            <b>characteristicsAbstract.value</b>
+        </field>
+        <field>
+            <a>resistanceAbstract</a>
+            <b>resistanceAbstract.value</b>
+        </field>
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>eu.ohim.sp.core.domain.resources.AttachedDocument</class-a>
+        <class-b>eu.ohim.sp.filing.domain.pt.PatentDescriptionSheet</class-b>
+
+        <field>
+            <a>this</a>
+            <b>documentIncludedDetails.documentIncluded[0]</b>
+            <a-hint>eu.ohim.sp.core.domain.resources.AttachedDocument</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.pt.Document</b-hint>
+        </field>
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>eu.ohim.sp.core.domain.patent.PatentView</class-a>
+        <class-b>eu.ohim.sp.filing.domain.pt.ViewType</class-b>
+        <field>
+            <a>sequence</a>
+            <b>viewSequenceNumber</b>
+        </field>
+        <field>
+            <a>viewThumbnail.document.documentId</a>
+            <b>viewThumbnailIdentifier</b>
+        </field>
+        <field>
+            <a>view.document.documentId</a>
+            <b>viewIdentifier</b>
+        </field>
+        <field>
+            <a>view.document.uri</a>
+            <b>viewUri</b>
+        </field>
+        <field>
+            <a>view.document.name</a>
+            <b>viewOriginalFilename</b>
+        </field>
+        <field>
+            <a>view.document.fileName</a>
+            <b>viewFileName</b>
+        </field>
+        <field>
+            <a>view.document.fileFormat</a>
+            <b>viewFileFormat</b>
+        </field>
+        <field>
+            <a>view.document.fileSize</a>
+            <b>ViewFileSizeInByte</b>
+        </field>
+        <field>
+            <a>type</a>
+            <b>viewPerspective</b>
+        </field>
+        <field>
+            <a>description</a>
+            <b>viewTitle.value</b>
+        </field>
+        <field>
+            <a get-method="isPublishInColour">publishInColour</a>
+            <b get-method="isViewColourIndicator">viewColourIndicator</b>
+        </field>
+        <field>
+            <a get-method="isPublishInBlackWhite">publishInBlackWhite</a>
+            <b get-method="isViewBWIndicator">ViewBWIndicator</b>
+        </field>
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>eu.ohim.sp.core.domain.patent.PatentPriority</class-a>
+        <class-b>eu.ohim.sp.filing.domain.pt.Priority</class-b>
+
+        <field>
+            <a>attachedDocuments</a>
+            <b>documents</b>
+        </field>
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>eu.ohim.sp.core.domain.application.DivisionalApplicationDetails</class-a>
+        <class-b>eu.ohim.sp.filing.domain.pt.DivisionalApplicationDetails</class-b>
+
+        <field>
+            <a>imported</a>
+            <b get-method="isImported">imported</b>
+        </field>
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>eu.ohim.sp.core.domain.claim.ExhibitionPriority</class-a>
+        <class-b>eu.ohim.sp.filing.domain.pt.ExhibitionPriority</class-b>
+
+        <field>
+            <a>exhibition.name</a>
+            <b>exhibitionName</b>
+        </field>
+        <field>
+            <a>firstDisplayDate</a>
+            <b>exhibitionFirstDisplayDate</b>
+        </field>
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>eu.ohim.sp.core.domain.patent.PCT</class-a>
+        <class-b>eu.ohim.sp.filing.domain.pt.PCT</class-b>
+
+        <field>
+            <a>applicationNumber</a>
+            <b>filingNumber</b>
+        </field>
+        <field>
+            <a>applicationDate</a>
+            <b>filingDate</b>
+        </field>
+        <field>
+            <a get-method="isPayedFees">payedFees</a>
+            <b get-method="isPreviousApplicationPayedFees">previousApplicationPayedFees</b>
+        </field>
+
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>eu.ohim.sp.core.domain.patent.PatentTransformation</class-a>
+        <class-b>eu.ohim.sp.filing.domain.pt.TransformationPriority</class-b>
+
+        <field>
+            <a>countryCode</a>
+            <b>transformationCountryCode</b>
+        </field>
+
+        <field>
+            <a>applicationNumber</a>
+            <b>filingNumber</b>
+        </field>
+        <field>
+            <a>applicationDate</a>
+            <b>filingDate</b>
+        </field>
+        <field>
+            <a get-method="isPayedFees">payedFees</a>
+            <b get-method="isPreviousApplicationPayedFees">previousApplicationPayedFees</b>
+        </field>
+        <field>
+            <a>imported</a>
+            <b get-method="isImported">imported</b>
+        </field>
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>eu.ohim.sp.core.domain.patent.ParallelApplication</class-a>
+        <class-b>eu.ohim.sp.filing.domain.pt.ParallelApplication</class-b>
+
+        <field>
+            <a>countryCode</a>
+            <b>parallelCountryCode</b>
+        </field>
+
+        <field>
+            <a>applicationNumber</a>
+            <b>filingNumber</b>
+        </field>
+        <field>
+            <a>applicationDate</a>
+            <b>filingDate</b>
+        </field>
+        <field>
+            <a>imported</a>
+            <b get-method="isImported">imported</b>
+        </field>
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>eu.ohim.sp.core.domain.patent.PTeServiceApplication</class-a>
+        <class-b>eu.ohim.sp.filing.domain.pt.PatentServicesApplicationType</class-b>
+
+        <field>
+            <a get-method="getHolderIsInventor">holderIsInventor</a>
+            <b get-method="isHolderIsInventor">holderIsInventor</b>
+        </field>
+
+        <field>
+            <a get-method="getPartialInvalidity">partialInvalidity</a>
+            <b get-method="isPartialInvalidity">partialInvalidity</b>
+        </field>
+
+        <field custom-converter="eu.ohim.sp.core.domain.converter.pt.OppositionBasisConverter">
+            <!-- <field> -->
+            <a>oppositionGrounds</a>
+            <b>oppositionDetails.opposition[0].oppositionBasisDetails.oppositionBasis</b>
+            <a-hint>eu.ohim.sp.core.domain.opposition.OppositionGround</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.pt.OppositionBasisType</b-hint>
+        </field>
+
+        <field>
+            <a>appeals</a>
+            <b>patentRecordDetails.patentRecord[0].recordAppeal.appealDetails.appeal</b>
+            <a-hint>eu.ohim.sp.core.domain.application.Appeal</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.pt.AppealType</b-hint>
+        </field>
+
+        <field>
+            <a get-method="getProcessInitiatedBeforePublication">processInitiatedBeforePublication</a>
+            <b get-method="isProcessInitiatedBeforePublicationIndicator">processInitiatedBeforePublicationIndicator</b>
+        </field>
+
+        <field>
+            <a>patentList</a>
+            <b>patentDetails.patent</b>
+        </field>
+
+        <field>
+            <a>patentList[0].applicationNumber</a>
+            <b>applicationNumber</b>
+        </field>
+        <field>
+            <a>patentList[0].applicationDate</a>
+            <b>applicationDate</b>
+        </field>
+
+        <field>
+            <a>patentList[0].expirationDate</a>
+            <b>expirationDate</b>
+        </field>
+
+        <field>
+            <a>signatures</a>
+            <b>signatoryDetails.signatory</b>
+            <a-hint>eu.ohim.sp.core.domain.application.Signatory</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.pt.Signatory</b-hint>
+        </field>
+        <field>
+            <a>payments</a>
+            <b>paymentDetails.payment</b>
+            <a-hint>eu.ohim.sp.core.domain.payment.PaymentFee</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.pt.Payment</b-hint>
+        </field>
+        <field>
+            <a>applicants</a>
+            <b>applicantDetails.applicant</b>
+            <a-hint>eu.ohim.sp.core.domain.person.Applicant</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.pt.Applicant</b-hint>
+        </field>
+        <field>
+            <a>representatives</a>
+            <b>representativeDetails.representative</b>
+            <a-hint>eu.ohim.sp.core.domain.person.Representative</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.pt.Representative</b-hint>
+        </field>
+
+        <field>
+            <a>this</a>
+            <b>holderDetails</b>
+            <a-hint>eu.ohim.sp.core.domain.patent.PTeServiceApplication</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.pt.HolderDetailsType</b-hint>
+        </field>
+        <field>
+            <a>documents</a>
+            <b>documentIncludedDetails.documentIncluded</b>
+            <a-hint>eu.ohim.sp.core.domain.resources.AttachedDocument</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.pt.Document</b-hint>
+        </field>
+        <field>
+            <a>contactDetails</a>
+            <b>correspondenceAddress</b>
+        </field>
+        <field>
+            <a>licences</a>
+            <b>patentRecordDetails.patentRecord[0].recordLicence.licenceDetails.licence</b>
+        </field>
+        <field>
+            <a>securityMeasure</a>
+            <b>patentRecordDetails.patentRecord[0].recordSecurityMeasure</b>
+        </field>
+        <field>
+            <a>changeType</a>
+            <b>applicationRequestType</b>
+        </field>
+        <field>
+            <a>personChanges</a>
+            <b>personChangeDetails</b>
+            <a-hint>eu.ohim.sp.core.domain.person.PersonChange</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.pt.PersonChangeDetailsType</b-hint>
+        </field>
+
+        <field>
+            <a>esignDocDeclaration</a>
+            <b get-method="isEsignDocDeclarationIndicator">esignDocDeclarationIndicator</b>
+        </field>
+
+        <field>
+            <a get-method="getSmallCompany">smallCompany</a>
+            <b get-method="isSmallCompany">smallCompany</b>
+        </field>
+        <field>
+            <a get-method="getSmallCompanyFiles">smallCompanyFiles</a>
+            <b get-method="getSmallCompanyFiles">smallCompanyFiles</b>
+        </field>
+        <field>
+            <a get-method="getLicenceAvailability">licenceAvailability</a>
+            <b get-method="isLicenceAvailability">licenceAvailability</b>
+        </field>
+        <field>
+            <a get-method="getPagesCountAttachment">pagesCountAttachment</a>
+            <b get-method="getPagesCountAttachment">pagesCountAttachment</b>
+        </field>
+        <field>
+            <a>marketPermission</a>
+            <b>marketPermissionDetails</b>
+            <a-hint>eu.ohim.sp.core.domain.patent.MarketPermission</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.pt.MarketPermission</b-hint>
+        </field>
+        <field>
+            <a>selectedUserdoc</a>
+            <b>selectedUserdoc</b>
+            <a-hint>eu.ohim.sp.core.domain.userdoc.Userdoc</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.pt.UserdocType</b-hint>
+        </field>
+        <field>
+            <a>relateRequestToObject</a>
+            <b get-method="isRelateRequestToObject">relateRequestToObject</b>
+        </field>
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>eu.ohim.sp.core.domain.patent.MarketPermission</class-a>
+        <class-b>eu.ohim.sp.filing.domain.pt.MarketPermission</class-b>
+        <field>
+            <a>firstPermissionBGNumber</a>
+            <b>firstPermissionBGNumber</b>
+        </field>
+        <field>
+            <a>firstPermissionEUNumber</a>
+            <b>firstPermissionEUNumber</b>
+        </field>
+        <field>
+            <a>firstPermissionBGDate</a>
+            <b>firstPermissionBGDate</b>
+        </field>
+        <field>
+            <a>firstPermissionEUDate</a>
+            <b>firstPermissionEUDate</b>
+        </field>
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>eu.ohim.sp.filing.domain.pt.AppealType</class-a>
+        <class-b>eu.ohim.sp.core.domain.application.Appeal</class-b>
+        <field>
+            <a>appealExplanationsComment</a>
+            <b>explanationText</b>
+        </field>
+        <field>
+            <a>appealExplanationDocuments.documentIncluded</a>
+            <b>explanationsDocuments</b>
+            <a-hint>eu.ohim.sp.filing.domain.pt.Document</a-hint>
+            <b-hint>eu.ohim.sp.core.domain.resources.AttachedDocument</b-hint>
+        </field>
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>eu.ohim.sp.core.domain.licence.Licence</class-a>
+        <class-b>eu.ohim.sp.filing.domain.pt.LicenceType</class-b>
+        <field>
+            <a >subLicenceIndicator</a>
+            <b get-method="isSubLicenceIndicator">subLicenceIndicator</b>
+        </field>
+        <field>
+            <a >territoryLimitationIndicator</a>
+            <b get-method="isTerritoryLimitationIndicator">territoryLimitationIndicator</b>
+        </field>
+        <field>
+            <a >periodLimitationIndicator</a>
+            <b get-method="isPeriodLimitationIndicator">periodLimitationIndicator</b>
+        </field>
+        <field>
+            <a>territoryLimitationText</a>
+            <b>territoryLimitationText.value</b>
+        </field>
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>eu.ohim.sp.core.domain.application.SecurityMeasure</class-a>
+        <class-b>eu.ohim.sp.filing.domain.pt.RecordSecurityMeasureType</class-b>
+        <field>
+            <a >securityMeasureForbidRightsUse</a>
+            <b get-method="isSecurityMeasureForbidRightsUse">securityMeasureForbidRightsUse</b>
+        </field>
+        <field>
+            <a >securityMeasureForbidRightsManage</a>
+            <b get-method="isSecurityMeasureForbidRightsManage">securityMeasureForbidRightsManage</b>
+        </field>
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>eu.ohim.sp.core.domain.patent.PTeServiceApplication</class-a>
+        <class-b>eu.ohim.sp.filing.domain.pt.HolderDetailsType</class-b>
+        <field>
+            <a>holders</a>
+            <b>previousHolder</b>
+            <a-hint>eu.ohim.sp.core.domain.person.Holder</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.pt.Applicant</b-hint>
+        </field>
+        <field>
+            <a>assignees</a>
+            <b>newHolder</b>
+            <a-hint>eu.ohim.sp.core.domain.person.Assignee</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.pt.Applicant</b-hint>
+        </field>
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>eu.ohim.sp.core.domain.person.PersonChange</class-a>
+        <class-b>eu.ohim.sp.filing.domain.pt.PersonChangeDetailsType</class-b>
+        <field custom-converter="eu.ohim.sp.core.domain.converter.PersonChangeKindConverter">
+            <a>personChangeKind</a>
+            <b>personChangeKind</b>
+        </field>
+        <field>
+            <a>currentRepresentative</a>
+            <b>previousRepresentative</b>
+            <a-hint>eu.ohim.sp.core.domain.person.Representative</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.pt.Representative</b-hint>
+        </field>
+        <field>
+            <a>updatedRepresentative</a>
+            <b>newRepresentative</b>
+            <a-hint>eu.ohim.sp.core.domain.person.Representative</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.pt.Representative</b-hint>
+        </field>
+        <field>
+            <a>currentCorrespondent</a>
+            <b>previousCorrespondent</b>
+            <a-hint>eu.ohim.sp.core.domain.person.Representative</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.pt.Representative</b-hint>
+        </field>
+        <field>
+            <a>updatedCorrespondent</a>
+            <b>newCorrespondent</b>
+            <a-hint>eu.ohim.sp.core.domain.person.Representative</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.pt.Representative</b-hint>
+        </field>
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>eu.ohim.sp.core.domain.patent.PatentApplication</class-a>
+        <class-b>eu.ohim.sp.filing.domain.pt.PatentApplication</class-b>
+
+        <field>
+            <a>applicantsImportedFromTemplate</a>
+            <b get-method="isApplicantsImportedFromTemplate">applicantsImportedFromTemplate</b>
+        </field>
+
+        <field>
+            <a>applicationType</a>
+            <b>applicationFormName</b>
+        </field>
+
+        <field>
+            <a>applicationKind</a>
+            <b>applicationKindName</b>
+        </field>
+
+        <field>
+            <a>patent</a>
+            <b>patentDetails.patent[0]</b>
+            <a-hint>eu.ohim.sp.core.domain.patent.Patent</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.pt.Patent</b-hint>
+        </field>
+        <field>
+            <a>spcPatents[0]</a>
+            <b>spcPatentDetails.patent[0]</b>
+            <a-hint>eu.ohim.sp.core.domain.patent.Patent</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.pt.Patent</b-hint>
+        </field>
+        <field>
+            <a>technicalQuestionnaire</a>
+            <b>technicalQuestionnaire</b>
+            <a-hint>eu.ohim.sp.core.domain.patent.TechnicalQuestionnaire</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.pt.TechnicalQuestionnaire</b-hint>
+        </field>
+        <field>
+            <a get-method="getCertificateRequestedIndicator">certificateRequestedIndicator</a>
+            <b get-method="isCertificateRequestedIndicator">certificateRequestedIndicator</b>
+        </field>
+
+        <field>
+            <a get-method="isAnticipationOfPublication">anticipationOfPublication</a>
+            <b get-method="isAnticipationOfPublication">anticipationOfPublication</b>
+        </field>
+
+        <field>
+            <a get-method="isDefermentOfPublication">defermentOfPublication</a>
+            <b get-method="isPublicationDefermentIndicator">publicationDefermentIndicator</b>
+        </field>
+
+        <field>
+            <a>defermentOfPublicationDocuments</a>
+            <b>publicationDefermentDocument</b>
+        </field>
+
+        <field>
+            <a get-method="isLicenceAvailability">licenceAvailability</a>
+            <b get-method="isLicenceAvailabilityIndicator">licenceAvailabilityIndicator</b>
+        </field>
+
+        <field>
+            <a get-method="isInventorsAreReal">inventorsAreReal</a>
+            <b get-method="isRealInventorsDeclarationIndicator">realInventorsDeclarationIndicator</b>
+        </field>
+
+        <field>
+            <a>inventorsAreRealDocuments</a>
+            <b>realInventorsDocument</b>
+        </field>
+
+        <field>
+            <a get-method="isSmallCompany">smallCompany</a>
+            <b get-method="isSmallCompanyDeclarationIndicator">smallCompanyDeclarationIndicator</b>
+        </field>
+
+        <field>
+            <a>smallCompanyDocuments</a>
+            <b>smallCompanyDocument</b>
+        </field>
+
+        <field>
+            <a get-method="isEpoDecisionCopy">epoDecisionCopy</a>
+            <b get-method="isEpoDecisionCopyIndicator">epoDecisionCopyIndicator</b>
+        </field>
+
+        <field>
+            <a get-method="isEpoTransferChangeForm">epoTransferChangeForm</a>
+            <b get-method="isEpoTransferChangeFormIndicator">epoTransferChangeFormIndicator</b>
+        </field>
+
+        <field>
+            <a get-method="isExaminationRequested">examinationRequested</a>
+            <b get-method="isRequestExaminationIndicator">requestExaminationIndicator</b>
+        </field>
+
+        <field>
+            <a get-method="isClassifiedForNationalSecurity">classifiedForNationalSecurity</a>
+            <b get-method="isClassifiedForNationalSecurityIndicator">classifiedForNationalSecurityIndicator</b>
+        </field>
+
+        <field>
+            <a get-method="isClassifiedForDefense">classifiedForDefense</a>
+            <b get-method="isClassifiedForDefenseIndicator">classifiedForDefenseIndicator</b>
+        </field>
+
+        <field>
+            <a>esignDocDeclaration</a>
+            <b get-method="isEsignDocDeclarationIndicator">esignDocDeclarationIndicator</b>
+        </field>
+
+        <field>
+            <a>entitlement</a>
+            <b>entitlementToApply</b>
+            <a-hint>eu.ohim.sp.core.domain.application.Entitlement</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.pt.EntitlementToApply</b-hint>
+        </field>
+
+        <field>
+            <a>signatures</a>
+            <b>signatoryDetails.signatory</b>
+        </field>
+
+        <field>
+            <a>payments</a>
+            <b>paymentDetails.payment</b>
+            <a-hint>eu.ohim.sp.core.domain.payment.PaymentFee</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.pt.Payment</b-hint>
+        </field>
+        <field>
+            <a>documents</a>
+            <b is-accessible="true">documentIncludedDetails.documentIncluded</b>
+        </field>
+
+        <field>
+            <a>trueDocumentsIndicator</a>
+            <b is-accessible="true">documentIncludedDetails.trueDocumentsIndicator</b>
+        </field>
+
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>eu.ohim.sp.core.domain.application.Entitlement</class-a>
+        <class-b>eu.ohim.sp.filing.domain.pt.EntitlementToApply</class-b>
+        <field custom-converter="eu.ohim.sp.core.domain.converter.pt.EntitlementKindEnumConverter">
+            <a>kind</a>
+            <b>entitlementKindCode.value</b>
+        </field>
+        <field>
+            <a>description</a>
+            <b>entitlementKindText</b>
+        </field>
+        <field>
+            <a>dateOfTransfer</a>
+            <b>entitlementTransferDate</b>
+        </field>
+        <field>
+            <a>attachedDocuments</a>
+            <b>entitlementDocument</b>
+        </field>
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>eu.ohim.sp.filing.domain.pt.OppositionBasisType</class-a>
+        <class-b>eu.ohim.sp.core.domain.opposition.OppositionAbsoluteGrounds</class-b>
+
+        <field custom-converter="eu.ohim.sp.core.domain.converter.pt.LegalActVersionLawArticleConverter" >
+            <a>oppositionGroundArticle</a>
+            <b>legalActVersion</b>
+        </field>
+        <field>
+            <a>oppositionBasisComment.value</a>
+            <b>explanationText</b>
+        </field>
+        <field custom-converter="eu.ohim.sp.core.domain.converter.tm.GroundCategoryKindTextConverter">
+            <a>oppositionBasisText</a>
+            <b>groundCategory</b>
+        </field>
+        <field>
+            <a>oppositionBasisDocumentDetails.oppositionDocument</a>
+            <b>globalDocuments</b>
+            <a-hint>eu.ohim.sp.filing.domain.pt.Document</a-hint>
+            <b-hint>eu.ohim.sp.core.domain.resources.AttachedDocument</b-hint>
+        </field>
+        <field>
+            <a>category</a>
+            <b>category</b>
+        </field>
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>eu.ohim.sp.core.domain.opposition.OppositionRelativeGrounds</class-a>
+        <class-b>eu.ohim.sp.filing.domain.pt.OppositionBasisType</class-b>
+
+        <field custom-converter="eu.ohim.sp.core.domain.converter.pt.LegalActVersionLawArticleConverter">
+            <a>legalActVersion</a>
+            <b>oppositionGroundArticle</b>
+        </field>
+        <field>
+            <a>explanationText</a>
+            <b>oppositionBasisComment.value</b>
+        </field>
+
+        <field custom-converter="eu.ohim.sp.core.domain.converter.tm.GroundCategoryKindConverter">
+            <a>groundCategory</a>
+            <b>oppositionBasisCode</b>
+        </field>
+        <field>
+            <a>globalDocuments</a>
+            <b>oppositionBasisDocumentDetails.oppositionDocument</b>
+            <a-hint>eu.ohim.sp.core.domain.resources.AttachedDocument</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.pt.Document</b-hint>
+        </field>
+        <field>
+            <a>opponentEntitlementText</a>
+            <b>opponentEntitlementText.value</b>
+        </field>
+        <field>
+            <a>opponentEntitlementKind</a>
+            <b>opponentEntitlementKind</b>
+        </field>
+        <field>
+            <a>category</a>
+            <b>category</b>
+        </field>
+    </mapping>
+
+</mappings>

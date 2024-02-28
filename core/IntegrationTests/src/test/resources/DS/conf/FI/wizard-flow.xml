@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow parent="tm-efiling" xmlns="http://www.springframework.org/schema/webflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow
+                          http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+
+	<on-start>
+		<evaluate expression="'wizard'" result="flowScope.flowModeId"
+			result-type="java.lang.String" />
+		<!-- This will work as long as the child elements are added before the parent flow -->
+		<evaluate
+			expression="personService.initializePersonsForRegisteredUsers(flowScope.flowBean, flowScope.flowModeId)" />
+	</on-start>
+
+	<view-state id="wizhome" view="homepage" model="flowBean">
+		<transition on="Next" to="wiz0" validate="false" />
+	</view-state>
+
+	<view-state id="wiz0" view="tiles.wiz" model="flowBean">
+		<transition on="Next" to="wiz1" validate="true" />
+		<transition on="Previous" to="wizhome" validate="false" />
+	</view-state>
+
+	<view-state id="wiz1" view="tiles.wiz" model="flowBean">
+		<transition on="Next" to="wiz2" validate="true" />
+		<transition on="Previous" to="wiz0" validate="false" />
+	</view-state>
+
+	<view-state id="wiz2" view="tiles.wiz" model="flowBean">
+		<transition on="Next" to="wiz3" validate="true" />
+		<transition on="Previous" to="wiz1" validate="false" />
+	</view-state>
+
+	<view-state id="wiz3" view="tiles.wiz" model="flowBean">
+		<transition on="Next" to="wiz4" validate="true" />
+		<transition on="Previous" to="wiz2" validate="false" />
+	</view-state>
+
+	<view-state id="wiz4" view="tiles.wiz" model="flowBean">
+		<transition on="Update_Mark" to="wiz0" validate="false" />
+		<transition on="Update_Person" to="wiz3" validate="false" />
+		<transition on="Update_GoodsServices" to="wiz1" validate="false" />
+		<transition on="Update_NationalSearch" to="wiz2" validate="false" />
+		<transition on="Update_Claim" to="wiz2" validate="false" />
+		<transition on="Previous" to="wiz3" validate="false" />		
+	</view-state>
+</flow>

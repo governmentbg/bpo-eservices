@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ * SystemConfigurationServiceDao:: ct-phone-kind.xml 07/10/13 21:16 karalch $
+  ~  * . * .
+  ~  * * RRRR * Copyright © 2013 OHIM: Office for Harmonization
+  ~  * . RR R . in the Internal Market (trade marks and designs)
+  ~  * * RRR *
+  ~  * . RR RR . ALL RIGHTS RESERVED
+  ~  * * . _ . *
+  -->
+
+<cotypes>
+	<cotype code="Fixed" label="cotypes.phonekind.fixed" />
+	<cotype code="Mobile Phone" label="cotypes.phonekind.mobile" />
+	<cotype code="Other" label="cotypes.phonekind.other" />
+	<cotype code="Undefined" label="cotypes.phonekind.unedfined" />	
+</cotypes>

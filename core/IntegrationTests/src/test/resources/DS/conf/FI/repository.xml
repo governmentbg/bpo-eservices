@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns:mode="http://www.modeshape.org/1.0"
+	xmlns:jcr="http://www.jcp.org/jcr/1.0">
+	<mode:sources jcr:primaryType="nt:unstructured">
+		<mode:source jcr:name="temporaryFolder"
+			mode:classname="org.modeshape.connector.filesystem.FileSystemSource"
+			mode:workspaceRootPath="${fileupload.jcr.temp.directory}" mode:defaultWorkspaceName="applications"
+			mode:creatingWorkspacesAllowed="false" mode:updatesAllowed="true" />
+		<mode:source jcr:name="persistentDirectory"
+			mode:classname="org.modeshape.connector.filesystem.FileSystemSource"
+			mode:workspaceRootPath="${fileupload.jcr.persistent.directory}"
+			mode:defaultWorkspaceName="applications"
+			mode:creatingWorkspacesAllowed="false" mode:updatesAllowed="true" />
+	</mode:sources>
+	<mode:sequencers>
+	</mode:sequencers>
+	<mode:mimeTypeDetectors>
+		<mode:mimeTypeDetector jcr:name="Detector">
+			<mode:description>Standard extension-based MIME type detector
+			</mode:description>
+			<mode:classname>org.modeshape.graph.mimetype.ExtensionBasedMimeTypeDetector
+			</mode:classname>
+			<mode:classpath></mode:classpath>
+			<mode:classpath></mode:classpath>
+		</mode:mimeTypeDetector>
+	</mode:mimeTypeDetectors>
+	<mode:repositories>
+		<mode:repository jcr:name="temporaryFolder">
+			<mode:source>temporaryFolder</mode:source>
+			<mode:options jcr:primaryType="mode:options">
+				<jaasLoginConfigName jcr:primaryType="mode:option"
+					mode:value="modeshape-jcr" />
+			</mode:options>
+			<mode:nodeTypes jcr:primaryType="mode:nodeTypes" />
+			<namespaces jcr:primaryType="mode:namespaces" />
+		</mode:repository>
+		<mode:repository jcr:name="persistentDirectory">
+			<mode:source>persistentDirectory</mode:source>
+			<mode:options jcr:primaryType="mode:options">
+				<jaasLoginConfigName jcr:primaryType="mode:option"
+					mode:value="modeshape-jcr" />
+			</mode:options>
+			<mode:nodeTypes jcr:primaryType="mode:nodeTypes" />
+			<namespaces jcr:primaryType="mode:namespaces" />
+		</mode:repository>
+	</mode:repositories>
+</configuration>  

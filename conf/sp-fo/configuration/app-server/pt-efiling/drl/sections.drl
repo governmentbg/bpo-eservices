@@ -1,0 +1,438 @@
+package org.domain.rules;
+dialect "mvel"
+
+import java.util.List;
+import java.util.Date;
+import java.util.Map;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Calendar;
+import org.apache.commons.lang.*;
+import eu.ohim.sp.core.domain.patent.PatentApplication;
+import eu.ohim.sp.core.domain.patent.Patent;
+import eu.ohim.sp.core.domain.application.Entitlement;
+import eu.ohim.sp.core.domain.application.EntitlementKind;
+import eu.ohim.sp.core.domain.application.Signatory;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.configuration.domain.xsd.Section;
+import eu.ohim.sp.core.configuration.domain.xsd.AvailableSection;
+import eu.ohim.sp.core.domain.validation.RulesInformation;
+import eu.ohim.sp.core.configuration.domain.country.xsd.Countries;
+import eu.ohim.sp.core.configuration.domain.xsd.Field;
+import eu.ohim.sp.core.domain.resources.AttachedDocument;
+import eu.ohim.sp.core.domain.person.Representative;
+import java.util.Objects;
+
+rule "BR Number of Applicants"
+salience 1000
+when
+	$errorList : ErrorList()
+	PatentApplication(patent != null && (patent.applicants == null || (patent.applicants != null && patent.applicants.size() <= 0)))
+	Section (coreName == "applicant_details")
+then
+	addError(null, "BR.applicant.empty", "At least one Applicant must be filled","mainForm.applicantDataSection", $errorList);
+end
+
+
+rule "BR Number of Inventors"
+salience 1000
+when
+	$errorList : ErrorList()
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+	PatentApplication(patent != null && (patent.inventors == null || (patent.inventors != null && patent.inventors.size() <= 0)))
+	Section (coreName == "inventor_details")
+then
+    String flowModeId =(String) $customObjects.get("flowModeId");
+    if(!flowModeId.equalsIgnoreCase("ep-efiling")){
+        if (flowModeId.equalsIgnoreCase("sv-efiling")){
+            addError(null, "BR.author.empty", "At least one Author must be filled","mainForm.inventorDataSection", $errorList);
+        } else {
+            addError(null, "BR.inventor.empty", "At least one Inventor must be filled","mainForm.inventorDataSection", $errorList);
+        }
+	}
+end
+
+
+rule "BR Signatures - Empty Array"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "signature")
+	PatentApplication( signatures == null || signatures.size() <=0)
+then
+	addError(null, "BR.signatory.empty", "You must add at least one signature", "mainForm.signatureSection", $errorList);
+end
+
+rule "BRCA - Number of Correspondence Addresses"
+salience 1000
+when
+    $errorList : ErrorList()
+    PatentApplication(patent != null && (patent.contactDetails == null || patent.contactDetails.size() <= 0))
+    Section (coreName == "application_ca")
+then
+	addError(null,
+		"BRCA.applicationCANumber.Empty",
+		"You must add at least one correspondence address",
+		"mainForm.applicantionCADataSection",
+		$errorList);
+end
+
+rule "CA mandatory to be in BG"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "application_ca")
+	PatentApplication( patent != null && patent.contactDetails != null && patent.contactDetails.size() >0 && !hasAnyCAFromCountry(patent, "BG") )
+then
+    addError(null, "BR.CA.must.be.in.BG", "It is mandatory that the correspondence address is in Bulgaria", "mainForm.applicantionCADataSection", $errorList);
+end
+
+rule "Bad signature provided"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "signature")
+	PatentApplication( $signatures: signatures)
+	eval($signatures !=null && $signatures.size()>0)
+then
+  	for(Signatory signatory:$signatures){
+  		if(signatory.getName() == null || signatory.getCapacity() == null || (signatory.getCapacity().toString().equals("Other") && signatory.getAssociatedText() == null)){
+			addError(null, "Signatories.Bad.Signature",	"The data you have provided for the signatories is incomplete. Please check.",	"mainForm.signatureSection",	$errorList);
+		}
+	}
+end
+
+rule "BR Inventors are real mandatory"
+salience 1000
+when
+	$errorList : ErrorList()
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+	Section (coreName == "inventor_details", $fields: field)
+	Field(id == "inventorsAreReal", $fieldUsable: usable, $fieldRequired: required) from $fields
+	eval($fieldRequired && $fieldUsable)
+	PatentApplication(inventorsAreReal == false)
+then
+    String flowModeId =(String) $customObjects.get("flowModeId");
+    if(flowModeId.equalsIgnoreCase("sv-efiling")){
+    	addError("mainForm.inventorsAreReal", "BR.authorsAreReal.mandatory", "You can not proceed if you do not declare that the added authors sre the real ones","mainForm.inventorDataSection", $errorList);
+    } else {
+        addError("mainForm.inventorsAreReal", "BR.inventorsAreReal.mandatory", "You can not proceed if you do not declare that the added inventors sre the real ones","mainForm.inventorDataSection", $errorList);
+    }
+end
+
+rule "BR One type of claim only"
+salience 1000
+when
+	$errorList : ErrorList()
+	PatentApplication(patent != null,
+	    $div: patent.divisionalApplicationDetails,
+	    $pct: patent.pcts,
+	    $parallel: patent.parallelApplications,
+	    $transf: patent.transformationPriorities)
+
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+
+then
+    HashMap co = $customObjects;
+    String stateId = co.get("stateId");
+
+    if(stateId == "wiz1"){
+        int divCount = $div == null || ((List)$div).size() == 0 ? 0:1;
+        int transfCount = $transf == null || ((List)$transf).size() == 0 ? 0:1;
+        int pctCount = $pct == null || ((List)$pct).size() == 0 ? 0:1;
+        int parallelCount = $parallel == null || ((List)$parallel).size() == 0 ? 0:1;
+        int total = divCount + transfCount + pctCount + parallelCount;
+
+
+        if( total > 1){
+            addError(null, "BR.claims.more.than.one.type", "You can only add one type of previous application - national, international or EP.","mainForm.claimSection", $errorList);
+        }
+    }
+end
+
+rule "BR Entitlement to apply - Empty"
+salience 1000
+when
+ $errorList : ErrorList()
+ Section (coreName == "entitlement_details")
+ PatentApplication( $entitlement:entitlement)
+ Entitlement ($kind:kind, kind==null) from $entitlement
+
+then
+	addError(null, "BREntitlement.empty", "Entitlement must be filled","mainForm.entitlementSection", $errorList);
+end
+
+rule "BR Entitlement to apply - other_grounds - Content"
+salience 1000
+when
+ $errorList : ErrorList()
+ Section (coreName == "entitlement_details")
+ PatentApplication( $entitlement:entitlement)
+ Entitlement ($kind:kind, kind!=null && (kind.code=="OTHER_GROUNDS" && StringUtils.isEmpty(description)))from $entitlement
+
+then
+	addError("mainForm.entitlement.otherGroundsDescription", "BRMandatory", "Entitlement must be filled","mainForm.entitlementSection", $errorList);
+end
+
+rule "BR Application Kind mandatory"
+salience 1000
+when
+ $errorList : ErrorList()
+ Section (coreName == "appKind" && visible == true)
+ PatentApplication(applicationKind == null || applicationKind.isEmpty())
+
+then
+	addError("mainForm.applicationKind", "patent.application.kind.mandatory", "Application kind is mandatory","mainForm.patentSection", $errorList);
+end
+
+rule "BR EPO Decision to be attached"
+salience 1000
+when
+ $errorList : ErrorList()
+ Section (coreName == "otherAttachments" && visible == true)
+ PatentApplication(epoDecisionCopy == true, $docs: documents )
+ eval($docs == null || $docs.size() == 0 || documentIsMissing($docs, "EPO Decision Copy") || documentIsMissing($docs, "EPO Decision Translation"))
+
+then
+	addError("mainForm.epoDecisionCopy", "epoDecisionCopy.must.attach.docs", "You must attach the EPO Decision Copy and the EPO Decision Translation in Bulgarian","mainForm.otherAttachments", $errorList);
+end
+
+rule "BR EPO Transfer Change Form to be attached"
+salience 1000
+when
+ $errorList : ErrorList()
+ Section (coreName == "otherAttachments" && visible == true)
+ PatentApplication(epoTransferChangeForm == true, $docs: documents )
+ eval($docs == null || $docs.size() == 0 || documentIsMissing($docs, "EPO Transfer Change Form Copy") || documentIsMissing($docs, "EPO Transfer Change Form Translation"))
+
+then
+	addError("mainForm.epoTransferChangeForm", "epoTransferChangeForm.must.attach.docs", "You must attach the EPO Transfer Change Form Copy and the EPO Transfer Change Form Translation in Bulgarian","mainForm.otherAttachments", $errorList);
+end
+
+rule "BR must select esign doc declaration"
+salience 1000
+when
+ $errorList : ErrorList()
+ Section (coreName == "application_declarations" && visible == true)
+ PatentApplication(esignDocDeclaration == null || esignDocDeclaration == false)
+
+then
+	addError("esignDocDeclaration", "esignDocDeclaration.must.select", "You must select the declaration","mainForm.commonApplicationSection", $errorList);
+end
+
+function boolean documentIsMissing(List documents, String docKind){
+    for(Object attObject: documents){
+        AttachedDocument attachedDocument = (AttachedDocument)attObject;
+        if(attachedDocument.getDocumentKind() != null && attachedDocument.getDocumentKind().equals(docKind)){
+            return false;
+        }
+    }
+
+    return true;
+}
+
+rule "BR Classified Information"
+salience 1000
+when
+	$errorList : ErrorList()
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+	PatentApplication($classifiedForDefense : classifiedForDefense, $classifiedForNationalSecurity : classifiedForNationalSecurity)
+	eval($classifiedForDefense == true || $classifiedForNationalSecurity== true)
+then
+
+    String flowModeId =(String) $customObjects.get("flowModeId");
+    if(!flowModeId.equalsIgnoreCase("ep-efiling")){
+
+        if($classifiedForDefense){
+            addError("mainForm.classifiedForDefense", "BR.classified.forbidden",
+            	    "Please note that this service does not allow the submission of requests containing classified information.",
+            	    "mainForm.commonApplicationSection", $errorList);
+        }
+
+        if($classifiedForNationalSecurity){
+                    addError("mainForm.classifiedForNationalSecurity", "BR.classified.forbidden",
+                    	    "Please note that this service does not allow the submission of requests containing classified information.",
+                    	    "mainForm.commonApplicationSection", $errorList);
+        }
+	}
+end
+
+rule "Duplicate priorities"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (id == AvailableSection.PRIORITY, visible == true)
+	PatentApplication( $patent: patent)
+	Patent($prioList: priorities) from $patent
+    eval($prioList != null && hasDuplicatePriorities($prioList))
+then
+    addError(null, "Duplicate.Priorities",	"You can not add more than one priority using the same country and number",	"mainForm.claimSection",	$errorList);
+end
+
+rule "BR Patent originSupportReproductionAbstract - Empty value"
+salience 500
+when
+	$errorList : ErrorList()
+	RulesInformation($stateId : customObjects["stateId"], $sectionList: customObjects["sections"])
+	Section (coreName == "technical_questionnaire", viewStateId == $stateId, $fields : field) from $sectionList
+	Field(id=="technicalQuestionnaireForm.originSupportReproductionAbstract", $fieldUsable: usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	PatentApplication(technicalQuestionnaire == null || StringUtils.isEmpty(technicalQuestionnaire.originSupportReproductionAbstract))
+then
+    addError("technicalQuestionnaireForm.originSupportReproductionAbstract", "BR.patent.originSupportReproductionAbstract.empty", "The originSupportReproductionAbstract field is mandatory", "mainForm.technicalQuestionnaireSection", $errorList);
+end
+
+//rule "BR Patent testConditionsAbstract - Empty value"
+//salience 500
+//when
+//	$errorList : ErrorList()
+//	RulesInformation($stateId : customObjects["stateId"], $sectionList: customObjects["sections"])
+//	Section (coreName == "technical_questionnaire", viewStateId == $stateId, $fields : field) from $sectionList
+//	Field(id=="technicalQuestionnaireForm.testConditionsAbstract", $fieldUsable: usable, $fieldRequired : required) from $fields
+//	eval($fieldUsable == true && $fieldRequired == true)
+//	PatentApplication(technicalQuestionnaire == null || StringUtils.isEmpty(technicalQuestionnaire.testConditionsAbstract))
+//then
+//    addError("technicalQuestionnaireForm.testConditionsAbstract", "BR.patent.testConditionsAbstract.empty", "The testConditionsAbstract field is mandatory", "mainForm.technicalQuestionnaireSection", $errorList);
+//end
+
+//rule "BR Patent characteristicsAbstract - Empty value"
+//salience 500
+//when
+//	$errorList : ErrorList()
+//	RulesInformation($stateId : customObjects["stateId"], $sectionList: customObjects["sections"])
+//	Section (coreName == "technical_questionnaire", viewStateId == $stateId, $fields : field) from $sectionList
+//	Field(id=="technicalQuestionnaireForm.characteristicsAbstract", $fieldUsable: usable, $fieldRequired : required) from $fields
+//	eval($fieldUsable == true && $fieldRequired == true)
+//	PatentApplication(technicalQuestionnaire == null || StringUtils.isEmpty(technicalQuestionnaire.characteristicsAbstract))
+//then
+//    addError("technicalQuestionnaireForm.characteristicsAbstract", "BR.patent.characteristicsAbstract.empty", "The characteristicsAbstract field is mandatory", "mainForm.technicalQuestionnaireSection", $errorList);
+//end
+
+rule "BR SPC Patent"
+salience 1000
+when
+	$errorList : ErrorList()
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+	Section (coreName == "pt_details")
+	PatentApplication(spcPatents == null || spcPatents.size() <= 0)
+then
+	addError("spcPatents", "BR.spcPatent.empty", "SPC Patent is mandatory","mainForm.spcPatentSection", $errorList);
+end
+
+rule "SPC Patent status"
+salience 1000
+when
+	$errorList : ErrorList()
+	PatentApplication( $patentList: spcPatents)
+	eval($patentList != null && $patentList.size() == 1)
+then
+if($patentList.get(0).getGroupStatusCode().equals("Lapsed") || $patentList.get(0).getGroupStatusCode().equals("Withdrawn")){
+		addError(null, "BR.spcPatent.statuses", "The patent must not have the status Lapsed or Withdrawn",
+		"mainForm.spcPatentSection", $errorList);
+		}
+end
+
+rule "BR SPC 6 months period expired"
+salience 1000
+when
+	$errorList : ErrorList()
+	PatentApplication(spcPatents != null && patent != null, $spcPatents: spcPatents, $firstPermissionBGDate: patent.firstPermissionBGDate, $firstPermissionEUDate: patent.firstPermissionEUDate)
+	eval($spcPatents != null && $spcPatents.size() == 1)
+	eval($firstPermissionBGDate != null || $firstPermissionEUDate != null)
+then
+Date latestDate = null;
+Date registrationPublicationDate = $spcPatents.get(0).getRegistrationDate();
+Date firstPermissionBGDate = $firstPermissionBGDate;
+Date firstPermissionEUDate = $firstPermissionEUDate;
+
+
+if (Objects.nonNull(firstPermissionBGDate) && Objects.nonNull(firstPermissionEUDate)){
+    if (firstPermissionBGDate.after(firstPermissionEUDate)){
+        latestDate = firstPermissionBGDate;
+    } else {
+        latestDate = firstPermissionEUDate;
+    }
+} else {
+    if (Objects.nonNull(firstPermissionBGDate)){
+        latestDate = firstPermissionBGDate;
+    } else {
+        latestDate = firstPermissionEUDate;
+    }
+}
+
+
+if (Objects.nonNull(registrationPublicationDate)){
+    if (registrationPublicationDate.after(latestDate)){
+        latestDate = registrationPublicationDate;
+    }
+}
+
+    Calendar calendar = Calendar.getInstance();
+    calendar.setTime(latestDate);
+    calendar.set(Calendar.MINUTE, 0);
+    calendar.set(Calendar.HOUR, 0);
+    calendar.set(Calendar.SECOND, 0);
+    calendar.set(Calendar.MILLISECOND, 0);
+    calendar.add(Calendar.MONTH, 6);
+    Date regPublicationPLus6Months = calendar.getTime();
+
+    calendar.setTime(new Date());
+    calendar.set(Calendar.HOUR_OF_DAY, 0);
+    calendar.set(Calendar.MINUTE, 0);
+    calendar.set(Calendar.SECOND, 0);
+    calendar.set(Calendar.MILLISECOND, 0);
+    Date now = calendar.getTime();
+
+    if(now.after(regPublicationPLus6Months)){
+        addError(null, "BR.spcPatent.expiration.period", "More than 6 months have passed since the patent and marketing authorization was issued",
+        		"mainForm.spcPatentSection", $errorList);
+    }
+end
+
+rule "BR SPC Permission docs to be attached - BG"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (id.value() == "otherAttachments")
+	PatentApplication( patent != null, $patent: patent, $docs: documents)
+	eval($patent.firstPermissionBGDate != null || $patent.firstPermissionBGNumber != null)
+	eval(documentIsMissing($docs, "Permit Market BG"))
+then
+	addError("otherAttachments", "permit.market.bg.must.attach.docs", "You must attach Copy of the permit to place the product on the market in Bulgaria","mainForm.otherAttachments", $errorList);
+end
+
+rule "BR SPC Permission docs to be attached - EU"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (id.value() == "otherAttachments")
+	PatentApplication( patent != null, $patent: patent, $docs: documents)
+	eval($patent.firstPermissionEUDate != null || $patent.firstPermissionEUNumber != null)
+	eval(documentIsMissing($docs, "Permit Market EU"))
+then
+	addError("otherAttachments", "permit.market.eu.must.attach.docs", "You must attach Copy of the permit to place the product on the market in the EU","mainForm.otherAttachments", $errorList);
+end
+
+rule "BR IS at least one attachment"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (id.value() == "otherAttachments")
+	PatentApplication(documents == null || documents.size() == 0)
+	RulesInformation(customObjects["flowModeId"] == "is-efiling")
+then
+	addError("otherAttachments", "must.attach.docs", "You must attach at least one document","mainForm.otherAttachments", $errorList);
+end
+
+rule "Bad representative pow details provided"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (id == AvailableSection.REPRESENTATIVE)
+	PatentApplication($pat: patent)
+	Patent($reps: representatives) from $pat
+	eval($reps != null && $reps.size() > 0)
+	Representative(powValidityIndefiniteIndicator == null || (powValidityIndefiniteIndicator == false && powValidityEndDate == null) || (powValidityIndefiniteIndicator == true && powValidityEndDate != null) || powReauthorizationIndicator == null) from $reps
+then
+    addError(null, "Representatives.Bad.Pow.Details",	"You need to provide valid representative POA details for every representative",	"mainForm.representativeDataSection",	$errorList);
+end

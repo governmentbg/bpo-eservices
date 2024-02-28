@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cotypes>
+	<cotype code="Fixed" label="cotypes.phonekind.fixed" />
+	<cotype code="Mobile Phone" label="cotypes.phonekind.mobile" />
+	<cotype code="Other" label="cotypes.phonekind.other" />
+	<cotype code="Undefined" label="cotypes.phonekind.unedfined" />	
+</cotypes>

@@ -1,0 +1,310 @@
+import org.apache.tools.ant.filters.*
+import java.security.MessageDigest
+
+
+defaultTasks 'installAll'
+
+ext {
+    nodeType = project.hasProperty('nodeType') ? project.property('nodeType') : 'N/A'
+    nodeName = project.hasProperty('nodeName') ? project.property('nodeName') : 'N/A'
+    nodeIP = project.hasProperty('nodeIP') ? project.property('nodeIP') : 'N/A'
+    masterIP = project.hasProperty('masterIP') ? project.property('masterIP') : 'N/A'
+    balancerIP = project.hasProperty('balancerIP') ? project.property('balancerIP') : 'N/A'
+}
+
+// loads properties - needed for filtering
+def filterProperties = new Properties()
+
+file("gradle.properties").withInputStream{
+    filterProperties.load(it);
+    filterProperties.setProperty("spCoreConfigDir.local", filterProperties.getProperty("spCoreConfigDir.local") == null ? filterProperties.getProperty("spCoreConfigDir") : filterProperties.getProperty("spCoreConfigDir.local"))
+    filterProperties.setProperty("jbossHome.local", filterProperties.getProperty("jbossHome.local") == null ? filterProperties.getProperty("jbossHome") : filterProperties.getProperty("jbossHome.local"))
+}
+
+task installJBossConfiguration << {
+    println "Installing Jackrabbit deployment components"
+
+    copy {
+        from('../installation/jackrabbit/deployments')
+        into("${jbossHome}/standalone/deployments")
+        include('**/**')
+    }
+
+    println "Installing JBoss modules components"
+
+    copy {
+        from('../installation/modules')
+        into("${jbossHome}/modules/system/layers/base")
+        include('**/*.*')
+    }
+    
+    println "Installing Jackrabbit configuration files"
+
+    copy {
+        from('../installation/jackrabbit/conf')
+        into("${jbossHome}/bin/jackrabbit")
+        include('**/*.*')
+        filter(ReplaceTokens, tokens: filterProperties)
+    }
+
+    println "Copying JBoss standalone config files"
+
+    copy {
+        from("../installation/app-server/standalone-sp.xml")
+        into("${jbossHome}/standalone/configuration")
+    }
+
+    copy {
+        from("../installation/app-server/local.jks")
+        into("${jbossHome}/standalone/configuration")
+    }
+
+    copy {
+        from("../installation/app-server/run-sp-wildfly.sh")
+        into("${jbossHome}/bin")
+        filter(ReplaceTokens, tokens: filterProperties)
+    }
+	
+	copy {
+        from("../installation/app-server/run-sp-wildfly.bat")
+        into("${jbossHome}/bin")
+        filter(ReplaceTokens, tokens: filterProperties)
+    }
+
+    copy {
+        from("../installation/app-server/exiftool.exe")
+        into("${jbossHome}/bin")
+    }
+}
+
+configure(installJBossConfiguration) {
+    description = "Installs JBoss configuration like standalone-*.xml, application-users.properties, Jackrabbit"
+}
+
+task installCoreConfiguration << {
+    println "Installing Core configuration"
+
+    copy {
+        from('../conf/sp-fo/app-server')
+        into("${spCoreConfigDir}")
+        include('**/*.*')
+        exclude('freemarker/**')
+        filter(ReplaceTokens, tokens: filterProperties)
+    }
+    copy {
+        from('../conf/sp-fo/app-server')
+        into("${spCoreConfigDir}")
+        include('freemarker/**')
+    }
+}
+
+configure(installCoreConfiguration) {
+    description = "Installs Core modules configuration files into spCoreConfigDir"
+}
+
+task installUIConfiguration << {
+    println "Installing UI modules configuration"
+
+    copy {
+        from('../conf/sp-fo/servlet-container')
+        into("${uiConfigDir}")
+        include('**/*.*')
+        exclude('jboss-ejb-client.properties.*')
+        filter(ReplaceTokens, tokens: filterProperties)
+    }
+}
+
+configure(installUIConfiguration) {
+    description = "Installs UI modules configuration like common config, project specific config and jboss-ejb-client into uiConfigDir"
+}
+
+task installUIApp << {
+    println "Copying UI applications"
+    copy {
+        from('../app/sp-fo/servlet-container')
+        into("${jbossHome}/standalone/deployments")
+        exclude('admin-tools-*')
+        include('**/**')
+    }
+}
+
+configure(installUIApp) {
+    description = "Installs UI WAR files into Tomcat webapps directory"
+}
+
+task installCoreApp << {
+    println "Copying Core applications"
+    copy {
+        from('../app/sp-fo/app-server/deployments')
+        into("${jbossHome}/standalone/deployments")
+        include('**/**')
+    }
+
+    copy {
+        from('../app/sp-fo/app-server/modules')
+        into("${jbossHome}/modules/system/layers/base")
+        include('**/**')
+    }
+}
+
+configure(installCoreApp) {
+    description = "Installs Core EAR and 'modules' to JBoss"
+}
+
+
+task installApacheApp << {
+    println "Copying apache static resources"
+
+    copy {
+        from('../app/sp-fo/web-server/')
+        into("${apacheHtDocsHome}/")
+        include('**/**')
+    }
+}
+
+task installAll(dependsOn: [
+        "installJBossConfiguration",
+        "installCoreConfiguration",
+        "installUIConfiguration",
+        "installUIApp",
+        "installCoreApp"
+]) << { }
+
+/*
+* Want to generate a master node config:
+* gradle -q installCluster -PnodeType=master -PnodeName=master.example.com -PnodeIP=192.168.250.10 -PbalancerIP=192.168.250.2
+*
+* Want to generate a slave node config:
+* gradle -q installCluster -PnodeType=slave -PnodeName=slave1.example.com -PnodeIP=192.168.250.21 -PmasterIP=192.168.250.10 -PbalancerIP=192.168.250.2
+* */
+task installCluster() << {
+    if(nodeIP == 'N/A' || nodeType == 'N/A' || nodeName == 'N/A') {
+        printUsage()
+    }
+    if(!["master", "slave"].contains(nodeType)) throw new Exception("Invalid node type (master/slave)")
+    if(!isIP(nodeIP)) throw new Exception("Invalid IP address (-PnodeIP): "+nodeIP)
+    if(balancerIP == "N/A") throw new Exception("Needed to specify a balancer node IP with -PbalancerIP")
+    if(nodeType == "slave" && masterIP == "N/A") throw new Exception("Needed to specify a master node IP with -PmasterIP")
+    if(nodeType == "slave" && !isIP(masterIP)) throw new Exception("Invalid IP address (-PmasterIP): "+masterIP)
+    if(!isIP(balancerIP)) throw new Exception("Invalid IP address (-PbalancerIP): "+balancerIP)
+    println "==========================="
+    println " Configuring node "
+    println "==========================="
+    println "Node type: " + nodeType
+    println "Node name: " + nodeName
+    println "Node IP: " + nodeIP
+    if(nodeType == "slave")
+        println("Master IP: " + masterIP)
+    println("Balancer IP: " + balancerIP)
+
+    // Overwrite default properties
+    filterProperties.setProperty('balancer.ip', balancerIP)
+    filterProperties.setProperty('node.ip', nodeIP)
+    filterProperties.setProperty('master.node.ip', masterIP)
+    filterProperties.setProperty('node.name', nodeName)
+    filterProperties.setProperty('node.type', nodeType)
+    filterProperties.setProperty('jackrabbit.rmi.host', nodeIP)
+    filterProperties.setProperty('jackrabbit.deployment.type', 'cluster')
+    filterProperties.setProperty('jackrabbit.cluster.node.name', nodeName)
+
+    //Execute tasks as standalone
+    tasks.installJBossConfiguration.execute()
+    tasks.installCoreConfiguration.execute()
+    tasks.installUIConfiguration.execute()
+    tasks.installUIApp.execute()
+    tasks.installCoreApp.execute()
+
+    //Execute specific cluster stuff
+    if(nodeType == "master") {
+        copy {
+            from('../installation/app-server/cluster/domain-spha.xml')
+            into("${jbossHome}/domain/configuration/")
+            filter(ReplaceTokens, tokens: filterProperties)
+        }
+        copy {
+            from('../installation/app-server/cluster/host-master.xml')
+            into("${jbossHome}/domain/configuration/")
+            filter(ReplaceTokens, tokens: filterProperties)
+            rename('(.+)-master(.+)',
+                    '$1$2')
+        }
+        copy {
+            from('../installation/app-server/cluster/run-sp-wildfly-cluster.sh')
+            into("${jbossHome}/bin/")
+            filter(ReplaceTokens, tokens: filterProperties)
+        }
+        copy {
+            from('../installation/app-server/cluster/deploy-domain-cli.sh')
+            from('../installation/app-server/cluster/undeploy-domain-cli.sh')
+            into("${jbossHome}/bin/")
+            filter(ReplaceTokens, tokens: filterProperties)
+        }
+    } else {
+        copy {
+            from('../installation/app-server/cluster/host-slave.xml')
+            into("${jbossHome}/domain/configuration/")
+            filter(ReplaceTokens, tokens: filterProperties)
+            rename('(.+)-slave(.+)',
+                    '$1$2')
+        }
+        copy {
+            from('../installation/app-server/cluster/run-sp-wildfly-cluster-slave.sh')
+            into("${jbossHome}/bin/")
+            filter(ReplaceTokens, tokens: filterProperties)
+        }
+    }
+}
+
+configure(installAll) {
+    description = "Installs everything to clean environment. Configures Tomcat and JBoss, filters SQLs"
+}
+
+configure(installCluster) {
+    description = "Installs everything to clean environment. Configures Wildfly10 cluster in domain mode, filters SQLs"
+}
+
+task wrapper(type: Wrapper) << {
+    gradleVersion = '1.10'
+}
+
+/**
+ * Creates HEX(MD5(value)) - used to create application-users.properties for JBoss
+ *
+ * @param value - string value
+ * @return - HEX(MD5(value))
+ */
+def shorterGroovyMD5Hash(value){
+    MessageDigest.getInstance("MD5").
+            digest(value.getBytes("UTF-8")).
+            encodeHex().
+            toString()
+}
+
+public static boolean isIP(String str)
+{
+    try
+    {
+        String[] parts = str.split("\\.");
+        if (parts.length != 4) return false;
+        for (int i = 0; i < 4; ++i)
+        {
+            int p = Integer.parseInt(parts[i]);
+            if (p > 255 || p < 0) return false;
+        }
+        return true;
+    } catch (Exception e)
+    {
+        return false;
+    }
+}
+
+public static void printUsage() {
+    println "========================================================================================================================="
+    println "Example usage for building master node:"
+    println "gradle -q installCluster -PnodeType=master -PnodeName=master.example.com -PnodeIP=192.168.250.10 -PbalancerIP=192.168.250.2"
+    println ""
+    println "Example usage for building slave node:"
+    println "gradle -q installCluster -PnodeType=slave -PnodeName=slave1.example.com -PnodeIP=192.168.250.21 -PmasterIP=192.168.250.10 -PbalancerIP=192.168.250.2"
+    println "========================================================================================================================="
+    throw new Exception("Wrong usage!")
+}

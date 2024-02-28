@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow parent="common" xmlns="http://www.springframework.org/schema/webflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow
+                          http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+
+	<on-start>		
+		<evaluate expression="'um-change'" result="flowScope.flowModeId"
+			result-type="java.lang.String" />
+
+		<evaluate expression="'/submitted_notmdn.htm'" result="flowScope.finalView" result-type="java.lang.String"/>
+		<evaluate expression="'error_page.notmdn'" result="flowScope.errorPage" result-type="java.lang.String"/>
+		<evaluate expression="'failureTile.notmdn'" result="flowScope.failureTile" result-type="java.lang.String"/>
+	</on-start>
+
+	<decision-state id="isLoadApplication">
+    	<if test="flowScope.flowBean.isReadOnly()" then="submitted" else="oneform" />
+	</decision-state>
+
+	<view-state id="oneform" view="tiles.notmdn" model="flowBean">
+		<transition on="Next" to="review" validate="true" />
+	</view-state>
+
+	<view-state id="review" view="tiles.notmdn" model="flowBean">
+		<transition on="Update_Patent" to="oneform" validate="false">
+			<evaluate expression="!flowScope.flowBean.isReadOnly()" />
+		</transition>
+		<transition on="Update_Person" to="oneform" validate="false">
+			<evaluate expression="!flowScope.flowBean.isReadOnly()" />
+		</transition>
+		<transition on="Update_GoodsServices" to="oneform" validate="false">
+			<evaluate expression="!flowScope.flowBean.isReadOnly()" />
+		</transition>
+		<transition on="Update_NationalSearch" to="oneform" validate="false">
+			<evaluate expression="!flowScope.flowBean.isReadOnly()" />
+		</transition>
+		<transition on="Update_Signature" to="oneform" validate="false">
+			<evaluate expression="!flowScope.flowBean.isReadOnly()" />
+		</transition>
+		<transition on="Update_Attachments" to="oneform" validate="false">
+			<evaluate expression="!flowScope.flowBean.isReadOnly()" />
+		</transition>
+		<transition on="Update_Claim" to="oneform" validate="false">
+			<evaluate expression="!flowScope.flowBean.isReadOnly()" />
+		</transition>
+		<transition on="Previous" to="oneform" validate="false">
+			<evaluate expression="!flowScope.flowBean.isReadOnly()" />
+		</transition>
+	</view-state>	
+</flow>

@@ -1,0 +1,1578 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ * SystemConfigurationServiceDao:: colour-configuration.xml 07/10/13 21:16 karalch $
+  ~  * . * .
+  ~  * * RRRR * Copyright © 2013 OHIM: Office for Harmonization
+  ~  * . RR R . in the Internal Market (trade marks and designs)
+  ~  * * RRR *
+  ~  * . RR RR . ALL RIGHTS RESERVED
+  ~  * * . _ . *
+  -->
+
+<tns:colour xmlns:tns="http://www.example.org/test/"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.example.org/test/ ../../../../../../../../../../../../configuration-xsd/src/main/xsd/colour/colour-configuration.xsd ">
+
+	<colourList>
+		<country>el</country>
+		<values>Λευκό</values>
+		<values>Μαύρο</values>
+		<values>Μπλε</values>
+		<values>Κόκκινο</values>
+		<values>Πράσινο</values>
+		<values>Γκρι</values>
+		<values>Κίτρινο</values>
+		<values>Πορτοκαλί</values>
+		<values>Καφέ</values>
+		<values>Σκούρο μπλε</values>
+		<values>Γαλάζιο</values>
+		<values>Χρυσαφί</values>
+		<values>Ροζ</values>
+		<values>Μωβ</values>
+		<values>Ανοιχτό πράσινο</values>
+		<values>Σκούρο πράσινο</values>
+		<values>Μπεζ</values>
+		<values>Ασημί</values>
+		<values>Σκούρο γκρι</values>
+		<values>Ανοιχτό γκρι</values>
+		<values>Βioλετι</values>
+		<values>Ανοικτό καφετί</values>
+		<values>Αποχρώσεις του μπλε</values>
+		<values>Τυρκουάζ</values>
+		<values>Φούξια</values>
+		<values>Σκούρο καφέ</values>
+		<values>Γκρενά</values>
+		<values>Μπορντό</values>
+		<values>Μοβ</values>
+		<values>Κυανό</values>
+		<values>Φούξια</values>
+		<values>Ώχρα</values>
+		<values>Ναυτικό μπλε</values>
+		<values>Γκρι</values>
+		<values>Αποχρώσεις του πράσινου</values>
+		<values>Γκρενά</values>
+		<values>Κυανό</values>
+		<values>Αποχρώσεις του γκρίζου</values>
+		<values>Κρεμ</values>
+		<values>Ανοικτό πορτοκαλί</values>
+		<values>Σκούρο πορτοκαλί</values>
+		<values>Ανοιχτό κίτρινο</values>
+		<values>Αποχρώσεις του κίτρινου</values>
+		<values>Ανοιχτό κόκκινο</values>
+		<values>Αποχρώσεις του κόκκινου</values>
+		<values>Μωβ</values>
+		<values>Σκούρο κίτρινο</values>
+		<values>Κίτρινο Χρυσαφί</values>
+		<values>Σκούρο ροζ</values>
+		<values>Μέση απόχρωση του μπλε</values>
+		<values>Καστανέρυθρο</values>
+		<values>Ανοιχτό ροζ</values>
+		<values>Αποχρώσεις του καφέ</values>
+		<values>Λαδί</values>
+		<values>Αποχρώσεις του πορτοκαλί</values>
+		<values>Σκούρο μωβ</values>
+		<values>Κυανό</values>
+		<values>Ναυτικό μπλε</values>
+		<values>Χρυσό</values>
+		<values>Ανθρακί</values>
+		<values>Μπλε-τυρκουάζ</values>
+		<values>Ανοιχτό πράσινο</values>
+		<values>Χρώμα του μπρούντζου</values>
+		<values>Ανοιχτό μωβ</values>
+		<values>Χαλκός</values>
+		<values>Αποχρώσεις του ροζ</values>
+		<values>Λουλακι</values>
+	</colourList>
+
+	<colourList>
+		<country>en</country>
+		<values>White</values>
+		<values>Black</values>
+		<values>Blue</values>
+		<values>Red</values>
+		<values>Green</values>
+		<values>Grey</values>
+		<values>Yellow</values>
+		<values>Orange</values>
+		<values>Brown</values>
+		<values>Dark blue</values>
+		<values>Light blue</values>
+		<values>Gold</values>
+		<values>Pink</values>
+		<values>Purple</values>
+		<values>Light green</values>
+		<values>Dark green</values>
+		<values>Beige</values>
+		<values>Silver</values>
+		<values>Dark grey</values>
+		<values>Light grey</values>
+		<values>Violet</values>
+		<values>Light brown</values>
+		<values>Shades of blue</values>
+		<values>Turquoise</values>
+		<values>Magenta</values>
+		<values>Dark brown</values>
+		<values>Dark red</values>
+		<values>Burgundy</values>
+		<values>Lilac</values>
+		<values>Sky blue</values>
+		<values>Fuchsia</values>
+		<values>Ochre</values>
+		<values>Navy blue</values>
+		<values>Gray</values>
+		<values>Shades of green</values>
+		<values>Deep red</values>
+		<values>Cyan</values>
+		<values>Shades of grey</values>
+		<values>Cream</values>
+		<values>Light orange</values>
+		<values>Dark orange</values>
+		<values>Light yellow</values>
+		<values>Shades of yellow</values>
+		<values>Light red</values>
+		<values>Shades of red</values>
+		<values>Mauve</values>
+		<values>Dark yellow</values>
+		<values>Golden yellow</values>
+		<values>Dark pink</values>
+		<values>Medium blue</values>
+		<values>Maroon</values>
+		<values>Light pink</values>
+		<values>Shades of brown</values>
+		<values>Olive green</values>
+		<values>Shades of orange</values>
+		<values>Dark purple</values>
+		<values>Azure</values>
+		<values>Navy</values>
+		<values>Golden</values>
+		<values>Anthracite</values>
+		<values>Turquoise blue</values>
+		<values>Lime green</values>
+		<values>Bronze</values>
+		<values>Light purple</values>
+		<values>Copper</values>
+		<values>Shades of pink</values>
+		<values>Indigo</values>
+	</colourList>
+
+	<colourList>
+		<country>fr</country>
+		<values>Blanc</values>
+		<values>Noir</values>
+		<values>Bleu</values>
+		<values>Rouge</values>
+		<values>Vert</values>
+		<values>Gris</values>
+		<values>Jaune</values>
+		<values>Orange</values>
+		<values>Brun</values>
+		<values>Bleu foncé</values>
+		<values>Bleu clair</values>
+		<values>Or</values>
+		<values>Rose</values>
+		<values>Violet</values>
+		<values>Vert clair</values>
+		<values>Vert foncé</values>
+		<values>Beige</values>
+		<values>Argent</values>
+		<values>Gris foncé</values>
+		<values>Gris clair</values>
+		<values>Violet</values>
+		<values>Brun clair</values>
+		<values>Nuances de bleu</values>
+		<values>Turquoise</values>
+		<values>Magenta</values>
+		<values>Marron foncé</values>
+		<values>Rouge foncé</values>
+		<values>Bordeau</values>
+		<values>Lilas</values>
+		<values>Bleu ciel</values>
+		<values>Fuchsia</values>
+		<values>Ocre</values>
+		<values>Bleu marine</values>
+		<values>Gris</values>
+		<values>Nuances de vert</values>
+		<values>Rouge foncé</values>
+		<values>Cyan</values>
+		<values>Nuances de gris</values>
+		<values>Crème</values>
+		<values>Orange clair</values>
+		<values>Orange foncé</values>
+		<values>Jaune clair</values>
+		<values>Nuances de jaune</values>
+		<values>Rouge clair</values>
+		<values>Nuances de rouge</values>
+		<values>Mauve</values>
+		<values>Jaune foncé</values>
+		<values>Jaune doré</values>
+		<values>Rose foncé</values>
+		<values>Bleu moyen</values>
+		<values>Brun</values>
+		<values>Rose clair</values>
+		<values>Nuances de brun</values>
+		<values>Vert olive</values>
+		<values>Nuances d'orange</values>
+		<values>Violet foncé</values>
+		<values>Bleu</values>
+		<values>Bleu marine</values>
+		<values>Doré</values>
+		<values>Anthracite</values>
+		<values>Bleu turquoise</values>
+		<values>Vert jaune</values>
+		<values>Couleur bronze</values>
+		<values>Mauve clair</values>
+		<values>Cuivre</values>
+		<values>Nuances de rose</values>
+		<values>Indigo</values>
+	</colourList>
+
+	<colourList>
+		<country>es</country>
+		<values>Blanco</values>
+		<values>Negro</values>
+		<values>Azul</values>
+		<values>Rojo</values>
+		<values>Verde</values>
+		<values>Gris</values>
+		<values>Amarillo</values>
+		<values>Naranja</values>
+		<values>Marron</values>
+		<values>Azul oscuro</values>
+		<values>Azul claro</values>
+		<values>Dorado</values>
+		<values>Rosa</values>
+		<values>Morado</values>
+		<values>Verde claro</values>
+		<values>Verde oscuro</values>
+		<values>Beige</values>
+		<values>Plata</values>
+		<values>Gris oscuro</values>
+		<values>Gris claro</values>
+		<values>Violeta</values>
+		<values>Marrón claro</values>
+		<values>Degradado de azul</values>
+		<values>Turquesa</values>
+		<values>Magenta</values>
+		<values>Marrón oscuro</values>
+		<values>Granate</values>
+		<values>Burdeos</values>
+		<values>Lila</values>
+		<values>Celeste</values>
+		<values>Fucsia</values>
+		<values>Ocre</values>
+		<values>Azul marino</values>
+		<values>Gris</values>
+		<values>Degradado de verde</values>
+		<values>Granate</values>
+		<values>Cian</values>
+		<values>Degradado de gris</values>
+		<values>Color crema</values>
+		<values>Naranja claro</values>
+		<values>Naranja oscuro</values>
+		<values>Amarillo claro</values>
+		<values>Degradado de amarillo</values>
+		<values>Rojo claro</values>
+		<values>Degradado de rojo</values>
+		<values>Malva</values>
+		<values>Amarillo oscuro</values>
+		<values>Amarillo dorado</values>
+		<values>Rosa oscuro</values>
+		<values>Azul medio</values>
+		<values>Granate</values>
+		<values>Rosa claro</values>
+		<values>Degradado de marrón</values>
+		<values>Verde oliva</values>
+		<values>Degradado de naranja</values>
+		<values>Morado oscuro</values>
+		<values>Azul celeste</values>
+		<values>Azul marino</values>
+		<values>Dorado</values>
+		<values>Antracita</values>
+		<values>Azul turquesa</values>
+		<values>Verde pálido</values>
+		<values>Color bronce</values>
+		<values>Púrpura claro</values>
+		<values>Color cobre</values>
+		<values>Degradado de rosa</values>
+		<values>Añil</values>
+	</colourList>
+
+	<colourList>
+		<country>it</country>
+		<values>Bianco</values>
+		<values>Nero</values>
+		<values>Blu</values>
+		<values>Rosso</values>
+		<values>Verde</values>
+		<values>Grigio</values>
+		<values>Giallo</values>
+		<values>Arancione</values>
+		<values>Marrone</values>
+		<values>Azzurro scuro</values>
+		<values>Blu chiaro</values>
+		<values>Oro</values>
+		<values>Rosa</values>
+		<values>Viola</values>
+		<values>Verde chiaro</values>
+		<values>Verde scuro</values>
+		<values>Beige</values>
+		<values>Argento</values>
+		<values>Grigio scuro</values>
+		<values>Grigio chiaro</values>
+		<values>Viola</values>
+		<values>Marrone chiaro</values>
+		<values>Sfumature di blu</values>
+		<values>Turchese</values>
+		<values>Magenta</values>
+		<values>Marrone scuro</values>
+		<values>Granata</values>
+		<values>Bordeaux</values>
+		<values>Lilla</values>
+		<values>Celeste</values>
+		<values>Fucsia</values>
+		<values>Ocra</values>
+		<values>Blu marino</values>
+		<values>Grigio</values>
+		<values>Sfumature di verde</values>
+		<values>Granata</values>
+		<values>Ciano</values>
+		<values>Scala di grigi</values>
+		<values>Panna</values>
+		<values>Arancione chiaro</values>
+		<values>Arancione scuro</values>
+		<values>Giallo chiaro</values>
+		<values>Sfumature gialle</values>
+		<values>Rosso chiaro</values>
+		<values>Sfumature di rosso</values>
+		<values>Malva</values>
+		<values>Giallo scuro</values>
+		<values>Giallo oro</values>
+		<values>Rosa scuro</values>
+		<values>Blu medio</values>
+		<values>Bordeaux</values>
+		<values>Rosa chiaro</values>
+		<values>Sfumature di marrone</values>
+		<values>Verde oliva</values>
+		<values>Sfumature d'arancione</values>
+		<values>Viola scuro</values>
+		<values>Azzurro</values>
+		<values>Blu notte</values>
+		<values>Oro</values>
+		<values>Antracite</values>
+		<values>Blu turchese</values>
+		<values>Verde lime</values>
+		<values>Bronzo</values>
+		<values>Viola chiaro</values>
+		<values>Rame</values>
+		<values>Sfumature di rosa</values>
+		<values>Indaco</values>
+	</colourList>
+
+	<colourList>
+		<country>de</country>
+		<values>Weiß</values>
+		<values>Schwarz</values>
+		<values>Blau</values>
+		<values>Rot</values>
+		<values>Grün</values>
+		<values>Grau</values>
+		<values>Gelb</values>
+		<values>Orange</values>
+		<values>Braun</values>
+		<values>Dunkelblau</values>
+		<values>Hellblau</values>
+		<values>Gold</values>
+		<values>Rosa</values>
+		<values>Violett</values>
+		<values>Hellgrün</values>
+		<values>Dunkelgrün</values>
+		<values>Beige</values>
+		<values>Silber</values>
+		<values>Dunkelgrau</values>
+		<values>Hellgrau</values>
+		<values>Violett</values>
+		<values>Hellbraun</values>
+		<values>Blautöne</values>
+		<values>Türkis</values>
+		<values>Magenta</values>
+		<values>Dunkelbraun</values>
+		<values>Granatfarben</values>
+		<values>Bordeauxrot</values>
+		<values>Lila</values>
+		<values>Himmelblau</values>
+		<values>Fuchsienfarben</values>
+		<values>Ocker</values>
+		<values>Marineblau</values>
+		<values>Grau</values>
+		<values>Grüntöne</values>
+		<values>Granatfarben</values>
+		<values>Zyan</values>
+		<values>Graustufig</values>
+		<values>Creme</values>
+		<values>Hellorange</values>
+		<values>Dunkelorange</values>
+		<values>Hellgelb</values>
+		<values>Gelbe Farbnuancen</values>
+		<values>hellrot</values>
+		<values>Rottöne</values>
+		<values>Malvenfarben</values>
+		<values>Dunkelgelb</values>
+		<values>Goldgelb</values>
+		<values>Dunkelrosa</values>
+		<values>Mittelblau</values>
+		<values>Kastanienbraun</values>
+		<values>Hellrosa</values>
+		<values>Brauntöne</values>
+		<values>Olivgrün</values>
+		<values>Verschiedene Orangetöne</values>
+		<values>Dunkelviolett</values>
+		<values>Azurblau</values>
+		<values>Marineblau</values>
+		<values>Gold</values>
+		<values>Anthrazit</values>
+		<values>Blau-türkis</values>
+		<values>Lindgrün</values>
+		<values>Bronzefarbe</values>
+		<values>Zartlila</values>
+		<values>Kupfer</values>
+		<values>Rosatöne</values>
+		<values>Indigo</values>
+	</colourList>
+
+	<colourList>
+		<country>da</country>
+		<values>Hvid</values>
+		<values>Sort</values>
+		<values>Blå</values>
+		<values>Rød</values>
+		<values>Grøn</values>
+		<values>Grå</values>
+		<values>Gul</values>
+		<values>Orange</values>
+		<values>Brun</values>
+		<values>Mørkeblå</values>
+		<values>Lyseblå</values>
+		<values>Guldfarvet</values>
+		<values>Pink</values>
+		<values>Violet</values>
+		<values>Lysegrøn</values>
+		<values>Mørkegrøn</values>
+		<values>Beige</values>
+		<values>Sølvfarvet</values>
+		<values>Mørkegrå</values>
+		<values>Lysegrå</values>
+		<values>Lilla</values>
+		<values>Lysebrun</values>
+		<values>Forskellige blå nuancer</values>
+		<values>Turkis</values>
+		<values>Magenta</values>
+		<values>Mørkebrun</values>
+		<values>Granatrød</values>
+		<values>Bordeauxfarvet</values>
+		<values>Lilla</values>
+		<values>Himmelblå</values>
+		<values>Fuchsiarød</values>
+		<values>Okker</values>
+		<values>Marineblå</values>
+		<values>Grå</values>
+		<values>Nuancer af grøn</values>
+		<values>Mørkerød</values>
+		<values>Cyan</values>
+		<values>Grå nuancer</values>
+		<values>Cremefarvet</values>
+		<values>Lys orange</values>
+		<values>Mørkeorange</values>
+		<values>Lysegul</values>
+		<values>Gule nuancer</values>
+		<values>Lyserød</values>
+		<values>Nuancer af rød</values>
+		<values>Lilla</values>
+		<values>Mørkegul</values>
+		<values>Gyldengul</values>
+		<values>Mørk lyserød</values>
+		<values>Mellemblå</values>
+		<values>Brun</values>
+		<values>Lyserød</values>
+		<values>Brune farvenuancer</values>
+		<values>Olivengrøn</values>
+		<values>Orange nuancer </values>
+		<values>Mørkelilla</values>
+		<values>Azurblå</values>
+		<values>Marineblå</values>
+		<values>Guldfarvet</values>
+		<values>Antracitfarvet</values>
+		<values>Turkisfarvet</values>
+		<values>Lindegrøn</values>
+		<values>Bronzefarvet</values>
+		<values>Lyselilla</values>
+		<values>Kobberfarvet</values>
+		<values>Rosa nuancer</values>
+		<values>Indigoblå</values>
+	</colourList>
+
+	<colourList>
+		<country>nl</country>
+		<values>Wit</values>
+		<values>Zwart</values>
+		<values>Blauw</values>
+		<values>Rood</values>
+		<values>Groen</values>
+		<values>Grijs</values>
+		<values>Geel</values>
+		<values>Oranje</values>
+		<values>Bruin</values>
+		<values>Donkerblauw</values>
+		<values>Lichtblauw</values>
+		<values>Goud</values>
+		<values>Roze</values>
+		<values>Paars</values>
+		<values>Lichtgroen</values>
+		<values>Donkergroen</values>
+		<values>Beige</values>
+		<values>Zilver</values>
+		<values>Donkergrijs</values>
+		<values>Lichtgrijs</values>
+		<values>Violet</values>
+		<values>Lichtbruin</values>
+		<values>Schakeringen van blauw</values>
+		<values>Turkoois</values>
+		<values>Magenta</values>
+		<values>Donkerbruin</values>
+		<values>Donkerrood</values>
+		<values>Bordeauxrood</values>
+		<values>Lila</values>
+		<values>Hemelsblauw</values>
+		<values>Fuchsia</values>
+		<values>Okergeel</values>
+		<values>Marineblauw</values>
+		<values>Grijs</values>
+		<values>Schakeringen van groen</values>
+		<values>Donkerrood</values>
+		<values>Cyaan</values>
+		<values>Schakeringen van grijs</values>
+		<values>Crème</values>
+		<values>Lichtoranje</values>
+		<values>Donkeroranje</values>
+		<values>Lichtgeel</values>
+		<values>Schakeringen van geel</values>
+		<values>Lichtrood</values>
+		<values>Schakeringen van rood</values>
+		<values>Mauve</values>
+		<values>Donkergeel</values>
+		<values>Goudgeel</values>
+		<values>Donkerroze</values>
+		<values>Middenblauw</values>
+		<values>Kastanjebruin</values>
+		<values>Lichtroze</values>
+		<values>Schakeringen van bruin</values>
+		<values>Olijfgroen</values>
+		<values>Schakeringen van Oranje</values>
+		<values>Donkerpaars</values>
+		<values>Azuurblauw</values>
+		<values>Marineblauw</values>
+		<values>Goudkleur</values>
+		<values>Antraciet</values>
+		<values>Turkoois</values>
+		<values>Lindegroen</values>
+		<values>Bronskleur</values>
+		<values>Lichtpaars</values>
+		<values>Koperkleur</values>
+		<values>Schakeringen van roze</values>
+		<values>Indigo</values>
+	</colourList>
+
+	<colourList>
+		<country>pt</country>
+		<values>Branco</values>
+		<values>Preto</values>
+		<values>Azul</values>
+		<values>Vermelho</values>
+		<values>Verde</values>
+		<values>Cinzento</values>
+		<values>Amarelo</values>
+		<values>Laranja</values>
+		<values>Castanho</values>
+		<values>Azul escuro</values>
+		<values>Azul claro</values>
+		<values>Dourado</values>
+		<values>Cor de rosa</values>
+		<values>Roxo</values>
+		<values>Verde claro</values>
+		<values>Verde escuro</values>
+		<values>Bege</values>
+		<values>Prata</values>
+		<values>Cinzento escuro</values>
+		<values>Cinzento claro</values>
+		<values>Violeta</values>
+		<values>Castanho claro</values>
+		<values>Matizes de azul</values>
+		<values>Turquesa</values>
+		<values>Magenta</values>
+		<values>Castanho escuro</values>
+		<values>Grená</values>
+		<values>Cor de vinho</values>
+		<values>Lilás</values>
+		<values>Azul celeste</values>
+		<values>Fúcsia</values>
+		<values>Ocre</values>
+		<values>Azul marinho</values>
+		<values>Cinzento</values>
+		<values>Tons de verde</values>
+		<values>Grená</values>
+		<values>Ciano</values>
+		<values>Escala cinzenta</values>
+		<values>Creme</values>
+		<values>Cor de laranja claro</values>
+		<values>Cor de laranja escuro</values>
+		<values>Amarelo claro</values>
+		<values>Tons de amarelo</values>
+		<values>Vermelho claro</values>
+		<values>Tonalidades de vermelho</values>
+		<values>Malva</values>
+		<values>Amarelo escuro</values>
+		<values>Amarelo dourado</values>
+		<values>Cor de rosa escuro</values>
+		<values>Azul intermédio</values>
+		<values>Castanho avermelhado</values>
+		<values>Cor de rosa claro</values>
+		<values>Tons de castanho</values>
+		<values>Verde-azeitona</values>
+		<values>Tons de cor de laranja</values>
+		<values>Roxo escuro</values>
+		<values>Azul celeste</values>
+		<values>Azul marinho</values>
+		<values>Ouro</values>
+		<values>Antracite</values>
+		<values>Azul turquesa</values>
+		<values>Verde tília</values>
+		<values>Cor de bronze</values>
+		<values>Roxo claro</values>
+		<values>Cobre</values>
+		<values>Cor de rosa matizado</values>
+		<values>Índigo</values>
+	</colourList>
+
+	<colourList>
+		<country>fi</country>
+		<values>Valkoinen</values>
+		<values>Musta</values>
+		<values>Sininen</values>
+		<values>Punainen</values>
+		<values>Vihreä</values>
+		<values>Harmaa</values>
+		<values>Keltainen</values>
+		<values>Oranssi</values>
+		<values>Ruskea</values>
+		<values>Tummansininen</values>
+		<values>Vaaleansininen</values>
+		<values>Kullanvärinen</values>
+		<values>Vaaleanpunainen</values>
+		<values>Purppuranpunainen</values>
+		<values>Vaaleanvihreä</values>
+		<values>Tummanvihreä</values>
+		<values>Beige</values>
+		<values>Hopeanvärinen</values>
+		<values>Tummanharmaa</values>
+		<values>Vaaleanharmaa</values>
+		<values>Violetti</values>
+		<values>Vaaleanruskea</values>
+		<values>Sinisen sävyjä</values>
+		<values>Turkoosi</values>
+		<values>Purppuranpunainen</values>
+		<values>Tummanruskea</values>
+		<values>Granaatinpunainen</values>
+		<values>Bordeaux' n punainen</values>
+		<values>Violetti</values>
+		<values>Vaaleansininen</values>
+		<values>Fuksia</values>
+		<values>Okra</values>
+		<values>Tummansininen</values>
+		<values>Harmaa</values>
+		<values>Vihreän sävyjä</values>
+		<values>Granaatinpunainen</values>
+		<values>Sinivihreä</values>
+		<values>Harmaan sävyjä</values>
+		<values>Kermanvärinen</values>
+		<values>Vaaleanoranssi</values>
+		<values>Tummanoranssi</values>
+		<values>Vaaleankeltainen</values>
+		<values>Keltaisen sävyjä</values>
+		<values>Vaaleanpunainen</values>
+		<values>Punaisen sävyjä</values>
+		<values>Malvanvärinen</values>
+		<values>Tummankeltainen</values>
+		<values>Kullankeltainen</values>
+		<values>Tumma ruusunpunainen</values>
+		<values>Keskisininen</values>
+		<values>Punaruskea</values>
+		<values>Vaaleanpunainen</values>
+		<values>Ruskean sävyjä</values>
+		<values>Oliivinvihreä</values>
+		<values>Oranssin sävyjä</values>
+		<values>Tumma violetti</values>
+		<values>Taivaansininen</values>
+		<values>Laivastonsininen</values>
+		<values>Kullanvärinen</values>
+		<values>Antrasiitti</values>
+		<values>Turkoosinsininen</values>
+		<values>Lehmuksenvihreä</values>
+		<values>Pronssinvärinen</values>
+		<values>Vaalea violetti</values>
+		<values>Kuparinvärinen</values>
+		<values>Vaaleanpunaisen sävyjä</values>
+		<values>Indigonsininen</values>
+	</colourList>
+
+	<colourList>
+		<country>sv</country>
+		<values>Vitt</values>
+		<values>Svart</values>
+		<values>Blått</values>
+		<values>Rött</values>
+		<values>Grönt</values>
+		<values>Grått</values>
+		<values>Gult</values>
+		<values>Orange</values>
+		<values>Brunt</values>
+		<values>Mörkblått</values>
+		<values>Ljusblått</values>
+		<values>Guld</values>
+		<values>Rosa</values>
+		<values>Lila</values>
+		<values>Ljusgrönt</values>
+		<values>Mörkgrönt</values>
+		<values>Beige</values>
+		<values>Silver</values>
+		<values>Mörkgrått</values>
+		<values>Ljusgrått</values>
+		<values>Violett</values>
+		<values>Ljusbrunt</values>
+		<values>Nyanser av blått</values>
+		<values>Turkos</values>
+		<values>Magenta</values>
+		<values>Mörkbrunt</values>
+		<values>Granatrött</values>
+		<values>Vinrött</values>
+		<values>Lila</values>
+		<values>Himmelsblått</values>
+		<values>Fuchsiarött</values>
+		<values>Ockra</values>
+		<values>Marinblått</values>
+		<values>Grått</values>
+		<values>Nyanser av grönt</values>
+		<values>Granatrött</values>
+		<values>Cyan</values>
+		<values>Nyanser av grått</values>
+		<values>Gräddfärg</values>
+		<values>Ljusorange</values>
+		<values>Mörkorange</values>
+		<values>Ljusgult</values>
+		<values>Gula nyanser</values>
+		<values>Ljusrött</values>
+		<values>Nyanser av rött</values>
+		<values>Blåviolett</values>
+		<values>Mörkgult</values>
+		<values>Guldgult</values>
+		<values>Mörkrosa</values>
+		<values>Mellanblått</values>
+		<values>Rödbrunt</values>
+		<values>Ljusrosa</values>
+		<values>Nynser av brunt</values>
+		<values>Olivgrönt</values>
+		<values>Nyanser av orange</values>
+		<values>Mörklila</values>
+		<values>Azurblått</values>
+		<values>Marinblått</values>
+		<values>Guld</values>
+		<values>Antracit</values>
+		<values>Turkosblått</values>
+		<values>Lindblomsgrönt</values>
+		<values>Bronsfärg</values>
+		<values>Ljuslila</values>
+		<values>Koppar</values>
+		<values>Nyanser av rosa</values>
+		<values>Indigoblått</values>
+	</colourList>
+
+	<colourList>
+		<country>cs</country>
+		<values>Bílá</values>
+		<values>Černá</values>
+		<values>Modrá</values>
+		<values>Červená</values>
+		<values>Zelená</values>
+		<values>Šedá</values>
+		<values>Žlutá</values>
+		<values>Oranžová</values>
+		<values>Hnědá</values>
+		<values>Tmavě modrá</values>
+		<values>Světle modrá</values>
+		<values>Zlatá</values>
+		<values>Růžová</values>
+		<values>Tmavě fialová</values>
+		<values>Světle zelená</values>
+		<values>Tmavě zelená</values>
+		<values>Béžová</values>
+		<values>Stříbrná</values>
+		<values>Tmavě šedá</values>
+		<values>Světle šedá</values>
+		<values>Fialová</values>
+		<values>Světle hnědá</values>
+		<values>Odstíny modré</values>
+		<values>Tyrkysová</values>
+		<values>Purpurová</values>
+		<values>Tmavě hnědá</values>
+		<values>Granátová</values>
+		<values>Bordó</values>
+		<values>Světle fialová</values>
+		<values>Blankytně modrá</values>
+		<values>Fuchsiová</values>
+		<values>Okrová</values>
+		<values>Námořnická modrá</values>
+		<values>Šedá</values>
+		<values>Odstíny zelené</values>
+		<values>Granátová</values>
+		<values>Azurová</values>
+		<values>Odstíny šedé</values>
+		<values>Krémová</values>
+		<values>Světle oranžová</values>
+		<values>Tmavě oranžová</values>
+		<values>Světle žlutá</values>
+		<values>Odstíny žluté</values>
+		<values>Světle červená</values>
+		<values>Odstíny červené</values>
+		<values>Nafialovělá</values>
+		<values>Tmavě žlutá</values>
+		<values>Zlatožlutá</values>
+		<values>Tmavě růžová</values>
+		<values>Středně modrá</values>
+		<values>Granátová</values>
+		<values>Světle růžová</values>
+		<values>Odstíny hnědé</values>
+		<values>Olivově zelená</values>
+		<values>Odstíny oranžové</values>
+		<values>Tmavě fialová</values>
+		<values>Azurová</values>
+		<values>Námořnická modrá</values>
+		<values>Zlatá</values>
+		<values>Antracitová</values>
+		<values>Tyrkysově modrá</values>
+		<values>Lípově zelená</values>
+		<values>Bronzová</values>
+		<values>Světle fialová</values>
+		<values>Měděná</values>
+		<values>Odstíny růžové</values>
+		<values>Indigová modř</values>
+	</colourList>
+
+	<colourList>
+		<country>et</country>
+		<values>Valge</values>
+		<values>Must</values>
+		<values>Sinine</values>
+		<values>Punane</values>
+		<values>Roheline</values>
+		<values>Hall</values>
+		<values>Kollane</values>
+		<values>Oranž</values>
+		<values>Pruun</values>
+		<values>Tumesinine</values>
+		<values>Helesinine</values>
+		<values>Kuldne</values>
+		<values>Roosa</values>
+		<values>Lillakaspunane</values>
+		<values>Heleroheline</values>
+		<values>Tumeroheline</values>
+		<values>Beež</values>
+		<values>Hõbedane</values>
+		<values>Tumehall</values>
+		<values>Helehall</values>
+		<values>Violetne</values>
+		<values>Helepruun</values>
+		<values>Sinise varjundid</values>
+		<values>Türkiissinine</values>
+		<values>Magenta</values>
+		<values>Tumepruun</values>
+		<values>Tumepunane</values>
+		<values>Bordoopunane</values>
+		<values>Sirelililla</values>
+		<values>Taevasinine</values>
+		<values>Fuksiapunane</values>
+		<values>Ookerkollane</values>
+		<values>Meresinine</values>
+		<values>Hall</values>
+		<values>Rohelise varjundid</values>
+		<values>Sügavpunane</values>
+		<values>Tsüaansinine</values>
+		<values>Halli varjundid</values>
+		<values>Kreemikas</values>
+		<values>Heleoranž</values>
+		<values>Tumeoranž</values>
+		<values>Helekollane</values>
+		<values>Kollase varjundid</values>
+		<values>Helepunane</values>
+		<values>Punase eri varjundid</values>
+		<values>Lillakas</values>
+		<values>Tumekollane</values>
+		<values>Kuldkollane</values>
+		<values>Tumeroosa</values>
+		<values>Keskmine sinine</values>
+		<values>Kastanpruun</values>
+		<values>Heleroosa</values>
+		<values>Pruuni varjundid</values>
+		<values>Oliivroheline</values>
+		<values>Oranži varjundid</values>
+		<values>Tume lillakaspunane</values>
+		<values>Asuur</values>
+		<values>Meresinine</values>
+		<values>Kuldne</values>
+		<values>Läikivmust</values>
+		<values>Türkiissinine</values>
+		<values>Laimiroheline</values>
+		<values>Pronksivärvi</values>
+		<values>Hele lillakaspunane</values>
+		<values>Vaskne</values>
+		<values>Roosa varjundid</values>
+		<values>Indigosinine</values>
+	</colourList>
+
+	<colourList>
+		<country>hu</country>
+		<values>Fehér</values>
+		<values>Fekete</values>
+		<values>Kék</values>
+		<values>Vörös</values>
+		<values>Zöld</values>
+		<values>Szürke</values>
+		<values>Sárga</values>
+		<values>Narancssárga</values>
+		<values>Barna</values>
+		<values>Sötétkék</values>
+		<values>Világoskék</values>
+		<values>Arany</values>
+		<values>Rózsaszin</values>
+		<values>Lila</values>
+		<values>Világoszöld</values>
+		<values>Sötétzöld</values>
+		<values>Bézs</values>
+		<values>Ezüst</values>
+		<values>Sötétszürke</values>
+		<values>Világosszürke</values>
+		<values>Ibolya</values>
+		<values>Világosbarna</values>
+		<values>A kék árnyalatai</values>
+		<values>Türkiz</values>
+		<values>Magenta</values>
+		<values>Sötétbarna</values>
+		<values>Sötétvörös </values>
+		<values>Bordó</values>
+		<values>Lila</values>
+		<values>Kék</values>
+		<values>Fukszia</values>
+		<values>Okker</values>
+		<values>Tengerészkék</values>
+		<values>Szürke</values>
+		<values>A zöld árnyalatai</values>
+		<values>Mélyvörös</values>
+		<values>Ciánkék</values>
+		<values>Szürke árnyalatos</values>
+		<values>Krémszínű</values>
+		<values>Világos narancssárga</values>
+		<values>Sötétnarancs</values>
+		<values>Világossárga</values>
+		<values>Sárga árnyalatok</values>
+		<values>Világospiros</values>
+		<values>Vörös árnyalatai</values>
+		<values>Mályva</values>
+		<values>Sötétsárga</values>
+		<values>Aranysárga</values>
+		<values>Sötét rózsaszín</values>
+		<values>Középkék</values>
+		<values>Gesztenyebarna</values>
+		<values>Világos rózsaszín</values>
+		<values>Barna árnyalatok</values>
+		<values>Olivazöld</values>
+		<values>A narancssárga árnyalatai</values>
+		<values>Sötét ibolyakék</values>
+		<values>Azúrkék</values>
+		<values>Tengerkék</values>
+		<values>Arany</values>
+		<values>Antracit</values>
+		<values>Türkizkék</values>
+		<values>Hárszöld</values>
+		<values>Bronz színű</values>
+		<values>Világos lila</values>
+		<values>Réz</values>
+		<values>Rózsaszín árnyalatok</values>
+		<values>Indigókék</values>
+	</colourList>
+
+	<colourList>
+		<country>lt</country>
+		<values>Balta</values>
+		<values>Juoda</values>
+		<values>Mėlyna</values>
+		<values>Raudona</values>
+		<values>Žalia</values>
+		<values>Pilka</values>
+		<values>Geltona</values>
+		<values>Oranžinė</values>
+		<values>Ruda</values>
+		<values>Tamsiai mėlyna</values>
+		<values>Šviesiai mėlyna</values>
+		<values>Aukso spalva</values>
+		<values>Rožinė</values>
+		<values>Purpurinė</values>
+		<values>Šviesiai žalia</values>
+		<values>Tamsiai žalia</values>
+		<values>Smėlio spalva</values>
+		<values>Sidabrinė</values>
+		<values>Tamsiai pilka</values>
+		<values>Šviesiai pilka</values>
+		<values>Violetinė</values>
+		<values>Šviesiai ruda</values>
+		<values>Kelių atspalvių mėlyna</values>
+		<values>Žalsvai mėlyna</values>
+		<values>Purpurinė</values>
+		<values>Tamsiai ruda</values>
+		<values>Granatų raudonumo</values>
+		<values>Bordo spalva</values>
+		<values>Alyvinė</values>
+		<values>Žydra</values>
+		<values>Fuksijos</values>
+		<values>Geltonai ruda</values>
+		<values>Tamsiai mėlyna</values>
+		<values>Pilka</values>
+		<values>Žalios spalvos atspalviai</values>
+		<values>Tamsiai raudona</values>
+		<values>Žalsvai mėlyna</values>
+		<values>Įvairių atspalvių pilka</values>
+		<values>Kreminė</values>
+		<values>Šviesiai oranžinė</values>
+		<values>Tamsiai oranžinė</values>
+		<values>Šviesiai geltona</values>
+		<values>Geltonos spalvos atspalviai</values>
+		<values>Šviesiai raudona</values>
+		<values>Raudonos spalvos atspalviai</values>
+		<values>Rausvai violetinė</values>
+		<values>Tamsiai geltona</values>
+		<values>Auksinė geltona</values>
+		<values>Tamsiai rožinė</values>
+		<values>Vidutiniškai tamsi mėlyna</values>
+		<values>Kaštoninė</values>
+		<values>Šviesiai rožinė</values>
+		<values>Rudos spalvos atspalviai</values>
+		<values>Rusvai žalia</values>
+		<values>Oranžinės spalvos atspalviai</values>
+		<values>Tamsiai violetinė</values>
+		<values>Žydra</values>
+		<values>Tamsiai mėlyna</values>
+		<values>Aukso spalva</values>
+		<values>Antracito spalva</values>
+		<values>Turkio mėlyna spalva</values>
+		<values>Gelsvai žalsva</values>
+		<values>Bronzinė spalva</values>
+		<values>Šviesiai violetinė</values>
+		<values>Vario spalva</values>
+		<values>Rožinės spalvos atspalviai</values>
+		<values>Indigo spalva</values>
+	</colourList>
+
+	<colourList>
+		<country>lv</country>
+		<values>Balts</values>
+		<values>Melns</values>
+		<values>Zils</values>
+		<values>Sarkans</values>
+		<values>Zaļš</values>
+		<values>Pelēks</values>
+		<values>Dzeltens</values>
+		<values>Oranžs</values>
+		<values>Brūns</values>
+		<values>Tumši zils</values>
+		<values>Gaiši zils</values>
+		<values>Zeltains</values>
+		<values>Rozā</values>
+		<values>Purpursarkans</values>
+		<values>Gaiši zaļš</values>
+		<values>Tumši zaļš</values>
+		<values>Bēšs</values>
+		<values>Sudrabains</values>
+		<values>Tumši pelēks</values>
+		<values>Gaiši pelēks</values>
+		<values>Violets</values>
+		<values>Gaiši brūns</values>
+		<values>Zilās krāsas toņi</values>
+		<values>Tirkīzs</values>
+		<values>Fuksīns</values>
+		<values>Tumši brūns</values>
+		<values>Tumši sarkans</values>
+		<values>Bordo</values>
+		<values>Violets</values>
+		<values>Debesszils</values>
+		<values>Fuksīnsarkans</values>
+		<values>Okerbrūns</values>
+		<values>Tumši zils</values>
+		<values>Pelēks</values>
+		<values>Zaļās krāsas toņi</values>
+		<values>Tumši sarkans</values>
+		<values>Gaiši zils</values>
+		<values>Pelēkās krāsas toņi</values>
+		<values>Krēmkrāsa</values>
+		<values>Gaiši oranžs</values>
+		<values>Tumši oranžs</values>
+		<values>Gaiši dzeltens</values>
+		<values>Dzeltenās krāsas toņi</values>
+		<values>Gaiši sarkans</values>
+		<values>Sarkanās krāsas toņi</values>
+		<values>Mēļš</values>
+		<values>Tumši dzeltens</values>
+		<values>Zeltaini dzeltens</values>
+		<values>Tumši rozā</values>
+		<values>Vidēji zils</values>
+		<values>Tumši sarkans</values>
+		<values>Gaiši rozā</values>
+		<values>Brūnās krāsas toņi</values>
+		<values>Olīvzaļš</values>
+		<values>Oranžās krāsas toņi</values>
+		<values>Tumši purpursarkans</values>
+		<values>Debeszils</values>
+		<values>Tumši zils</values>
+		<values>Zeltains</values>
+		<values>Antracīts</values>
+		<values>Tirkīzzils</values>
+		<values>Laima zaļš</values>
+		<values>Bronzas krāsa</values>
+		<values>Gaiši purpursarkans</values>
+		<values>Vara krāsa</values>
+		<values>Rozā krāsas toņi</values>
+		<values>Indigo sarkanā</values>
+	</colourList>
+
+	<colourList>
+		<country>pl</country>
+		<values>Biały</values>
+		<values>Czarny</values>
+		<values>Niebieski</values>
+		<values>Czerwony</values>
+		<values>Zielony</values>
+		<values>Szary</values>
+		<values>Żółty</values>
+		<values>Pomarańczowy</values>
+		<values>Brązowy</values>
+		<values>Ciemno niebieski</values>
+		<values>Błękitny</values>
+		<values>Złoty</values>
+		<values>Rożowy</values>
+		<values>Ciemnofioletowy</values>
+		<values>Jasnozielony</values>
+		<values>Ciemnozielony</values>
+		<values>Beżowy</values>
+		<values>Srebrny</values>
+		<values>Ciemnoszary</values>
+		<values>Jasnoszary</values>
+		<values>Fioletowy</values>
+		<values>Jasnobrązowy</values>
+		<values>Odcienie niebieskiego</values>
+		<values>Turkusowy</values>
+		<values>Magenta</values>
+		<values>Ciemnobrązowy</values>
+		<values>Ciemnoczerwony</values>
+		<values>Bordowy</values>
+		<values>Liliowy</values>
+		<values>Jasnoniebieski</values>
+		<values>Fuksja</values>
+		<values>Kolor ochry</values>
+		<values>Granatowy</values>
+		<values>Szary</values>
+		<values>Odcienie zielonego</values>
+		<values>Intensywny czerwony</values>
+		<values>Niebieskozielony</values>
+		<values>Odcienie szarego</values>
+		<values>Kremowy</values>
+		<values>Jasnopomarańczowy</values>
+		<values>Ciemnopomarańczowy</values>
+		<values>Jasnożółty</values>
+		<values>Odcienie żółtego</values>
+		<values>Jasnoczerwony</values>
+		<values>Odcienie czerwonego</values>
+		<values>Malwowy</values>
+		<values>Ciemnożółty</values>
+		<values>Złoty żółty</values>
+		<values>Ciemnoróżowy</values>
+		<values>Średnioniebieski</values>
+		<values>Bordowy</values>
+		<values>Jasnoróżowy</values>
+		<values>Odcienie brązowego</values>
+		<values>Oliwkowozielony</values>
+		<values>Odcienie pomarańczowego</values>
+		<values>Ciemnofioletowy</values>
+		<values>Lazurowy</values>
+		<values>Granatowy</values>
+		<values>Złoty</values>
+		<values>Antracyt</values>
+		<values>Turkusowo-niebieski</values>
+		<values>Zielony limonkowy</values>
+		<values>Brązowy</values>
+		<values>Jasnośliwkowy</values>
+		<values>Miedź</values>
+		<values>Odcienie różowego</values>
+		<values>Indygo</values>
+	</colourList>
+
+	<colourList>
+		<country>sk</country>
+		<values>Biela </values>
+		<values>Čierna </values>
+		<values>Modrá </values>
+		<values>Červená </values>
+		<values>Zelená </values>
+		<values>Sivá</values>
+		<values>Žltá </values>
+		<values>Oranžová</values>
+		<values>Hnedá </values>
+		<values>Tmavomodrá</values>
+		<values>Svetlomodrá</values>
+		<values>Zlatá</values>
+		<values>Ružová</values>
+		<values>Purpurová</values>
+		<values>Svetlozelená</values>
+		<values>Tmavozelená</values>
+		<values>Béžová</values>
+		<values>Strieborná</values>
+		<values>Tmavosivá</values>
+		<values>Svetlosivá </values>
+		<values>Fialová</values>
+		<values>Svetlohnedá</values>
+		<values>Odtiene modrej</values>
+		<values>Tyrkysová</values>
+		<values>Magenta</values>
+		<values>Tmavohnedá</values>
+		<values>Tmavočervená</values>
+		<values>Bordová</values>
+		<values>Fialová</values>
+		<values>Belasá</values>
+		<values>Fuchsiová</values>
+		<values>Okrová</values>
+		<values>Tmavomodrá</values>
+		<values>Sivá</values>
+		<values>Odtiene zelenej</values>
+		<values>Tmavočervená</values>
+		<values>Zelenomodrá</values>
+		<values>Odstíny šedé</values>
+		<values>Krémová</values>
+		<values>Svetlooranžová</values>
+		<values>Tmavooranžová</values>
+		<values>Svetložltá</values>
+		<values>Odtiene žltej</values>
+		<values>Svetločervená</values>
+		<values>Odtiene červenej</values>
+		<values>Slezová </values>
+		<values>Tmavožltá</values>
+		<values>Zlatožltá</values>
+		<values>Tmavoružová</values>
+		<values>Stredne modrá</values>
+		<values>Gaštanová</values>
+		<values>Svetloružová</values>
+		<values>Odtiene hnedej</values>
+		<values>Olivovozelená</values>
+		<values>Odtiene oranžovej</values>
+		<values>Tmavopurpurová</values>
+		<values>Azúrová</values>
+		<values>Tmavomodrá</values>
+		<values>Zlatá</values>
+		<values>AntracitováTyrkysová</values>
+		<values>Tyrkysová modrá</values>
+		<values>Citrusová zelená</values>
+		<values>Bronzová </values>
+		<values>Svetlá fialová</values>
+		<values>Medená</values>
+		<values>Odtiene ružovej</values>
+		<values>Indigová</values>
+	</colourList>
+
+	<colourList>
+		<country>sl</country>
+		<values>Bela</values>
+		<values>Črna</values>
+		<values>Modra</values>
+		<values>Rdeča</values>
+		<values>Zelena</values>
+		<values>Siva</values>
+		<values>Rumena</values>
+		<values>Oranžna</values>
+		<values>Rjava</values>
+		<values>Temno modra</values>
+		<values>Svetlo modra</values>
+		<values>Zlata</values>
+		<values>Roza</values>
+		<values>Vijoličasta</values>
+		<values>Svetlo zelena</values>
+		<values>Temno zelena</values>
+		<values>Bež</values>
+		<values>Srebrna</values>
+		<values>Temno siva</values>
+		<values>Svetlosiva</values>
+		<values>Vijoličasta</values>
+		<values>Svetlo rjava</values>
+		<values>Odtenki modre barve</values>
+		<values>Turkizna</values>
+		<values>Magenta</values>
+		<values>Temno rjava</values>
+		<values>Temno rdeča</values>
+		<values>Bordo rdeča</values>
+		<values>Lila</values>
+		<values>Nebesno modra</values>
+		<values>Fuksija</values>
+		<values>Oker</values>
+		<values>Mornarsko modra</values>
+		<values>Siva</values>
+		<values>Odtenki zelene</values>
+		<values>Granatna</values>
+		<values>Cian</values>
+		<values>Siv odtenek</values>
+		<values>Krem</values>
+		<values>Svetlo oranžna</values>
+		<values>Temno oranžna</values>
+		<values>Svetlo rumena</values>
+		<values>Rumeni odtenki</values>
+		<values>Svetlo rdeča</values>
+		<values>Odtenki rdeče</values>
+		<values>Slezenasta</values>
+		<values>Temno rumena</values>
+		<values>Zlatorumena</values>
+		<values>Temno roza</values>
+		<values>Srednje modra</values>
+		<values>Kostanjevo rjava</values>
+		<values>Svetlo roza</values>
+		<values>Odtenki rjave</values>
+		<values>Olivno zelena</values>
+		<values>Odtenki oranžne</values>
+		<values>Temno vijolična</values>
+		<values>Sinje modra</values>
+		<values>Mornarsko modra</values>
+		<values>Zlata</values>
+		<values>Antracit</values>
+		<values>Turkizno modra</values>
+		<values>Lipovo zelena</values>
+		<values>Bronasta barva</values>
+		<values>Svetlo vijoličasta</values>
+		<values>Bakrena</values>
+		<values>Odtenki rožnate</values>
+		<values>Indigo</values>
+	</colourList>
+
+	<colourList>
+		<country>mt</country>
+		<values>Abjad</values>
+		<values>Iswed</values>
+		<values>Blu</values>
+		<values>Aħmar</values>
+		<values>Aħdar</values>
+		<values>Griż</values>
+		<values>Isfar</values>
+		<values>Oranġjo</values>
+		<values>Kannella</values>
+		<values>Blu skur</values>
+		<values>Blu ċar</values>
+		<values>Deheb</values>
+		<values>Roża</values>
+		<values>vjola</values>
+		<values>Aħdar ċar</values>
+		<values>Aħdar skur</values>
+		<values>beġ</values>
+		<values>Fidda</values>
+		<values>Griż skur</values>
+		<values>Griż ċar</values>
+		<values>Vjola</values>
+		<values>Kannella ċar</values>
+		<values>Sfumaturi ta' blu</values>
+		<values>Turkważ</values>
+		<values>Maġenta</values>
+		<values>Kannella skur</values>
+		<values>Marun</values>
+		<values>Aħmar jagħti fil-vjola</values>
+		<values>Lelà</values>
+		<values>Ċilest</values>
+		<values>Fuksja</values>
+		<values>Okra</values>
+		<values>Nejviblu</values>
+		<values>Griż</values>
+		<values>Sfumaturi ta' aħdar</values>
+		<values>Marun</values>
+		<values>Blu fl-aħdar</values>
+		<values>Skala tal-griż</values>
+		<values>Lewn il-krema</values>
+		<values>Oranġjo ċar</values>
+		<values>Oranġjo skur</values>
+		<values>Isfar ċar</values>
+		<values>Sfumaturi sofor</values>
+		<values>Aħmar ċar</values>
+		<values>Sfumaturi tal-aħmar</values>
+		<values>Vjola fil-lelà</values>
+		<values>Isfar skur</values>
+		<values>Isfar dehbi</values>
+		<values>Roża skura</values>
+		<values>Blu la ċar u lanqas skur</values>
+		<values>Marun</values>
+		<values>Roża ċar</values>
+		<values>Sfumaturi ta' kannella</values>
+		<values>Aħdar lewn iż-żebbuġ</values>
+		<values>Sfumaturi ta' oranġjo</values>
+		<values>Vjola skur</values>
+		<values>Ikħal</values>
+		<values>Nejviblu</values>
+		<values>Deheb</values>
+		<values>Antraċite</values>
+		<values>Blu turkważ</values>
+		<values>Aħdar kulur il-lajm</values>
+		<values>Lewn il-bronż</values>
+		<values>vjola ċar</values>
+		<values>Ram</values>
+		<values>Sfumaturi ta' roża</values>
+		<values>Nir</values>
+	</colourList>
+
+	<colourList>
+		<country>ro</country>
+		<values>Alb</values>
+		<values>Negru</values>
+		<values>Albastru</values>
+		<values>Roşu</values>
+		<values>Verde</values>
+		<values>Gri</values>
+		<values>Galben</values>
+		<values>Portocaliu</values>
+		<values>Maro</values>
+		<values>Albastru închis</values>
+		<values>Albastru deschis</values>
+		<values>Auriu</values>
+		<values>Roz</values>
+		<values>Violet</values>
+		<values>Verde deschis</values>
+		<values>Verde închis</values>
+		<values>Bej</values>
+		<values>Argintiu</values>
+		<values>Gri închis</values>
+		<values>Gri deschis</values>
+		<values>Violet</values>
+		<values>Maro deschis</values>
+		<values>Nuanţe de albastru</values>
+		<values>Turcoaz</values>
+		<values>Magenta</values>
+		<values>Maro închis</values>
+		<values>Grena</values>
+		<values>Bordo</values>
+		<values>Lila</values>
+		<values>Albastru deschis</values>
+		<values>Fucsia</values>
+		<values>Ocru</values>
+		<values>Bleumarin</values>
+		<values>Gri</values>
+		<values>Nuanţe de verde</values>
+		<values>Grena</values>
+		<values>Cian</values>
+		<values>Nuanţe de gri</values>
+		<values>Crem</values>
+		<values>Portocaliu deschis</values>
+		<values>Portocaliu închis</values>
+		<values>Galben deschis</values>
+		<values>Nuanţe de galben</values>
+		<values>Roşu deschis</values>
+		<values>Nuanţe de roşu</values>
+		<values>Mov</values>
+		<values>Galben închis</values>
+		<values>Galben auriu</values>
+		<values>Roz închis</values>
+		<values>Albastru mediu</values>
+		<values>Castaniu</values>
+		<values>Roz deschis</values>
+		<values>Nuanţe de maro</values>
+		<values>Verde oliv</values>
+		<values>Nuanţe de portocaliu</values>
+		<values>Violet închis</values>
+		<values>Azuriu</values>
+		<values>Bleumarin</values>
+		<values>Auriu</values>
+		<values>Antracit</values>
+		<values>Albastru turcoaz</values>
+		<values>Verde tei</values>
+		<values>Bronz</values>
+		<values>Violet deschis</values>
+		<values>Arămiu</values>
+		<values>Nuanţe de roz</values>
+		<values>Indigo</values>
+	</colourList>
+
+	<colourList>
+		<country>bg</country>
+		<values>Бял</values>
+		<values>Черен</values>
+		<values>Син</values>
+		<values>Червен</values>
+		<values>Зелен</values>
+		<values>Сив</values>
+		<values>Жълт</values>
+		<values>Оранжев</values>
+		<values>Кафяв</values>
+		<values>Тъмносин</values>
+		<values>Светлосин</values>
+		<values>Злато</values>
+		<values>Розов</values>
+		<values>Лилав</values>
+		<values>Светлозелен</values>
+		<values>Тъмнозелен</values>
+		<values>Бежов</values>
+		<values>Сребро</values>
+		<values>Тъмносив</values>
+		<values>Светлосив</values>
+		<values>Виолетов</values>
+		<values>Светлокафяв</values>
+		<values>Сини тонове</values>
+		<values>Тюркоазен</values>
+		<values>Цикламен</values>
+		<values>Тъмнокафяв</values>
+		<values>Гранат</values>
+		<values>Бордо</values>
+		<values>Светлолилав</values>
+		<values>Небесносин</values>
+		<values>Фуксия</values>
+		<values>Охра</values>
+		<values>Морскосин</values>
+		<values>Сив</values>
+		<values>Нюанси от зелено</values>
+		<values>Гранат</values>
+		<values>Синьозелен</values>
+		<values>Нюанси на сиво</values>
+		<values>Кремав</values>
+		<values>Светлооранжев</values>
+		<values>Тъмнооранжев</values>
+		<values>Светложълт</values>
+		<values>Жълти нюанси</values>
+		<values>Светлочервен</values>
+		<values>Нюанси на червен</values>
+		<values>Бледолилав</values>
+		<values>Тъмножълт</values>
+		<values>Златисто жълт</values>
+		<values>Тъмнорозов</values>
+		<values>Средносин</values>
+		<values>Кестеняв</values>
+		<values>Светлорозов</values>
+		<values>Нюанси на кафяв</values>
+		<values>Маслинено зелен</values>
+		<values>Нюанси на оранжево</values>
+		<values>Тъмнолилав</values>
+		<values>Лазурен</values>
+		<values>Морскосин</values>
+		<values>Златен</values>
+		<values>Антрацит</values>
+		<values>Тюркоазеносин</values>
+		<values>Липово зелен</values>
+		<values>Бронзов </values>
+		<values>Светлолилав</values>
+		<values>Мед </values>
+		<values>Нюанси на розов</values>
+		<values>Индиго</values>
+	</colourList>
+
+</tns:colour>

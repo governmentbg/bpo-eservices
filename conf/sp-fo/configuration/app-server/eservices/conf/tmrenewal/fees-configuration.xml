@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feeList xmlns:tns="http://www.example.org/test/"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.example.org/test/ ../../../../../../../../../../../../configuration-xsd/src/main/xsd/fees/fees.xsd ">
+
+    <feeTypeList>
+        <code>001</code>
+        <nameKey>basicFeeBeforeExpr</nameKey>
+        <description>basic fee before expire</description>
+        <defaultValue>300</defaultValue>
+    </feeTypeList>
+
+	<feeTypeList>
+        <code>002</code>
+        <nameKey>basicFeeAfterExpr</nameKey>
+        <description>basic fee After expire</description>
+        <defaultValue>450</defaultValue>
+    </feeTypeList>
+    
+    <feeTypeList>
+        <code>003</code>
+        <nameKey>basicFeeBeforeExprCollective</nameKey>
+        <description>basic fee before expire for collective TM</description>
+        <defaultValue>600</defaultValue>
+    </feeTypeList>
+
+	<feeTypeList>
+        <code>004</code>
+        <nameKey>basicFeeAfterExprCollective</nameKey>
+        <description>basic fee After expire for collective TM</description>
+        <defaultValue>900</defaultValue>
+    </feeTypeList>
+   
+    <feeTypeList>
+        <code>005</code>
+        <nameKey>extraClassFeeBeforeExpr</nameKey>
+        <description>extra class basic fee before expiration</description>
+        <defaultValue>50</defaultValue>
+    </feeTypeList>
+    
+    <feeTypeList>
+        <code>006</code>
+        <nameKey>extraClassFeeAfterExpr</nameKey>
+        <description>extra class basic fee after expiration</description>
+        <defaultValue>80</defaultValue>
+    </feeTypeList>
+    
+    <feeTypeList>
+        <code>007</code>
+        <nameKey>extraClassFeeBeforeExprCollective</nameKey>
+        <description>extra class basic fee before expiration collective/certificate mark</description>
+        <defaultValue>100</defaultValue>
+    </feeTypeList>
+    
+    <feeTypeList>
+        <code>008</code>
+        <nameKey>extraClassFeeAfterExprCollective</nameKey>
+        <description>extra class basic fee after expiration for collective/certificate mark</description>
+        <defaultValue>160</defaultValue>
+    </feeTypeList>
+
+	<feeTypeList>
+        <code>009</code>
+        <nameKey>maxClasses</nameKey>
+        <description>maximum amount of classes before exra fee is applied</description>
+        <defaultValue>3</defaultValue>
+        <configFee>true</configFee>
+    </feeTypeList>
+    
+</feeList>

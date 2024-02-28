@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<div th:fragment="feesArePayedInTransformation-fragment" class="inlBlW100">
+
+    <div class="mT10 inlBlW100">
+        <div th:text="#{pt.feesArePayedInTransformation}" style="display: inline-block"></div>
+        <div style="display: inline-block; margin-left: 20px">
+            <input id="feesTransformationTrue" name="feesArePayedInTransformation" class="radio-btn fees-transformation" type="radio" value="true" th:attr="data-rel-field='feesArePayedInTransformation-field'" style="margin: 0">
+            <div th:text="#{common.yes}" style="display: inline-block;"></div>
+        </div>
+        <div style="display: inline-block; margin-left: 20px">
+            <input id="feesTransformationFalse" name="feesArePayedInTransformation" class="radio-btn fees-transformation" type="radio" value="false" th:attr="data-rel-field='feesArePayedInTransformation-field'" style="margin: 0" checked>
+            <div th:text="#{common.no}" style="display: inline-block;"></div>
+        </div>
+    </div>
+
+    <input type="hidden" class="input-param" id="feesArePayedInTransformation-field" value="false" th:attr="data-name='feesArePayedInTransformation'">
+
+</div>
+</html>

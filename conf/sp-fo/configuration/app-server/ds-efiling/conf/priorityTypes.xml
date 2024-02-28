@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<priorityTypes xmlns="http://www.example.org/priorityTypes-configuration"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.example.org/priorityTypes-configuration priorityTypes-configuration.xsd ">
+	
+	<priorityType code="" value="selectBox.SELECT" />
+	<priorityType code="Paris convention" value="priority.type.parisConvention" name="Paris convention" />
+	<priorityType code="Internal priority" value="priority.type.internalPriority" name="Internal priority" />
+	
+</priorityTypes>

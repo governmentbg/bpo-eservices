@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<div th:fragment="fee-section">
+
+    <h3 th:text="#{title.fees}"></h3>
+    <div id="fee-data" style="display: block">
+        <div th:if="${fees != null}">
+            <th:block th:if="${!fees.isEmpty()}"
+                      th:each="entry : ${fees}">
+                <div th:text="#{${entry.getFeeType().getNameKey()}} + ': ' + ${entry.getAmount()} + ' ' + #{lv}"></div>
+            </th:block>
+        </div>
+
+        <div th:if="${totalFee != null}">
+            <h4 th:text="#{totalFee} + ': ' + ${totalFee} + ' ' + #{lv}"></h4>
+        </div>
+
+        <button id="clear-fees-btn" style="float: right; display: none" th:text="#{button.clear}"></button>
+
+        <div id="error-text" style="color: red"></div>
+    </div>
+</div>
+</html>

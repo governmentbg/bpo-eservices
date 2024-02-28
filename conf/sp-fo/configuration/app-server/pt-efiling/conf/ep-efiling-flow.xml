@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow parent="pt-common" xmlns="http://www.springframework.org/schema/webflow"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.springframework.org/schema/webflow
+                          http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd" start-state="start">
+
+    <on-start>
+        <evaluate expression="'ep-efiling'" result="flowScope.flowModeId"
+                  result-type="java.lang.String" />
+        <!-- This will work as long as the child elements are added before the parent flow -->
+        <evaluate expression="logService.registerVisit(flowScope.flowModeId)"/>
+        <evaluate expression="flowScope.loaded ? flowScope.flowBean : flowBeanAction.setInitialEPValues(flowScope.flowBean)" result="flowScope.flowBean"/>
+        <evaluate expression="flowScope.loaded ? null : flowBeanAction.addUserPersonDetails(flowScope.flowBean, flowScope.flowModeId)" result="flowScope.userPersonDetails" />
+        <evaluate expression="personService.addUserDetails(flowScope.flowBean, flowScope.flowModeId)"/>
+    </on-start>
+
+    <decision-state id="start">
+        <if test="requestParameters.form_id != null ? (flowScope.flowBean != null ? (flashScope.error_code == null ? true : false) : false) : false"
+            then="#{flowRequestContext.getActiveFlow().containsState('wiz0e') ? 'wiz0e' : 'review'}"
+            else="#{flowRequestContext.getActiveFlow().containsState('wizhome') ? 'wizhome' : 'oneform'}"/>
+    </decision-state>
+
+    <view-state id="wizhome" view="homepage" model="flowBean">
+        <transition on="GlobalLogin" to="GlobalLogin" validate="false">
+            <set name="flowScope.currentState" value="'wizhome'"/>
+        </transition>
+
+        <transition on="Next" to="wiz0e" validate="false" />
+    </view-state>
+
+    <view-state id="wiz0e" view="tiles.wiz" model="flowBean">
+        <transition on="GlobalLogin" to="GlobalLogin" validate="false">
+            <set name="flowScope.currentState" value="'wiz0e'"/>
+        </transition>
+        <transition on="Next" to="wiz1e" validate="true" />
+        <transition on="Previous" to="wizhome" validate="false" />
+    </view-state>
+
+    <view-state id="wiz1e" view="tiles.wiz" model="flowBean">
+
+        <transition on="GlobalLogin" to="GlobalLogin" validate="false">
+            <set name="flowScope.currentState" value="'wiz1e'"/>
+        </transition>
+
+        <transition on="Next" to="wiz2e" validate="true" />
+        <transition on="Previous" to="wiz0e" validate="false" />
+    </view-state>
+
+    <view-state id="wiz2e" view="tiles.wiz" model="flowBean">
+        <transition on="GlobalLogin" to="GlobalLogin" validate="false">
+            <set name="flowScope.currentState" value="'wiz2e'"/>
+        </transition>
+
+        <transition on="Next" to="wiz3" validate="true" />
+        <transition on="Previous" to="wiz1e" validate="false" />
+    </view-state>
+
+    <view-state id="wiz3" view="tiles.wiz" model="flowBean">
+        <transition on="GlobalLogin" to="GlobalLogin" validate="false">
+            <set name="flowScope.currentState" value="'wiz3'"/>
+        </transition>
+
+        <transition on="Next" to="review" validate="true" />
+        <transition on="Previous" to="wiz2e" validate="false" />
+    </view-state>
+
+    <view-state id="review" view="tiles.wiz" model="flowBean">
+        <transition on="GlobalLogin" to="GlobalLogin" validate="false">
+            <set name="flowScope.currentState" value="'review'"/>
+        </transition>
+
+        <transition on="Update_Patent" to="wiz0e" validate="false" />
+        <transition on="Update_Claim" to="wiz1e" validate="false" />
+        <transition on="Update_Person" to="wiz2e" validate="false" />
+        <transition on="Update_Inventor" to="wiz3" validate="false" />
+        <transition on="Previous" to="wiz3" validate="false" />
+    </view-state>
+
+</flow>

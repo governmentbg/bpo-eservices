@@ -1,0 +1,19 @@
+package org.domain.rules;
+dialect "mvel"
+
+import eu.ohim.sp.core.domain.validation.ApplicationIdentifier;
+import java.util.HashMap;
+
+rule "Identifier Creator"
+no-loop
+	when
+		$results : HashMap()
+		ApplicationIdentifier($office : office, $year : year, $code : code)
+		eval($office != null  && $year != null && $code != null &&
+			 $office != "" && $year != "" && $code != "")
+	then
+		int value = Integer.parseInt($code);
+		String codeFormatted = String.format("%011d", (int) value);
+		String finalId = "EF" + $office + $year + codeFormatted;
+		$results.put("provisionalId", finalId);
+end

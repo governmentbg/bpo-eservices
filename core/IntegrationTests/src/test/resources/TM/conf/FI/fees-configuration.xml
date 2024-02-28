@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:feeValues xmlns:tns="http://www.example.org/test/"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.example.org/test/ ../../../../../../../../../../../../configuration-xsd/src/main/xsd/fees/fees.xsd ">
+
+		<basicFee>215</basicFee>
+		<collectiveFee>290</collectiveFee>
+		<onlineAppDiscount>0</onlineAppDiscount>
+		<nationalSearchFee>0</nationalSearchFee>
+		<extraClassFeeBasic>80</extraClassFeeBasic>
+		<extraClassFeeCollective>80</extraClassFeeCollective>
+		<maxClasses>3</maxClasses>
+
+</tns:feeValues>

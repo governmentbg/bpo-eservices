@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  ~ * DocumentService:: application.xml 03/09/13 10:33 karalch $
+  ~  * . * .
+  ~  * * RRRR * Copyright © 2013 OHIM: Office for Harmonization
+  ~  * . RR R . in the Internal Market (trade marks and designs)
+  ~  * * RRR *
+  ~  * . RR RR . ALL RIGHTS RESERVED
+  ~  * * . _ . *
+  -->
+
+<ns2:Transaction xmlns:ns2="http://ohim.eu/sp/filing/trademark/v2">
+    <TransactionHeader>
+        <SenderDetails>
+            <LoginInformation>
+                <Login>abril23</Login>
+            </LoginInformation>
+        </SenderDetails>
+    </TransactionHeader>
+    <TradeMarkTransactionBody>
+        <TransactionContentDetails>
+            <TransactionData>
+                <TradeMarkApplication>
+                    <RequestSearch>
+                        <RequestSearchKindCode>Normal</RequestSearchKindCode>
+                    </RequestSearch>
+                    <DocumentIncludedDetails>
+                        <DocumentIncluded>
+                            <DocumentName>OtherAttachment.pdf</DocumentName>
+                            <DocumentURI>ATTACHMENTS/Att007.pdf</DocumentURI>
+                            <DocumentFilename>OtherAttachment.pdf</DocumentFilename>
+                            <DocumentFileFormat>PDF</DocumentFileFormat>
+                            <Comment>Attch1</Comment>
+                            <DocumentKind>Other</DocumentKind>
+                        </DocumentIncluded>
+                        <DocumentIncluded>
+                            <DocumentName>Additional_Attachment.pdf</DocumentName>
+                            <DocumentURI>ATTACHMENTS/Att008.pdf</DocumentURI>
+                            <DocumentFilename>Additional_Attachment.pdf</DocumentFilename>
+                            <DocumentFileFormat>PDF</DocumentFileFormat>
+                            <Comment>Attch2</Comment>
+                            <DocumentKind>Other</DocumentKind>
+                        </DocumentIncluded>
+                        <DocumentIncluded>
+                            <DocumentName>receipt.pdf</DocumentName>
+                            <DocumentURI>receipt.pdf</DocumentURI>
+                            <DocumentFilename>receipt.pdf</DocumentFilename>
+                            <DocumentFileFormat>PDF</DocumentFileFormat>
+                            <DocumentKind>Application Confirmation</DocumentKind>
+                        </DocumentIncluded>
+                        <DocumentIncluded>
+                            <DocumentName>finalReceipt.pdf</DocumentName>
+                            <DocumentURI>finalReceipt.pdf</DocumentURI>
+                            <DocumentFilename>finalReceipt.pdf</DocumentFilename>
+                            <DocumentFileFormat>PDF</DocumentFileFormat>
+                            <DocumentKind>Application Receipt</DocumentKind>
+                        </DocumentIncluded>
+                        <DocumentIncluded>
+                            <DocumentName>Regulations_for_mark.pdf</DocumentName>
+                            <DocumentURI>ATTACHMENTS/Att006.pdf</DocumentURI>
+                            <DocumentFilename>Regulations_for_mark.pdf</DocumentFilename>
+                            <DocumentFileFormat>PDF</DocumentFileFormat>
+                            <DocumentKind>Collective Trade Mark Regulation</DocumentKind>
+                        </DocumentIncluded>
+                    </DocumentIncludedDetails>
+                    <TradeMarkDetails>
+                        <TradeMark>
+                            <RegistrationOfficeCode>EM</RegistrationOfficeCode>
+                            <ReceivingOfficeCode>EM</ReceivingOfficeCode>
+                            <ReceivingOfficeDate>2013-07-12+02:00</ReceivingOfficeDate>
+                            <ApplicationNumber>011818291</ApplicationNumber>
+                            <ApplicationReference>TESTATTCH1</ApplicationReference>
+                            <ApplicationLanguageCode>es</ApplicationLanguageCode>
+                            <SecondLanguageCode>en</SecondLanguageCode>
+                            <CorrespondenceLanguageCode>es</CorrespondenceLanguageCode>
+                            <KindMark>Collective</KindMark>
+                            <MarkFeature>Figurative</MarkFeature>
+                            <MarkDescriptionDetails>
+<MarkDescription languageCode="es">test</MarkDescription>
+                            </MarkDescriptionDetails>
+                            <MarkImageDetails>
+<MarkImage>
+    <MarkImageIdentifier></MarkImageIdentifier>
+    <MarkImageURI>ATTACHMENTS/Att005.jpg</MarkImageURI>
+    <MarkImageFilename>MarkImage.jpg</MarkImageFilename>
+    <MarkImageFileFormat>JPEG</MarkImageFileFormat>
+</MarkImage>
+                            </MarkImageDetails>
+                            <GoodsServicesDetails>
+<GoodsServices>
+    <ClassDescriptionDetails>
+        <ClassDescription>
+            <ClassNumber>1</ClassNumber>
+            <ClassificationTermDetails>
+                <ClassificationTerm>
+                    <ClassificationTermText>test</ClassificationTermText>
+                    <ClassificationTermAssessment>Term not found</ClassificationTermAssessment>
+                </ClassificationTerm>
+                <ClassificationTermLanguageCode>es</ClassificationTermLanguageCode>
+            </ClassificationTermDetails>
+            <FullClassCoverageIndicator>false</FullClassCoverageIndicator>
+        </ClassDescription>
+    </ClassDescriptionDetails>
+</GoodsServices>
+                            </GoodsServicesDetails>
+                            <PriorityClaimLaterIndicator>false</PriorityClaimLaterIndicator>
+                            <PriorityDetails>
+<Priority>
+    <PriorityCountryCode>IT</PriorityCountryCode>
+    <PriorityNumber>123456789</PriorityNumber>
+    <PriorityDate>2013-07-01+02:00</PriorityDate>
+    <PriorityDocument>
+        <DocumentName>Priority_Claim.pdf</DocumentName>
+        <DocumentURI>ATTACHMENTS/Att001.pdf</DocumentURI>
+        <DocumentFilename>Priority_Claim.pdf</DocumentFilename>
+        <DocumentFileFormat>PDF</DocumentFileFormat>
+        <DocumentKind>Priority Certificate</DocumentKind>
+    </PriorityDocument>
+    <PriorityDocument>
+        <DocumentName>TranslationPriority_Claim.pdf</DocumentName>
+        <DocumentURI>ATTACHMENTS/Att002.pdf</DocumentURI>
+        <DocumentFilename>TranslationPriority_Claim.pdf</DocumentFilename>
+        <DocumentFileFormat>PDF</DocumentFileFormat>
+        <DocumentKind>Priority Certificate Translation</DocumentKind>
+    </PriorityDocument>
+</Priority>
+                            </PriorityDetails>
+                            <ExhibitionPriorityClaimLaterIndicator>false</ExhibitionPriorityClaimLaterIndicator>
+                            <ExhibitionPriorityDetails>
+<ExhibitionPriority>
+    <ExhibitionCountryCode>CN</ExhibitionCountryCode>
+    <ExhibitionCityName>Shanghai</ExhibitionCityName>
+    <ExhibitionName>Expo 2010</ExhibitionName>
+    <ExhibitionDate>2010-01-05+01:00</ExhibitionDate>
+    <ExhibitionFirstDisplayDate>2013-07-01+02:00</ExhibitionFirstDisplayDate>
+    <ExhibitionDocument>
+        <DocumentName>Exhibition.pdf</DocumentName>
+        <DocumentURI>ATTACHMENTS/Att004.pdf</DocumentURI>
+        <DocumentFilename>Exhibition.pdf</DocumentFilename>
+        <DocumentFileFormat>PDF</DocumentFileFormat>
+        <DocumentKind>Exhibition Priority Certificate</DocumentKind>
+    </ExhibitionDocument>
+</ExhibitionPriority>
+                            </ExhibitionPriorityDetails>
+                            <TransformationPriorityDetails>
+<TransformationPriority>
+    <RegistrationNumber>W12345678</RegistrationNumber>
+    <RegistrationDate>2013-07-02+02:00</RegistrationDate>
+    <CancellationDate>2013-07-01+02:00</CancellationDate>
+    <PriorityDate>2013-07-03+02:00</PriorityDate>
+</TransformationPriority>
+                            </TransformationPriorityDetails>
+                            <SeniorityDetails>
+<Seniority>
+    <SeniorityCountryCode>IT</SeniorityCountryCode>
+    <SeniorityApplicationNumber>12345678</SeniorityApplicationNumber>
+    <SeniorityKind>International trade mark</SeniorityKind>
+    <SeniorityFilingDate>2013-07-01+02:00</SeniorityFilingDate>
+    <SeniorityRegistrationNumber>87654321</SeniorityRegistrationNumber>
+    <SeniorityRegistrationDate>2013-07-02+02:00</SeniorityRegistrationDate>
+    <SeniorityDocument>
+        <DocumentName>Seniority.pdf</DocumentName>
+        <DocumentURI>ATTACHMENTS/Att003.pdf</DocumentURI>
+        <DocumentFilename>Seniority.pdf</DocumentFilename>
+        <DocumentFileFormat>PDF</DocumentFileFormat>
+        <DocumentKind>Seniority Certificate</DocumentKind>
+    </SeniorityDocument>
+</Seniority>
+                            </SeniorityDetails>
+                            <ApplicantDetails>
+<Applicant>
+    <ApplicantIdentifier>570799</ApplicantIdentifier>
+</Applicant>
+                            </ApplicantDetails>
+                            <RepresentativeDetails>
+<Representative>
+    <RepresentativeIdentifier>20207</RepresentativeIdentifier>
+</Representative>
+                            </RepresentativeDetails>
+                        </TradeMark>
+                    </TradeMarkDetails>
+                    <PaymentDetails>
+                        <Payment>
+                            <PaymentIdentifier>133CBL7</PaymentIdentifier>
+                            <PayerName>
+<FormattedName/>
+                            </PayerName>
+                            <PaymentStatus>Bank transfer to follow</PaymentStatus>
+                            <PaymentMethod/>
+                            <PaymentFeeDetails>
+<PaymentFee>
+    <FeeIdentifier>F-001</FeeIdentifier>
+    <FeeAmount currencyCode="EUR">1800.0</FeeAmount>
+    <FeeUnitQuantity>1.0</FeeUnitQuantity>
+    <FeeUnitAmount currencyCode="EUR">1800.0</FeeUnitAmount>
+</PaymentFee>
+<PaymentFee>
+    <FeeIdentifier>F-003</FeeIdentifier>
+    <FeeAmount currencyCode="EUR">96.0</FeeAmount>
+    <FeeUnitQuantity>1.0</FeeUnitQuantity>
+    <FeeUnitAmount currencyCode="EUR">96.0</FeeUnitAmount>
+</PaymentFee>
+                            </PaymentFeeDetails>
+                            <PayerAddressBook>
+<FormattedNameAddress>
+    <Address>
+        <FormattedAddress/>
+    </Address>
+</FormattedNameAddress>
+<ContactInformationDetails/>
+                            </PayerAddressBook>
+                            <PaymentKind>Bank Transfer</PaymentKind>
+                        </Payment>
+                    </PaymentDetails>
+                    <SignatoryDetails>
+                        <Signatory>
+                            <SignatoryName>
+<FormattedName>
+    <LastName>TESTATTCH1</LastName>
+</FormattedName>
+                            </SignatoryName>
+                            <SignatoryCapacityCode>Applicant</SignatoryCapacityCode>
+                        </Signatory>
+                    </SignatoryDetails>
+                    <ApplicationFilingNumber>EFEM201300000006381</ApplicationFilingNumber>
+                    <ApplicationFilingDate>2013-07-12+02:00</ApplicationFilingDate>
+                    <ApplicationFilingDateTime>2013-07-12T00:00:00.000+02:00</ApplicationFilingDateTime>
+                </TradeMarkApplication>
+            </TransactionData>
+        </TransactionContentDetails>
+    </TradeMarkTransactionBody>
+</ns2:Transaction>

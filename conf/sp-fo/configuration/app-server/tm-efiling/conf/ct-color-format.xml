@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cotypes>
+	<cotype code="HEX" label="cotypes.colorformat.hex" />
+	<cotype code="PANTONE" label="cotypes.colorformat.pantone" />
+	<cotype code="RAL" label="cotypes.colorformat.ral" />
+	<cotype code="RGB" label="cotypes.colorformat.rgb" />	
+</cotypes>

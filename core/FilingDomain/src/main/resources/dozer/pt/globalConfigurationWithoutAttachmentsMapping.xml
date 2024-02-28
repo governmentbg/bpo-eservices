@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ * FspDomain:: globalConfigurationWithoutAttachmentsMapping.xml 02/09/13 18:15 karalch $
+  ~  * . * .
+  ~  * * RRRR * Copyright © 2013 OHIM: Office for Harmonization
+  ~  * . RR R . in the Internal Market (trade marks and designs)
+  ~  * * RRR *
+  ~  * . RR RR . ALL RIGHTS RESERVED
+  ~  * * . _ . *
+  -->
+
+<mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://dozer.sourceforge.net http://dozer.sourceforge.net/schema/beanmapping.xsd">
+
+    <configuration>
+        <custom-converters>
+            <converter type="eu.ohim.sp.core.domain.converter.EmailConverter">
+                <class-a>java.lang.String</class-a>
+                <class-b>eu.ohim.sp.core.domain.contact.Email</class-b>
+            </converter>
+            <converter type="eu.ohim.sp.core.domain.converter.FSPEnumConverter" >
+                <class-a>java.lang.Enum</class-a>
+                <class-b>java.lang.Enum</class-b>
+            </converter>
+            <converter type="eu.ohim.sp.core.domain.converter.FSPEnumConverter">
+                <class-a>java.lang.Enum</class-a>
+                <class-b>java.lang.String</class-b>
+            </converter>
+            <converter type="eu.ohim.sp.core.domain.converter.FSPEnumConverter">
+                <class-a>eu.ohim.sp.filing.domain.pt.ExtendedISOLanguageCode</class-a>
+                <class-b>java.lang.String</class-b>
+            </converter>
+            <converter type="eu.ohim.sp.core.domain.converter.FSPEnumConverter">
+                <class-a>eu.ohim.sp.filing.domain.pt.ISOLanguageCode</class-a>
+                <class-b>java.lang.String</class-b>
+            </converter>
+            <converter type="eu.ohim.sp.core.domain.converter.FSPEnumConverter">
+                <class-a>eu.ohim.sp.filing.domain.pt.ExtendedWIPOST3Code</class-a>
+                <class-b>java.lang.String</class-b>
+            </converter>
+            <converter type="eu.ohim.sp.core.domain.converter.FSPEnumConverter">
+                <class-a>eu.ohim.sp.filing.domain.pt.FileFormat</class-a>
+                <class-b>java.lang.String</class-b>
+            </converter>
+            <converter type="eu.ohim.sp.core.domain.converter.TextConverter">
+                <class-a>java.lang.String</class-a>
+                <class-b>eu.ohim.sp.filing.domain.pt.Text</class-b>
+            </converter>
+            <converter type="eu.ohim.sp.core.domain.converter.FSPEnumConverter">
+                <class-a>eu.ohim.sp.filing.domain.pt.WIPOST3Code</class-a>
+                <class-b>java.lang.String</class-b>
+            </converter>
+            <converter type="eu.ohim.sp.core.domain.converter.PhoneConverter">
+                <class-a>eu.ohim.sp.core.domain.contact.Phone</class-a>
+                <class-b>eu.ohim.sp.filing.domain.pt.Phone</class-b>
+            </converter>
+            <converter type="eu.ohim.sp.core.domain.converter.PhoneConverter">
+                <class-a>eu.ohim.sp.core.domain.contact.Phone</class-a>
+                <class-b>java.lang.String</class-b>
+            </converter>
+            <converter type="eu.ohim.sp.core.domain.converter.pt.PatentApplicationTransactionConverter">
+                <class-a>eu.ohim.sp.core.domain.patent.PatentApplication</class-a>
+                <class-b>eu.ohim.sp.filing.domain.pt.Transaction</class-b>
+            </converter>
+            <converter type="eu.ohim.sp.core.domain.converter.pt.PatentEservicesTransactionConverter">
+                <class-a>eu.ohim.sp.core.domain.patent.PTeServiceApplication</class-a>
+                <class-b>eu.ohim.sp.filing.domain.pt.Transaction</class-b>
+            </converter>
+        </custom-converters>
+    </configuration>
+</mappings>

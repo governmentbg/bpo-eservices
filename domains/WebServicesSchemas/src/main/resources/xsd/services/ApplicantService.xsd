@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="unqualified"
+	version="3.2" 
+	targetNamespace="http://ohim.eu/sp/services/applicant/v3"
+	xmlns:ns1="http://ohim.eu/sp/services/applicant/v3"
+	xmlns:tns="http://ohim.eu/sp/services/applicant/v3"
+	xmlns:common="http://ohim.eu/sp/domain/common/v3"
+	xmlns:person="http://ohim.eu/sp/domain/person/v3"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	
+	<xs:import namespace="http://ohim.eu/sp/domain/person/v3" schemaLocation="../domain/PersonDomain.xsd" />
+	<xs:import namespace="http://ohim.eu/sp/domain/common/v3" schemaLocation="../domain/CommonDomain.xsd" />		
+
+	<xs:element name="searchApplicant" type="tns:SearchApplicant" />
+	<xs:element name="searchApplicantResponse" type="tns:SearchApplicantResponse" />
+	
+	<xs:element name="getApplicant" type="tns:GetApplicant" />
+	<xs:element name="getApplicantResponse" type="tns:GetApplicantResponse" />
+	
+	<xs:element name="getApplicantAutocomplete" type="tns:GetApplicantAutocomplete" />
+	<xs:element name="getApplicantAutocompleteResponse" type="tns:GetApplicantAutocompleteResponse" />
+	
+	<xs:element name="matchApplicant" type="tns:MatchApplicant" />
+	<xs:element name="matchApplicantResponse" type="tns:MatchApplicantResponse" />
+	
+	<xs:element name="saveApplicant" type="tns:SaveApplicant" />
+	<xs:element name="saveApplicantResponse" type="tns:SaveApplicantResponse" />
+	
+	<xs:element name="applicantFault" type="tns:ApplicantFault" />
+
+
+	<xs:complexType name="SearchApplicant">
+        <xs:complexContent>
+            <xs:extension base="person:PersonRequest">
+                <xs:sequence>
+                    <xs:element name="applicantId" type="xs:string" minOccurs="0" />
+                    <xs:element name="applicantName" type="xs:string" minOccurs="0" />
+                    <xs:element name="applicantCountry" type="xs:string" minOccurs="0" />
+                    <xs:element name="numberOfResults" type="xs:int" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="SearchApplicantResponse">
+		<xs:sequence>
+			<xs:element name="return" type="person:Applicant" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="GetApplicant">
+        <xs:complexContent>
+            <xs:extension base="person:PersonRequest">
+                <xs:sequence>
+                    <xs:element name="applicantId" type="xs:string" minOccurs="0" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="GetApplicantResponse">
+		<xs:sequence>
+			<xs:element name="return" type="person:Applicant" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="GetApplicantAutocomplete">
+        <xs:complexContent>
+            <xs:extension base="person:AutocompleteRequest" />
+        </xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="GetApplicantAutocompleteResponse">
+		<xs:sequence>
+			<xs:element name="return" type="xs:string" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="MatchApplicant">
+        <xs:complexContent>
+            <xs:extension base="person:PersonRequest">
+                <xs:sequence>
+                    <xs:element name="applicant" type="person:Applicant" minOccurs="0" />
+                    <xs:element name="numberOfResults" type="xs:int" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="MatchApplicantResponse">
+		<xs:sequence>
+			<xs:element name="return" type="person:Applicant" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="SaveApplicant">
+        <xs:complexContent>
+            <xs:extension base="person:PersonRequest">
+                <xs:sequence>
+                    <xs:element name="user" type="xs:string" minOccurs="0" />
+                    <xs:element name="applicant" type="person:Applicant" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="SaveApplicantResponse">
+		<xs:sequence>
+			<xs:element name="return" type="common:Result" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="ApplicantFault">
+		<xs:sequence>
+			<xs:element name="fault" type="common:Fault" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>	
+	
+</xs:schema>

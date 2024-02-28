@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<div th:fragment="pagesCount-fragment" style="display: inline-block">
+
+    <div th:text="#{ep.pagesCount}" style="display: inline-block; margin-right: 5px"></div>
+    <input id="pages-count-field" type="number" class="input-param" min="1" value="1" style="width: 50px" th:attr="data-name='pagesCount'">
+
+</div>
+</html>

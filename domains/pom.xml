@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>eu.ohim.sp.domains</groupId>
+    <artifactId>domains</artifactId>
+    <packaging>pom</packaging>
+
+    <name>Software Package Domains</name>
+    <url>https://svn.oami.europa.eu/svn/emrepo/softwarepackage/domains/trunk</url>
+
+    <ciManagement>
+        <system>Bamboo</system>
+        <url>http://ci-prod-bamboo-master:8085/bamboo/browse/SPEXT-SONR</url>
+    </ciManagement>
+
+    <scm>
+        <connection>scm:svn:https://svn.oami.europa.eu/svn/emrepo/softwarepackage/domains/trunk</connection>
+        <developerConnection>scm:svn:https://svn.oami.europa.eu/svn/emrepo/softwarepackage/domains/trunk</developerConnection>
+        <url>https://svn.oami.europa.eu/svn/emrepo/softwarepackage/domains/trunk</url>
+    </scm>
+
+    <issueManagement>
+        <system>JIRA</system>
+        <url>https://jira.ohimqaportal.eu/browse/DEVSPHARMO</url>
+    </issueManagement>
+
+    <organization>
+        <name>OHIM</name>
+        <url>http://oami.europa.eu/</url>
+    </organization>
+
+    <parent>
+        <groupId>eu.ohim.sp.ui</groupId>
+        <artifactId>CFO</artifactId>
+        <version>2.0.0-RELEASE</version>
+    </parent>
+
+    <modules>
+        <module>CoreServices</module>
+        <module>ExternalServices</module>
+        <module>CoreDomain</module>
+        <module>WebServicesSchemas</module>
+        <module>ExternalDomain</module>
+    </modules>
+
+    <properties>
+        <!-- JBoss application server host/ip, ports and credentials per environment -->
+        <jboss.as.master.node.url>localhost</jboss.as.master.node.url>
+        <jboss.as.master.node.port>9999</jboss.as.master.node.port>
+        <jboss.as.master.node.username>admin</jboss.as.master.node.username>
+        <jboss.as.master.node.password>123456</jboss.as.master.node.password>
+        <jboss.as.master.node.remoting.port>4447</jboss.as.master.node.remoting.port>
+        <jboss.as.master.node.application-users.username>fsp</jboss.as.master.node.application-users.username>
+        <jboss.as.master.node.application-users.password>123456</jboss.as.master.node.application-users.password>
+
+        <pm.sp.integration.current.version>2.0.0-RELEASE</pm.sp.integration.current.version>
+        <pm.sp.common.current.version>2.0.0-RELEASE</pm.sp.common.current.version>
+        <pm.sp.domains.current.version>2.0.0-RELEASE</pm.sp.domains.current.version>
+        <pm.version.plugin.checkstyle>2.9.1</pm.version.plugin.checkstyle>
+
+<!--        <sonar.jacoco.reportPath>${user.dir}/target/jacoco-unit.exec</sonar.jacoco.reportPath> -->
+        <org.milyn.milyn-smooks-all.version>1.5.1</org.milyn.milyn-smooks-all.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+          <dependency>
+              <groupId>eu.ohim.sp.common</groupId>
+              <artifactId>CommonUtils</artifactId>
+              <version>${pm.sp.common.current.version}</version>
+              <scope>provided</scope>
+          </dependency>
+
+            <dependency>
+                <groupId>eu.ohim.sp.domains</groupId>
+                <artifactId>CoreDomain</artifactId>
+                <version>${pm.sp.domains.current.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>eu.ohim.sp.domains</groupId>
+                <artifactId>WebServicesSchemas</artifactId>
+                <version>${pm.sp.domains.current.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>eu.ohim.sp.common</groupId>
+                <artifactId>CommonUtils</artifactId>
+                <version>${pm.sp.common.current.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>eu.ohim.sp.common</groupId>
+                <artifactId>ConfigurationXSD</artifactId>
+                <version>${pm.sp.common.current.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jboss.spec</groupId>
+                <artifactId>jboss-javaee-6.0</artifactId>
+                <version>3.0.3.Final</version>
+                <type>pom</type>
+                <scope>provided</scope>
+            </dependency>
+
+          <dependency>
+              <groupId>commons-lang</groupId>
+              <artifactId>commons-lang</artifactId>
+              <version>2.6</version>
+              <scope>compile</scope>
+          </dependency>
+
+          <dependency>
+              <groupId>commons-io</groupId>
+              <artifactId>commons-io</artifactId>
+              <version>2.4</version>
+              <scope>compile</scope>
+          </dependency>
+
+          <dependency>
+              <groupId>junit</groupId>
+              <artifactId>junit</artifactId>
+              <version>4.11</version>
+              <scope>test</scope>
+          </dependency>
+
+          <dependency>
+              <groupId>org.mockito</groupId>
+              <artifactId>mockito-all</artifactId>
+              <version>1.9.0</version>
+              <scope>test</scope>
+          </dependency>
+
+        <dependency>
+            <groupId>net.sf.dozer</groupId>
+            <artifactId>dozer</artifactId>
+            <version>5.4.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <!-- This plugin provides the capability to build and sign jars. -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>2.4</version>
+                    <configuration>
+                        <finalName>${project.artifactId}</finalName>
+                        <archive>
+                            <manifest>
+                                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                            </manifest>
+                        </archive>
+                    </configuration>
+                </plugin>
+
+                <!-- This plugin generates J2EE Enterprise Javabean (EJB) file as well
+                    as the associated client jar. -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-ejb-plugin</artifactId>
+                    <version>2.3</version>
+                </plugin>
+
+                <!-- This plugin generates J2EE Enterprise Archive (EAR) file. It can
+                    also generate the deployment descriptor file -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-ear-plugin</artifactId>
+                    <version>2.7</version>
+                    <configuration>
+						<applicationName>${project.build.finalName}</applicationName>
+						<version>6</version>
+                        <fileNameMapping>no-version</fileNameMapping>
+                        <archive>
+                            <manifest>
+                                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                            </manifest>
+                        </archive>
+                    </configuration>
+                </plugin>
+
+                <!-- A resource adapter is a system-level software driver that a Java
+                    application uses to connect to an enterprise information system (EIS). The
+                    RAR plugin has the capability to store these resource adapters to an archive
+                    (Resource Adapter Archive or RAR) which can be deployed to a J2EE server. -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-rar-plugin</artifactId>
+                    <version>2.2</version>
+                </plugin>
+
+                <!-- The dependency plugin provides the capability to manipulate artifacts.
+                    It can copy and/or unpack artifacts from local or remote repositories to
+                    a specified location -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>2.4</version>
+                </plugin>
+
+                <!--JBoss Plugin for deploy/redeploy/undeploy applications -->
+                <plugin>
+                    <groupId>org.jboss.as.plugins</groupId>
+                    <artifactId>jboss-as-maven-plugin</artifactId>
+                    <version>7.1.1.Final</version>
+                    <configuration>
+                        <skip>true</skip>
+                        <hostname>${jboss.as.master.node.url}</hostname>
+                        <port>${jboss.as.master.node.port}</port>
+                        <username>${jboss.as.master.node.username}</username>
+                        <password>${jboss.as.master.node.password}</password>
+                    </configuration>
+                </plugin>
+
+                <!-- Wraps the JAXB XJC compiler and provides the capability to generate
+                    java sources from schemas -->
+                <plugin>
+                    <groupId>org.jvnet.jaxb2.maven2</groupId>
+                    <artifactId>maven-jaxb2-plugin</artifactId>
+                    <version>0.8.1</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>eviware</groupId>
+                    <artifactId>maven-soapui-plugin</artifactId>
+                    <version>4.5.1</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-checkstyle-plugin</artifactId>
+                    <version>${pm.version.plugin.checkstyle}</version>
+                    <configuration>
+                        <configLocation>../conf/src/main/resources/checkstyle.xml</configLocation>
+                        <propertiesLocation>../conf/src/main/resources/checkstyle.properties</propertiesLocation>
+                        <propertyExpansion>basedir=${project.basedir}</propertyExpansion>
+                        <failsOnError>false</failsOnError>
+                        <consoleOutput>false</consoleOutput>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+        <plugins>
+          <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-javadoc-plugin</artifactId>
+              <version>2.9.1</version>
+              <configuration>
+                  <author>false</author>
+                  <doctitle>Software Package API Specification - ${project.version}</doctitle>
+                  <detectLinks>true</detectLinks>
+                  <show>public</show>
+                  <splitindex>true</splitindex>
+                  <additionalJOption>-noqualifier all</additionalJOption>
+                  <sourcepath>${basedir}/CoreDomain/src/main/java;${basedir}/CoreServices/src/main/java;${basedir}/ExternalServices/src/main/java;
+                  </sourcepath>
+                  <links>
+                      <link>http://download.oracle.com/javase/7/docs/api/</link>
+                  </links>
+                  <additionalDependencies>
+                      <dependency>
+                          <groupId>org.jboss.spec</groupId>
+                          <artifactId>jboss-javaee-6.0</artifactId>
+                          <version>3.0.3.Final</version>
+                          <type>pom</type>
+                          <scope>provided</scope>
+                      </dependency>
+                      <dependency>
+                          <groupId>commons-lang</groupId>
+                          <artifactId>commons-lang</artifactId>
+                          <version>2.6</version>
+                      </dependency>
+                      <dependency>
+                          <groupId>commons-io</groupId>
+                          <artifactId>commons-io</artifactId>
+                          <version>2.4</version>
+                      </dependency>
+                      <dependency>
+                          <groupId>eu.ohim.sp.common</groupId>
+                          <artifactId>CommonUtils</artifactId>
+                          <version>2.0.0-RELEASE</version>
+                      </dependency>
+                  </additionalDependencies>
+              </configuration>
+              <executions>
+                  <execution>
+                      <id>javadoc-javadoc</id>
+                      <phase>package</phase>
+                      <goals>
+                          <goal>javadoc</goal>
+                      </goals>
+                  </execution>
+                  <execution>
+                      <id>javadoc-jar</id>
+                      <phase>package</phase>
+                      <goals>
+                          <goal>aggregate-jar</goal>
+                      </goals>
+                  </execution>
+              </executions>
+          </plugin>          
+        </plugins>
+
+    </build>
+
+    <!-- use 'eviware:maven-soapui-plugin:mock' -->
+
+</project>

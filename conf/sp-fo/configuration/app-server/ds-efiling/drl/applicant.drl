@@ -1,0 +1,443 @@
+package org.domain.rules;
+dialect "mvel"
+
+import java.util.Map;
+import java.util.ArrayList;
+import java.util.HashMap;
+import org.apache.commons.lang.*;
+import eu.ohim.sp.core.domain.contact.Email;
+import eu.ohim.sp.core.domain.contact.Phone;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.domain.person.Applicant;
+import eu.ohim.sp.core.domain.person.PersonIdentifier;
+import eu.ohim.sp.core.configuration.domain.xsd.Field;
+import eu.ohim.sp.core.configuration.domain.xsd.Section;
+import eu.ohim.sp.core.domain.validation.RulesInformation;
+
+
+global eu.ohim.sp.core.domain.validation.ErrorList errorList;
+
+
+rule "BR type - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "type", $fieldUsable : usable, $fieldRequired : required ) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Applicant(kind==null)
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	HashMap co = $customObjects;
+	Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+	if (isSectionValidation == false){
+		addError("type", "BRMandatory", "This field is mandatory", null, $errorList);
+	}else{
+		addError(null, "BR.applicant.type.Empty", "The applicant type field is mandatory.", "mainForm.applicantDataSection", $errorList);
+	}
+end
+
+rule "BR afimi- Empty Array"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field, $validateImport : validateImport  )
+	Field( id == "personIdentifierForm.afimi", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Applicant(identifiers == null || (identifiers != null && identifiers.size() == 0))
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	HashMap co = $customObjects;
+	Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if ((imported == false || $validateImport == true) && isSectionValidation == false){
+        addError("personIdentifierForm.afimi", "BRMandatory", "This field is mandatory", null, $errorList);
+    }else if((imported == false || $validateImport == true) && isSectionValidation == true){
+        addError(null, "BR.applicant.afimi.Empty", "The Afimi field is mandatory.", "mainForm.applicantDataSection", $errorList);
+    }
+end
+
+rule "BR afimi- Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field, $validateImport : validateImport  )
+	Field( id == "personIdentifierForm.afimi", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Applicant(identifiers != null, $identifiers : identifiers)
+    PersonIdentifier(StringUtils.isNotEmpty(identifierKindCode),
+                     identifierKindCode.equals("VAT Number"),
+                     StringUtils.isEmpty(value)) from $identifiers
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	HashMap co = $customObjects;
+	Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if ((imported == false || $validateImport == true) && isSectionValidation == false){
+        addError("personIdentifierForm.afimi", "BRMandatory", "This field is mandatory", null, $errorList);
+    }else if((imported == false || $validateImport == true) && isSectionValidation == true){
+        addError(null, "BR.applicant.afimi.Empty", "The Afimi field is mandatory.", "mainForm.applicantDataSection", $errorList);
+    }
+end
+
+rule "BR afimi - Format"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field, $validateImport : validateImport  )
+	Field( id == "personIdentifierForm.afimi", $fieldUsable : usable, $regex : format) from $fields
+	eval($fieldUsable == true && StringUtils.isNotEmpty($regex))
+	Applicant(identifiers != null, $identifiers : identifiers)
+    PersonIdentifier(StringUtils.isNotEmpty(identifierKindCode),
+                     identifierKindCode.equals("VAT Number"),
+                     StringUtils.isNotEmpty(value),
+                     value not matches $regex) from $identifiers
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	HashMap co = $customObjects;
+	Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+	if ((imported == false || $validateImport == true) && isSectionValidation == false){
+        addError("personIdentifierForm.afimi", "BRFormat", "This field has a bad format", null, $errorList);
+    }else if((imported == false || $validateImport == true) && isSectionValidation == true){
+        addError(null, "BR.applicant.afimi.Format", "The Afimi field has a bad format.", "mainForm.applicantDataSection", $errorList);
+    }
+end
+
+rule "BR DOY- Empty Array"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field, $validateImport : validateImport  )
+	Field( id == "personIdentifierForm.doy", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Applicant(identifiers == null || (identifiers != null && identifiers.size() == 0))
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	HashMap co = $customObjects;
+	Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if ((imported == false || $validateImport == true) && isSectionValidation == false){
+        addError("personIdentifierForm.doy", "BRMandatory", "This field is mandatory", null, $errorList);
+    }else if((imported == false || $validateImport == true) && isSectionValidation == true){
+        addError(null, "BR.applicant.doy.Empty", "The Doy field is mandatory.", "mainForm.applicantDataSection", $errorList);
+    }
+end
+
+rule "BR DOY - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field, $validateImport : validateImport  )
+	Field( id == "personIdentifierForm.doy", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Applicant(identifiers != null, $identifiers : identifiers)
+    PersonIdentifier(StringUtils.isNotEmpty(identifierKindCode),
+                     identifierKindCode.equals("Tax Office"),
+                     StringUtils.isEmpty(value)) from $identifiers
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	HashMap co = $customObjects;
+	Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if ((imported == false || $validateImport == true) && isSectionValidation == false){
+        addError("personIdentifierForm.doy", "BRMandatory", "This field is mandatory", null, $errorList);
+    }else if((imported == false || $validateImport == true) && isSectionValidation == true){
+        addError(null, "BR.applicant.doy.Empty", "The Doy field is mandatory.", "mainForm.applicantDataSection", $errorList);
+    }
+end
+
+rule "BR DOY - Format"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field, $validateImport : validateImport  )
+	Field( id == "personIdentifierForm.doy", $fieldUsable : usable, $regex : format) from $fields
+	eval($fieldUsable == true && StringUtils.isNotEmpty($regex))
+	Applicant(identifiers != null, $identifiers : identifiers)
+    PersonIdentifier(StringUtils.isNotEmpty(identifierKindCode),
+                     identifierKindCode.equals("Tax Office"),
+                     StringUtils.isNotEmpty(value),
+                     value not matches $regex) from $identifiers
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	HashMap co = $customObjects;
+	Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+	if ((imported == false || $validateImport == true) && isSectionValidation == false){
+        addError("personIdentifierForm.doy", "BRFormat", "This field has a bad format", null, $errorList);
+    }else if((imported == false || $validateImport == true) && isSectionValidation == true){
+        addError(null, "BR.applicant.doy.Format", "The Doy field has a bad format.", "mainForm.applicantDataSection", $errorList);
+    }
+end
+
+rule "BR(university) site - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field, $validateImport : validateImport  )
+	Field( id == "website", $fieldUsable : usable, $fieldRequired : required ) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Applicant(urls == null || (urls != null && urls.size() == 0))
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	HashMap co = $customObjects;
+
+	Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+	if ((imported == false || $validateImport == true) && isSectionValidation == false){
+		addError("website", "BRMandatory", "This field is mandatory", null, $errorList);
+	}else if((imported == false || $validateImport == true) && isSectionValidation == true){
+		addError(null, "BR.applicant.university.site.Empty", "The Site field is mandatory.", "mainForm.applicantDataSection", $errorList);
+	}
+end
+
+rule "BR(university) site - Content"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field, $validateImport : validateImport  )
+	Field( id == "website", $fieldUsable : usable, $regex: format) from $fields
+	eval($fieldUsable == true && StringUtils.isNotEmpty($regex))
+	Applicant($urls : urls, urls != null, urls.size() > 0)
+	String((new String(toString())) not matches $regex) from $urls
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	HashMap co = $customObjects;
+	Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+	if ((imported == false || $validateImport == true) && isSectionValidation == false){
+		addError("website", "BRFormat", "This field has a bad format", null, $errorList);
+	}else if((imported == false || $validateImport == true) && isSectionValidation == true){
+		addError(null, "BR.applicant.university.site.Format", "The Site has a bad format.", "mainForm.applicantDataSection", $errorList);
+	}
+end
+
+rule "BR Nationality - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field, $validateImport : validateImport  )
+	Field( id == "nationality", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Applicant(nationality == null || nationality == "Unidentified" || StringUtils.isEmpty(nationality)==true)
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	HashMap co = $customObjects;
+
+	Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+	if (isSectionValidation == false){
+		addError("nationality",	 "BRMandatory", "This field is mandatory",	 null,	$errorList);
+	}else if(isSectionValidation == true){
+		addError(null, "BR.applicant.nationality.Empty", "The nationality field is mandatory.", "mainForm.applicantDataSection", $errorList);
+	}
+end
+
+rule "BR(legal entity) organization name - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field , $validateImport : validateImport )
+	Field( id == "name", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Applicant( name==null || (name != null && (StringUtils.isEmpty(name.organizationName)) ))
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	HashMap co = $customObjects;
+	Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+	if ((imported == false || $validateImport == true) && isSectionValidation == false){
+		addError("name", "BRMandatory", "This field is mandatory", null, $errorList);
+	}else if((imported == false || $validateImport == true) && isSectionValidation == true){
+		addError(null, "BR.applicant.legalEntity.organizationName.Empty", "The Legal Name field is mandatory", "mainForm.applicantDataSection", $errorList);
+	}
+end
+
+rule "BR(legal entity) organization name - Content"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field, $validateImport : validateImport  )
+	Field( id == "name", $fieldUsable : usable, $regex : format) from $fields
+	eval($fieldUsable == true && StringUtils.isNotEmpty($regex))
+	Applicant(name != null &&
+	          StringUtils.isNotEmpty(name.organizationName) &&
+	          name.organizationName not matches $regex)
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	HashMap co = $customObjects;
+	Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+	if ((imported == false || $validateImport == true) && isSectionValidation == false){
+		addError("name", "BRFormat", "This field has a bad format", null, $errorList);
+	}else if((imported == false || $validateImport == true) && isSectionValidation == true){
+		addError(null, "BR.applicant.legalEntity.organizationName.Format", "The organization name field is mandatory", "mainForm.applicantDataSection", $errorList);
+	}
+end
+
+rule "BR(legal entity) legal form - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field, $validateImport : validateImport  )
+	Field( id == "legalForm", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Applicant((legalForm==null) ||(legalForm != null && StringUtils.isEmpty(legalForm)))
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	HashMap co = $customObjects;
+	Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+	if ((imported == false || $validateImport == true) && isSectionValidation == false){
+		addError("legalForm", "BRMandatory", "This field is mandatory", null, $errorList);
+	}else if((imported == false || $validateImport == true) && isSectionValidation == true){
+		addError(null, "BR.applicant.legalEntity.legalForm.Empty", "The Legal Form field is mandatory", "mainForm.applicantDataSection", $errorList);
+	}
+end
+
+rule "BR(legal entity) legal form - Content"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field, $validateImport : validateImport  )
+	Field( id == "legalForm", $fieldUsable : usable, $regex : format) from $fields
+	eval($fieldUsable == true && StringUtils.isNotEmpty($regex))
+	Applicant(StringUtils.isNotEmpty(legalForm) &&
+	          legalForm not matches $regex)
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	HashMap co = $customObjects;
+	Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+	if (imported == false){
+		addError("legalForm", "BRFormat", "This field has a bad format", null, $errorList);
+	}else if((imported == false || $validateImport == true) && isSectionValidation == true){
+		addError(null, "BR.applicant.legalEntity.legalForm.Format", "The Legal Form field has a bad format", "mainForm.applicantDataSection", $errorList);
+	}
+end
+
+rule "BR(legal entity) organization registration number  - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field, $validateImport : validateImport  )
+	Field( id == "businessVatNumber", $fieldUsable : usable, $fieldRequired : required ) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Applicant(identifiers  == null || (identifiers != null && identifiers.get(0).value == null))
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	HashMap co = $customObjects;
+	Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+	if ((imported == false || $validateImport == true) && isSectionValidation == false){
+		addError("businessVatNumber", "BRMandatory", "This field is mandatory", null, $errorList);
+	}else if((imported == false || $validateImport == true) && isSectionValidation == true){
+		addError(null, "BR.applicant.legalEntity.registrationNumber.Empty", "The organization registration number field is mandatory", "mainForm.applicantDataSection", $errorList);
+	}
+end
+
+rule "BR(legal entity) organization registration number - Content"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field, $validateImport : validateImport  )
+	Field( id == "businessVatNumber", $fieldUsable : usable, $regex : format) from $fields
+	eval($fieldUsable == true && StringUtils.isNotEmpty($regex))
+	Applicant(identifiers != null,
+	          identifiers.size() > 0,
+	          $identifiers : identifiers)
+	PersonIdentifier(value not matches $regex) from $identifiers
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	HashMap co = $customObjects;
+	Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+	if ((imported == false || $validateImport == true) && isSectionValidation == false){
+		addError("businessVatNumber", "BRFormat", "This field has a bad format", null, $errorList);
+	}else if((imported == false || $validateImport == true) && isSectionValidation == true){
+		addError(null, "BR.applicant.legalEntity.registrationNumber.Format", "The organization registration number field has a bad format", "mainForm.applicantDataSection", $errorList);
+	}
+end
+
+rule "BR(legal entity) organization country of registration - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field, $validateImport : validateImport  )
+	Field( id == "countryOfRegistration", $fieldUsable : usable, $fieldRequired : required ) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Applicant(incorporationCountry  == null || StringUtils.isEmpty(incorporationCountry) == true)
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	HashMap co = $customObjects;
+	Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+	if ((imported == false || $validateImport == true) && isSectionValidation == false){
+		addError("countryOfRegistration", "BRMandatory", "This field is mandatory", null, $errorList);
+	}else if((imported == false || $validateImport == true) && isSectionValidation == true){
+		addError(null, "BR.applicant.legalEntity.registrationCountry.Empty", "The country of registration field is mandatory", "mainForm.applicantDataSection", $errorList);
+	}
+end
+
+rule "BR(legal entity) organization country of registration - Content"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field , $validateImport : validateImport )
+	Field( id == "countryOfRegistration", $fieldUsable : usable, $regex : format) from $fields
+	eval($fieldUsable == true && StringUtils.isNotEmpty($regex))
+	Applicant(StringUtils.isNotEmpty(incorporationCountry),
+	          incorporationCountry not matches $regex)
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	HashMap co = $customObjects;
+	Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+	 if ((imported == false || $validateImport == true) && isSectionValidation == false){
+		addError("countryOfRegistration", "BRFormat", "This field has a bad format", null, $errorList);
+	}else if((imported == false || $validateImport == true) && isSectionValidation == true){
+		addError(null, "BR.applicant.legalEntity.registrationCountry.Format", "The country of registration field has a bad format", "mainForm.applicantDataSection", $errorList);
+	}
+end
+
+rule "BR Applicant Email - Content"
+salience 1000
+when
+    $errorList : ErrorList()
+    Section( $fields : field, $validateImport : validateImport )
+    Field( id == "email", $fieldUsable : usable, $regex : format ) from $fields
+    $personRole : Applicant($emails : emails)
+    Email(emailAddress != null && emailAddress != "" && emailAddress not matches $regex) from $emails
+    $rulesInformation : RulesInformation($customObjects : customObjects )
+then
+    HashMap co = $customObjects;
+    Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if (isSectionValidation == false){
+        addError("email", "BRFormat", "This field has a bad format",  null, $errorList);
+    }else if(isSectionValidation == true){
+        addError(null, "BR.person.email.Format", "The Email field has a bad format.", "mainForm.applicantDataSection", $errorList);
+        addError(null, $personRole.name.fullName, $personRole.name.fullName, "mainForm.applicantDataSection", $errorList);
+    }
+end

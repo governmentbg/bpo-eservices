@@ -1,0 +1,1264 @@
+package org.domain.rules;
+dialect "mvel"
+
+import java.util.Map;
+import java.util.ArrayList;
+import java.util.HashMap;
+import org.apache.commons.lang.StringUtils;
+import eu.ohim.sp.core.domain.contact.Email;
+import eu.ohim.sp.core.domain.contact.Phone;
+import eu.ohim.sp.core.domain.contact.Address;
+import eu.ohim.sp.core.domain.person.PersonRole;
+import eu.ohim.sp.core.domain.design.Designer;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.configuration.domain.xsd.Field;
+import eu.ohim.sp.core.configuration.domain.xsd.Section;
+import eu.ohim.sp.core.domain.validation.RulesInformation
+import eu.ohim.sp.core.domain.person.Applicant;
+import eu.ohim.sp.core.domain.person.PersonIdentifier;
+
+global eu.ohim.sp.core.domain.validation.ErrorList errorList;
+global java.lang.String personKind;
+
+rule "Sets the person kind"
+salience 10000
+when
+    $personRole : PersonRole()
+then
+    if($personRole instanceof Designer.class){
+        insert(new String("designer"));
+    } else if($personRole instanceof Applicant.class){
+        insert(new String("applicant"));
+    } else {
+        insert(new String("representative"));
+    }
+end
+
+rule "BR(natural person) firstName - Empty"
+salience 1000
+when
+    $personKind : String()
+    $errorList : ErrorList()
+    Section( $fields : field, $validateImport : validateImport )
+    Field( id == "firstName", $fieldUsable : usable, $fieldRequired : required) from $fields
+    eval($fieldUsable == true && $fieldRequired == true)
+    $personRole : PersonRole((StringUtils.isEmpty(name.firstName) == true) ||  (name==null) || name.firstName == "")
+    eval(!$personKind.equals("designer") ||
+             (($personKind.equals("designer")) && (!((Designer) $personRole).waiver) && (!((Designer) $personRole).belongsToAGroup)))
+    $rulesInformation : RulesInformation($customObjects : customObjects )
+then
+    HashMap co = $customObjects;
+    Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if ((imported == false || $validateImport == true) && isSectionValidation == false){
+        addError("firstName", "BRMandatory", "This field is mandatory", null, $errorList);
+    }else if((imported == false || $validateImport == true) && isSectionValidation == true){
+        addError(null, "BR.person.firstName.emtpy", "The First Name field is mandatory.", "mainForm." + $personKind + "DataSection", $errorList);
+    }
+end
+
+rule "BR(natural person) firstName - Content"
+salience 1000
+when
+    $personKind : String()
+    $errorList : ErrorList()
+    Section( $fields : field, $validateImport : validateImport )
+    Field( id == "firstName", $fieldUsable : usable, $regex : format) from $fields
+    Field( id == "nationality", $fieldUsableNationality : usable) from $fields
+    eval($fieldUsable == true && StringUtils.isNotEmpty($regex) && $fieldUsableNationality == true)
+    $personRole : PersonRole(name != null, StringUtils.isNotEmpty(name.firstName), nationality != null && nationality == "BG",
+        name.firstName not matches $regex)
+    eval(!$personKind.equals("designer") ||
+             (($personKind.equals("designer")) && (!((Designer) $personRole).waiver) && (!((Designer) $personRole).belongsToAGroup)))
+    $rulesInformation : RulesInformation($customObjects : customObjects)
+then
+    HashMap co = $customObjects;
+    Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if (isSectionValidation == false){
+        addError("firstName", "BRFormat.firstName", "Bad format of first name", null, $errorList);
+    }else if(isSectionValidation == true){
+        addError(null, "BRFormat.firstName", "The First Name field has a bad format.", "mainForm." + $personKind + "DataSection", $errorList);
+    }
+end
+
+rule "BR(natural person)  Middle Name mandatory - Empty"
+salience 1000
+when
+    $personKind : String()
+    $errorList : ErrorList()
+    Section( $fields : field, $validateImport : validateImport )
+    Field( id == "middleName", $fieldUsable : usable, $fieldRequired : required) from $fields
+    Field( id == "nationality", $fieldUsableNationality : usable) from $fields
+    eval($fieldUsable == true && $fieldUsableNationality == true)
+    $personRole : PersonRole((name != null && StringUtils.isEmpty(name.middleName)) || (name==null),
+        nationality != null && nationality =="BG")
+    eval(!$personKind.equals("designer") ||
+             (($personKind.equals("designer")) && (!((Designer) $personRole).waiver) && (!((Designer) $personRole).belongsToAGroup)))
+    $rulesInformation : RulesInformation($customObjects : customObjects )
+then
+    HashMap co = $customObjects;
+    Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if ((imported == false || $validateImport == true) && isSectionValidation == false){
+        addError("middleName", "BRMandatory", "This field is mandatory", null, $errorList);
+    }else if((imported == false || $validateImport == true) && isSectionValidation == true){
+        addError(null, "BR.person.middleName.Emtpy", "The Middle Name field is mandatory.", "mainForm." + $personKind + "DataSection", $errorList);
+    }
+end
+
+rule "BR(natural person) middleName - Content"
+salience 1000
+when
+    $personKind : String()
+    $errorList : ErrorList()
+    Section( $fields : field, $validateImport : validateImport )
+    Field( id == "middleName", $fieldUsable : usable, $regex: format) from $fields
+    Field( id == "nationality", $fieldUsableNationality : usable) from $fields
+    eval($fieldUsable == true && StringUtils.isNotEmpty($regex) && $fieldUsableNationality == true)
+    $personRole : PersonRole(name != null && StringUtils.isNotEmpty(name.middleName) && name.middleName not matches $regex,
+        nationality != null && nationality == "BG")
+    eval(!$personKind.equals("designer") ||
+             (($personKind.equals("designer")) && (!((Designer) $personRole).waiver) && (!((Designer) $personRole).belongsToAGroup)))
+    $rulesInformation : RulesInformation($customObjects : customObjects )
+then
+    HashMap co = $customObjects;
+    Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if (isSectionValidation == false){
+        addError("middleName", "BRFormat.middleName", "Bad format of middle name", null, $errorList);
+    }else if(isSectionValidation == true){
+        addError(null, "BR.person.middleName.format", "The Middle Name has a bad format.", "mainForm." + $personKind + "DataSection", $errorList);
+    }
+end
+
+rule "BR(natural person) surname - Empty"
+salience 1000
+when
+    $personKind : String()
+    $errorList : ErrorList()
+    Section( $fields : field, $validateImport : validateImport )
+    Field( id == "surname", $fieldUsable : usable, $fieldRequired : required ) from $fields
+    eval($fieldUsable == true && $fieldRequired == true)
+    $personRole : PersonRole((name != null && StringUtils.isEmpty(name.lastName))  || (name==null))
+    eval(!$personKind.equals("designer") ||
+             (($personKind.equals("designer")) && (!((Designer) $personRole).waiver) && (!((Designer) $personRole).belongsToAGroup)))
+    $rulesInformation : RulesInformation($customObjects : customObjects )
+then
+    HashMap co = $customObjects;
+
+    Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if ((imported == false || $validateImport == true) && isSectionValidation == false){
+        addError("surname", "BRMandatory", "This field is mandatory", null, $errorList);
+    }else if((imported == false || $validateImport == true) && isSectionValidation == true){
+        addError(null, "BR.person.lastName.Empty", "The Surname field is mandatory.", "mainForm." + $personKind + "DataSection", $errorList);
+    }
+end
+
+rule "BR(natural person) surname - Content"
+salience 1000
+when
+    $personKind : String()
+    $errorList : ErrorList()
+    Section( $fields : field, $validateImport : validateImport )
+    Field( id == "surname", $fieldUsable : usable, $regex: format) from $fields
+    Field( id == "nationality", $fieldUsableNationality : usable) from $fields
+    eval($fieldUsable == true && StringUtils.isNotEmpty($regex) && $fieldUsableNationality == true)
+    $personRole : PersonRole(name != null && StringUtils.isNotEmpty(name.lastName) && name.lastName not matches $regex,
+        nationality != null && nationality == "BG")
+    eval(!$personKind.equals("designer") ||
+         (($personKind.equals("designer")) && (!((Designer) $personRole).waiver) && (!((Designer) $personRole).belongsToAGroup)))
+    $rulesInformation : RulesInformation($customObjects : customObjects )
+then
+    HashMap co = $customObjects;
+    Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if (isSectionValidation == false){
+       addError("surname", "BRFormat.lastName", "Bad format of last name", null, $errorList);
+    }else if(isSectionValidation == true){
+        addError(null, "BR.person.surname.format", "The Surname has a bad format.", "mainForm." + $personKind + "DataSection", $errorList);
+    }
+end
+
+rule "BR city - Empty"
+salience 1000
+when
+    $personKind : String()
+    $errorList : ErrorList()
+    Section( $fields : field, $validateImport : validateImport )
+    Field( id == "address.city", $fieldUsable : usable, $fieldRequired : required ) from $fields
+    eval($fieldUsable == true && $fieldRequired == true)
+    $personRole : PersonRole(addresses == null || addresses.size() == 0 || (addresses != null && addresses.get(0) != null && (addresses.get(0).city == null || addresses.get(0).city == "")))
+    eval(!$personKind.equals("designer") ||
+             (($personKind.equals("designer")) && (!((Designer) $personRole).waiver) && (!((Designer) $personRole).belongsToAGroup)))
+    $rulesInformation : RulesInformation($customObjects : customObjects )
+then
+    HashMap co = $customObjects;
+
+    Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if ((imported == false || $validateImport == true) && isSectionValidation == false){
+        addError("address.city", "BRMandatory", "This field is mandatory", null, $errorList);
+    }else if((imported == false || $validateImport == true) && isSectionValidation == true){
+        addError(null, "BR.person.address.city.Empty", "The City field is mandatory.", "mainForm." + $personKind + "DataSection", $errorList);
+    }
+end
+
+rule "BR city - Content"
+salience 1000
+when
+    $personKind : String()
+    $errorList : ErrorList()
+    Section( $fields : field, $validateImport : validateImport )
+    Field( id == "address.city", $fieldUsable : usable, $regex : format) from $fields
+    eval($fieldUsable == true && StringUtils.isNotEmpty($regex))
+    $personRole : PersonRole(addresses != null, $addresses : addresses)
+    eval(!$personKind.equals("designer") ||
+             (($personKind.equals("designer")) && (!((Designer) $personRole).waiver) && (!((Designer) $personRole).belongsToAGroup)))
+    $address : Address(StringUtils.isNotEmpty(city) && city not matches $regex) from $addresses
+    $rulesInformation : RulesInformation($customObjects : customObjects)
+then
+    HashMap co = $customObjects;
+    Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if ((imported == false || $validateImport == true) && isSectionValidation == false){
+        addError("address.city", "BRFormat", "This field has a bad format", null, $errorList);
+    }else if((imported == false || $validateImport == true) && isSectionValidation == true){
+        addError(null, "BR.person.address.city.format", "The city field has a bad format.", "mainForm." + $personKind + "DataSection", $errorList);
+    }
+end
+
+rule "BR country - Empty"
+salience 1000
+when
+    $personKind : String()
+    $errorList : ErrorList()
+    Section( $fields : field, $validateImport : validateImport )
+    Field( id == "address.country", $fieldUsable : usable, $fieldRequired : required ) from $fields
+    eval($fieldUsable == true && $fieldRequired == true)
+    $personRole : PersonRole(addresses == null || addresses.size() == 0 || (addresses != null && addresses.get(0) != null && (addresses.get(0).country == null || addresses.get(0).country == "")))
+    eval(!$personKind.equals("designer") ||
+             (($personKind.equals("designer")) && (!((Designer) $personRole).waiver) && (!((Designer) $personRole).belongsToAGroup)))
+    $rulesInformation : RulesInformation($customObjects : customObjects )
+then
+    HashMap co = $customObjects;
+
+    Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if ((imported == false || $validateImport == true) && isSectionValidation == false){
+        addError("address.country", "BRMandatory", "This field is mandatory", null, $errorList);
+    }else if((imported == false || $validateImport == true) && isSectionValidation == true){
+        addError(null, "BR.person.address.country.Empty", "The Country field is mandatory.", "mainForm." + $personKind + "DataSection", $errorList);
+    }
+end
+
+rule "BR country - Content"
+salience 1000
+when
+    $personKind : String()
+    $errorList : ErrorList()
+    Section( $fields : field, $validateImport : validateImport )
+    Field( id == "address.country", $fieldUsable : usable, $regex : format) from $fields
+    eval($fieldUsable == true && StringUtils.isNotEmpty($regex))
+    $personRole : PersonRole(addresses != null, $addresses : addresses)
+    eval(!$personKind.equals("designer") ||
+             (($personKind.equals("designer")) && (!((Designer) $personRole).waiver) && (!((Designer) $personRole).belongsToAGroup)))
+    $address : Address(StringUtils.isNotEmpty(country) && country not matches $regex) from $addresses
+    $rulesInformation : RulesInformation($customObjects : customObjects)
+then
+    HashMap co = $customObjects;
+    Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if ((imported == false || $validateImport == true) && isSectionValidation == false){
+        addError("address.country", "BRFormat", "This field has a bad format", null, $errorList);
+    }else if((imported == false || $validateImport == true) && isSectionValidation == true){
+        addError(null, "BR.person.address.country.format", "The country field has a bad format.", "mainForm." + $personKind + "DataSection", $errorList);
+    }
+end
+
+rule "BR stateProvince - Empty"
+salience 1000
+when
+    $personKind : String()
+    $errorList : ErrorList()
+    Section( $fields : field, $validateImport : validateImport )
+    Field( id == "address.stateprovince", $fieldUsable : usable, $fieldRequired : required ) from $fields
+    eval($fieldUsable == true && $fieldRequired == true)
+    $personRole : PersonRole($addresses : addresses, addresses == null || addresses.size() == 0 || (addresses != null && addresses.get(0) != null && (addresses.get(0).country == "GB" || addresses.get(0).country =="US") && (addresses.get(0).state == null || addresses.get(0).state == "")))
+    eval(!$personKind.equals("designer") ||
+             (($personKind.equals("designer")) && (!((Designer) $personRole).waiver) && (!((Designer) $personRole).belongsToAGroup)))
+    $rulesInformation : RulesInformation($customObjects : customObjects )
+then
+    HashMap co = $customObjects;
+
+    Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if ((imported == false || $validateImport == true) && isSectionValidation == false){
+        addError("address.stateprovince", "BRMandatory", "This field is mandatory", null, $errorList);
+    }else if((imported == false || $validateImport == true) && isSectionValidation == true){
+        addError(null, "BR.person.address.stateProvince.Empty", "The State Province field is mandatory.", "mainForm." + $personKind + "DataSection", $errorList);
+    }
+end
+
+rule "BR stateProvince - Content"
+salience 1000
+when
+    $personKind : String()
+    $errorList : ErrorList()
+    Section( $fields : field, $validateImport : validateImport )
+    Field( id == "address.stateprovince", $fieldUsable : usable, $regex : format) from $fields
+    eval($fieldUsable == true && StringUtils.isNotEmpty($regex))
+    $personRole : PersonRole(addresses != null, $addresses : addresses)
+    eval(!$personKind.equals("designer") ||
+             (($personKind.equals("designer")) && (!((Designer) $personRole).waiver) && (!((Designer) $personRole).belongsToAGroup)))
+    $address : Address(StringUtils.isNotEmpty(state) && state not matches $regex) from $addresses
+    $rulesInformation : RulesInformation($customObjects : customObjects)
+then
+    HashMap co = $customObjects;
+    Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if ((imported == false || $validateImport == true) && isSectionValidation == false){
+        addError("address.stateProvince", "BRFormat", "This field has a bad format", null, $errorList);
+    }else if((imported == false || $validateImport == true) && isSectionValidation == true){
+        addError(null, "BR.person.address.stateProvince.format", "The state province field has a bad format.", "mainForm." + $personKind + "DataSection", $errorList);
+    }
+end
+
+rule "BR postal code - Empty"
+salience 1000
+when
+    $personKind : String()
+    $errorList : ErrorList()
+    Section( $fields : field, $validateImport : validateImport )
+    Field( id == "address.postalCode", $fieldUsable : usable, $fieldRequired : required ) from $fields
+    eval($fieldUsable == true && $fieldRequired == true)
+    $personRole : PersonRole(addresses == null || addresses.size() == 0 || (addresses != null && addresses.get(0) != null && (addresses.get(0).postCode == null || addresses.get(0).postCode == "")))
+    eval(!$personKind.equals("designer") ||
+             (($personKind.equals("designer")) && (!((Designer) $personRole).waiver) && (!((Designer) $personRole).belongsToAGroup)))
+    $rulesInformation : RulesInformation($customObjects : customObjects )
+then
+    HashMap co = $customObjects;
+    Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if ((imported == false || $validateImport == true) && isSectionValidation == false){
+        addError("address.postalCode", "BRMandatory", "This field is mandatory", null, $errorList);
+    }else if((imported == false || $validateImport == true) && isSectionValidation == true){
+        addError(null, "BR.person.address.postalCode.Empty", "The postal code field is mandatory.", "mainForm." + $personKind + "DataSection", $errorList);
+    }
+end
+
+rule "BR postal code - Content"
+salience 1000
+when
+    $personKind : String()
+    $errorList : ErrorList()
+    Section( $fields : field, $validateImport : validateImport )
+    Field( id == "address.postalCode", $fieldUsable : usable, $regex : format) from $fields
+    eval($fieldUsable == true && StringUtils.isNotEmpty($regex))
+    $personRole : PersonRole(addresses != null, $addresses : addresses)
+    eval(!$personKind.equals("designer") ||
+             (($personKind.equals("designer")) && (!((Designer) $personRole).waiver) && (!((Designer) $personRole).belongsToAGroup)))
+    $address : Address(StringUtils.isNotEmpty(postCode) && postCode not matches $regex) from $addresses
+    $rulesInformation : RulesInformation($customObjects : customObjects)
+then
+    HashMap co = $customObjects;
+    Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if ((imported == false || $validateImport == true) && isSectionValidation == false){
+        addError("address.postalCode", "BRFormat", "This field has a bad format", null, $errorList);
+    }else if((imported == false || $validateImport == true) && isSectionValidation == true){
+        addError(null, "BR.person.address.postalCode.format", "The postal code field has a bad format.", "mainForm." + $personKind + "DataSection", $errorList);
+    }
+end
+
+rule "BR street - Empty"
+salience 1000
+when
+    $personKind : String()
+    $errorList : ErrorList()
+    Section( $fields : field, $validateImport : validateImport )
+    Field( id == "address.street", $fieldUsable : usable, $fieldRequired : required ) from $fields
+    eval($fieldUsable == true && $fieldRequired == true)
+    $personRole : PersonRole(addresses == null || addresses.size() == 0 || (addresses != null && addresses.get(0) != null && (addresses.get(0).street == null || addresses.get(0).street == "")))
+    eval(!$personKind.equals("designer") ||
+             (($personKind.equals("designer")) && (!((Designer) $personRole).waiver) && (!((Designer) $personRole).belongsToAGroup)))
+    $rulesInformation : RulesInformation($customObjects : customObjects )
+then
+    HashMap co = $customObjects;
+
+    Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if ((imported == false || $validateImport == true) && isSectionValidation == false){
+        addError("address.street", "BRMandatory", "This field is mandatory", null, $errorList);
+    }else if((imported == false || $validateImport == true) && isSectionValidation == true){
+        addError(null, "BR.person.address.street.Empty", "The Street field is mandatory.", "mainForm." + $personKind + "DataSection", $errorList);
+    }
+end
+
+rule "BR street - Content"
+salience 1000
+when
+    $personKind : String()
+    $errorList : ErrorList()
+    Section( $fields : field, $validateImport : validateImport )
+    Field( id == "address.street", $fieldUsable : usable, $regex : format) from $fields
+    eval($fieldUsable == true && StringUtils.isNotEmpty($regex))
+    $personRole : PersonRole(addresses != null, $addresses : addresses)
+    eval(!$personKind.equals("designer") ||
+             (($personKind.equals("designer")) && (!((Designer) $personRole).waiver) && (!((Designer) $personRole).belongsToAGroup)))
+    $address : Address(StringUtils.isNotEmpty(street) && street not matches $regex) from $addresses
+    $rulesInformation : RulesInformation($customObjects : customObjects)
+then
+    HashMap co = $customObjects;
+    Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if ((imported == false || $validateImport == true) && isSectionValidation == false){
+        addError("address.street", "BRFormat", "This field has a bad format", null, $errorList);
+    }else if((imported == false || $validateImport == true) && isSectionValidation == true){
+        addError(null, "BR.person.address.street.format", "The street field has a bad format.", "mainForm." + $personKind + "DataSection", $errorList);
+    }
+end
+
+rule "BR house number - Empty"
+salience 1000
+when
+    $personKind : String()
+    $errorList : ErrorList()
+    Section( $fields : field, $validateImport : validateImport )
+    Field( id == "address.houseNumber", $fieldUsable : usable, $fieldRequired : required ) from $fields
+    eval($fieldUsable == true && $fieldRequired == true)
+    $personRole : PersonRole(addresses == null || addresses.size() == 0 || (addresses != null && addresses.get(0) != null && (addresses.get(0).streetNumber == null || addresses.get(0).streetNumber == "")))
+    eval(!$personKind.equals("designer") ||
+             (($personKind.equals("designer")) && (!((Designer) $personRole).waiver) && (!((Designer) $personRole).belongsToAGroup)))
+    $rulesInformation : RulesInformation($customObjects : customObjects )
+then
+    HashMap co = $customObjects;
+    Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if ((imported == false || $validateImport == true) && isSectionValidation == false){
+        addError("address.houseNumber", "BRMandatory", "This field is mandatory", null, $errorList);
+    }else if((imported == false || $validateImport == true) && isSectionValidation == true){
+        addError(null, "BR.person.address.houseNumber.Empty", "The house number field is mandatory.", "mainForm." + $personKind + "DataSection", $errorList);
+    }
+end
+
+rule "BR house number - Content"
+salience 1000
+when
+    $personKind : String()
+    $errorList : ErrorList()
+    Section( $fields : field, $validateImport : validateImport )
+    Field( id == "address.houseNumber", $fieldUsable : usable, $regex : format) from $fields
+    eval($fieldUsable == true && StringUtils.isNotEmpty($regex))
+    $personRole : PersonRole(addresses != null, $addresses : addresses)
+    eval(!$personKind.equals("designer") ||
+             (($personKind.equals("designer")) && (!((Designer) $personRole).waiver) && (!((Designer) $personRole).belongsToAGroup)))
+    $address : Address(StringUtils.isNotEmpty(streetNumber) && streetNumber not matches $regex) from $addresses
+    $rulesInformation : RulesInformation($customObjects : customObjects)
+then
+    HashMap co = $customObjects;
+    Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if ((imported == false || $validateImport == true) && isSectionValidation == false){
+        addError("address.houseNumber", "BRFormat", "This field has a bad format", null, $errorList);
+    }else if((imported == false || $validateImport == true) && isSectionValidation == true){
+        addError(null, "BR.person.address.houseNumber.format", "The house number field has a bad format.", "mainForm." + $personKind + "DataSection", $errorList);
+    }
+end
+
+
+
+rule "BR Fixed - Empty"
+salience 1000
+when
+    $personKind : String()
+    $errorList : ErrorList()
+    Section( $fields : field, $validateImport : validateImport )
+    Field( id == "fixed", $fieldUsable : usable, $fieldRequired : required, $regex : format ) from $fields
+    eval($fieldUsable == true && $fieldRequired == true)    
+    $personRole : PersonRole($phones : phones)
+    eval(!$personKind.equals("designer") ||
+             (($personKind.equals("designer")) && (!((Designer) $personRole).waiver) && (!((Designer) $personRole).belongsToAGroup)))
+    Phone(phoneKind != null,
+          phoneKind.value().equals("Fixed"),
+          StringUtils.isEmpty(number)) from $phones
+    $rulesInformation : RulesInformation($customObjects : customObjects )
+then
+    HashMap co = $customObjects;
+    Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if ((imported == false || $validateImport == true) && isSectionValidation == false){
+        addError("fixed", "BRMandatory", "This field is mandatory.",  null, $errorList);
+    }else if((imported == false || $validateImport == true) && isSectionValidation == true){
+        addError(null, "BR.person.phone.Empty", "The phone field is mandatory.", "mainForm." + $personKind + "DataSection", $errorList);
+    }
+end
+
+
+rule "BR Fixed - Content"
+salience 1000
+when
+    $personKind : String()
+    $errorList : ErrorList()
+    Section( $fields : field, $validateImport : validateImport )
+    Field( id == "fixed", $fieldUsable : usable, $regex : format ) from $fields
+    $personRole : PersonRole($phones : phones)
+    eval(!$personKind.equals("designer") ||
+             (($personKind.equals("designer")) && (!((Designer) $personRole).waiver) && (!((Designer) $personRole).belongsToAGroup)))
+    Phone(phoneKind != null,
+          phoneKind.value().equals("Fixed"),
+          StringUtils.isNotEmpty(number),
+          StringUtils.isNotEmpty($regex),
+          number not matches $regex) from $phones
+    $rulesInformation : RulesInformation($customObjects : customObjects )
+then
+    HashMap co = $customObjects;
+    Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if ((imported == false || $validateImport == true) && isSectionValidation == false){
+        addError("fixed", "BRFormat", "This field has a bad format",  null, $errorList);
+    }else if((imported == false || $validateImport == true) && isSectionValidation == true){
+        addError(null, "BR.person.phone.Format", "The phone field has a bad format.", "mainForm." + $personKind + "DataSection", $errorList);
+    }
+end
+
+rule "BR Fax - Empty"
+salience 1000
+when
+    $personKind : String()
+    $errorList : ErrorList()
+    Section( $fields : field , $validateImport : validateImport)
+    Field( id == "fax", $fieldUsable : usable, $fieldRequired : required, $regex : format ) from $fields
+    eval($fieldUsable == true && $fieldRequired == true)     
+    $personRole : PersonRole($phones : phones)
+    Phone(phoneKind != null,
+          phoneKind.value().equals("Fax"),
+          StringUtils.isEmpty(number)) from $phones
+    $rulesInformation : RulesInformation($customObjects : customObjects )
+then
+    HashMap co = $customObjects;
+    Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if ((imported == false || $validateImport == true) && isSectionValidation == false){
+        addError("fax", "BRMandatory", "This field is mandatory",  null, $errorList);
+    }else if((imported == false || $validateImport == true) && isSectionValidation == true){
+        addError(null, "BR.person.fax.Empty", "The fax field is mandatory.", "mainForm." + $personKind + "DataSection", $errorList);
+    }
+end
+
+rule "BR Fax - Content"
+salience 1000
+when
+    $personKind : String()
+    $errorList : ErrorList()
+    Section( $fields : field, $validateImport : validateImport )
+    Field( id == "fax", $fieldUsable : usable, $regex : format ) from $fields
+    $personRole : PersonRole($phones : phones)
+    Phone(phoneKind != null,
+          phoneKind.value().equals("Fax"),
+          StringUtils.isNotEmpty(number),
+          StringUtils.isNotEmpty($regex),
+          number not matches $regex) from $phones
+    $rulesInformation : RulesInformation($customObjects : customObjects )
+then
+    HashMap co = $customObjects;
+    Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if ((imported == false || $validateImport == true) && isSectionValidation == false){
+        addError("fax", "BRFormat", "This field has a bad format",  null, $errorList);
+    }else if((imported == false || $validateImport == true) && isSectionValidation == true){
+        addError(null, "BR.person.phone.Format", "The phone field has a bad format.", "mainForm." + $personKind + "DataSection", $errorList);
+    }
+end
+
+rule "BR Generic Phone - Array Empty"
+salience 1000
+when
+    $personKind : String()
+    $errorList : ErrorList()
+    Section( $fields : field, $validateImport : validateImport )
+    Field( id == "phone", $fieldUsable : usable, $fieldRequired : required, $regex : format) from $fields
+    eval($fieldUsable == true && $fieldRequired == true)    
+    $personRole : PersonRole( phones ==null || phones.size() == 0 )
+    eval(!$personKind.equals("designer") ||
+             (($personKind.equals("designer")) && (!((Designer) $personRole).waiver) && (!((Designer) $personRole).belongsToAGroup)))
+    $rulesInformation : RulesInformation($customObjects : customObjects )
+then
+    HashMap co = $customObjects;
+    Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if ((imported == false || $validateImport == true) && isSectionValidation == false){
+        addError("phone", "BRMandatory", "This field is mandatory",  null, $errorList);
+    }else if((imported == false || $validateImport == true) && isSectionValidation == true){
+        addError(null, "BR.person.phone.Empty", "The phone field is mandatory.", "mainForm." + $personKind + "DataSection", $errorList);
+    }
+end
+
+rule "BR Generic Phone - Empty"
+salience 1000
+when
+    $personKind : String()
+    $errorList : ErrorList()
+    Section( $fields : field, $validateImport : validateImport )
+    Field( id == "phone", $fieldUsable : usable, $fieldRequired : required, $regex : format ) from $fields
+    eval($fieldUsable == true && $fieldRequired == true)    
+    $personRole : PersonRole($phones : phones)
+    eval(!$personKind.equals("designer") ||
+             (($personKind.equals("designer")) && (!((Designer) $personRole).waiver) && (!((Designer) $personRole).belongsToAGroup)))
+    Phone(phoneKind != null,
+          !phoneKind.value().equals("Fax"),
+          !phoneKind.value().equals("Fixed"),
+          StringUtils.isEmpty(number)) from $phones
+    $rulesInformation : RulesInformation($customObjects : customObjects )
+then
+    HashMap co = $customObjects;
+    Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if ((imported == false || $validateImport == true) && isSectionValidation == false){
+        addError("phone", "BRMandatory", "This field is mandatory",  null, $errorList);
+    }else if((imported == false || $validateImport == true) && isSectionValidation == true){
+        addError(null, "BR.person.phone.Empty", "The phone field is mandatory.", "mainForm." + $personKind + "DataSection", $errorList);
+    }
+end
+
+rule "BR Generic Phone - Content"
+salience 1000
+when
+    $personKind : String()
+    $errorList : ErrorList()
+    Section( $fields : field, $validateImport : validateImport )
+    Field( id == "phone", $fieldUsable : usable, $regex : format ) from $fields
+    $personRole : PersonRole($phones : phones)
+    eval(!$personKind.equals("designer") ||
+             (($personKind.equals("designer")) && (!((Designer) $personRole).waiver) && (!((Designer) $personRole).belongsToAGroup)))
+    Phone(phoneKind != null,
+          !phoneKind.value().equals("Fax"),
+          !phoneKind.value().equals("Fixed"),
+          StringUtils.isNotEmpty(number),
+          StringUtils.isNotEmpty($regex),
+          number not matches $regex) from $phones
+    $rulesInformation : RulesInformation($customObjects : customObjects )
+then
+    HashMap co = $customObjects;
+    Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if ((imported == false || $validateImport == true) && isSectionValidation == false){
+        addError("phone", "BRFormat", "This field has a bad format",  null, $errorList);
+    }else if((imported == false || $validateImport == true) && isSectionValidation == true){
+        addError(null, "BR.person.phone.Format", "The phone field has a bad format.", "mainForm." + $personKind + "DataSection", $errorList);
+    }
+end
+
+rule "BR Email - Array Empty"
+salience 1000
+when
+    $personKind : String()
+    $errorList : ErrorList()
+    Section( $fields : field, $validateImport : validateImport )
+    Field( id == "email", $fieldUsable : usable, $fieldRequired : required) from $fields
+    eval($fieldUsable == true && $fieldRequired)
+    $personRole : PersonRole($emails : emails, $emails == null)
+    eval(!$personKind.equals("designer") ||
+             (($personKind.equals("designer")) && (!((Designer) $personRole).waiver) && (!((Designer) $personRole).belongsToAGroup)))
+    $rulesInformation : RulesInformation($customObjects : customObjects )
+then
+    HashMap co = $customObjects;
+    Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if ((imported == false || $validateImport == true) && isSectionValidation == false){
+        addError("email", "BRMandatory", "This field is mandatory",  null, $errorList);
+    }else if((imported == false || $validateImport == true) && isSectionValidation == true){
+        addError(null, "BR.person.email.empty", "The Email field is mandatory.",  "mainForm." + $personKind + "DataSection", $errorList);
+    }
+end
+
+rule "BR Email - Empty"
+salience 1000
+when
+    $personKind : String()
+    $errorList : ErrorList()
+    Section( $fields : field, $validateImport : validateImport )
+    Field( id == "email", $fieldUsable : usable, $fieldRequired : required) from $fields
+    eval($fieldUsable == true && $fieldRequired)
+    $personRole : PersonRole($emails : emails)
+    eval(!$personKind.equals("designer") ||
+             (($personKind.equals("designer")) && (!((Designer) $personRole).waiver) && (!((Designer) $personRole).belongsToAGroup)))
+    Email(StringUtils.isEmpty(emailAddress)) from $emails
+    $rulesInformation : RulesInformation($customObjects : customObjects )
+then
+    HashMap co = $customObjects;
+    Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if ((imported == false || $validateImport == true) && isSectionValidation == false){
+        addError("email", "BRMandatory", "This field is mandatory",  null, $errorList);
+    }else if((imported == false || $validateImport == true) && isSectionValidation == true){
+        addError(null, "BR.person.email.empty", "The Email field is mandatory.",  "mainForm." + $personKind + "DataSection", $errorList);
+    }
+end
+
+rule "BR Email - Content"
+salience 1000
+when
+    $personKind : String()
+    $errorList : ErrorList()
+    Section( $fields : field, $validateImport : validateImport )
+    Field( id == "email", $fieldUsable : usable, $regex : format ) from $fields
+    $personRole : PersonRole($emails : emails)
+    eval(($personKind.equals("designer")) && (!((Designer) $personRole).waiver) && (!((Designer) $personRole).belongsToAGroup))
+    Email(emailAddress != null && emailAddress != "" && emailAddress not matches $regex) from $emails
+    $rulesInformation : RulesInformation($customObjects : customObjects )
+then
+    HashMap co = $customObjects;
+    Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if ((imported == false || $validateImport == true) && isSectionValidation == false){
+        addError("email", "BRFormat", "This field has a bad format",  null, $errorList);
+    }else if((imported == false || $validateImport == true) && isSectionValidation == true){
+        addError(null, "BR.person.email.Format", "The Email field has a bad format.", "mainForm." + $personKind + "DataSection", $errorList);
+    }
+end
+
+# Correspondence checks
+# ---------------------------------------------------------------------
+
+rule "BR(Correspondence) Name - Empty"
+salience 1000
+when
+    $personKind : String()
+    $errorList : ErrorList()
+    Section( $fields : field, $validateImport : validateImport )
+    Field( id == "correspondenceAddresses.correspondenceName", $fieldUsable : usable, $fieldRequired : required ) from $fields
+    $personRole : PersonRole($addresses : correspondenceAddresses, $addresses != null)
+    eval(!$personKind.equals("designer") ||
+             (($personKind.equals("designer")) && (!((Designer) $personRole).waiver) && (!((Designer) $personRole).belongsToAGroup)))
+    $address : Address(postalName == null || StringUtils.isEmpty(postalName) == true) from $addresses
+    eval($fieldUsable == true && $fieldRequired == true)
+    $rulesInformation : RulesInformation($customObjects : customObjects )
+then
+    HashMap co = $customObjects;
+    Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if ((imported == false || $validateImport == true) && isSectionValidation == false){
+        addError("correspondenceAddresses[" + indexOfObject($addresses, $address) + "].correspondenceName","BRMandatory","This field is mandatory", null, $errorList);
+    }else if((imported == false || $validateImport == true) && isSectionValidation == true){
+        addError(null, "BR.correspondenceAddresses.correspondenceName.empty", "The correspondence Name field is mandatory", "mainForm." + $personKind + "DataSection", $errorList);
+    }
+end
+
+rule "BR(Correspondence) Name - Content"
+salience 1000
+when
+    $personKind : String()
+    $errorList : ErrorList()
+    Section( $fields : field, $validateImport : validateImport )
+    Field( id == "correspondenceAddresses.correspondenceName", $fieldUsable : usable, $regex : format) from $fields
+    eval($fieldUsable == true && StringUtils.isNotEmpty($regex))
+    $personRole : PersonRole($addresses : correspondenceAddresses, $addresses != null)
+    eval(!$personKind.equals("designer") ||
+             (($personKind.equals("designer")) && (!((Designer) $personRole).waiver) && (!((Designer) $personRole).belongsToAGroup)))
+    $address : Address(StringUtils.isNotEmpty(postalName) && postalName not matches $regex) from $addresses
+    $rulesInformation : RulesInformation($customObjects : customObjects )
+then
+    HashMap co = $customObjects;
+    Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if ((imported == false || $validateImport == true) && isSectionValidation == false){
+        addError("correspondenceAddresses[" + indexOfObject($addresses, $address) + "].correspondenceName",
+         "BRFormat", "This field has a bad format", null, $errorList);
+    }else if((imported == false || $validateImport == true) && isSectionValidation == true){
+        addError(null, "BR.correspondenceAddresses.correspondenceName.format", "The correspondence Name field has a bad format", null, $errorList);
+    }
+end
+
+rule "BR(Correspondence) Street - Empty"
+salience 1000
+when
+    $personKind : String()
+    $errorList : ErrorList()
+    Section( $fields : field, $validateImport : validateImport )
+    Field( id == "correspondenceAddresses.addressForm.street", $fieldUsable : usable, $fieldRequired : required ) from $fields
+    $personRole : PersonRole($addresses : correspondenceAddresses, $addresses != null)
+    eval(!$personKind.equals("designer") ||
+             (($personKind.equals("designer")) && (!((Designer) $personRole).waiver) && (!((Designer) $personRole).belongsToAGroup)))        
+    $address : Address(StringUtils.isEmpty(street) == true) from $addresses
+    eval($fieldUsable == true && $fieldRequired == true)
+    $rulesInformation : RulesInformation($customObjects : customObjects )
+then
+    HashMap co = $customObjects;
+    Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if ((imported == false || $validateImport == true) && isSectionValidation == false){
+        addError("correspondenceAddresses[" + indexOfObject($addresses, $address) + "].addressForm.street", "BRMandatory", "This field is mandatory",  null, $errorList);
+    }else if((imported == false || $validateImport == true) && isSectionValidation == true){
+        addError(null, "BR.correspondenceAddresses.addressForm.street.empty", "The correspondence Street field is mandatory", "mainForm." + $personKind + "DataSection", $errorList);
+    }
+end
+
+rule "BR(Correspondence) Street - Content"
+salience 1000
+when
+    $personKind : String()
+    $errorList : ErrorList()
+    Section( $fields : field, $validateImport : validateImport )
+    Field( id == "correspondenceAddresses.addressForm.street", $fieldUsable : usable, $regex : format) from $fields
+    eval($fieldUsable == true && StringUtils.isNotEmpty($regex))
+    $personRole : PersonRole($addresses : correspondenceAddresses, $addresses != null)
+    eval(!$personKind.equals("designer") ||
+             (($personKind.equals("designer")) && (!((Designer) $personRole).waiver) && (!((Designer) $personRole).belongsToAGroup)))
+    $address : Address(StringUtils.isNotEmpty(street) && street not matches $regex) from $addresses
+    $rulesInformation : RulesInformation($customObjects : customObjects )
+then
+    HashMap co = $customObjects;
+    Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if ((imported == false || $validateImport == true) && isSectionValidation == false){
+        addError("correspondenceAddresses[" + indexOfObject($addresses, $address) + "].addressForm.street",
+         "BRFormat", "This field has a bad format", null, $errorList);
+    }else if((imported == false || $validateImport == true) && isSectionValidation == true){
+        addError(null, "BR.correspondenceAddresses.addressForm.street.format", "The correspondence Street field has a bad format", null, $errorList);
+    }
+end
+
+rule "BR(Correspondence) House Number - Empty"
+salience 1000
+when
+    $personKind : String()
+    $errorList : ErrorList()
+    Section( $fields : field, $validateImport : validateImport )
+    Field( id == "correspondenceAddresses.addressForm.houseNumber", $fieldUsable : usable, $fieldRequired : required ) from $fields
+    $personRole : PersonRole($addresses : correspondenceAddresses)
+    eval(!$personKind.equals("designer") ||
+             (($personKind.equals("designer")) && (!((Designer) $personRole).waiver) && (!((Designer) $personRole).belongsToAGroup)))
+    $address : Address(StringUtils.isEmpty(streetNumber) == true) from $addresses
+    eval($fieldUsable == true && $fieldRequired == true)
+    $rulesInformation : RulesInformation($customObjects : customObjects )
+then
+    HashMap co = $customObjects;
+    Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if ((imported == false || $validateImport == true) && isSectionValidation == false){
+        addError("correspondenceAddresses[" + indexOfObject($addresses, $address) + "].addressForm.houseNumber", "BRMandatory", "This field is mandatory", null,	 $errorList);
+    }else if((imported == false || $validateImport == true) && isSectionValidation == true){
+        addError(null, "BR.correspondenceAddresses.addressForm.houseNumber.empty", "The correspondence House Number field is mandatory", "mainForm." + $personKind + "DataSection", $errorList);
+    }
+end
+
+rule "BR(Correspondence) House Number - Content"
+salience 1000
+when
+    $personKind : String()
+    $errorList : ErrorList()
+    Section( $fields : field, $validateImport : validateImport )
+    Field( id == "correspondenceAddresses.addressForm.houseNumber", $fieldUsable : usable, $regex : format) from $fields
+    eval($fieldUsable == true && StringUtils.isNotEmpty($regex))
+    $personRole :PersonRole($addresses : correspondenceAddresses, $addresses != null)
+    eval(!$personKind.equals("designer") ||
+             (($personKind.equals("designer")) && (!((Designer) $personRole).waiver) && (!((Designer) $personRole).belongsToAGroup)))
+    $address : Address(StringUtils.isNotEmpty(streetNumber) && streetNumber not matches $regex) from $addresses
+    $rulesInformation : RulesInformation($customObjects : customObjects )
+then
+    HashMap co = $customObjects;
+    Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if ((imported == false || $validateImport == true) && isSectionValidation == false){
+        addError("correspondenceAddresses[" + indexOfObject($addresses, $address) + "].addressForm.streetNumber",
+         "BRFormat", "This field has a bad format", null, $errorList);
+    }else if((imported == false || $validateImport == true) && isSectionValidation == true){
+        addError(null, "BR.correspondenceAddresses.addressForm.houseNumber.format", "The correspondence house number field has a bad format", null, $errorList);
+    }
+end
+
+rule "BR(Correspondence) City - Empty"
+salience 1000
+when
+    $personKind : String()
+    $errorList : ErrorList()
+    Section( $fields : field, $validateImport : validateImport )
+    Field( id == "correspondenceAddresses.addressForm.city", $fieldUsable : usable, $fieldRequired : required ) from $fields
+    $personRole : PersonRole($addresses : correspondenceAddresses)
+    eval(!$personKind.equals("designer") ||
+             (($personKind.equals("designer")) && (!((Designer) $personRole).waiver) && (!((Designer) $personRole).belongsToAGroup)))
+    $address : Address(city == null || StringUtils.isEmpty(city) == true ) from $addresses
+    eval($fieldUsable == true && $fieldRequired == true)
+    $rulesInformation : RulesInformation($customObjects : customObjects )
+then
+    HashMap co = $customObjects;
+    Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if ((imported == false || $validateImport == true) && isSectionValidation == false){
+        addError("correspondenceAddresses[" + indexOfObject($addresses, $address) + "].addressForm.city",
+                 "BRMandatory", "This field is mandatory", null, $errorList);
+    }else if((imported == false || $validateImport == true) && isSectionValidation == true){
+        addError(null, "BR.correspondenceAddresses.addressForm.city.empty", "The correspondence City field is mandatory", "mainForm." + $personKind + "DataSection", $errorList);
+    }
+end
+
+rule "BR(Correspondence) City - Content"
+salience 1000
+when
+    $personKind : String()
+    $errorList : ErrorList()
+    Section( $fields : field, $validateImport : validateImport )
+    Field( id == "correspondenceAddresses.addressForm.city", $fieldUsable : usable, $regex : format) from $fields
+    eval($fieldUsable == true && StringUtils.isNotEmpty($regex))
+    $personRole : PersonRole($addresses : correspondenceAddresses, $addresses != null)
+    eval(!$personKind.equals("designer") ||
+             (($personKind.equals("designer")) && (!((Designer) $personRole).waiver) && (!((Designer) $personRole).belongsToAGroup)))
+    $address : Address(StringUtils.isNotEmpty(city) && city not matches $regex) from $addresses
+    $rulesInformation : RulesInformation($customObjects : customObjects )
+then
+    HashMap co = $customObjects;
+    Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if ((imported == false || $validateImport == true) && isSectionValidation == false){
+        addError("correspondenceAddresses[" + indexOfObject($addresses, $address) + "].addressForm.city",
+         "BRFormat", "This field has a bad format", null, $errorList);
+    }else if((imported == false || $validateImport == true) && isSectionValidation == true){
+        addError(null, "BR.correspondenceAddresses.addressForm.city.format", "The correspondence city field has a bad format", null, $errorList);
+    }
+end
+
+rule "BR(Correspondence) Postal Code - Empty"
+salience 1000
+when
+    $personKind : String()
+    $errorList : ErrorList()
+    Section( $fields : field, $validateImport : validateImport )
+    Field( id == "correspondenceAddresses.addressForm.postalCode", $fieldUsable : usable, $fieldRequired : required ) from $fields
+    $personRole : PersonRole($addresses : correspondenceAddresses, $addresses != null)
+    eval(!$personKind.equals("designer") ||
+             (($personKind.equals("designer")) && (!((Designer) $personRole).waiver) && (!((Designer) $personRole).belongsToAGroup)))
+    $address : Address(postCode == null || StringUtils.isEmpty(postCode) == true) from $addresses
+    eval($fieldUsable == true && $fieldRequired == true)
+    $rulesInformation : RulesInformation($customObjects : customObjects )
+then
+    HashMap co = $customObjects;
+    Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if ((imported == false || $validateImport == true) && isSectionValidation == false){
+        addError("correspondenceAddresses[" + indexOfObject($addresses, $address) + "].addressForm.postalCode",
+                 "BRMandatory", "This field is mandatory", null, $errorList);
+    }else if((imported == false || $validateImport == true) && isSectionValidation == true){
+        addError(null, "BR.correspondenceAddresses.addressForm.postalCode.empty", "The correspondence Postal Code field is mandatory", "mainForm." + $personKind + "DataSection", $errorList);
+    }
+end
+
+rule "BR(Correspondence) Postal Code - Content"
+salience 1000
+when
+    $personKind : String()
+    $errorList : ErrorList()
+    Section( $fields : field, $validateImport : validateImport )
+    Field( id == "correspondenceAddresses.addressForm.postalCode", $fieldUsable : usable, $regex : format) from $fields
+    eval($fieldUsable == true && StringUtils.isNotEmpty($regex))
+    $personRole : PersonRole($addresses : correspondenceAddresses, $addresses != null)
+    eval(!$personKind.equals("designer") ||
+             (($personKind.equals("designer")) && (!((Designer) $personRole).waiver) && (!((Designer) $personRole).belongsToAGroup)))
+    $address : Address(StringUtils.isNotEmpty(postCode) && postCode not matches $regex) from $addresses
+    $rulesInformation : RulesInformation($customObjects : customObjects )
+then
+    HashMap co = $customObjects;
+    Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if ((imported == false || $validateImport == true) && isSectionValidation == false){
+        addError("correspondenceAddresses[" + indexOfObject($addresses, $address) + "].addressForm.postalCode",
+         "BRFormat", "This field has a bad format", null, $errorList);
+    }else if((imported == false || $validateImport == true) && isSectionValidation == true){
+        addError(null, "BR.correspondenceAddresses.addressForm.postalCode.format", "The correspondence postal code field has a bad format", null, $errorList);
+    }
+end
+
+rule "BR(Correspondence) Country - Empty"
+salience 1000
+when
+    $personKind : String()
+    $errorList : ErrorList()
+    Section(   $fields : field, $validateImport : validateImport )
+    Field( id == "correspondenceAddresses.addressForm.country", $fieldUsable : usable, $fieldRequired : required ) from $fields
+    $personRole : PersonRole($addresses : correspondenceAddresses, $addresses != null)
+    eval(!$personKind.equals("designer") ||
+             (($personKind.equals("designer")) && (!((Designer) $personRole).waiver) && (!((Designer) $personRole).belongsToAGroup)))
+    $address : Address(StringUtils.isEmpty(country) == true) from $addresses
+    eval($fieldUsable == true && $fieldRequired == true)
+    $rulesInformation : RulesInformation($customObjects : customObjects )
+then
+    HashMap co = $customObjects;
+    Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if ((imported == false || $validateImport == true) && isSectionValidation == false){
+        addError("correspondenceAddresses[" + indexOfObject($addresses, $address) + "].addressForm.country",
+                 "BRMandatory",	 "This field is mandatory",	 null, $errorList);
+    }else if((imported == false || $validateImport == true) && isSectionValidation == true){
+        addError(null, "BR.correspondenceAddresses.addressForm.country.empty", "The correspondence Country field is mandatory", "mainForm." + $personKind + "DataSection", $errorList);
+    }
+end
+
+rule "BR(Correspondence) Country - Content"
+salience 1000
+when
+    $personKind : String()
+    $errorList : ErrorList()
+    Section( $fields : field, $validateImport : validateImport )
+    Field( id == "correspondenceAddresses.addressForm.country", $fieldUsable : usable, $regex : format) from $fields
+    eval($fieldUsable == true && StringUtils.isNotEmpty($regex))
+    $personRole : PersonRole($addresses : correspondenceAddresses, $addresses != null)
+    eval(!$personKind.equals("designer") ||
+             (($personKind.equals("designer")) && (!((Designer) $personRole).waiver) && (!((Designer) $personRole).belongsToAGroup)))
+    $address : Address(StringUtils.isNotEmpty(country) && country not matches $regex) from $addresses
+    $rulesInformation : RulesInformation($customObjects : customObjects )
+then
+    HashMap co = $customObjects;
+    Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if ((imported == false || $validateImport == true) && isSectionValidation == false){
+        addError("correspondenceAddresses[" + indexOfObject($addresses, $address) + "].addressForm.country",
+         "BRFormat", "This field has a bad format", null, $errorList);
+    }else if((imported == false || $validateImport == true) && isSectionValidation == true){
+        addError(null, "BR.correspondenceAddresses.addressForm.country.format", "The correspondence country field has a bad format", null, $errorList);
+    }
+end
+
+rule "BR(Correspondence) state province - Empty"
+salience 1000
+when
+    $personKind : String()
+    $errorList : ErrorList()
+    Section(   $fields : field, $validateImport : validateImport )
+    Field( id == "correspondenceAddresses.addressForm.stateprovince", $fieldUsable : usable, $fieldRequired : required ) from $fields
+    $personRole : PersonRole($addresses : correspondenceAddresses, $addresses != null)
+    eval(!$personKind.equals("designer") ||
+             (($personKind.equals("designer")) && (!((Designer) $personRole).waiver) && (!((Designer) $personRole).belongsToAGroup)))
+    eval($fieldUsable == true && $fieldRequired == true)
+    $address : Address((country == "GB" || country =="US") && state=="") from $addresses
+    $rulesInformation : RulesInformation($customObjects : customObjects )
+then
+    HashMap co = $customObjects;
+    Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if ((imported == false || $validateImport == true) && isSectionValidation == false){
+        addError("correspondenceAddresses[" + indexOfObject($addresses, $address) + "].addressForm.stateprovince",
+        "BRMandatory",	 "This field is mandatory", null, $errorList);
+    }else if((imported == false || $validateImport == true) && isSectionValidation == true){
+        addError(null, "BR.correspondenceAddresses.addressForm.stateprovince.empty", "The correspondence state province field is mandatory", "mainForm." + $personKind + "DataSection", $errorList);
+    }
+end
+
+rule "BR(Correspondence) state province - Content"
+salience 1000
+when
+    $personKind : String()
+    $errorList : ErrorList()
+    Section( $fields : field, $validateImport : validateImport )
+    Field( id == "correspondenceAddresses.addressForm.stateprovince", $fieldUsable : usable, $regex : format) from $fields
+    eval($fieldUsable == true && StringUtils.isNotEmpty($regex))
+    $personRole : PersonRole($addresses : correspondenceAddresses, $addresses != null)
+    eval(!$personKind.equals("designer") ||
+             (($personKind.equals("designer")) && (!((Designer) $personRole).waiver) && (!((Designer) $personRole).belongsToAGroup)))
+    $address : Address(StringUtils.isNotEmpty(state) && state not matches $regex) from $addresses
+    $rulesInformation : RulesInformation($customObjects : customObjects )
+then
+    HashMap co = $customObjects;
+    Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if ((imported == false || $validateImport == true) && isSectionValidation == false){
+        addError("correspondenceAddresses[" + indexOfObject($addresses, $address) + "].addressForm.stateprovince",
+         "BRFormat", "This field has a bad format", null, $errorList);
+    }else if((imported == false || $validateImport == true) && isSectionValidation == true){
+        addError(null, "BR.correspondenceAddresses.addressForm.stateprovince.empty", "The correspondence state province field has a bad format", null, $errorList);
+    }
+end
+
+rule "BR(Correspondence) Email - Empty"
+salience 1000
+when
+    $personKind : String()
+    $errorList : ErrorList()
+    Section( $fields : field, $validateImport : validateImport )
+    Field( id == "correspondenceAddresses.correspondenceEmail", $fieldUsable : usable, $fieldRequired : required) from $fields
+    eval($fieldUsable == true && $fieldRequired == true)
+    $personRole : PersonRole($correspondenceEmails : correspondenceEmails)
+    eval(!$personKind.equals("designer") ||
+             (($personKind.equals("designer")) && (!((Designer) $personRole).waiver) && (!((Designer) $personRole).belongsToAGroup)))
+    $emailAddress : Email(StringUtils.isEmpty(emailAddress)) from $correspondenceEmails
+    $rulesInformation : RulesInformation($customObjects : customObjects )
+then
+    HashMap co = $customObjects;
+       Boolean imported = co.get("imported");
+	   Boolean isSectionValidation = co.get("isSectionValidation");
+
+       if ((imported == false || $validateImport == true) && isSectionValidation == false){
+           addError("correspondenceAddresses[" + indexOfObject($correspondenceEmails, $emailAddress) + "].correspondenceEmail",
+            "BRMandatory",  "This field is mandatory", null,  $errorList);
+       }else if((imported == false || $validateImport == true) && isSectionValidation == true){
+           addError(null, "BR.correspondenceAddresses.correspondenceEmail.empty", "The correspondence Email field is mandatory", null, $errorList);
+       }
+end
+
+rule "BR(Correspondence) Email - Content"
+salience 1000
+when
+    $personKind : String()
+    $errorList : ErrorList()
+    Section( $fields : field, $validateImport : validateImport )
+    Field( id == "correspondenceAddresses.correspondenceEmail", $fieldUsable : usable, $regex : format) from $fields
+    eval($fieldUsable == true && StringUtils.isNotEmpty($regex))
+    $personRole : PersonRole($correspondenceEmails : correspondenceEmails)
+    eval(!$personKind.equals("designer") ||
+             (($personKind.equals("designer")) && (!((Designer) $personRole).waiver) && (!((Designer) $personRole).belongsToAGroup)))
+    $emailAddress:Email(emailAddress != null && emailAddress != "" && emailAddress not matches $regex) from $correspondenceEmails
+    $rulesInformation : RulesInformation($customObjects : customObjects )
+then
+    HashMap co = $customObjects;
+    Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if ((imported == false || $validateImport == true) && isSectionValidation == false){
+        addError("correspondenceAddresses[" + indexOfObject($correspondenceEmails, $emailAddress) + "].correspondenceEmail",
+         "BRFormat", "This field has a bad format", null, $errorList);
+    }else if((imported == false || $validateImport == true) && isSectionValidation == true){
+        addError(null, "BR.correspondenceAddresses.correspondenceEmail.format", "The correspondence Email field has a bad format", null, $errorList);
+    }
+end
+
+rule "BR(Correspondence) TelePhoneNumber - Empty"
+salience 1000
+when
+    $personKind : String()
+    $errorList : ErrorList()
+    Section( $fields : field, $validateImport : validateImport )
+    Field( id == "correspondenceAddresses.correspondencePhone", $fieldUsable : usable, $fieldRequired : required) from $fields
+    eval($fieldUsable == true && $fieldRequired == true)
+    $personRole : PersonRole($correspondencePhones : correspondencePhones, $correspondenceAddresses : correspondenceAddresses)
+    eval(($correspondencePhones == null || $correspondencePhones.size() == 0) && $correspondenceAddresses != null && $correspondenceAddresses.size() != 0)
+    $rulesInformation : RulesInformation($customObjects : customObjects )
+then
+    HashMap co = $customObjects;
+    Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if ((imported == false || $validateImport == true) && isSectionValidation == false){
+        addError("correspondenceAddresses[" + 0 + "].correspondencePhone",
+         "BRMandatory",  "This field is mandatory", null,  $errorList);
+    }else if((imported == false || $validateImport == true) && isSectionValidation == true){
+        addError(null, "BR.correspondenceAddresses.correspondencePhone.empty", "The correspondence telephone field is mandatory", null, $errorList);
+    }
+end
+
+rule "BR(Correspondence) TelePhoneNumber - Content"
+salience 1000
+when
+    $personKind : String()
+    $errorList : ErrorList()
+    Section( $fields : field, $validateImport : validateImport )
+    Field( id == "correspondenceAddresses.correspondencePhone", $fieldUsable : usable, $regex : format) from $fields
+    eval($fieldUsable == true && StringUtils.isNotEmpty($regex))
+    $personRole : PersonRole($correspondencePhones : correspondencePhones)
+    $phone:Phone($phoneKind:phoneKind, $number:number, StringUtils.isEmpty(number)==false && number not matches $regex) from $correspondencePhones
+    $rulesInformation : RulesInformation($customObjects : customObjects )
+
+then
+    HashMap co = $customObjects;
+    Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if ((imported == false || $validateImport == true) && isSectionValidation == false){
+        addError("correspondenceAddresses[" + indexOfObject($correspondencePhones, $phone) + "].correspondencePhone",
+        "BRFormat", "This field has a bad format", null, $errorList);
+    }else if((imported == false || $validateImport == true) && isSectionValidation == true){
+        addError(null, "BR.correspondenceAddresses.correspondencePhone.format", "The correspondence Telephone field has a bad format", null, $errorList);
+    }
+end
+
+
+rule "BR (Company  number depending on country)"
+salience 1000
+when
+    $errorList : ErrorList()
+    Section( $fields : field, $validateImport : validateImport)
+    $rulesInformation : RulesInformation($customObjects : customObjects )
+    Field( id == "nationalOfficialBusinessRegister", $fieldUsable : usable, $editableImportField : editableImport) from $fields
+    Field( id == "address.country", $fieldUsableCountry : usable) from $fields
+    eval($fieldUsable && $fieldUsableCountry)
+    PersonRole(identifiers != null && addresses != null && addresses.size() >0 && addresses.get(0).country != null && addresses.get(0).country != "BG", $ids: identifiers)
+    PersonIdentifier($idKind: identifierKindCode, identifierKindCode != null && identifierKindCode == "Company Number" &&
+        value != null && !value.isEmpty()) from $ids
+then
+    HashMap co = $customObjects;
+    Boolean imported = co.get("imported");
+    Boolean isSectionValidation = co.get("isSectionValidation");
+
+     if ((imported == false || $validateImport == true) && isSectionValidation == false){
+    	addError("nationalOfficialBusinessRegister", "BR.nationalOfficialBusinessRegister.onlyForBG", "This field should be filled only for BG companies", null, $errorList);
+    } else if((imported == false || $validateImport == true) && isSectionValidation == true){
+        addError(null, "BR.nationalOfficialBusinessRegister.onlyForBG", "This field should be filled only for BG companies", "mainForm.personalDataSection", $errorList);
+    }
+end
+
+rule "BR (Company  number not valid)"
+salience 1000
+when
+    $errorList : ErrorList()
+    Section( $fields : field, $validateImport : validateImport)
+    $rulesInformation : RulesInformation($customObjects : customObjects )
+    Field( id == "nationalOfficialBusinessRegister", $fieldUsable : usable, $editableImportField : editableImport) from $fields
+    eval($fieldUsable)
+    PersonRole(identifiers != null, $ids: identifiers)
+    PersonIdentifier($idKind: identifierKindCode, identifierKindCode != null && identifierKindCode == "Company Number" &&
+        value != null && !value.isEmpty()) from $ids
+then
+    HashMap co = $customObjects;
+    Boolean imported = co.get("imported");
+    Boolean isSectionValidation = co.get("isSectionValidation");
+    Boolean companyIdIsValid = co.get("companyIdIsValid");
+
+    if(!companyIdIsValid){
+         if ((imported == false || $validateImport == true) && isSectionValidation == false){
+            addError("nationalOfficialBusinessRegister", "BR.nationalOfficialBusinessRegister.invalid", "Invalid company id", null, $errorList);
+        } else if((imported == false || $validateImport == true) && isSectionValidation == true){
+            addError(null, "BR.nationalOfficialBusinessRegister.invalid", "Invalid company id", "mainForm.personalDataSection", $errorList);
+        }
+    }
+end

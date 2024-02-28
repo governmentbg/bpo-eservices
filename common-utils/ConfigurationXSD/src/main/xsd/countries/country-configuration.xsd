@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  * $Id::                                                                       $
+  *       . * .
+  *     * RRRR  *    Copyright © 2012 OHIM: Office for Harmonization
+  *   .   RR  R   .  in the Internal Market (trade marks and designs)
+  *   *   RRR     *
+  *    .  RR RR  .   ALL RIGHTS RESERVED
+  *     * . _ . *
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:tm="http://www.tm-xml.org/XMLSchema/common" targetNamespace="http://www.example.org/country-configuration"
+	xmlns="http://www.example.org/country-configuration"
+	elementFormDefault="qualified">
+
+	<xs:element name="countries">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="country" maxOccurs="unbounded" minOccurs="1">
+					<xs:complexType>
+						<xs:simpleContent>
+							<xs:extension base="xs:string">
+								<xs:attribute name="code" type="xs:string" use="required" />
+								<xs:attribute name="isEU" type="xs:boolean" use="required" />
+                                <xs:attribute name="partOfEEA" type="xs:boolean" use="required" />
+								<xs:attribute name="isPriority" type="xs:boolean"
+									use="required" />
+								<xs:attribute name="isSeniority" type="xs:boolean"
+									use="required" />
+								<xs:attribute name="hasState" type="xs:boolean"
+									use="required" />
+								<xs:attribute name="hasStateInc" type="xs:boolean"
+									use="required" />
+								<xs:attribute name="enabled" type="xs:boolean" use="required" />
+								<xs:attribute name="isRepresentative" type="xs:boolean"
+									use="required" />
+								<xs:attribute name="isApplicant" type="xs:boolean"
+									use="required" />
+								<xs:attribute name="isDesigner" type="xs:boolean"
+											  use="required" />
+								<xs:attribute name="isNonRegisteredTM" type="xs:boolean" use="optional" />
+								<xs:attribute name="isParisConvention" type="xs:boolean" use="optional" />
+								<xs:attribute name="isEarlierWellKnow" type="xs:boolean" use="optional" />
+								<xs:attribute name="isForeignTMView" type="xs:boolean" use="optional" />
+							</xs:extension>
+						</xs:simpleContent>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

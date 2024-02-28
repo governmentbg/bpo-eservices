@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<typeRightEarlierTradeMarks xmlns="http://www.example.org/typeRightEarlierTradeMark-configuration"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://www.example.org/typeRightEarlierTradeMark-configuration typeRightEarlierTradeMark-configuration.xsd ">
+    
+    <typeRightEarlierTradeMark applicationType="tm-opposition" mandatoryTypeRightDetails="false"
+              code="" earlierEntitlementRightType="industrialPropertyRight" showTypeRightDetails="false"  legalActVersion="2019" enabled="true">selectBox.SELECT</typeRightEarlierTradeMark>              
+	<typeRightEarlierTradeMark applicationType="tm-opposition" mandatoryTypeRightDetails="false"
+              code="design" earlierEntitlementRightType="industrialPropertyRight" showTypeRightDetails="false"  legalActVersion="2019" enabled="true">earlierEntitlement.typeRight.design</typeRightEarlierTradeMark>                           	              
+    <typeRightEarlierTradeMark applicationType="tm-opposition" mandatoryTypeRightDetails="false" 
+              code="patent" earlierEntitlementRightType="industrialPropertyRight" showTypeRightDetails="false"  legalActVersion="2019" enabled="true">earlierEntitlement.typeRight.patent</typeRightEarlierTradeMark>
+    <typeRightEarlierTradeMark applicationType="tm-opposition" mandatoryTypeRightDetails="false" 
+              code="utilityModel" earlierEntitlementRightType="industrialPropertyRight" showTypeRightDetails="false"  legalActVersion="2019" enabled="true">earlierEntitlement.typeRight.utilityModel</typeRightEarlierTradeMark>
+    <typeRightEarlierTradeMark applicationType="tm-opposition" mandatoryTypeRightDetails="false" 
+              code="geographicalOrigin" earlierEntitlementRightType="industrialPropertyRight" showTypeRightDetails="false"  legalActVersion="2019" enabled="true">earlierEntitlement.typeRight.geographicalOrigin</typeRightEarlierTradeMark>
+    <typeRightEarlierTradeMark applicationType="tm-opposition" mandatoryTypeRightDetails="false" 
+              code="layoutDesign" earlierEntitlementRightType="industrialPropertyRight" showTypeRightDetails="false"  legalActVersion="2019" enabled="true">earlierEntitlement.typeRight.layoutDesign</typeRightEarlierTradeMark>
+              
+	<typeRightEarlierTradeMark applicationType="tm-opposition" mandatoryTypeRightDetails="false" 
+              code="rightName" earlierEntitlementRightType="otherRights" showTypeRightDetails="false"  legalActVersion="2019" enabled="true">earlierEntitlement.typeRight.rightName</typeRightEarlierTradeMark>
+	<typeRightEarlierTradeMark applicationType="tm-opposition" mandatoryTypeRightDetails="false" 
+              code="rightPersonal" earlierEntitlementRightType="otherRights" showTypeRightDetails="false"  legalActVersion="2019" enabled="true">earlierEntitlement.typeRight.rightPersonal</typeRightEarlierTradeMark>
+	<typeRightEarlierTradeMark applicationType="tm-opposition" mandatoryTypeRightDetails="false" 
+              code="rightNameInmovable" earlierEntitlementRightType="otherRights" showTypeRightDetails="false"  legalActVersion="2019" enabled="true">earlierEntitlement.typeRight.rightNameInmovable</typeRightEarlierTradeMark>
+	<typeRightEarlierTradeMark applicationType="tm-opposition" mandatoryTypeRightDetails="false" 
+              code="rightNameArchitectual" earlierEntitlementRightType="otherRights" showTypeRightDetails="false"  legalActVersion="2019" enabled="true">earlierEntitlement.typeRight.rightNameArchitectual</typeRightEarlierTradeMark>
+	<typeRightEarlierTradeMark applicationType="tm-opposition" mandatoryTypeRightDetails="false" 
+              code="foreignName" earlierEntitlementRightType="otherRights" showTypeRightDetails="false"  legalActVersion="2019" enabled="true">earlierEntitlement.typeRight.foreignName</typeRightEarlierTradeMark>              
+	<typeRightEarlierTradeMark applicationType="tm-opposition" mandatoryTypeRightDetails="false" 
+              code="otherRight" earlierEntitlementRightType="otherRights" showTypeRightDetails="true"  legalActVersion="2019" enabled="true">earlierEntitlement.typeRight.otherRight</typeRightEarlierTradeMark>
+      
+    
+    <typeRightEarlierTradeMark applicationType="tm-invalidity" mandatoryTypeRightDetails="false"
+              code="" earlierEntitlementRightType="industrialPropertyRight" showTypeRightDetails="false"  legalActVersion="2019" enabled="true">selectBox.SELECT</typeRightEarlierTradeMark>              
+	<typeRightEarlierTradeMark applicationType="tm-invalidity" mandatoryTypeRightDetails="false"
+              code="design" earlierEntitlementRightType="industrialPropertyRight" showTypeRightDetails="false"  legalActVersion="2019" enabled="true">earlierEntitlement.typeRight.design</typeRightEarlierTradeMark>                           	              
+    <typeRightEarlierTradeMark applicationType="tm-invalidity" mandatoryTypeRightDetails="false" 
+              code="patent" earlierEntitlementRightType="industrialPropertyRight" showTypeRightDetails="false"  legalActVersion="2019" enabled="true">earlierEntitlement.typeRight.patent</typeRightEarlierTradeMark>
+    <typeRightEarlierTradeMark applicationType="tm-invalidity" mandatoryTypeRightDetails="false" 
+              code="utilityModel" earlierEntitlementRightType="industrialPropertyRight" showTypeRightDetails="false"  legalActVersion="2019" enabled="true">earlierEntitlement.typeRight.utilityModel</typeRightEarlierTradeMark>
+    <typeRightEarlierTradeMark applicationType="tm-invalidity" mandatoryTypeRightDetails="false" 
+              code="geographicalOrigin" earlierEntitlementRightType="industrialPropertyRight" showTypeRightDetails="false"  legalActVersion="2019" enabled="true">earlierEntitlement.typeRight.geographicalOrigin</typeRightEarlierTradeMark>
+    <typeRightEarlierTradeMark applicationType="tm-invalidity" mandatoryTypeRightDetails="false" 
+              code="layoutDesign" earlierEntitlementRightType="industrialPropertyRight" showTypeRightDetails="false"  legalActVersion="2019" enabled="true">earlierEntitlement.typeRight.layoutDesign</typeRightEarlierTradeMark>
+              
+	<typeRightEarlierTradeMark applicationType="tm-invalidity" mandatoryTypeRightDetails="false" 
+              code="rightName" earlierEntitlementRightType="otherRights" showTypeRightDetails="false"  legalActVersion="2019" enabled="true">earlierEntitlement.typeRight.rightName</typeRightEarlierTradeMark>
+	<typeRightEarlierTradeMark applicationType="tm-invalidity" mandatoryTypeRightDetails="false" 
+              code="rightPersonal" earlierEntitlementRightType="otherRights" showTypeRightDetails="false"  legalActVersion="2019" enabled="true">earlierEntitlement.typeRight.rightPersonal</typeRightEarlierTradeMark>
+	<typeRightEarlierTradeMark applicationType="tm-invalidity" mandatoryTypeRightDetails="false" 
+              code="rightNameInmovable" earlierEntitlementRightType="otherRights" showTypeRightDetails="false"  legalActVersion="2019" enabled="true">earlierEntitlement.typeRight.rightNameInmovable</typeRightEarlierTradeMark>
+	<typeRightEarlierTradeMark applicationType="tm-invalidity" mandatoryTypeRightDetails="false" 
+              code="rightNameArchitectual" earlierEntitlementRightType="otherRights" showTypeRightDetails="false"  legalActVersion="2019" enabled="true">earlierEntitlement.typeRight.rightNameArchitectual</typeRightEarlierTradeMark>
+	<typeRightEarlierTradeMark applicationType="tm-invalidity" mandatoryTypeRightDetails="false" 
+              code="foreignName" earlierEntitlementRightType="otherRights" showTypeRightDetails="false"  legalActVersion="2019" enabled="true">earlierEntitlement.typeRight.foreignName</typeRightEarlierTradeMark>              
+	<typeRightEarlierTradeMark applicationType="tm-invalidity" mandatoryTypeRightDetails="false" 
+              code="otherRight" earlierEntitlementRightType="otherRights" showTypeRightDetails="true"  legalActVersion="2019" enabled="true">earlierEntitlement.typeRight.otherRight</typeRightEarlierTradeMark>
+      
+</typeRightEarlierTradeMarks>

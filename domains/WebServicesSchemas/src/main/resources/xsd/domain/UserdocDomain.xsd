@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="qualified"
+           version="3.2"
+           targetNamespace="http://ohim.eu/sp/domain/userdoc/v3"
+           xmlns:tns="http://ohim.eu/sp/domain/userdoc/v3"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:complexType name="FilteredUserdocs">
+        <xs:sequence>
+            <xs:element name="Userdoc" type="tns:Userdoc" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="UserdocRelationRestriction" type="tns:UserdocRelationRestrictionType"/>
+            <xs:element name="MainObject" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="Userdoc">
+        <xs:sequence>
+            <xs:element name="UserdocType" type="xs:string" minOccurs="0"/>
+            <xs:element name="UserdocTypeName" type="xs:string" minOccurs="0"/>
+            <xs:element name="ExternalSystemId" type="xs:string" minOccurs="0"/>
+            <xs:element name="FilingDate" type="xs:date" minOccurs="0"/>
+            <xs:element name="DocOrigin" type="xs:string" minOccurs="0"/>
+            <xs:element name="DocLog" type="xs:string" minOccurs="0"/>
+            <xs:element name="DocSeries" type="xs:integer" minOccurs="0"/>
+            <xs:element name="DocNbr" type="xs:integer" minOccurs="0"/>
+            <xs:element name="DocSeqNbr" type="xs:integer" minOccurs="0"/>
+            <xs:element name="DocSeqSeries" type="xs:integer" minOccurs="0"/>
+            <xs:element name="ParentProcessNbr" type="xs:integer"/>
+            <xs:element name="ParentProcessType" type="xs:string"/>
+            <xs:element name="ProcessNbr" type="xs:integer"/>
+            <xs:element name="ProcessType" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:simpleType name="UserdocRelationRestrictionType">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="OBJECT_ONLY"/>
+            <xs:enumeration value="USERDOC_RELATION_OPTIONAL"/>
+            <xs:enumeration value="USERDOC_RELATION_MANDATORY"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

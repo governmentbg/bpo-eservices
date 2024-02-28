@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="qualified"
+	version="3.2"
+	targetNamespace="http://ohim.eu/sp/domain/person/v3"
+    xmlns:tns="http://ohim.eu/sp/domain/person/v3"
+    xmlns:contact="http://ohim.eu/sp/domain/contact/v3"
+    xmlns:common="http://ohim.eu/sp/domain/common/v3"
+    xmlns:resource="http://ohim.eu/sp/domain/resource/v3"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    
+    <xs:import namespace="http://ohim.eu/sp/domain/contact/v3" schemaLocation="./ContactDomain.xsd"/>
+    <xs:import namespace="http://ohim.eu/sp/domain/common/v3" schemaLocation="./CommonDomain.xsd"/>
+    <xs:import namespace="http://ohim.eu/sp/domain/resource/v3" schemaLocation="./ResourceDomain.xsd"/>
+
+    <xs:complexType name="Representative">
+        <xs:complexContent>
+            <xs:extension base="tns:PersonRole">
+                <xs:sequence>
+                    <xs:element name="representativeKind" type="tns:RepresentativeKind" minOccurs="0"/>
+                    <xs:element name="economicConnectionIndicator" type="xs:boolean"/>
+                    <xs:element name="economicConnectionNature" type="xs:string"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="Applicant">
+        <xs:complexContent>
+            <xs:extension base="tns:PersonRole">
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="Designer">
+        <xs:complexContent>
+            <xs:extension base="tns:PersonRole">
+                <xs:sequence>
+                    <xs:element name="waiver" type="xs:boolean" />
+                    <xs:element name="belongsToAGroup" type="xs:boolean" />
+                    <xs:element name="groupName" type="xs:string" minOccurs="0" maxOccurs="1" />
+                    <xs:element name="designsAssociatedIndicator" type="xs:boolean" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="Inventor">
+        <xs:complexContent>
+            <xs:extension base="tns:PersonRole">
+                <xs:sequence>
+                    <xs:element name="waiver" type="xs:boolean" />
+                    <xs:element name="belongsToAGroup" type="xs:boolean" />
+                    <xs:element name="groupName" type="xs:string" minOccurs="0" maxOccurs="1" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="Holder">
+        <xs:complexContent>
+            <xs:extension base="tns:PersonRole">
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="Payer">
+        <xs:complexContent>
+            <xs:extension base="tns:PersonRole">
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="PersonRole">
+        <xs:complexContent>
+            <xs:extension base="tns:Person">
+                <xs:sequence>
+                    <xs:element name="correspondenceAddresses" type="contact:Address" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="correspondencePhones" type="contact:Phone" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="correspondenceEmail" type="contact:Email" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="personRoleRelationships" type="tns:PersonRoleRelationship" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="order" type="xs:integer"/>
+                </xs:sequence>
+                <xs:attribute name="operationCode" type="tns:OperationCodeType" use="optional"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="PersonRoleRelationship">
+        <xs:sequence>
+            <xs:element name="personRoleRelationKind" type="tns:PersonRoleRelationKind" minOccurs="0"/>
+            <xs:element name="personRole" type="tns:PersonRole" minOccurs="0"/>
+            <xs:element name="documents" type="resource:Document" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="PersonRequest">
+        <xs:sequence>
+            <xs:element name="module" type="xs:string" minOccurs="0"/>
+            <xs:element name="office" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="AutocompleteRequest">
+        <xs:complexContent>
+            <xs:extension base="common:GenericAutocompleteRequest">
+                <xs:sequence>
+                    <xs:element name="module" type="xs:string" minOccurs="0" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="Person">
+        <xs:sequence>
+            <xs:element name="id" type="xs:integer" minOccurs="0" />
+            <xs:element name="identifiers" type="tns:PersonIdentifier" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="kind" type="tns:PersonKind" minOccurs="0"/>
+            <xs:element name="name" type="tns:PersonName" minOccurs="0" />
+            <xs:element name="personNumber" type="xs:string"/>
+            <xs:element name="dateOfBirth" type="xs:date"/>
+            <xs:element name="gender" type="tns:Gender"/>
+            <xs:element name="nationality" type="xs:string"/>
+            <xs:element name="domicileLocality" type="xs:string"/>
+            <xs:element name="domicileCountry" type="xs:string"/>
+            <xs:element name="legalForm" type="xs:string"/>
+            <xs:element name="incorporationCountry" type="xs:string"/>
+            <xs:element name="incorporationState" type="xs:string"/>
+            <xs:element name="privacyWaiver" type="xs:boolean"/>
+            <xs:element name="addresses" type="contact:Address" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="phones" type="contact:Phone" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="emails" type="contact:Email" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="urls" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="preferredCorrespondenceKind" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="PersonIdentifier">
+        <xs:sequence>
+            <xs:element name="value" type="xs:string"/>
+            <xs:element name="identifierKindCode" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="PersonName">
+        <xs:sequence>
+            <xs:element name="characterSet" type="common:CharacterSet" minOccurs="0"/>
+            <xs:element name="title" type="xs:string"/>
+            <xs:element name="firstName" type="xs:string"/>
+            <xs:element name="middleName" type="xs:string"/>
+            <xs:element name="lastName" type="xs:string"/>
+            <xs:element name="secondLastName" type="xs:string"/>
+            <xs:element name="organizationName" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="TransliteratedPersonName">
+        <xs:complexContent>
+            <xs:extension base="tns:PersonName">
+                <xs:sequence>
+                    <xs:element name="transliterationCharacterSet" type="common:CharacterSet" minOccurs="0"/>
+                    <xs:element name="transliteratedFirstName" type="xs:string"/>
+                    <xs:element name="transliteratedMiddleName" type="xs:string"/>
+                    <xs:element name="transliteratedLastName" type="xs:string"/>
+                    <xs:element name="transliteratedSecondLastName" type="xs:string"/>
+                    <xs:element name="transliteratedOrganizationName" type="xs:string"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="PersonCriteria">
+        <xs:sequence>
+            <xs:element name="country" type="xs:string" minOccurs="0" />
+            <xs:element name="name" type="xs:string" minOccurs="0" />
+            <xs:element name="referenceNumber" type="xs:string" minOccurs="0" />
+            <xs:element name="type" type="xs:string" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ENUMS -->
+
+    <xs:simpleType name="RepresentativeKind">
+        <xs:restriction base="xs:string">
+			<xs:enumeration value="Professional Representative" />
+			<xs:enumeration value="Lawyer" />
+            <xs:enumeration value="Association" />
+			<xs:enumeration value="Lawyer Company" />
+			<xs:enumeration value="Lawyer Association" />
+			<xs:enumeration value="Temporary Representative" />
+			<xs:enumeration value="Employee" />
+			<xs:enumeration value="Employee with Economic Connections" />
+			<xs:enumeration value="Other" />
+			<xs:enumeration value="Undefined" />
+			<xs:enumeration value="Intellectual Property Representative" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="PersonKind">
+        <xs:restriction base="xs:string">
+			<xs:enumeration value="Natural Person" />
+			<xs:enumeration value="Natural Person Special case" />
+			<xs:enumeration value="Legal Entity" />
+			<xs:enumeration value="Corporation by Civil Law" />
+			<xs:enumeration value="Other" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="PersonRoleKind">
+        <xs:restriction base="xs:string">
+   			<xs:enumeration value="Applicant" />
+			<xs:enumeration value="Employee" />
+			<xs:enumeration value="Legal practitioner" />
+			<xs:enumeration value="Representative" />
+			<xs:enumeration value="OHIM Professional Representative" /> <!-- Office-registered Rep -->
+			<xs:enumeration value="Other" /> <!-- Office-registered Rep -->
+            <xs:enumeration value="Bailiff" /> <!-- BPO specific -->
+            <xs:enumeration value="Assignee" /> <!-- BPO specific -->
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="PersonRoleRelationKind">
+        <xs:restriction base="xs:string">
+			<xs:enumeration value="Representation" />
+			<xs:enumeration value="Association" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="Gender">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Male"/>
+            <xs:enumeration value="Female"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="OperationCodeType">
+        <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="Insert"/>
+            <xs:enumeration value="Delete"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>

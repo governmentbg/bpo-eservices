@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<categoriesTradeMark xmlns="http://www.example.org/categoriesTradeMark-configuration"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://www.example.org/categoriesTradeMark-configuration categoriesTradeMark-configuration.xsd ">
+    <categoryTradeMark  applicationType="tm-opposition" 
+              code="" enabled="false">selectBox.SELECT</categoryTradeMark>
+    <categoryTradeMark  applicationType="tm-opposition" countries="BG" filterCountries="true" isEU="false"
+              code="sp" enabled="true">categoryTradeMark.national</categoryTradeMark>
+    <categoryTradeMark  applicationType="tm-opposition" countries="BG" filterCountries="true" isEU="false"
+              code="wo" enabled="true">categoryTradeMark.international</categoryTradeMark>
+    <categoryTradeMark  applicationType="tm-opposition" countries="" filterCountries="false" isEU="true"
+              code="em" enabled="true">categoryTradeMark.community</categoryTradeMark>
+       
+    <categoryTradeMark  applicationType="tm-opposition_tm_section" 
+              code="" enabled="false">selectBox.SELECT</categoryTradeMark>
+    <categoryTradeMark  applicationType="tm-opposition_tm_section" countries="BG" filterCountries="true" isEU="false"
+              code="sp" enabled="true">categoryTradeMark.national</categoryTradeMark>
+    <categoryTradeMark  applicationType="tm-opposition_tm_section" countries="BG" filterCountries="true" isEU="false"
+              code="wo" enabled="true">categoryTradeMark.international</categoryTradeMark>
+    <categoryTradeMark  applicationType="tm-opposition_tm_section" countries="" filterCountries="false" isEU="true"
+              code="em" enabled="false">categoryTradeMark.community</categoryTradeMark>   
+              
+    <categoryTradeMark  applicationType="tm-objection_tm_section" 
+              code="" enabled="false">selectBox.SELECT</categoryTradeMark>
+    <categoryTradeMark  applicationType="tm-objection_tm_section" countries="BG" filterCountries="true" isEU="false"
+              code="sp" enabled="true">categoryTradeMark.national</categoryTradeMark>
+    <categoryTradeMark  applicationType="tm-objection_tm_section" countries="BG" filterCountries="true" isEU="false"
+              code="wo" enabled="true">categoryTradeMark.international</categoryTradeMark>
+    <categoryTradeMark  applicationType="tm-objection_tm_section" countries="" filterCountries="false" isEU="true"
+              code="em" enabled="false">categoryTradeMark.community</categoryTradeMark>   
+            
+	<categoryTradeMark  applicationType="tm-revocation_tm_section" 
+              code="" enabled="false">selectBox.SELECT</categoryTradeMark>
+    <categoryTradeMark  applicationType="tm-revocation_tm_section" countries="BG" filterCountries="true" isEU="false"
+              code="sp" enabled="true">categoryTradeMark.national</categoryTradeMark>
+    <categoryTradeMark  applicationType="tm-revocation_tm_section" countries="BG" filterCountries="true" isEU="false"
+              code="wo" enabled="true">categoryTradeMark.international</categoryTradeMark>
+    <categoryTradeMark  applicationType="tm-revocation_tm_section" countries="" filterCountries="false" isEU="true"
+              code="em" enabled="false">categoryTradeMark.community</categoryTradeMark>   
+              
+    <categoryTradeMark  applicationType="tm-invalidity_tm_section" 
+              code="" enabled="false">selectBox.SELECT</categoryTradeMark>
+    <categoryTradeMark  applicationType="tm-invalidity_tm_section" countries="BG" filterCountries="true" isEU="false"
+              code="sp" enabled="true">categoryTradeMark.national</categoryTradeMark>
+    <categoryTradeMark  applicationType="tm-invalidity_tm_section" countries="BG" filterCountries="true" isEU="false"
+              code="wo" enabled="true">categoryTradeMark.international</categoryTradeMark>
+    <categoryTradeMark  applicationType="tm-invalidity_tm_section" countries="" filterCountries="false" isEU="true"
+              code="em" enabled="false">categoryTradeMark.community</categoryTradeMark>   
+              
+	<categoryTradeMark  applicationType="tm-invalidity" 
+              code="" enabled="true">selectBox.SELECT</categoryTradeMark>
+    <categoryTradeMark  applicationType="tm-invalidity" countries="BG" filterCountries="true" isEU="false"
+              code="sp" enabled="true">categoryTradeMark.national</categoryTradeMark>
+    <categoryTradeMark  applicationType="tm-invalidity" countries="BG" filterCountries="true" isEU="false"
+              code="wo" enabled="true">categoryTradeMark.international</categoryTradeMark>
+    <categoryTradeMark  applicationType="tm-invalidity" countries="" filterCountries="false" isEU="true"
+              code="em" enabled="true">categoryTradeMark.community</categoryTradeMark>         
+              
+    <categoryTradeMark  applicationType="ds-invalidity" 
+              code="" enabled="true">selectBox.SELECT</categoryTradeMark>
+    <categoryTradeMark  applicationType="ds-invalidity" countries="BG" filterCountries="true" isEU="false"
+              code="sp" enabled="true">categoryTradeMark.national</categoryTradeMark>
+    <categoryTradeMark  applicationType="ds-invalidity" countries="BG" filterCountries="true" isEU="false"
+              code="wo" enabled="true">categoryTradeMark.international</categoryTradeMark>
+    <categoryTradeMark  applicationType="ds-invalidity" countries="" filterCountries="false" isEU="true"
+              code="em" enabled="true">categoryTradeMark.community</categoryTradeMark>        
+              
+    <categoryTradeMark  applicationType="tm-appeal_tm_section" 
+              code="" enabled="false">selectBox.SELECT</categoryTradeMark>
+    <categoryTradeMark  applicationType="tm-appeal_tm_section" countries="BG" filterCountries="true" isEU="false"
+              code="sp" enabled="true">categoryTradeMark.national</categoryTradeMark>
+    <categoryTradeMark  applicationType="tm-appeal_tm_section" countries="BG" filterCountries="true" isEU="false"
+              code="wo" enabled="true">categoryTradeMark.international</categoryTradeMark>
+    <categoryTradeMark  applicationType="tm-appeal_tm_section" countries="" filterCountries="false" isEU="true"
+              code="em" enabled="false">categoryTradeMark.community</categoryTradeMark>   
+</categoriesTradeMark>

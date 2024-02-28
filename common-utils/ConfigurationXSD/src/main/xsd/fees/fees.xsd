@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- * $Id:: fees.xsd 14329 2012-10-29 13:02:02Z jaraful $ * . * . * * RRRR 
+	* Copyright © 2012 OHIM: Office for Harmonization * . RR R . in the Internal 
+	Market (trade marks and designs) * * RRR * * . RR RR . ALL RIGHTS RESERVED 
+	* * . _ . * -->
+
+<xs:schema version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<xs:complexType name="feeType">
+		<xs:sequence>
+			<xs:element name="code" minOccurs="1" maxOccurs="1"
+				type="xs:string" />
+			<xs:element name="nameKey" minOccurs="1" maxOccurs="1"
+				type="xs:string" />
+			<xs:element name="description" minOccurs="1" maxOccurs="1"
+				type="xs:string" />
+			<xs:element name="defaultValue" minOccurs="1" maxOccurs="1"
+				type="xs:double" />
+			<xs:element name="configFee" minOccurs="0" maxOccurs="1">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="true|false"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+    <xs:element name="feeList">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="feeTypeList" minOccurs="0" maxOccurs="unbounded"
+                            type="feeType" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+	<xs:element name="fee">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="id" minOccurs="1" maxOccurs="1" type="xs:string" />
+				<xs:element name="feeType" minOccurs="1" maxOccurs="1"
+					type="feeType" />
+				<xs:element name="amount" minOccurs="1" maxOccurs="1"
+					type="xs:double" />
+				<xs:element name="quantity" minOccurs="1" maxOccurs="1"
+					type="xs:integer" />
+				<xs:element name="unitAmount" minOccurs="1" maxOccurs="1"
+					type="xs:double" />
+				<xs:element name="legalDate" minOccurs="0" maxOccurs="1"
+					type="xs:dateTime" />
+				<xs:element name="status" minOccurs="0" maxOccurs="1"
+					type="xs:string" />
+				<xs:element name="statusDate" minOccurs="0" maxOccurs="1"
+					type="xs:dateTime" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

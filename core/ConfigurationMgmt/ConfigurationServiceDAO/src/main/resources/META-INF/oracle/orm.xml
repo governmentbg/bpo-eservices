@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_2_0.xsd"
+	version="2.0">
+	<persistence-unit-metadata>
+		<persistence-unit-defaults>
+			<access>FIELD</access>
+		</persistence-unit-defaults>
+	</persistence-unit-metadata>
+	<package>eu.ohim.sp.core.configuration.entity</package>
+
+	<entity class="Component" name="CCOMPONENT">
+		<attributes>
+			<id name="id">
+				<column name="IdComponent"/>
+				<generated-value strategy="TABLE" generator="component-generator" />
+				<table-generator name="component-generator" table="TSEQUENCE" pk-column-name="IdSequence" value-column-name="NrLastValue" pk-column-value="Component" allocation-size="1" />
+			</id>
+			<basic name="name">
+				<column name="NmComponent"/>
+			</basic>
+		</attributes>
+	</entity>
+
+	<entity class="ConfigParam" name="PCONFIGPARAM">
+        <named-query name="ConfigParam.findConfigParam">
+            <query>select c FROM PCONFIGPARAM c
+                INNER JOIN c.component comp
+                WHERE c.name = :name AND comp.name = :component</query>
+        </named-query>
+        <named-query name="ConfigParam.getConfigParamByModule">
+            <query>select c FROM PCONFIGPARAM c
+                INNER JOIN c.component comp
+                WHERE c.paramtype=0 AND comp.name= :component</query>
+        </named-query>
+        <attributes>
+			<id name="id">
+				<column name="IdParam"/>
+				<generated-value strategy="TABLE" generator="configparam-generator" />
+				<table-generator name="configparam-generator" table="TSEQUENCE" pk-column-name="IdSequence" value-column-name="NrLastValue" pk-column-value="ConfigParam" allocation-size="1" />
+			</id>
+			<basic name="name">
+				<column name="NmParam"/>
+			</basic>
+			<basic name="description">
+				<column name="DscParam"/>
+			</basic>
+			<basic name="hidden">
+				<column name="IsHidden" column-definition="NUMBER"/>
+			</basic>
+			<basic name="paramSource">
+				<column name="PrmSource"/>
+                <enumerated>ORDINAL</enumerated>
+            </basic>
+    		<basic name="paramtype">
+				<column name="TyParam"/>
+                <enumerated>ORDINAL</enumerated>
+            </basic>
+			<many-to-one name="component" >
+				<join-column name="IdComponent"/>
+			</many-to-one>
+			<one-to-many  name="entries">
+				<join-column name="IdParam" />
+			</one-to-many>
+		</attributes>
+	</entity>
+	
+	<entity class="ConfigSetting" name="DCONFIGSETTING">
+        <named-query name="filterActiveEntries">
+            <query>SELECT e from DCONFIGSETTING e
+                INNER JOIN e.configParam c
+                INNER JOIN e.configParam.component comp
+                WHERE c.name = :name AND comp.name = :component
+                AND e.configParam.paramtype = :type
+                AND :currentDate >= e.validfrom
+                AND (e.validto = null OR (e.validto != null AND e.validto >= :currentDate ))
+                ORDER BY e.validfrom DESC</query>
+        </named-query>
+		<attributes>
+			<id name="id">
+				<column name="IdConfigSetting"/>
+				<generated-value strategy="TABLE" generator="configsetting-generator" />
+				<table-generator name="configsetting-generator" table="TSEQUENCE" pk-column-name="IdSequence" value-column-name="NrLastValue" pk-column-value="DConfigSetting" allocation-size="1" />
+			</id>
+			<basic name="validfrom">
+				<column name="DtValidFrom"/>
+			</basic>
+			<basic name="validto">
+				<column name="DtValidTo"/>
+			</basic>
+			<basic name="modifiedBy">
+				<column name="LogModifiedBy" column-definition="CHAR"/>
+			</basic>
+			<basic name="dtCreated"  >
+				<column name="DtCreated"/>
+			</basic>
+			<many-to-one name="configParam">
+				<join-column name="IdParam" />
+			</many-to-one>
+		</attributes>
+	</entity>
+
+	<entity class="ConfigParamValue" name="DSETTINGVALUE">
+		<attributes>
+			<id name="id">
+				<column name="IdValue"/>
+				<generated-value strategy="TABLE" generator="settingvalue-generator" />
+				<table-generator name="settingvalue-generator" table="TSEQUENCE" pk-column-name="IdSequence" value-column-name="NrLastValue" pk-column-value="DSettingValue" allocation-size="1" />
+			</id>
+			<basic name="paramvalue">
+				<column name="TxtValue" column-definition="CLOB" />
+			</basic>
+			<basic name="dtCreated"  >
+				<column name="DtCreated"/>
+			</basic>
+			<many-to-one name="configSetting">
+				<join-column name="IdConfigSetting"/>
+			</many-to-one>
+		</attributes>
+	</entity>
+
+</entity-mappings>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>eu.ohim.sp.external</groupId>
+		<artifactId>external</artifactId>
+		<version>2.0.0-RELEASE</version>
+	</parent>
+
+	<groupId>eu.ohim.sp.external</groupId>
+	<artifactId>ClassificationConsumer</artifactId>
+	<name>Classification Consumer</name>
+	<packaging>pom</packaging>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>eu.ohim.sp.external</groupId>
+				<artifactId>NiceClassificationClientWS</artifactId>
+				<version>${pm.sp.external.current.version}</version>
+			</dependency>
+            <dependency>
+                <groupId>eu.ohim.sp.external</groupId>
+                <artifactId>LocarnoClassificationClientWS</artifactId>
+                <version>${pm.sp.external.current.version}</version>
+            </dependency>
+			<dependency>
+				<groupId>eu.ohim.sp.external</groupId>
+				<artifactId>NiceClassificationClientBean</artifactId>
+				<version>${pm.sp.external.current.version}</version>
+				<type>ejb</type>
+			</dependency>
+            <dependency>
+                <groupId>eu.ohim.sp.external</groupId>
+                <artifactId>LocarnoClassificationClientBean</artifactId>
+                <version>${pm.sp.external.current.version}</version>
+                <type>ejb</type>
+            </dependency>
+            <dependency>
+                <groupId>eu.ohim.sp.external</groupId>
+                <artifactId>BPOClassificationClientBean</artifactId>
+                <version>${pm.sp.external.current.version}</version>
+                <type>ejb</type>
+            </dependency>
+        </dependencies>
+	</dependencyManagement>
+	
+	<modules>
+		<module>NiceClassificationClientBean</module>
+        <module>LocarnoClassificationClientBean</module>
+        <module>BPOClassificationClientBean</module>
+	</modules>
+
+</project>

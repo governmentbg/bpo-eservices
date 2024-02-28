@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<adapters xmlns="http://www.example.org/adapter-configuration"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://www.example.org/adapter-configuration adapter-configuration.xsd ">
+	<adapter enabled="@enable.locarnoClassification.service.adapter@" wsdlLocation="http://@mule.host@:@mule.port@/sp/services/locarno-classification/v3?wsdl" name="locarnoClassification" />
+    <adapter enabled="@enable.classification.service.adapter@" wsdlLocation="http://@mule.host@:@mule.port@/sp/services/nice-classification/v3?wsdl" name="classification"/>
+	<adapter enabled="@enable.address.service.adapter@" wsdlLocation="http://@mule.host@:@mule.port@/sp/services/address/v3?wsdl" name="address" />
+	<adapter enabled="@enable.payment.service.adapter@" wsdlLocation="http://@mule.host@:@mule.port@/sp/services/epayment/v3?wsdl" name="payment"/>
+	<adapter enabled="@enable.user.service.adapter@" wsdlLocation="http://@mule.host@:@mule.port@/sp/services/user-search/v3?wsdl" name="user"/>
+	<adapter enabled="@enable.applicant.service.adapter@" wsdlLocation="http://@mule.host@:@mule.port@/sp/services/applicant/v3?wsdl" name="applicant"/>
+	<adapter enabled="@enable.representative.service.adapter@" wsdlLocation="http://@mule.host@:@mule.port@/sp/services/representative/v3?wsdl" name="representative"/>
+	<adapter enabled="@enable.designer.service.adapter@" wsdlLocation="http://@mule.host@:@mule.port@/sp/services/designer/v3?wsdl" name="designer"/>
+	<adapter enabled="@enable.inventor.service.adapter@" wsdlLocation="http://@mule.host@:@mule.port@/sp/services/inventor/v3?wsdl" name="inventor"/>
+    <adapter enabled="@enable.trademark.service.adapter@" wsdlLocation="http://@mule.host@:@mule.port@/sp/services/trademark-search/v3?wsdl" name="trademark"/>
+    <adapter enabled="@enable.design.service.adapter@" wsdlLocation="http://@mule.host@:@mule.port@/sp/services/design-search/v3?wsdl" name="design" />
+    <adapter enabled="@enable.application.service.adapter@" wsdlLocation="http://@mule.host@:@mule.port@/sp/services/application/v3?wsdl" name="application"/>
+    <adapter enabled="@enable.patent.service.adapter@" wsdlLocation="@bpo.patent.search.service.wsdl.location@" name="patent_in"/>
+    <adapter enabled="@enable.ebdpatent.service.adapter@" wsdlLocation="@bpo.ebdpatent.search.service.wsdl.location@" name="ebdpatent_in"/>
+    <adapter enabled="@enable.ebdpatent.autocomplete.service.adapter@" wsdlLocation="@bpo.ebdpatent.autocomplete.service.wsdl.location@" name="ebdpatent_autocomplete_in"/>
+    <adapter enabled="@enable.epopatent.service.adapter@" wsdlLocation="@bpo.epopatent.search.service.wsdl.location@" name="epopatent_in"/>
+    <adapter enabled="@enable.utilitymodel.service.adapter@" wsdlLocation="@bpo.utilitymodel.search.service.wsdl.location@" name="utilitymodel_in"/>
+    <adapter enabled="@enable.spc.service.adapter@" wsdlLocation="@bpo.spc.search.service.wsdl.location@" name="spc_in"/>
+    <adapter enabled="@enable.plant.service.adapter@" wsdlLocation="@bpo.plant.search.service.wsdl.location@" name="plant_in"/>
+    <adapter enabled="@enable.ipoautocomplete.service.adapter@" wsdlLocation="@bpo.ipoautocomplete.service.wsdl.location@" name="ipoautocomplete_in"/>
+    <adapter enabled="@enable.backoffice.service.adapter@" wsdlLocation="" name="backoffice"/>
+    <adapter enabled="@enable.bpoClassification.service.adapter@" wsdlLocation="" name="bpoClassification"/>
+
+	<!-- wsdls to be defined -->
+    <adapter enabled="@enable.resource.service.adapter@" wsdlLocation="http://@mule.host@:@mule.port@/" name="resource"/>
+
+</adapters>

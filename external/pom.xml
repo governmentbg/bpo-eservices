@@ -1,0 +1,471 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>eu.ohim.sp.external</groupId>
+    <artifactId>external</artifactId>
+    <packaging>pom</packaging>
+
+    <name>Software Package External</name>
+    <url>https://svn.oami.europa.eu/svn/emrepo/softwarepackage/external/trunk</url>
+
+    <ciManagement>
+        <system>Bamboo</system>
+        <url>http://ci-prod-bamboo-master:8085/bamboo/browse/SPEXT-SONR</url>
+    </ciManagement>
+
+    <scm>
+        <connection>scm:svn:https://svn.oami.europa.eu/svn/emrepo/softwarepackage/external/trunk</connection>
+        <developerConnection>scm:svn:https://svn.oami.europa.eu/svn/emrepo/softwarepackage/external/trunk</developerConnection>
+        <url>https://svn.oami.europa.eu/svn/emrepo/softwarepackage/external/trunk</url>
+    </scm>
+
+    <issueManagement>
+        <system>JIRA</system>
+        <url>https://jira.ohimqaportal.eu/browse/DEVSPHARMO</url>
+    </issueManagement>
+
+    <organization>
+        <name>OHIM</name>
+        <url>http://oami.europa.eu/</url>
+    </organization>
+
+    <parent>
+        <groupId>eu.ohim.sp.ui</groupId>
+        <artifactId>CFO</artifactId>
+        <version>2.0.0-RELEASE</version>
+    </parent>
+
+    <modules>
+        <module>Utils</module>
+        <module>ApplicationConsumer</module>
+        <module>DocumentConsumer</module>
+        <module>ClassificationConsumer</module>
+        <module>ResourceConsumer</module>
+        <module>UserSearchConsumer</module>
+        <module>PersonSearchConsumer</module>
+        <module>EPaymentConsumer</module>
+        <module>RegisterConsumer</module>
+    </modules>
+
+    <properties>
+        <sonar.exclusions>eu/ohim/sp/external/domain/**/*.java, eu/ohim/sp/external/services/**/*.java,</sonar.exclusions>
+
+        <!-- JBoss application server host/ip, ports and credentials per environment -->
+        <jboss.as.master.node.url>localhost</jboss.as.master.node.url>
+        <jboss.as.master.node.port>9999</jboss.as.master.node.port>
+        <jboss.as.master.node.username>admin</jboss.as.master.node.username>
+        <jboss.as.master.node.password>123456</jboss.as.master.node.password>
+        <jboss.as.master.node.remoting.port>4447</jboss.as.master.node.remoting.port>
+        <jboss.as.master.node.application-users.username>fsp</jboss.as.master.node.application-users.username>
+        <jboss.as.master.node.application-users.password>123456</jboss.as.master.node.application-users.password>
+
+        <wsdlLocation.classification.service.adapter>http://${fsp.ws.host}/${fsp.ws.context.root}${fsp.ws.classification.path}${fsp.ws.wsdl.services.path}?wsdl</wsdlLocation.classification.service.adapter>
+        <wsdlLocation.locarno.classification.service.adapter>http://${fsp.ws.host}/${fsp.ws.context.root}${fsp.ws.locarno.classification.path}${fsp.ws.wsdl.services.path}?wsdl</wsdlLocation.locarno.classification.service.adapter>
+        <wsdlLocation.applicant.service.adapter>http://${fsp.ws.host}/${fsp.ws.context.root}${fsp.ws.applicant.path}${fsp.ws.wsdl.services.path}?wsdl</wsdlLocation.applicant.service.adapter>
+        <wsdlLocation.representative.service.adapter>http://${fsp.ws.host}/${fsp.ws.context.root}${fsp.ws.representative.path}${fsp.ws.wsdl.services.path}?wsdl</wsdlLocation.representative.service.adapter>
+        <wsdlLocation.designer.service.adapter>http://${fsp.ws.host}/${fsp.ws.context.root}${fsp.ws.designer.path}${fsp.ws.wsdl.services.path}?wsdl</wsdlLocation.designer.service.adapter>
+        <wsdlLocation.inventor.service.adapter>http://${fsp.ws.host}/${fsp.ws.context.root}${fsp.ws.inventor.path}${fsp.ws.wsdl.services.path}?wsdl</wsdlLocation.inventor.service.adapter>
+        <wsdlLocation.trademark.service.adapter>http://${fsp.ws.host}/${fsp.ws.context.root}${fsp.ws.trademark.path}${fsp.ws.wsdl.services.path}?wsdl</wsdlLocation.trademark.service.adapter>
+        <wsdlLocation.payment.service.adapter>http://${fsp.ws.host}/${fsp.ws.context.root}${fsp.ws.payment.path}${fsp.ws.wsdl.services.path}?wsdl</wsdlLocation.payment.service.adapter>
+        <wsdlLocation.user.service.adapter>http://${fsp.ws.host}/${fsp.ws.context.root}${fsp.ws.user.path}${fsp.ws.wsdl.services.path}?wsdl</wsdlLocation.user.service.adapter>
+        <wsdlLocation.resource.service.adapter>http://${fsp.ws.host}/${fsp.ws.context.root}${fsp.ws.resource.path}${fsp.ws.wsdl.services.path}?wsdl</wsdlLocation.resource.service.adapter>
+        <wsdlLocation.application.service.adapter>http://${fsp.ws.host}/${fsp.ws.context.root}${fsp.ws.application.path}${fsp.ws.wsdl.services.path}?wsdl</wsdlLocation.application.service.adapter>
+        <wsdlLocation.design.service.adapter>http://${fsp.ws.host}/${fsp.ws.context.root}${fsp.ws.application.path}${fsp.ws.wsdl.services.path}?wsdl</wsdlLocation.design.service.adapter>
+
+        <pm.sp.integration.current.version>2.0.0-RELEASE</pm.sp.integration.current.version>
+        <pm.sp.common.current.version>2.0.0-RELEASE</pm.sp.common.current.version>
+        <pm.sp.core.current.version>2.0.0-RELEASE</pm.sp.core.current.version>
+        <pm.sp.external.current.version>2.0.0-RELEASE</pm.sp.external.current.version>
+        <pm.version.plugin.checkstyle>2.9.1</pm.version.plugin.checkstyle>
+        <pm.sp.domains.current.version>2.0.0-RELEASE</pm.sp.domains.current.version>
+
+        <fsp.ws.host>localhost:8380</fsp.ws.host>
+        <fsp.ws.context.root>fsp/ws</fsp.ws.context.root>
+        <fsp.ws.wsdl.services.path>/services</fsp.ws.wsdl.services.path>
+        <fsp.ws.classification.path>/classification</fsp.ws.classification.path>
+        <fsp.ws.locarno.classification.path>/locarno</fsp.ws.locarno.classification.path>
+        <fsp.ws.trademark.path>/trademark</fsp.ws.trademark.path>
+        <fsp.ws.design.path>/design</fsp.ws.design.path>
+        <fsp.ws.applicant.path>/applicant</fsp.ws.applicant.path>
+        <fsp.ws.representative.path>/representative</fsp.ws.representative.path>
+        <fsp.ws.designer.path>/designer</fsp.ws.designer.path>
+        <fsp.ws.inventor.path>/inventor</fsp.ws.inventor.path>
+        <fsp.ws.payment.path>/payment</fsp.ws.payment.path>
+        <fsp.ws.user.path>/user</fsp.ws.user.path>
+        <fsp.ws.resource.path>/resource</fsp.ws.resource.path>
+        <fsp.ws.application.path>/application</fsp.ws.application.path>
+
+<!--        <sonar.jacoco.reportPath>${user.dir}/target/jacoco-unit.exec</sonar.jacoco.reportPath> -->
+        <org.milyn.milyn-smooks-all.version>1.5.1</org.milyn.milyn-smooks-all.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- ******************************************** -->
+            <!-- *** Provided Software Packages libraries *** -->
+            <!-- ******************************************** -->
+            <dependency>
+                <groupId>eu.ohim.sp.domains</groupId>
+                <artifactId>WebServicesSchemas</artifactId>
+                <version>${pm.sp.domains.current.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>eu.ohim.sp.domains</groupId>
+                <artifactId>CoreDomain</artifactId>
+                <version>${pm.sp.domains.current.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>eu.ohim.sp.domains</groupId>
+                <artifactId>CoreServices</artifactId>
+                <version>${pm.sp.domains.current.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>eu.ohim.sp.common</groupId>
+                <artifactId>ConfigurationXSD</artifactId>
+                <version>${pm.sp.common.current.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>eu.ohim.sp.common</groupId>
+                <artifactId>CommonUtils</artifactId>
+                <version>${pm.sp.common.current.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>eu.ohim.sp.domains</groupId>
+                <artifactId>ExternalDomain</artifactId>
+                <version>${pm.sp.domains.current.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>eu.ohim.sp.domains</groupId>
+                <artifactId>ExternalServices</artifactId>
+                <version>${pm.sp.domains.current.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>eu.ohim.sp.external</groupId>
+                <artifactId>SPWSException</artifactId>
+                <version>${pm.sp.external.current.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <!-- ******************************************** -->
+            <!-- ***** Software Package Abstract Client ***** -->
+            <!-- ******************************************** -->
+            <dependency>
+                <groupId>eu.ohim.sp.external</groupId>
+                <artifactId>CommonClientService</artifactId>
+                <version>${pm.sp.external.current.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-lang</groupId>
+                <artifactId>commons-lang</artifactId>
+                <version>2.6</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>2.4</version>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.xml.ws</groupId>
+                <artifactId>jaxws-api</artifactId>
+                <version>2.2.8</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.sun.xml.ws</groupId>
+                <artifactId>jaxws-rt</artifactId>
+                <version>2.2.6</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>xerces</groupId>
+                <artifactId>xercesImpl</artifactId>
+                <version>2.9.0</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>net.sf.dozer</groupId>
+                <artifactId>dozer</artifactId>
+                <version>5.4.0</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.spec</groupId>
+                <artifactId>jboss-javaee-6.0</artifactId>
+                <version>3.0.3.Final</version>
+                <type>pom</type>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.as</groupId>
+                <artifactId>jboss-as-ejb-client-bom</artifactId>
+                <version>7.1.2.Final</version>
+                <type>pom</type>
+                <scope>provided</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.jboss</groupId>
+                        <artifactId>jboss-remote-naming</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss</groupId>
+                <artifactId>jboss-remote-naming</artifactId>
+                <version>1.0.7.Final</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>log4j</groupId>
+                <artifactId>log4j</artifactId>
+                <version>1.2.16</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.11</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-all</artifactId>
+                <version>1.9.0</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-test</artifactId>
+                <version>4.3.0.RELEASE</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-aop</artifactId>
+                <version>4.3.0.RELEASE</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.powermock</groupId>
+                <artifactId>powermock-module-junit4</artifactId>
+                <version>1.6.5</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.powermock</groupId>
+                <artifactId>powermock-api-mockito</artifactId>
+                <version>1.6.5</version>
+
+            </dependency>
+            <dependency>
+                <groupId>eu.ohim.sp.common</groupId>
+                <artifactId>CommonUtils</artifactId>
+                <version>${pm.sp.common.current.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>eu.ohim.sp.common</groupId>
+                <artifactId>MimeTypeUtils</artifactId>
+                <version>${pm.sp.common.current.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-collections</groupId>
+                <artifactId>commons-collections</artifactId>
+                <version>3.2.1</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>2.4</version>
+            </dependency>
+            <!-- ******************************************** -->
+            <!-- ********* JackRabbit dependencies ********** -->
+            <!-- ******************************************** -->
+            <dependency>
+                <groupId>org.apache.jackrabbit</groupId>
+                <artifactId>jackrabbit-jcr-rmi</artifactId>
+                <version>2.5.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.jackrabbit</groupId>
+                <artifactId>jackrabbit-jcr-commons</artifactId>
+                <version>2.5.1</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.jcr</groupId>
+                <artifactId>jcr</artifactId>
+                <version>2.0</version>
+            </dependency>
+
+            <!-- ******************************************** -->
+            <!-- ********** OpenCMIS dependencies *********** -->
+            <!-- ******************************************** -->
+            <dependency>
+                <groupId>org.apache.chemistry.opencmis</groupId>
+                <artifactId>chemistry-opencmis-commons-api</artifactId>
+                <version>0.9.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.chemistry.opencmis</groupId>
+                <artifactId>chemistry-opencmis-client-api</artifactId>
+                <version>0.9.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.chemistry.opencmis</groupId>
+                <artifactId>chemistry-opencmis-client-impl</artifactId>
+                <version>0.9.0</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <profiles>
+        <profile>
+            <id>localdeployment</id>
+            <modules>
+                <!--<module>IntegrationTests</module>-->
+            </modules>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-release-plugin</artifactId>
+                        <configuration>
+                            <tagNameFormat>@{project.version}</tagNameFormat>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.jboss.as.plugins</groupId>
+                        <artifactId>jboss-as-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>deploy</goal>
+                                </goals>
+                                <phase>install</phase>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+
+            </build>
+        </profile>
+    </profiles>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <!-- This plugin provides the capability to build and sign jars. -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>2.4</version>
+                    <configuration>
+                        <finalName>${project.artifactId}</finalName>
+                        <archive>
+                            <manifest>
+                                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                            </manifest>
+                        </archive>
+                    </configuration>
+                </plugin>
+
+                <!-- This plugin generates J2EE Enterprise Javabean (EJB) file as well
+                    as the associated client jar. -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-ejb-plugin</artifactId>
+                    <version>2.3</version>
+                </plugin>
+
+                <!-- This plugin generates J2EE Enterprise Archive (EAR) file. It can
+                    also generate the deployment descriptor file -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-ear-plugin</artifactId>
+                    <version>2.7</version>
+                    <configuration>
+						<applicationName>${project.build.finalName}</applicationName>
+						<version>6</version>
+                        <fileNameMapping>no-version</fileNameMapping>
+                        <archive>
+                            <manifest>
+                                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                            </manifest>
+                        </archive>
+                    </configuration>
+                </plugin>
+
+                <!-- A resource adapter is a system-level software driver that a Java
+                    application uses to connect to an enterprise information system (EIS). The
+                    RAR plugin has the capability to store these resource adapters to an archive
+                    (Resource Adapter Archive or RAR) which can be deployed to a J2EE server. -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-rar-plugin</artifactId>
+                    <version>2.2</version>
+                </plugin>
+
+                <!-- The dependency plugin provides the capability to manipulate artifacts.
+                    It can copy and/or unpack artifacts from local or remote repositories to
+                    a specified location -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>2.4</version>
+                </plugin>
+
+                <!--JBoss Plugin for deploy/redeploy/undeploy applications -->
+                <plugin>
+                    <groupId>org.jboss.as.plugins</groupId>
+                    <artifactId>jboss-as-maven-plugin</artifactId>
+                    <version>7.1.1.Final</version>
+                    <configuration>
+                        <skip>true</skip>
+                        <hostname>${jboss.as.master.node.url}</hostname>
+                        <port>${jboss.as.master.node.port}</port>
+                        <username>${jboss.as.master.node.username}</username>
+                        <password>${jboss.as.master.node.password}</password>
+                    </configuration>
+                </plugin>
+
+                <!-- Wraps the JAXB XJC compiler and provides the capability to generate
+                    java sources from schemas -->
+                <plugin>
+                    <groupId>org.jvnet.jaxb2.maven2</groupId>
+                    <artifactId>maven-jaxb2-plugin</artifactId>
+                    <version>0.8.1</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>eviware</groupId>
+                    <artifactId>maven-soapui-plugin</artifactId>
+                    <version>4.5.1</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-checkstyle-plugin</artifactId>
+                    <version>${pm.version.plugin.checkstyle}</version>
+                    <configuration>
+                        <configLocation>../conf/src/main/resources/checkstyle.xml</configLocation>
+                        <propertiesLocation>../conf/src/main/resources/checkstyle.properties</propertiesLocation>
+                        <propertyExpansion>basedir=${project.basedir}</propertyExpansion>
+                        <failsOnError>false</failsOnError>
+                        <consoleOutput>false</consoleOutput>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <!-- use 'eviware:maven-soapui-plugin:mock' -->
+
+</project>

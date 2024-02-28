@@ -1,0 +1,984 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sections [
+		<!ENTITY applicant_legalentity_fields SYSTEM "@spCoreConfigDir@/common/conf/parts/applicant/applicant_legalentity_fields.xml">
+		<!ENTITY applicant_naturalperson_fields SYSTEM "@spCoreConfigDir@/common/conf/parts/applicant/applicant_naturalperson_fields.xml">
+		<!ENTITY applicant_naturalpersonspecial_fields SYSTEM "@spCoreConfigDir@/common/conf/parts/applicant/applicant_naturalpersonspecial_fields.xml">
+		<!ENTITY applicant_university_fields SYSTEM "@spCoreConfigDir@/common/conf/parts/applicant/applicant_university_fields.xml">
+		<!ENTITY representative_employeerepresentative_fields SYSTEM "@spCoreConfigDir@/common/conf/parts/representative/representative_employeerepresentative_fields.xml">
+		<!ENTITY representative_form_association_fields SYSTEM "@spCoreConfigDir@/common/conf/parts/representative/representative_form_association_fields.xml">
+		<!ENTITY representative_legalentity_fields SYSTEM "@spCoreConfigDir@/common/conf/parts/representative/representative_legalentity_fields.xml">
+		<!ENTITY representative_legalpractitioner_fields SYSTEM "@spCoreConfigDir@/common/conf/parts/representative/representative_legalpractitioner_fields.xml">
+		<!ENTITY representative_naturalperson_fields SYSTEM "@spCoreConfigDir@/common/conf/parts/representative/representative_naturalperson_fields.xml">
+		<!ENTITY representative_professionalpractitioner_fields SYSTEM "@spCoreConfigDir@/common/conf/parts/representative/representative_professionalpractitioner_fields.xml">
+		<!ENTITY representative_lawyercompany_fields SYSTEM "@spCoreConfigDir@/common/conf/parts/representative/representative_lawyercompany_fields.xml">
+		<!ENTITY representative_lawyerassociation_fields SYSTEM "@spCoreConfigDir@/common/conf/parts/representative/representative_lawyerassociation_fields.xml">
+		<!ENTITY representative_temporary_fields SYSTEM "@spCoreConfigDir@/common/conf/parts/representative/representative_temporary_fields.xml">
+		<!ENTITY representative_pow_with_opts_fields SYSTEM "@spCoreConfigDir@/common/conf/parts/representative/representative_pow_with_opts_fields.xml">
+		<!ENTITY applicationCA_eservices_fields SYSTEM "@spCoreConfigDir@/common/conf/parts/applicationCA/applicationCA_eservices_fields.xml">
+		<!ENTITY signature_fields SYSTEM "@spCoreConfigDir@/common/conf/parts/signatures/signature_fields.xml">
+		<!ENTITY payment_fields SYSTEM "@spCoreConfigDir@/common/conf/parts/payment/payment_fields.xml">
+		<!ENTITY assignee_legalentity_fields SYSTEM "@spCoreConfigDir@/common/conf/parts/assignee/assignee_legalentity_fields.xml">
+		<!ENTITY assignee_naturalperson_fields SYSTEM "@spCoreConfigDir@/common/conf/parts/assignee/assignee_naturalperson_fields.xml">
+]>
+<sections anonymousMode="true" navigationPath="false"
+	xmlns="http://www.example.org/sections-fields-configuration" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.example.org/sections-fields-configuration sections-fields-configuration.xsd ">
+
+
+    <section id="ds_section" description="DISPLAYS DESIGN DETAILS SECTION">
+            <view-state-id>oneform</view-state-id>
+            <view-state-order>1</view-state-order>
+            <coreName></coreName>
+            <visible>true</visible>
+            <order>1</order>
+            <path>/WEB-INF/views/designs/ds_section.jsp</path>
+            <previousCTMImportable>false</previousCTMImportable>
+            <priorityImportable>false</priorityImportable>
+            <seniorityImportable>false</seniorityImportable>
+            <transformationImportable>false</transformationImportable>
+            <generalImportable>false</generalImportable>
+
+		<field id="selectUnpublished">
+			<visible>true</visible>
+			<usable>true</usable>
+			<required>false</required>
+		</field>
+                       
+            <subsection id="ds_details_section">
+                <view-state-id>oneform</view-state-id>
+                <view-state-order>1</view-state-order>
+                <coreName></coreName>
+                <visible>true</visible>
+                <order>2</order>
+                <path>ds_details_section</path>
+                <previousCTMImportable>false</previousCTMImportable>
+                <priorityImportable>false</priorityImportable>
+                <seniorityImportable>false</seniorityImportable>
+                <transformationImportable>false</transformationImportable>
+                <generalImportable>false</generalImportable>
+          		
+          		<field id="designIdentifier"> <!-- name of legal entity -->
+                    <visible>true</visible>
+                    <usable>true</usable>
+                    <required>true</required>
+                    <previousCTMImportable>true</previousCTMImportable>
+                    <priorityImportable>true</priorityImportable>
+                    <seniorityImportable>true</seniorityImportable>
+                    <transformationImportable>true</transformationImportable>
+                    <generalImportable>true</generalImportable>
+                    <editableImport>false</editableImport>
+				</field>
+          		
+                <field id="eSDesignApplicationData.applicationNumber"> <!-- name of legal entity -->
+                    <visible>true</visible>
+                    <usable>true</usable>
+                    <required>true</required>
+                    <previousCTMImportable>true</previousCTMImportable>
+                    <priorityImportable>true</priorityImportable>
+                    <seniorityImportable>true</seniorityImportable>
+                    <transformationImportable>true</transformationImportable>
+                    <generalImportable>true</generalImportable>
+                    <editableImport>false</editableImport>
+				</field>
+	            <field id="eSDesignApplicationData.applicationDate">
+	                <visible>true</visible>
+	                <usable>true</usable>
+	                <required>true</required>
+	                <previousCTMImportable>true</previousCTMImportable>
+	                <priorityImportable>true</priorityImportable>
+	                <seniorityImportable>true</seniorityImportable>
+	                <transformationImportable>true</transformationImportable>
+	                <generalImportable>true</generalImportable>
+	                <editableImport>false</editableImport>
+	                <format>^(0[1-9]|[12][0-9]|3[01])[/.](0[1-9]|1[012])[/.](19|20)\d\d$</format>
+	            </field>
+	            <field id="eSDesignApplicationData.publicationDate">
+	                <visible>false</visible>
+	                <usable>false</usable>
+	                <required>false</required>
+	                <previousCTMImportable>false</previousCTMImportable>
+	                <priorityImportable>false</priorityImportable>
+	                <seniorityImportable>false</seniorityImportable>
+	                <transformationImportable>false</transformationImportable>
+	                <generalImportable>false</generalImportable>
+	                <editableImport>false</editableImport>
+	                <format>^(0[1-9]|[12][0-9]|3[01])[/.](0[1-9]|1[012])[/.](19|20)\d\d$</format>
+	            </field>
+	            <field id="registrationDate">
+	                <visible>true</visible>
+	                <usable>true</usable>
+	                <required>true</required>
+	                <previousCTMImportable>false</previousCTMImportable>
+	                <priorityImportable>false</priorityImportable>
+	                <seniorityImportable>false</seniorityImportable>
+	                <transformationImportable>false</transformationImportable>
+	                <generalImportable>false</generalImportable>
+	                <editableImport>false</editableImport>
+	                <format>^(0[1-9]|[12][0-9]|3[01])[/.](0[1-9]|1[012])[/.](19|20)\d\d$</format>
+	            </field>
+	            <field id="views[0].view">
+	                <visible>true</visible>
+	                <usable>true</usable>
+	                <required>false</required>
+	                <previousCTMImportable>true</previousCTMImportable>
+	                <priorityImportable>true</priorityImportable>
+	                <seniorityImportable>true</seniorityImportable>
+	                <transformationImportable>true</transformationImportable>
+	                <generalImportable>true</generalImportable>
+	                <editableImport>false</editableImport>
+	            </field>
+	            <field id="registrationNumber">
+	                <visible>true</visible>
+	                <usable>true</usable>
+	                <required>true</required>
+	                <previousCTMImportable>true</previousCTMImportable>
+	                <priorityImportable>true</priorityImportable>
+	                <seniorityImportable>true</seniorityImportable>
+	                <transformationImportable>true</transformationImportable>
+	                <generalImportable>true</generalImportable>
+	                <editableImport>false</editableImport>
+	            </field>
+	            <field id="expiryDate">
+	                <visible>true</visible>
+	                <usable>true</usable>
+	                <required>true</required>
+	                <previousCTMImportable>true</previousCTMImportable>
+	                <priorityImportable>true</priorityImportable>
+	                <seniorityImportable>true</seniorityImportable>
+	                <transformationImportable>true</transformationImportable>
+	                <generalImportable>true</generalImportable>
+	                <editableImport>false</editableImport>
+	                <format>^(0[1-9]|[12][0-9]|3[01])[/.](0[1-9]|1[012])[/.](19|20)\d\d$</format>
+	            </field>
+				<field id="formMessages">
+					<visible>true</visible>
+					<usable>true</usable>
+					<required>true</required>
+					<previousCTMImportable>true</previousCTMImportable>
+					<priorityImportable>true</priorityImportable>
+					<seniorityImportable>true</seniorityImportable>
+					<transformationImportable>true</transformationImportable>
+					<generalImportable>true</generalImportable>
+					<editableImport>false</editableImport>
+				</field>
+				<field id="formWarnings">
+					<visible>true</visible>
+					<usable>true</usable>
+					<required>true</required>
+				</field>
+	            <field id="dsStatus">
+	                <visible>true</visible>
+	                <usable>true</usable>
+	                <required>false</required>
+	                <previousCTMImportable>true</previousCTMImportable>
+	                <priorityImportable>true</priorityImportable>
+	                <seniorityImportable>true</seniorityImportable>
+	                <transformationImportable>true</transformationImportable>
+	                <generalImportable>true</generalImportable>
+	                <editableImport>false</editableImport>	                
+	            </field>
+				 <field id="representationAttachment">
+					<visible>true</visible>
+					<usable>true</usable>				
+				</field>  
+				<field id="representationAttachment.preview">
+	                <visible>true</visible>
+	                <usable>true</usable>
+				</field>
+				<field id="showLocarnoAddClass">
+	                <visible>true</visible>
+	                <usable>true</usable>
+				</field>
+				<field id="showLocarnoNewProduct">
+	                <visible>true</visible>
+	                <usable>true</usable>
+				</field>
+				<field id="showLocarnoNewComplexProduct">
+	                <visible>true</visible>
+	                <usable>true</usable>
+				</field>
+				<field id="locarnoEnabled">
+	                <visible>true</visible>
+	                <usable>true</usable>
+				</field>
+				
+     		</subsection>
+     		<subsection id="locarnoAddClass" description="SUBSECTION WHICH CONTAINS THE ADD LOCARNO CLASSES FORM">
+            	<view-state-id>oneform</view-state-id>
+            	<view-state-order>1</view-state-order>
+            	<modelAttribute>locarnoSearchForm</modelAttribute>
+            	<coreName>Locarno</coreName>
+            	<visible>true</visible>
+            	<order>2</order>
+            	<path>locarno_addClass</path>
+            	<previousCTMImportable>false</previousCTMImportable>
+            	<priorityImportable>false</priorityImportable>
+            	<seniorityImportable>false</seniorityImportable>
+            	<transformationImportable>false</transformationImportable>
+            	<editableImport>false</editableImport>
+            	<!-- Fields to search locarno classes -->
+                <field id="formMessages">
+                      <visible>true</visible>
+                      <usable>true</usable>
+                      <required>true</required>
+                      <previousCTMImportable>true</previousCTMImportable>
+                      <priorityImportable>true</priorityImportable>
+                      <seniorityImportable>true</seniorityImportable>
+                      <transformationImportable>true</transformationImportable>
+                      <generalImportable>true</generalImportable>
+                      <editableImport>false</editableImport>
+                </field>	            	
+	            <field id="searchData.locarnoClass.clazz">
+	            	<visible>true</visible>
+	                <usable>true</usable>
+	                <required>false</required>
+	                <previousCTMImportable>false</previousCTMImportable>
+	                <priorityImportable>false</priorityImportable>
+	                <seniorityImportable>false</seniorityImportable>
+	                <transformationImportable>false</transformationImportable>
+	                <generalImportable>false</generalImportable>
+	            </field>
+	            <field id="searchData.locarnoClass.subclass">
+	           		<visible>true</visible>
+	                <usable>true</usable>
+	                <required>false</required>
+	                <previousCTMImportable>false</previousCTMImportable>
+	                <priorityImportable>false</priorityImportable>
+	                <seniorityImportable>false</seniorityImportable>
+	                <transformationImportable>false</transformationImportable>
+	                <generalImportable>false</generalImportable>
+	            </field>
+	            <field id="searchData.indication">
+	            	<visible>true</visible>
+	                <usable>true</usable>
+	                <required>false</required>
+	                <previousCTMImportable>false</previousCTMImportable>
+	                <priorityImportable>false</priorityImportable>
+	                <seniorityImportable>false</seniorityImportable>
+	                <transformationImportable>false</transformationImportable>
+	                <generalImportable>false</generalImportable>
+	            </field>
+	            
+	            <!-- Locarno classifications selected -->
+	            <field id="locarnoClassificationsSelected">
+					<visible>true</visible>
+            		<usable>true</usable>
+            		<required>true</required>
+            		<previousCTMImportable>false</previousCTMImportable>
+	                <priorityImportable>false</priorityImportable>
+	                <seniorityImportable>false</seniorityImportable>
+	                <transformationImportable>false</transformationImportable>
+	                <generalImportable>false</generalImportable>
+				</field>
+            </subsection>
+            <subsection id="locarnoNewProduct" description="SUBSECTION WHICH CONTAINS THE ADD NEW LOCARNO PRODUCT FORM">
+            	<view-state-id>oneform</view-state-id>
+            	<view-state-order>1</view-state-order>
+            	<modelAttribute>locarnoForm</modelAttribute>
+            	<coreName>Locarno</coreName>
+            	<visible>true</visible>
+            	<order>3</order>
+            	<path>locarno_addNewProduct</path>
+            	<previousCTMImportable>false</previousCTMImportable>
+            	<priorityImportable>false</priorityImportable>
+            	<seniorityImportable>false</seniorityImportable>
+            	<transformationImportable>false</transformationImportable>
+            	<editableImport>false</editableImport>
+	            <!-- Fields to add a new locarno list -->            
+	            <field id="locarnoClassification.locarnoClass.clazz">
+	            	<visible>false</visible>
+	                <usable>false</usable>
+	                <required>false</required>
+	                <previousCTMImportable>false</previousCTMImportable>
+	                <priorityImportable>false</priorityImportable>
+	                <seniorityImportable>false</seniorityImportable>
+	                <transformationImportable>false</transformationImportable>
+	                <generalImportable>false</generalImportable>
+	            </field>
+	            <field id="locarnoClassification.locarnoClass.subclass">
+	           		<visible>false</visible>
+	                <usable>false</usable>
+	                <required>false</required>
+	                <previousCTMImportable>false</previousCTMImportable>
+	                <priorityImportable>false</priorityImportable>
+	                <seniorityImportable>false</seniorityImportable>
+	                <transformationImportable>false</transformationImportable>
+	                <generalImportable>false</generalImportable>
+	            </field>
+	            <field id="locarnoClassification.indication">
+	            	<visible>true</visible>
+	                <usable>true</usable>
+	                <required>true</required>
+	                <previousCTMImportable>false</previousCTMImportable>
+	                <priorityImportable>false</priorityImportable>
+	                <seniorityImportable>false</seniorityImportable>
+	                <transformationImportable>false</transformationImportable>
+	                <generalImportable>false</generalImportable>
+	            </field>
+            </subsection>
+            <subsection id="locarnoNewComplexProduct">
+            	<view-state-id>oneform</view-state-id>
+            	<view-state-order>1</view-state-order>
+            	<modelAttribute>locarnoComplexForm</modelAttribute>
+            	<coreName>Locarno</coreName>
+            	<visible>true</visible>
+            	<order>4</order>
+            	<path>locarno_addNewComplexProduct</path>
+            	<previousCTMImportable>false</previousCTMImportable>
+            	<priorityImportable>false</priorityImportable>
+            	<seniorityImportable>false</seniorityImportable>
+            	<transformationImportable>false</transformationImportable>
+            	<editableImport>false</editableImport>
+            	
+				<field id="classes">
+                	<visible>true</visible>
+                	<usable>true</usable>
+                	<required>true</required>
+                	<previousCTMImportable>false</previousCTMImportable>
+	                <priorityImportable>false</priorityImportable>
+	                <seniorityImportable>false</seniorityImportable>
+	                <transformationImportable>false</transformationImportable>
+	                <generalImportable>false</generalImportable>
+            	</field>
+	            <field id="type">
+	            	<visible>true</visible>
+	                <usable>true</usable>
+	                <required>true</required>
+	                <previousCTMImportable>false</previousCTMImportable>
+	                <priorityImportable>false</priorityImportable>
+	                <seniorityImportable>false</seniorityImportable>
+	                <transformationImportable>false</transformationImportable>
+	                <generalImportable>false</generalImportable>
+	            </field>
+            	<field id="indication">
+	            	<visible>true</visible>
+	                <usable>true</usable>
+	                <required>true</required>
+	                <previousCTMImportable>false</previousCTMImportable>
+	                <priorityImportable>false</priorityImportable>
+	                <seniorityImportable>false</seniorityImportable>
+	                <transformationImportable>false</transformationImportable>
+	                <generalImportable>false</generalImportable>
+	            </field>
+            </subsection>
+	</section>
+
+	<section id="licence" description="DISPLAYS LICENCE SECTION">
+        <view-state-id>oneform</view-state-id>
+        <view-state-order>1</view-state-order>
+        <coreName></coreName>
+        <visible>true</visible>
+        <order>2</order>
+        <path>/WEB-INF/views/licence/licence_section.jsp</path>
+        <field id="licenceKind">
+            <visible>true</visible>
+            <usable>true</usable>
+            <required>true</required>
+        </field>
+        <field id="subLicenceIndicator">
+            <visible>true</visible>
+            <usable>true</usable>
+            <required>true</required>
+        </field>
+        <field id="territoryLimitationIndicator">
+            <visible>true</visible>
+            <usable>true</usable>
+            <required>true</required>
+        </field>
+        <field id="territoryLimitationText">
+            <visible>true</visible>
+            <usable>true</usable>
+            <required>true</required>
+        </field>
+        <field id="periodLimitationEndDate">
+            <visible>true</visible>
+            <usable>true</usable>
+            <required>true</required>
+            <format>^(0[1-9]|[12][0-9]|3[01])[/.](0[1-9]|1[012])[/.](19|20)\d\d$</format>
+        </field>
+        <field id="periodLimitationIndicator">
+            <visible>true</visible>
+            <usable>true</usable>
+            <required>true</required>
+        </field>
+        
+        <field id="gsHelper.extent">
+            <visible>false</visible>
+            <usable>false</usable>
+            <required>false</required>          
+        </field>
+        <field id="gsHelper.tmApplicationNumber">
+            <visible>false</visible>
+            <usable>false</usable>
+            <required>false</required>          
+        </field>  
+        <field id="gsHelper.formMessages">
+			<visible>false</visible>
+			<usable>false</usable>
+			<required>false</required>			
+		</field>
+        
+    </section>
+
+	<section id="applicant" description="DISPLAYS APPLICANT SECTION">
+		<view-state-id>oneform</view-state-id>
+		<view-state-order>1</view-state-order>
+		<coreName></coreName>
+		<visible>true</visible>
+		<order>4</order>
+		<path>/WEB-INF/views/applicant/applicant_section.jsp</path>
+		<previousCTMImportable>true</previousCTMImportable>
+		<priorityImportable>true</priorityImportable>
+		<seniorityImportable>true</seniorityImportable>
+		<transformationImportable>false</transformationImportable>
+		<generalImportable>true</generalImportable>
+		<field id="type"> <!-- type of applicant -->
+			<visible>true</visible>
+			<usable>true</usable>
+			<required>true</required>
+			<previousCTMImportable>true</previousCTMImportable>
+			<priorityImportable>true</priorityImportable>
+			<seniorityImportable>true</seniorityImportable>
+			<transformationImportable>true</transformationImportable>
+			<generalImportable>true</generalImportable>
+		</field>
+		<field id="personIdNumber"> <!-- import applicant input box -->
+			<visible>true</visible>
+			<usable>true</usable>
+			<required>false</required>
+			<previousCTMImportable>false</previousCTMImportable>
+			<priorityImportable>false</priorityImportable>
+			<seniorityImportable>false</seniorityImportable>
+			<transformationImportable>false</transformationImportable>
+			<generalImportable>false</generalImportable>
+		</field>
+
+		<field id="currentUserIndicator"> <!-- import the user data -->
+			<visible>true</visible>
+			<usable>true</usable>
+			<required>true</required>
+			<previousCTMImportable>true</previousCTMImportable>
+			<priorityImportable>true</priorityImportable>
+			<seniorityImportable>true</seniorityImportable>
+			<transformationImportable>true</transformationImportable>
+			<generalImportable>true</generalImportable>
+		</field>
+		<field id="applicantsFromAssignees">
+			<visible>true</visible>
+			<usable>true</usable>
+		</field>
+		<field id="applicantsFromOwners">
+			<visible>true</visible>
+			<usable>true</usable>
+		</field>
+
+		<subsection id="applicant_legalentity">
+			<view-state-id>oneform</view-state-id>
+			<view-state-order>1</view-state-order>
+			<coreName>Applicant</coreName>
+			<visible>true</visible>
+			<order>2</order>
+			<path>applicant_legalentity</path>
+			<previousCTMImportable>true</previousCTMImportable>
+			<priorityImportable>true</priorityImportable>
+			<seniorityImportable>true</seniorityImportable>
+			<transformationImportable>true</transformationImportable>
+			<generalImportable>true</generalImportable>
+
+			<!-- applicant legal entity specific -->
+			&applicant_legalentity_fields;
+
+		</subsection>
+		<subsection id="applicant_naturalperson">
+			<view-state-id>oneform</view-state-id>
+			<view-state-order>1</view-state-order>
+			<coreName>Applicant</coreName>
+			<visible>true</visible>
+			<order>2</order>
+			<path>applicant_naturalperson</path>
+			<previousCTMImportable>true</previousCTMImportable>
+			<priorityImportable>true</priorityImportable>
+			<seniorityImportable>true</seniorityImportable>
+			<transformationImportable>true</transformationImportable>
+			<generalImportable>true</generalImportable>
+			<!-- applicant natural person specific -->
+			&applicant_naturalperson_fields;
+
+		</subsection>
+		<subsection id="applicant_naturalpersonspecial">
+			<view-state-id>oneform</view-state-id>
+			<view-state-order>1</view-state-order>
+			<coreName>Applicant</coreName>
+			<visible>false</visible>
+			<order>2</order>
+			<path>applicant_naturalpersonspecial</path>
+			<previousCTMImportable>true</previousCTMImportable>
+			<priorityImportable>true</priorityImportable>
+			<seniorityImportable>true</seniorityImportable>
+			<transformationImportable>true</transformationImportable>
+			<generalImportable>true</generalImportable>
+
+			<!-- applicant natural person special case specific -->
+			&applicant_naturalpersonspecial_fields;
+
+		</subsection>
+	</section>
+
+	<section id="representative" description="DISPLAYS REPRESENTATIVE SECTION">
+		<view-state-id>oneform</view-state-id>
+		<view-state-order>2</view-state-order>
+		<coreName></coreName>
+		<visible>true</visible>
+		<order>5</order>
+		<path>/WEB-INF/views/representative/representative_section.jsp</path>
+		<previousCTMImportable>true</previousCTMImportable>
+		<priorityImportable>true</priorityImportable>
+		<seniorityImportable>true</seniorityImportable>
+		<transformationImportable>false</transformationImportable>
+		<generalImportable>true</generalImportable>
+		<field id="type"> <!-- type of representative -->
+			<visible>true</visible>
+			<usable>true</usable>
+			<required>true</required>
+			<previousCTMImportable>true</previousCTMImportable>
+			<priorityImportable>true</priorityImportable>
+			<seniorityImportable>true</seniorityImportable>
+			<transformationImportable>true</transformationImportable>
+			<generalImportable>true</generalImportable>
+		</field>
+		<field id="personIdNumber"> <!-- import representative input box -->
+			<visible>true</visible>
+			<usable>true</usable>
+			<required>false</required>
+			<previousCTMImportable>false</previousCTMImportable>
+			<priorityImportable>false</priorityImportable>
+			<seniorityImportable>false</seniorityImportable>
+			<transformationImportable>false</transformationImportable>
+			<generalImportable>false</generalImportable>
+		</field>
+		<field id="currentUserIndicator"> <!-- import the user data -->
+			<visible>true</visible>
+			<usable>true</usable>
+			<required>true</required>
+			<previousCTMImportable>true</previousCTMImportable>
+			<priorityImportable>true</priorityImportable>
+			<seniorityImportable>true</seniorityImportable>
+			<transformationImportable>true</transformationImportable>
+			<generalImportable>true</generalImportable>
+		</field>
+		<subsection id="representative_naturalperson">
+			<view-state-id>oneform</view-state-id>
+			<view-state-order>1</view-state-order>
+			<coreName>Representative</coreName>
+			<visible>true</visible>
+			<order>1</order>
+			<path>representative_naturalperson</path>
+			<previousCTMImportable>true</previousCTMImportable>
+			<priorityImportable>true</priorityImportable>
+			<seniorityImportable>true</seniorityImportable>
+			<transformationImportable>true</transformationImportable>
+			<generalImportable>true</generalImportable>
+
+			<!-- representative natural person specific -->
+			&representative_naturalperson_fields;
+
+			&representative_pow_with_opts_fields;
+
+		</subsection>
+		<subsection id="representative_legalentity">
+			<view-state-id>oneform</view-state-id>
+			<view-state-order>1</view-state-order>
+			<coreName>Representative_LegalEntity</coreName>
+			<visible>true</visible>
+			<order>1</order>
+			<path>representative_legalentity</path>
+			<previousCTMImportable>true</previousCTMImportable>
+			<priorityImportable>true</priorityImportable>
+			<seniorityImportable>true</seniorityImportable>
+			<transformationImportable>true</transformationImportable>
+			<generalImportable>true</generalImportable>
+
+			<!-- representative legal entity specific -->
+			&representative_legalentity_fields;
+
+			&representative_pow_with_opts_fields;
+		</subsection>
+		<subsection id="representative_employeerepresentative">
+			<view-state-id>oneform</view-state-id>
+			<view-state-order>1</view-state-order>
+			<coreName>Representative</coreName>
+			<visible>false</visible>
+			<order>1</order>
+			<path>representative_employeerepresentative</path>
+			<previousCTMImportable>true</previousCTMImportable>
+			<priorityImportable>true</priorityImportable>
+			<seniorityImportable>true</seniorityImportable>
+			<transformationImportable>true</transformationImportable>
+			<generalImportable>true</generalImportable>
+			<!-- representative employee representative specific -->
+			&representative_employeerepresentative_fields;
+
+			&representative_pow_with_opts_fields;
+		</subsection>
+		<subsection id="representative_legalpractitioner">
+			<view-state-id>oneform</view-state-id>
+			<view-state-order>1</view-state-order>
+			<coreName>Representative_LegalPractitioner</coreName>
+			<visible>true</visible>
+			<order>1</order>
+			<path>representative_legalpractitioner</path>
+			<previousCTMImportable>true</previousCTMImportable>
+			<priorityImportable>true</priorityImportable>
+			<seniorityImportable>true</seniorityImportable>
+			<transformationImportable>true</transformationImportable>
+			<generalImportable>true</generalImportable>
+			<!-- representative legal practitioner specific -->
+			&representative_legalpractitioner_fields;
+
+			&representative_pow_with_opts_fields;
+		</subsection>
+		<subsection id="representative_professionalpractitioner">
+			<view-state-id>oneform</view-state-id>
+			<view-state-order>1</view-state-order>
+			<coreName>Representative</coreName>
+			<visible>false</visible>
+			<order>1</order>
+			<path>representative_professionalpractitioner</path>
+			<previousCTMImportable>true</previousCTMImportable>
+			<priorityImportable>true</priorityImportable>
+			<seniorityImportable>true</seniorityImportable>
+			<transformationImportable>true</transformationImportable>
+			<generalImportable>true</generalImportable>
+			<!-- representative professional practitioner specific -->
+			&representative_professionalpractitioner_fields;
+
+		</subsection>
+		<subsection id="representative_form_association">
+			<view-state-id>oneform</view-state-id>
+			<view-state-order>1</view-state-order>
+			<coreName>Representative_Association</coreName>
+			<visible>true</visible>
+			<order>1</order>
+			<path>representative_association</path>
+			<previousCTMImportable>true</previousCTMImportable>
+			<priorityImportable>true</priorityImportable>
+			<seniorityImportable>true</seniorityImportable>
+			<transformationImportable>true</transformationImportable>
+			<generalImportable>true</generalImportable>
+			<!-- representative professional practitioner specific -->
+			&representative_form_association_fields;
+
+			&representative_pow_with_opts_fields;
+		</subsection>
+		<subsection id="representative_lawyercompany">
+			<view-state-id>oneform</view-state-id>
+			<view-state-order>1</view-state-order>
+			<coreName>Representative_LawyerCompany</coreName>
+			<visible>true</visible>
+			<order>1</order>
+			<path>representative_lawyercompany</path>
+			<previousCTMImportable>true</previousCTMImportable>
+			<priorityImportable>true</priorityImportable>
+			<seniorityImportable>true</seniorityImportable>
+			<transformationImportable>true</transformationImportable>
+			<generalImportable>true</generalImportable>
+
+			&representative_lawyercompany_fields;
+
+			&representative_pow_with_opts_fields;
+		</subsection>
+		<subsection id="representative_lawyerassociation">
+			<view-state-id>oneform</view-state-id>
+			<view-state-order>1</view-state-order>
+			<coreName>Representative_LawyerAssociation</coreName>
+			<visible>true</visible>
+			<order>1</order>
+			<path>representative_lawyerassociation</path>
+			<previousCTMImportable>true</previousCTMImportable>
+			<priorityImportable>true</priorityImportable>
+			<seniorityImportable>true</seniorityImportable>
+			<transformationImportable>true</transformationImportable>
+			<generalImportable>true</generalImportable>
+
+			&representative_lawyerassociation_fields;
+
+			&representative_pow_with_opts_fields;
+		</subsection>
+		<subsection id="representative_temporary">
+			<view-state-id>oneform</view-state-id>
+			<view-state-order>1</view-state-order>
+			<coreName>Representative_Temporary</coreName>
+			<visible>true</visible>
+			<order>1</order>
+			<path>representative_temporary</path>
+			<previousCTMImportable>true</previousCTMImportable>
+			<priorityImportable>true</priorityImportable>
+			<seniorityImportable>true</seniorityImportable>
+			<transformationImportable>true</transformationImportable>
+			<generalImportable>true</generalImportable>
+
+			&representative_temporary_fields;
+
+			&representative_pow_with_opts_fields;
+		</subsection>
+	</section>
+
+	<section id="licensee" description="DISPLAYS ASSIGNEE SECTION">
+		<view-state-id>oneform</view-state-id>
+		<view-state-order>1</view-state-order>
+		<coreName></coreName>
+		<visible>true</visible>
+		<order>3</order>
+		<path>/WEB-INF/views/assignee/assignee_section.jsp</path>
+		<previousCTMImportable>true</previousCTMImportable>
+		<priorityImportable>true</priorityImportable>
+		<seniorityImportable>true</seniorityImportable>
+		<transformationImportable>false</transformationImportable>
+		<generalImportable>true</generalImportable>
+		<field id="type"> <!-- type of assignee -->
+			<visible>true</visible>
+			<usable>true</usable>
+			<required>true</required>
+			<previousCTMImportable>true</previousCTMImportable>
+			<priorityImportable>true</priorityImportable>
+			<seniorityImportable>true</seniorityImportable>
+			<transformationImportable>true</transformationImportable>
+			<generalImportable>true</generalImportable>
+		</field>
+		<field id="personIdNumber"> <!-- import assignee input box -->
+			<visible>true</visible>
+			<usable>true</usable>
+			<required>false</required>
+			<previousCTMImportable>false</previousCTMImportable>
+			<priorityImportable>false</priorityImportable>
+			<seniorityImportable>false</seniorityImportable>
+			<transformationImportable>false</transformationImportable>
+			<generalImportable>false</generalImportable>
+		</field>
+		<field id="currentUserIndicator"> <!-- import the user data -->
+			<visible>true</visible>
+			<usable>true</usable>
+			<required>true</required>
+			<previousCTMImportable>true</previousCTMImportable>
+			<priorityImportable>true</priorityImportable>
+			<seniorityImportable>true</seniorityImportable>
+			<transformationImportable>true</transformationImportable>
+			<generalImportable>true</generalImportable>
+		</field>
+		<subsection id="assignee_legalentity">
+			<view-state-id>oneform</view-state-id>
+			<view-state-order>1</view-state-order>
+			<coreName>Applicant</coreName>
+			<visible>true</visible>
+			<order>2</order>
+			<path>assignee_legalentity</path>
+			<previousCTMImportable>true</previousCTMImportable>
+			<priorityImportable>true</priorityImportable>
+			<seniorityImportable>true</seniorityImportable>
+			<transformationImportable>true</transformationImportable>
+			<generalImportable>true</generalImportable>
+
+			<!-- assignee legal entity specific -->
+			&assignee_legalentity_fields;
+
+		</subsection>
+		<subsection id="assignee_naturalperson">
+			<view-state-id>oneform</view-state-id>
+			<view-state-order>1</view-state-order>
+			<coreName>Applicant</coreName>
+			<visible>true</visible>
+			<order>2</order>
+			<path>assignee_naturalperson</path>
+			<previousCTMImportable>true</previousCTMImportable>
+			<priorityImportable>true</priorityImportable>
+			<seniorityImportable>true</seniorityImportable>
+			<transformationImportable>true</transformationImportable>
+			<generalImportable>true</generalImportable>
+			<!-- assignee natural person specific -->
+			&assignee_naturalperson_fields;
+
+		</subsection>
+
+	</section>
+
+	<section id="applicationCA" description="DISPLAYS APPLICATION CORRESPONDENCE ADDRESS">
+		<view-state-id>oneform</view-state-id>
+		<view-state-order>1</view-state-order>
+		<modelAttribute></modelAttribute>
+		<coreName></coreName>
+		<visible>true</visible>
+		<order>3</order>
+		<path>/WEB-INF/views/common/correspondent/applicationCA_section.jsp</path>
+		&applicationCA_eservices_fields;
+
+	</section>
+
+	<section id="otherAttachments" description="DISPLAYS OTHER ATTACHMENTS SECTION">
+		<view-state-id>oneform</view-state-id>
+		<view-state-order>6</view-state-order>
+		<coreName></coreName>
+		<visible>true</visible>
+		<order>5</order>
+		<path>/WEB-INF/views/fileupload/other_attachment.jsp</path>
+		<previousCTMImportable>false</previousCTMImportable>
+		<priorityImportable>false</priorityImportable>
+		<seniorityImportable>false</seniorityImportable>
+		<transformationImportable>false</transformationImportable>
+		<generalImportable>false</generalImportable>
+		<field id="otherAttachments">
+			<visible>true</visible>
+			<usable>true</usable>
+		</field>
+		<field id="otherAttachments.description">
+			<visible>true</visible>
+			<usable>true</usable>
+			<required>false</required>
+		</field>
+		<field id="otherAttachments.attachment">
+			<visible>false</visible>
+			<usable>false</usable>
+			<required>false</required>
+		</field>
+		<field id="otherAttachments.docType">
+			<visible>true</visible>
+			<usable>true</usable>
+			<required>false</required>
+		</field>
+		<field id="comment">
+			<visible>true</visible>
+			<usable>true</usable>
+			<required>false</required>
+		</field>
+	</section>
+
+	<section id="signature" description="DISPLAYS SIGNATURE SECTION">
+		<view-state-id>oneform</view-state-id>
+		<view-state-order>1</view-state-order>
+		<coreName></coreName>
+		<visible>true</visible>
+		<order>7</order>
+		<path>signature_multiple_section</path>
+		<previousCTMImportable>true</previousCTMImportable>
+		<priorityImportable>false</priorityImportable>
+		<seniorityImportable>false</seniorityImportable>
+		<transformationImportable>false</transformationImportable>
+		<generalImportable>true</generalImportable>
+		<field id="formMessages">
+			<visible>true</visible>
+			<usable>true</usable>
+			<required>true</required>
+			<previousCTMImportable>true</previousCTMImportable>
+			<priorityImportable>true</priorityImportable>
+			<seniorityImportable>true</seniorityImportable>
+			<transformationImportable>true</transformationImportable>
+			<generalImportable>true</generalImportable>
+			<editableImport>true</editableImport>
+		</field>
+		<field id="formWarnings">
+			<visible>true</visible>
+			<usable>true</usable>
+			<required>true</required>
+		</field>
+		<subsection id="signature_details_section" description="DISPLAYS THE FIRST SIGNATURE FORM">
+			<view-state-id>oneform</view-state-id>
+			<view-state-order>1</view-state-order>
+			<visible>true</visible>
+			<order>1</order>
+			<path>signature_details_section</path>
+			<previousCTMImportable>true</previousCTMImportable>
+			<priorityImportable>false</priorityImportable>
+			<seniorityImportable>false</seniorityImportable>
+			<transformationImportable>false</transformationImportable>
+			<generalImportable>true</generalImportable>
+
+			&signature_fields;
+
+		</subsection>
+	</section>
+
+	<section id="payment_iframe"
+			 description="DISPLAYS PAYMENT SECTION AND PO SPECIFIC ENVIRONMENT IN A MODAL POP-UP">
+		<view-state-id>review</view-state-id>
+		<view-state-order>5</view-state-order>
+		<coreName></coreName>
+		<visible>false</visible>
+		<order>6</order>
+		<path>/WEB-INF/views/payment/payment_integration.jsp</path>
+	</section>
+	<section id="paymentSection" description="DISPLAYS PAYMENT DETAILS SECTION">
+		<view-state-id>review</view-state-id>
+		<view-state-order>5</view-state-order>
+		<modelAttribute></modelAttribute>
+		<coreName>payment_details</coreName>
+		<visible>false</visible>
+		<order>7</order>
+		<path>/WEB-INF/views/payment/payment_section.jsp</path>
+
+		&payment_fields;
+
+	</section>
+                    
+	<section id="buttons1" description="DISPLAYS BUTTONS">
+		<view-state-id>oneform</view-state-id>
+		<view-state-order>1</view-state-order>
+		<coreName></coreName>
+		<visible>true</visible>
+		<order>12</order>
+		<path>/WEB-INF/views/navigation/oneform_buttonsA.jsp</path>
+		<navigationPath>false</navigationPath>
+		<previousCTMImportable>true</previousCTMImportable>
+		<priorityImportable>false</priorityImportable>
+		<seniorityImportable>false</seniorityImportable>
+		<transformationImportable>false</transformationImportable>
+		<generalImportable>false</generalImportable>
+	</section>
+
+	<section id="application_declarations" description="Application declarations section">
+		<view-state-id>review</view-state-id>
+		<view-state-order>2</view-state-order>
+		<modelAttribute></modelAttribute>
+		<coreName>application_declarations</coreName>
+		<visible>true</visible>
+		<order>10</order>
+		<path>/WEB-INF/views/common/declare/esign_documents_declaration.jsp</path>
+		<field id="esignDocDeclaration">
+			<visible>true</visible>
+			<usable>true</usable>
+			<required>true</required>
+		</field>
+	</section>
+
+ 	<section id="buttons2" description="DISPLAYS BUTTONS">
+    	<view-state-id>review</view-state-id>
+    	<view-state-order>2</view-state-order>
+    	<coreName></coreName>
+    	<visible>true</visible>
+    	<order>20</order>
+    	<path>/WEB-INF/views/navigation/oneform_buttonsB.jsp</path>
+    	<navigationPath>false</navigationPath>    
+    	<previousCTMImportable>true</previousCTMImportable>
+    	<priorityImportable>false</priorityImportable>
+    	<seniorityImportable>false</seniorityImportable>
+    	<transformationImportable>false</transformationImportable>
+    	<generalImportable>false</generalImportable>
+  	</section>
+
+	<section id="review" description="DISPLAYS REVIEW PAGE">
+		<view-state-id>review</view-state-id>
+		<view-state-order>2</view-state-order>
+		<coreName></coreName>
+		<visible>true</visible>
+		<order>1</order>
+		<path>/WEB-INF/views/review/review.jsp</path>
+		<navigationPath>false</navigationPath>
+		<previousCTMImportable>true</previousCTMImportable>
+		<priorityImportable>false</priorityImportable>
+		<seniorityImportable>false</seniorityImportable>
+		<transformationImportable>false</transformationImportable>
+		<generalImportable>false</generalImportable>
+	</section>
+    
+
+    
+</sections>
+

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://dozer.sourceforge.net
+          http://dozer.sourceforge.net/schema/beanmapping.xsd">
+
+    <configuration>
+        <stop-on-errors>true</stop-on-errors>
+        <date-format>yyyy-MM-dd HH:mm:ssXXX</date-format>
+        <wildcard>true</wildcard>
+
+        <custom-converters>
+            <converter type="eu.ohim.sp.external.register.converter.PatentApplicantKindConverter">
+                <class-a>bg.egov.regix.patentdepartment.ApplicantType</class-a>
+                <class-b>eu.ohim.sp.core.domain.person.PersonKind</class-b>
+            </converter>
+
+            <converter type="eu.ohim.sp.external.register.converter.EPOPatentPublicationsConverter">
+                <class-a map-null="false">bg.egov.regix.patentdepartment.PatentType$PublicationDetails</class-a>
+                <class-b map-null="false">eu.ohim.sp.core.domain.patent.Patent</class-b>
+            </converter>
+        </custom-converters>
+
+    </configuration>
+</mappings>

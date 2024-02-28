@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow parent="tm-efiling" xmlns="http://www.springframework.org/schema/webflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow
+                          http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+
+	<on-start>		
+		<evaluate expression="'oneform'" result="flowScope.flowModeId"
+			result-type="java.lang.String" />
+		<!-- This will work as long as the child elements are added before the parent flow -->
+		<evaluate
+			expression="personService.initializePersonsForRegisteredUsers(flowScope.flowBean, flowScope.flowModeId)" />
+	</on-start>
+
+	<view-state id="oneform" view="tiles" model="flowBean">
+		<transition on="Next" to="review" validate="true" />
+	</view-state>
+
+	<view-state id="startOverState" view="importFailureTileOneform" model="flowBean"/>
+	
+	
+	<view-state id="review" view="tiles" model="flowBean">
+		<transition on="Update_Mark" to="oneform" validate="false" />
+		<transition on="Update_Person" to="oneform" validate="false" />
+		<transition on="Update_GoodsServices" to="oneform"
+			validate="false" />
+		<transition on="Update_NationalSearch" to="oneform" validate="false" />
+		<transition on="Update_Claim" to="oneform" validate="false" />
+		<transition on="Previous" to="oneform" validate="false" />
+		 
+		<transition on="doPayment" to="submitted" history="discard" validate="false">
+		        <evaluate expression="draftAppicationService.storeReceipt(flowBean, flowBean.idreserventity, localeComponent.getLocale(externalContext.nativeRequest).getValue())" />
+		        <evaluate expression="draftAppicationService.fileTMApplication(flowBean, flowBean.idreserventity)" />
+		</transition>
+		<!--
+		<transition on="PAYMENT_OK" to="submitted" history="discard" validate="false">
+			<evaluate
+				expression="draftAppicationService.storeReceipt(flowBean, flowBean.idreserventity, localeComponent.getLocale(externalContext.nativeRequest).getValue())" />
+			<evaluate
+				expression="draftAppicationService.fileTMApplication(flowBean, flowBean.idreserventity)" />
+		</transition>		
+		<transition on="PAYMENT_CANCELLED" />			
+		<transition on="PAYMENT_ERROR">			
+			<evaluate expression="requestParameters.paymentMessage" result="flashScope.paymentMessage"
+				result-type="java.lang.String" />
+		</transition>
+		 -->
+	</view-state>	
+</flow>

@@ -1,0 +1,49 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>eu.ohim.sp.common</groupId>
+		<artifactId>security</artifactId>
+		<version>2.0.0-RELEASE</version>
+	</parent>
+
+	<artifactId>WebSecurityClient</artifactId>
+	<packaging>jar</packaging>
+
+	<dependencies>
+	
+		<!-- SP SECURITY SOLUTIONS  -->
+		<dependency>
+			<groupId>eu.ohim.sp.common</groupId>
+			<artifactId>AuthenticationClient</artifactId>
+			<version>2.0.0-RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>eu.ohim.sp.common</groupId>
+			<artifactId>SecurityClient</artifactId>
+			<version>2.0.0-RELEASE</version>
+		</dependency>
+
+
+		<!-- SPRING SECURITY -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+		</dependency>
+ 		
+ 		<dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+        </dependency>
+
+	</dependencies>
+
+</project>

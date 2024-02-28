@@ -1,0 +1,64 @@
+package org.domain.rules;
+
+dialect "mvel"
+
+import eu.ohim.sp.core.domain.validation.ErrorCore;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.domain.payment.FeeList;
+import eu.ohim.sp.core.domain.payment.FeeType;
+import eu.ohim.sp.core.domain.payment.Fee;
+import eu.ohim.sp.core.domain.trademark.TradeMark;
+import eu.ohim.sp.core.domain.trademark.LimitedTradeMark;
+import eu.ohim.sp.core.domain.application.AppealKind;
+import eu.ohim.sp.core.domain.application.Appeal;
+import eu.ohim.sp.core.domain.application.EServiceApplication;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.TreeMap;
+import java.util.List;
+import java.util.Date;
+
+rule "Fees reader"
+salience 1000
+no-loop
+    when
+		FeeList($feeTypeList : feeTypeList)
+        $bF : FeeType("basicFee".equals(nameKey)) from $feeTypeList
+        $bFP : FeeType("basicFeeEndProcessing".equals(nameKey)) from $feeTypeList
+    then
+    	TreeMap map = new TreeMap();
+        map.put("basicFee", $bF);
+        map.put("basicFeeEndProcessing", $bFP);
+        insert(map);
+end
+
+rule "Basic Fee"
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        EServiceApplication($appeals : appeals)     
+        eval($appeals != null && $appeals.size() >0)  
+    then
+        # Creates the base fee.
+        for(Appeal app: $appeals){
+        	if(app.getAppealKind() != null && (app.getAppealKind().equals(AppealKind.APPEAL_AGAINST_REFUSAL) ||app.getAppealKind().equals(AppealKind.APPEAL_AGAINST_OPPOSITION_DECISION))){
+        	 	Fee fee = new Fee();
+		        fee.setFeeType((FeeType) $map.get("basicFee"));
+		        fee.setQuantity(1);
+		        fee.setUnitAmount(((FeeType) $map.get("basicFee")).getDefaultValue());
+		        fee.setAmount(fee.quantity * fee.unitAmount);
+		        # Adds the base fee to the result list
+		        $results.put("basicFee", fee);
+        	} else if (app.getAppealKind() != null && app.getAppealKind().equals(AppealKind.APPEAL_AGAINST_TERMINATION)){
+        		Fee fee = new Fee();
+		        fee.setFeeType((FeeType) $map.get("basicFeeEndProcessing"));
+		        fee.setQuantity(1);
+		        fee.setUnitAmount(((FeeType) $map.get("basicFeeEndProcessing")).getDefaultValue());
+		        fee.setAmount(fee.quantity * fee.unitAmount);
+		        # Adds the base fee to the result list
+		        $results.put("basicFeeEndProcessing", fee);
+        	}
+        }
+        
+end

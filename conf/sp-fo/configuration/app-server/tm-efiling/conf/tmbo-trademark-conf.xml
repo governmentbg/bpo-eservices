@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections anonymousMode="true" navigationPath="false"
+	xmlns="http://www.example.org/sections-fields-configuration" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.example.org/sections-fields-configuration sections-fields-configuration.xsd ">
+
+	<section id="tmbo-tdm-basicInformation" description="DISPLAYS TRADEMARK BASIC INFORMATION">
+		<visible>true</visible>
+		<order>1</order>
+		<field id="applicationNumber">
+			<visible>true</visible>
+			<usable>true</usable>
+			<required>true</required>
+			<editableImport>false</editableImport>
+			<format></format>
+		</field>
+		<field id="applicationDate">
+			<visible>true</visible>
+			<usable>true</usable>
+			<required>true</required>
+			<editableImport>true</editableImport>
+			<format>^(0[1-9]|[12][0-9]|3[01])[/.](0[1-9]|1[012])[/.](19|20)\d\d$</format>
+		</field>
+		<field id="filingNumber">
+			<visible>true</visible>
+			<usable>true</usable>
+			<required>true</required>
+			<editableImport>false</editableImport>
+			<format></format>
+		</field>
+		<field id="filingDate">
+			<visible>true</visible>
+			<usable>true</usable>
+			<required>false</required>
+			<editableImport>true</editableImport>
+			<format>^(0[1-9]|[12][0-9]|3[01])[/.](0[1-9]|1[012])[/.](19|20)\d\d$</format>
+		</field>	
+		<field id="registrationNumber">
+			<visible>true</visible>
+			<usable>true</usable>
+			<required>false</required>
+			<editableImport>false</editableImport>
+			<format>^(0[1-9]|[12][0-9]|3[01])[/.](0[1-9]|1[012])[/.](19|20)\d\d$</format>
+		</field>
+		<field id="registrationDate">
+			<visible>true</visible>
+			<usable>true</usable>
+			<required>false</required>
+			<editableImport>true</editableImport>
+			<format>^(0[1-9]|[12][0-9]|3[01])[/.](0[1-9]|1[012])[/.](19|20)\d\d$</format>
+		</field>	
+		<field id="expirationDate">
+			<visible>true</visible>
+			<usable>true</usable>
+			<required>false</required>
+			<editableImport>true</editableImport>
+			<format>^(0[1-9]|[12][0-9]|3[01])[/.](0[1-9]|1[012])[/.](19|20)\d\d$</format>
+		</field>
+		<field id="applicationReference">
+			<visible>true</visible>
+			<usable>true</usable>
+			<required>false</required>
+			<editableImport>true</editableImport>
+			<format></format>
+		</field>	
+		<field id="status">
+			<visible>true</visible>
+			<usable>true</usable>
+			<required>false</required>
+			<editableImport>true</editableImport>
+			<format></format>
+		</field>
+		<field id="currentStatusDate">
+			<visible>true</visible>
+			<usable>true</usable>
+			<required>false</required>
+			<editableImport>true</editableImport>
+			<format>^(0[1-9]|[12][0-9]|3[01])[/.](0[1-9]|1[012])[/.](19|20)\d\d$</format>
+		</field>
+		<field id="type">
+			<visible>true</visible>
+			<usable>true</usable>
+			<required>false</required>
+			<editableImport>true</editableImport>
+			<format></format>
+		</field>
+		<field id="kind">
+			<visible>true</visible>
+			<usable>true</usable>
+			<required>false</required>
+			<editableImport>true</editableImport>
+			<format></format>
+		</field>
+		<field id="descriptions">
+			<visible>true</visible>
+			<usable>true</usable>
+			<required>false</required>
+			<editableImport>true</editableImport>
+			<format></format>
+		</field>
+		<field id="disclaimers">
+			<visible>true</visible>
+			<usable>true</usable>
+			<required>false</required>
+			<editableImport>true</editableImport>
+			<format></format>
+		</field>				
+	</section>
+
+</sections>

@@ -1,0 +1,211 @@
+package org.domain.rules;
+dialect "mvel"
+
+import java.util.Date;
+import java.util.Calendar;
+import org.apache.commons.lang.StringUtils;
+import eu.ohim.sp.core.domain.design.Priority;
+import eu.ohim.sp.core.configuration.domain.xsd.Field;
+import eu.ohim.sp.core.configuration.domain.xsd.Sections;
+import eu.ohim.sp.core.configuration.domain.xsd.Section;
+import eu.ohim.sp.core.domain.resources.AttachedDocument;
+import eu.ohim.sp.core.domain.design.ExhibitionPriority;
+import eu.ohim.sp.core.domain.claim.Exhibition;
+
+
+
+// PRIORITY ----------------------------------------------------------------------------------------------
+
+rule "BR2 - Empty country"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "country", $fieldUsable : usable, $fieldRequired : required ) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Priority(StringUtils.isEmpty(filingOffice) == true)	
+then
+	addError("country",	 "BRMandatory",	"This field is mandatory",	 null, $errorList);
+end
+
+rule "BR - Content - Priority designs"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "designsLinked", $fieldUsable : usable, $fieldRequired : required) from $fields
+    eval($fieldUsable == true && $fieldRequired == true)
+	Priority (designs == null ||  (designs != null && designs.size() <= 0))		
+then
+	addError("designsLinked", "BRMandatory", "This field is mandatory",	 null, $errorList);
+end
+
+rule "BR - Filling Date - Content"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )	
+	Field( id == "date", $fieldUsable : usable, $fieldRequired : required , $format:format) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Priority($filingDate: filingDate)
+		
+then
+	Calendar c1 = Calendar.getInstance();
+	Calendar c2 = Calendar.getInstance();
+			 	
+	if ($filingDate!=null) {
+
+		c1.add(Calendar.MONTH, -6);
+		//c2.add(Calendar.HOUR, -24);
+		Date date1=c1.getTime();
+		Date date2=c2.getTime();		
+		
+		if ($filingDate.compareTo(date2)>0) {
+				addError("date", "BRFutureDate", "Date should not be in future", null, $errorList);
+		} else {
+			if ( ($filingDate.compareTo(date1)<0)) {
+				addError("date", "BRPastDate", "Priority date should not be older than 6 month of the current filing.", null, $errorList);
+ 			} 		
+ 		} 
+ 		
+	} else {
+			addError("date","BRMandatory", "This field is mandatory", null, $errorList); 		
+ 	}
+
+end
+
+rule "BR Number - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section($fields : field )
+	Field( id == "number", $fieldUsable : usable, $fieldRequired : required , $regex:format) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Priority($filingNumber:filingNumber, StringUtils.isEmpty(filingNumber))
+then
+	addError("number",	 "BRMandatory",	 "This field is mandatory",	 null,	 $errorList);		 	
+end
+
+
+rule "BR - Filling Applicant Name"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )	
+	Field( id == "applicantName", $fieldUsable : usable, $fieldRequired : required , $format:format) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Priority(StringUtils.isEmpty(applicantName) == true)				
+then
+	addError("applicantName", "BRMandatory", "This field is mandatory",	 null, $errorList);
+end
+
+
+rule "BR Design view - size validation - priority"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "fileWrapperCopy") from $fields	
+	Priority($attachedDocuments:attachedDocuments)	
+then	
+	
+	if ($attachedDocuments!=null && $attachedDocuments.size()>0) {		
+		AttachedDocument docum = (AttachedDocument)$attachedDocuments[0];
+		if (docum.getDocument()!=null) {
+			Long sizeMb = docum.getDocument().getFileSize()/10000000;
+			if (sizeMb>50) {
+				addError("fileWrapperCopy.attachment", "BR.design.view.size", "This size view must be lower 50 Mb",	 null, $errorList); 	 
+			}
+		}
+	}
+	
+end
+
+// EXHIBITION ----------------------------------------------------------------------------------------------
+
+rule "BR - Content - Exhibition designs"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "designsLinked", $fieldUsable : usable, $fieldRequired : required) from $fields
+    	eval($fieldUsable == true && $fieldRequired == true)
+	ExhibitionPriority (designs == null ||  (designs != null && designs.size() <= 0))		
+then
+	addError("designsLinked","BRMandatory", "This field is mandatory",null,	 $errorList);
+end
+
+
+
+
+rule "BR Design view - size validation exhibition"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "fileWrapper") from $fields	
+	ExhibitionPriority($attachedDocuments:attachedDocuments)	
+then	
+	
+	if ($attachedDocuments!=null && $attachedDocuments.size()>0) {		
+		AttachedDocument docum = (AttachedDocument)$attachedDocuments[0];
+		if (docum.getDocument()!=null) {
+			Long sizeMb = docum.getDocument().getFileSize()/10000000;
+			if (sizeMb>50) {
+				addError("fileWrapper.attachment", "BR.design.view.size", "This size view must be lower 50 Mb",	 null, $errorList); 	 
+			}
+		}
+	}	
+end
+
+rule "BR EXHIBITION DESIGNS - Exhibition Name - Content"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "exhibitionName", $fieldUsable : usable, $editableImportField : editableImport, $format:format) from $fields
+	eval($fieldUsable == true)
+	ExhibitionPriority($exhibition : exhibition)
+	eval($exhibition == null) or (Exhibition (StringUtils.isEmpty(name) == true) from $exhibition)
+then
+	addError("exhibitionName","BRMandatory", "This field is mandatory", null,	 $errorList);
+end
+
+
+rule "BR Date of first disclosure - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )	
+	Field( id == "firstDate", $fieldUsable : usable, $fieldRequired : required , $format:format) from $fields
+	eval($fieldUsable == true &&  $fieldRequired == true)
+	ExhibitionPriority($filingDate: firstDisplayDate, firstDisplayDate == null)	
+then
+	addError("firstDate","BRMandatory", "This field is mandatory", null,	 $errorList); 		
+end
+
+rule "BR Date of first disclosure - Content"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )	
+	Field( id == "firstDate", $fieldUsable : usable , $format:format) from $fields
+	eval($fieldUsable == true )
+	ExhibitionPriority($filingDate: firstDisplayDate, firstDisplayDate != null)	
+then
+	Calendar c1 = Calendar.getInstance();
+	Calendar c2 = Calendar.getInstance();
+
+	c1.add(Calendar.MONTH, -6);
+	//c2.add(Calendar.HOUR, -24);
+	Date date1=c1.getTime();
+	Date date2=c2.getTime();
+
+	if ($filingDate.compareTo(date2)>0) {
+			addError("firstDate", "BRFutureDate", "Date should not be in future", null, $errorList);
+	} else {
+		if ( ($filingDate.compareTo(date1)<0)) {
+			addError("firstDate", "BRPastDate", "Priority date should not be older than 6 month of the current filing.", null, $errorList);
+ 		} 		
+ 	} 						 
+end

@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:Transaction xmlns:ns2="http://fsp.ohim.eu/XMLSchema">
+    <TradeMarkTransactionBody>
+        <TransactionContentDetails>
+            <TransactionData>
+                <TradeMarkApplication>
+                    <TradeMarkDetails>
+                        <TradeMark>
+                            <ApplicationLanguageCode>en</ApplicationLanguageCode>
+                            <SecondLanguageCode>de</SecondLanguageCode>
+                            <MarkFeature>Figurative</MarkFeature>
+                            <MarkDescriptionDetails>
+<MarkDescription languageCode="en">description of the mark</MarkDescription>
+<MarkDescription languageCode="de">desc second language</MarkDescription>
+                            </MarkDescriptionDetails>
+                            <MarkDisclaimerDetails>
+<MarkDisclaimer languageCode="en">disclaimer</MarkDisclaimer>
+<MarkDisclaimer languageCode="de">disclaimer second language</MarkDisclaimer>
+                            </MarkDisclaimerDetails>
+                            <WordMarkSpecification>
+<MarkVerbalElementText>word element</MarkVerbalElementText>
+                            </WordMarkSpecification>
+                            <MarkImageDetails/>
+                            <MarkSoundDetails/>
+                            <GoodsServicesDetails>
+<GoodsServices>
+    <ClassDescriptionDetails>
+        <ClassDescription>
+            <ClassNumber>3</ClassNumber>
+            <ClassificationTermDetails>
+                <ClassificationTerm>
+                    <ClassificationTermText>Shoe polish</ClassificationTermText>
+                </ClassificationTerm>
+                <ClassificationTerm>
+                    <ClassificationTermText>Shoe cream</ClassificationTermText>
+                </ClassificationTerm>
+                <ClassificationTermLanguageCode>en</ClassificationTermLanguageCode>
+            </ClassificationTermDetails>
+        </ClassDescription>
+    </ClassDescriptionDetails>
+</GoodsServices>
+<GoodsServices>
+    <ClassDescriptionDetails>
+        <ClassDescription>
+            <ClassNumber>4</ClassNumber>
+            <ClassificationTermDetails>
+                <ClassificationTerm>
+                    <ClassificationTermText>Shoes (Grease for -)</ClassificationTermText>
+                </ClassificationTerm>
+                <ClassificationTerm>
+                    <ClassificationTermText>Grease for brake shoes</ClassificationTermText>
+                </ClassificationTerm>
+                <ClassificationTermLanguageCode>en</ClassificationTermLanguageCode>
+            </ClassificationTermDetails>
+        </ClassDescription>
+    </ClassDescriptionDetails>
+</GoodsServices>
+<GoodsServices>
+    <ClassDescriptionDetails>
+        <ClassDescription>
+            <ClassNumber>21</ClassNumber>
+            <ClassificationTermDetails>
+                <ClassificationTerm>
+                    <ClassificationTermText>Shoe horns</ClassificationTermText>
+                </ClassificationTerm>
+                <ClassificationTermLanguageCode>en</ClassificationTermLanguageCode>
+            </ClassificationTermDetails>
+        </ClassDescription>
+    </ClassDescriptionDetails>
+</GoodsServices>
+<GoodsServices>
+    <ClassDescriptionDetails>
+        <ClassDescription>
+            <ClassNumber>26</ClassNumber>
+            <ClassificationTermDetails>
+                <ClassificationTerm>
+                    <ClassificationTermText>Shoe laces</ClassificationTermText>
+                </ClassificationTerm>
+                <ClassificationTermLanguageCode>en</ClassificationTermLanguageCode>
+            </ClassificationTermDetails>
+        </ClassDescription>
+    </ClassDescriptionDetails>
+</GoodsServices>
+<GoodsServices>
+    <ClassDescriptionDetails>
+        <ClassDescription>
+            <ClassNumber>37</ClassNumber>
+            <ClassificationTermDetails>
+                <ClassificationTerm>
+                    <ClassificationTermText>Shoe repair</ClassificationTermText>
+                </ClassificationTerm>
+                <ClassificationTermLanguageCode>en</ClassificationTermLanguageCode>
+            </ClassificationTermDetails>
+        </ClassDescription>
+    </ClassDescriptionDetails>
+</GoodsServices>
+                            </GoodsServicesDetails>
+                            <PriorityClaimLaterIndicator>false</PriorityClaimLaterIndicator>
+                            <PriorityDetails>
+<Priority>
+    <PriorityCountryCode>es</PriorityCountryCode>
+    <PriorityNumber>000091835</PriorityNumber>
+    <PriorityDate>2012-05-11+02:00</PriorityDate>
+</Priority>
+<Priority>
+    <PriorityCountryCode>LV</PriorityCountryCode>
+    <PriorityNumber>000091835</PriorityNumber>
+    <PriorityDate>2012-05-11+02:00</PriorityDate>
+</Priority>
+<Priority>
+    <PriorityCountryCode>PL</PriorityCountryCode>
+    <PriorityNumber>000091835</PriorityNumber>
+    <PriorityDate>2012-05-11+02:00</PriorityDate>
+</Priority>
+<Priority>
+    <PriorityCountryCode>FR</PriorityCountryCode>
+    <PriorityNumber>4234</PriorityNumber>
+    <PriorityDate>2012-07-11+02:00</PriorityDate>
+</Priority>
+                            </PriorityDetails>
+                            <TransformationPriorityDetails>
+<TransformationPriority>
+    <RegistrationNumber>testTransf</RegistrationNumber>
+    <RegistrationDate>2012-07-23+02:00</RegistrationDate>
+    <CancellationDate>2012-07-23+02:00</CancellationDate>
+    <PriorityDate>2012-07-23+02:00</PriorityDate>
+</TransformationPriority>
+                            </TransformationPriorityDetails>
+                            <SeniorityDetails>
+<Seniority>
+    <SeniorityCountryCode>DE</SeniorityCountryCode>
+    <SeniorityApplicationNumber>testSen</SeniorityApplicationNumber>
+    <SeniorityKind>International trade mark</SeniorityKind>
+    <SeniorityRegistrationNumber></SeniorityRegistrationNumber>
+</Seniority>
+<Seniority>
+    <SeniorityCountryCode>DE</SeniorityCountryCode>
+    <SeniorityApplicationNumber>testSen</SeniorityApplicationNumber>
+    <SeniorityKind>International trade mark</SeniorityKind>
+    <SeniorityRegistrationNumber></SeniorityRegistrationNumber>
+</Seniority>
+<Seniority>
+    <SeniorityCountryCode>FI</SeniorityCountryCode>
+    <SeniorityApplicationNumber></SeniorityApplicationNumber>
+    <SeniorityKind>National or regional trade mark</SeniorityKind>
+    <SeniorityRegistrationNumber></SeniorityRegistrationNumber>
+</Seniority>
+                            </SeniorityDetails>
+                            <TradeMarkDocumentDetails/>
+                        </TradeMark>
+                    </TradeMarkDetails>
+                </TradeMarkApplication>
+            </TransactionData>
+        </TransactionContentDetails>
+    </TradeMarkTransactionBody>
+</ns2:Transaction>

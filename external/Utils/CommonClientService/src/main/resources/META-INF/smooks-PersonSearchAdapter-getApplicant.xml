@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
+                      xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.2.xsd">
+                      
+
+    <jb:bean beanId="applicant" class="eu.ohim.sp.external.domain.person.Applicant" createOnElement="//Applicant">
+
+       <!--<jb:value data="//Applicant/ApplicantIdentifier" property="personNumber"/>  -->
+        <jb:value data="//Applicant/ApplicantIncorporationCountryCode" property="incorporationCountry"/>
+        <jb:value data="//Applicant/ApplicantIncorporationState" property="incorporationState"/>
+        <jb:value data="//Applicant/ApplicantLegalEntity" property="legalForm"/>
+        <jb:value data="//Applicant/ApplicantNationalityCode" property="nationality"/>
+       
+        <jb:value data="//Applicant/ApplicantLegalEntity" decoder="SPEnum" property="kind" default="eu.ohim.sp.external.domain.person.PersonKind.OTHER">
+            <jb:decodeParam name="enumType">eu.ohim.sp.external.domain.person.PersonKind</jb:decodeParam>
+            <jb:decodeParam name="Natural Person">NATURAL_PERSON</jb:decodeParam>
+            <jb:decodeParam name="Physical">NATURAL_PERSON</jb:decodeParam>
+            <jb:decodeParam name="Natural Person Special case">NATURAL_PERSON_SPECIAL_CASE</jb:decodeParam>
+            <jb:decodeParam name="Legal Entity">LEGAL_ENTITY</jb:decodeParam>
+            <jb:decodeParam name="Corporation by Civil Law">CORPORATION_BY_CIVIL_LAW</jb:decodeParam>
+            <jb:decodeParam name="Other">OTHER</jb:decodeParam>
+        </jb:value>
+
+        <jb:value data="//Applicant/@operationCode" decoder="SPEnum" property="operationCode">
+            <jb:decodeParam name="enumType">eu.ohim.sp.external.domain.person.OperationCodeType</jb:decodeParam>
+            <jb:decodeParam name="Insert">INSERT</jb:decodeParam>
+            <jb:decodeParam name="Delete">DELETE</jb:decodeParam>
+        </jb:value>
+ 
+         <jb:wiring beanIdRef="applicantAddresses" property="addresses"/>
+         <jb:wiring beanIdRef="applicantName" property="name"/>
+         <jb:wiring beanIdRef="applicantPhones" property="phones"/>
+         <jb:wiring beanIdRef="applicantEmails" property="emails"/>
+         <jb:wiring beanIdRef="applicantIdentifiers" property="identifiers"/>
+      </jb:bean>
+
+    <jb:bean beanId="applicantIdentifiers" class="java.util.ArrayList" createOnElement="//TransactionData/ApplicantDetails/Applicant">
+        <jb:wiring beanIdRef="applicantId"/>
+    </jb:bean>
+
+    <jb:bean beanId="applicantId" class="eu.ohim.sp.external.domain.person.PersonIdentifier" createOnElement="//TransactionData/ApplicantDetails/Applicant/ApplicantIdentifier">
+        <jb:value data="//TransactionData/ApplicantDetails/Applicant/ApplicantIdentifier" property="value"/>
+        <jb:value data="//TransactionData/ApplicantDetails/Applicant/ApplicantIdentifier/@identifierKindCode" property="identifierKindCode"/>
+    </jb:bean>
+
+
+    <jb:bean beanId="applicantFreeFormatCity" class="eu.ohim.sp.integration.domain.smooks.FreeFormatString" 
+    	createOnElement="//Applicant/ApplicantDomicileLocality">
+        <jb:value data="//Applicant/ApplicantDomicileLocality" property="value"/>
+    </jb:bean>
+
+    <jb:bean beanId="applicantAddressLines" class="eu.ohim.sp.integration.domain.smooks.FreeFormatString" createOnElement="//Applicant/ApplicantAddressBook/FormattedNameAddress/Address/FreeFormatAddress">
+        <jb:expression property="value" execOnElement="//Applicant/ApplicantAddressBook/FormattedNameAddress/Address/FreeFormatAddress/FreeFormatAddressLine">
+            applicantAddressLines.value != null? applicantAddressLines.value+"," + singleLine.value : singleLine.value;
+        </jb:expression>
+    </jb:bean>
+
+    <jb:bean beanId="singleLine" class="eu.ohim.sp.integration.domain.smooks.FreeFormatString" createOnElement="//Applicant/ApplicantAddressBook/FormattedNameAddress/Address/FreeFormatAddress/FreeFormatAddressLine">
+        <jb:value data="//Applicant/ApplicantAddressBook/FormattedNameAddress/Address/FreeFormatAddress/FreeFormatAddressLine" property="value"></jb:value>
+    </jb:bean>
+
+    <jb:bean beanId="applicantAddresses" class="java.util.ArrayList" createOnElement="//Applicant/ApplicantAddressBook/FormattedNameAddress/Address">
+        <jb:wiring beanIdRef="applicantAddress"/>
+    </jb:bean>
+
+    <jb:bean beanId="applicantAddress" class="eu.ohim.sp.external.domain.contact.Address" 
+    		createOnElement="//Applicant/ApplicantAddressBook/FormattedNameAddress/Address">
+        <jb:expression property="city">applicantFreeFormatCity!=null?applicantFreeFormatCity.getValue():applicantAddress.city</jb:expression> 
+        <jb:value data="//Applicant/ApplicantAddressBook/FormattedNameAddress/Address/FormattedAddress/AddressCity" property="city"/>
+        <jb:value data="//Applicant/ApplicantAddressBook/FormattedNameAddress/Address/AddressCountryCode" property="country"/>
+        <jb:value data="//Applicant/ApplicantAddressBook/FormattedNameAddress/Address/FormattedAddress/AddressPostcode" property="postCode"/>
+        <jb:value data="//Applicant/ApplicantAddressBook/FormattedNameAddress/Address/FormattedAddress/AddressState" property="state"/>
+        <jb:expression property="street">applicantAddressLines != null ? applicantAddressLines.value : applicantAddress.street</jb:expression>
+        <jb:value data="//Applicant/ApplicantAddressBook/FormattedNameAddress/Address/FormattedAddress/AddressStreet" property="street"/>
+    </jb:bean>
+    
+    
+    <jb:bean beanId="applicantPhones" class="java.util.ArrayList" createOnElement="//Applicant/ApplicantAddressBook/ContactInformationDetails">
+        <jb:wiring beanIdRef="applicantPhone"/>
+    </jb:bean>
+      
+    <jb:bean beanId="applicantEmails" class="java.util.ArrayList" createOnElement="//Applicant/ApplicantAddressBook/ContactInformationDetails">
+        <jb:wiring beanIdRef="applicantEmail"/>
+    </jb:bean>
+    
+   
+    <jb:bean beanId="applicantPhone" class="eu.ohim.sp.external.domain.contact.Phone" createOnElement="//Applicant/ApplicantAddressBook/ContactInformationDetails/Phone">
+        <jb:value data="//Applicant/ApplicantAddressBook/ContactInformationDetails/Phone" property="number"/>
+       
+        <jb:value data="//Applicant/ApplicantAddressBook/ContactInformationDetails/Phone/@phoneKind" decoder="SPEnum" property="phoneKind" default="eu.ohim.sp.external.domain.contact.PhoneKind.MOBILE_PHONE">
+            <jb:decodeParam name="enumType">eu.ohim.sp.external.domain.contact.PhoneKind</jb:decodeParam>
+            <jb:decodeParam name="defaultValue">OTHER</jb:decodeParam>
+            <jb:decodeParam name="Fixed">FIXED</jb:decodeParam>
+            <jb:decodeParam name="Mobile Phone">MOBILE_PHONE</jb:decodeParam>
+            <jb:decodeParam name="Fax">FAX</jb:decodeParam>
+            <jb:decodeParam name="Other">OTHER</jb:decodeParam>
+            <jb:decodeParam name="Undefined">OTHER</jb:decodeParam>
+        </jb:value>
+    </jb:bean>
+           
+     <jb:bean beanId="applicantEmail" class="eu.ohim.sp.external.domain.contact.Email" createOnElement="//Applicant/ApplicantAddressBook/ContactInformationDetails/Email">
+        <jb:value data="//Applicant/ApplicantAddressBook/ContactInformationDetails/Email" property="emailAddress"/>
+    </jb:bean>
+    
+    <jb:bean beanId="applicantName" class="eu.ohim.sp.external.domain.person.PersonName" createOnElement="//Applicant/ApplicantAddressBook/FormattedNameAddress/Name">
+        <jb:value data="//Applicant/ApplicantAddressBook/FormattedNameAddress/Name/FormattedName/FirstName" property="firstName"/>
+        <jb:value data="//Applicant/ApplicantAddressBook/FormattedNameAddress/Name/FormattedName/LastName" property="lastName"/>
+        <jb:value data="//Applicant/ApplicantAddressBook/FormattedNameAddress/Name/FormattedName/MiddleName" property="middleName"/>
+        <jb:value data="//Applicant/ApplicantAddressBook/FormattedNameAddress/Name/FormattedName/OrganizationName" property="organizationName"/>
+    </jb:bean>
+
+    <jb:bean beanId="applicantName" class="eu.ohim.sp.external.domain.person.PersonName" createOnElement="//Applicant/ApplicantAddressBook/FormattedNameAddress/Name/FreeFormatName">
+        <jb:value data="//Applicant/ApplicantAddressBook/FormattedNameAddress/Name/FreeFormatName/FreeFormatNameDetails/FreeFormatNameLine" property="lastName"/>
+    </jb:bean>
+
+</smooks-resource-list>

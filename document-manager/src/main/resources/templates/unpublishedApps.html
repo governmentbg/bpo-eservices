@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="head :: head-declaration"></head>
+<body>
+<div id="header">
+    <div class="bg-primary">
+        <div th:replace="head:: title"/>
+
+    </div>
+</div>
+<div id="main" style="padding:20px">
+    <div class="well well-lg">
+        <h3>Unpublished apps</h3>
+        <div th:each="unpub: ${unpublished}">
+            <span th:text="${unpub.applicationFilingNumber}"></span>: <span th:text="${#dates.format(unpub.applicationFilingDate, 'dd.MM.yyyy')}"></span>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

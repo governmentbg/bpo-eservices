@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<feeList>
+	<feeTypeList>
+		<code>001</code>
+		<nameKey>schemaApplicationFee</nameKey>
+		<description>IST application fee </description>
+		<defaultValue>40.0</defaultValue>
+	</feeTypeList>
+</feeList>

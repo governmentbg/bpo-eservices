@@ -1,0 +1,325 @@
+package org.domain.rules;
+
+dialect "mvel"
+
+import eu.ohim.sp.core.domain.validation.ErrorCore;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.domain.trademark.LimitedTradeMark;
+import eu.ohim.sp.core.domain.trademark.TradeMark;
+import eu.ohim.sp.core.domain.trademark.MarkKind;
+import eu.ohim.sp.core.domain.trademark.ClassDescription;
+import eu.ohim.sp.core.domain.validation.RulesInformation;
+import eu.ohim.sp.core.domain.payment.FeeList;
+import eu.ohim.sp.core.domain.payment.FeeType;
+import eu.ohim.sp.core.domain.payment.Fee;
+import eu.ohim.sp.core.domain.resources.DocumentKind;
+import eu.ohim.sp.core.domain.resources.Document;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.TreeMap;
+import java.util.List;
+import java.util.Date;
+import java.util.Calendar;
+import java.util.Iterator;
+import java.text.DecimalFormat;
+import org.apache.log4j.Logger;
+import eu.ohim.sp.core.domain.trademark.GSHelperDetails;
+import eu.ohim.sp.core.domain.application.EServiceApplication;
+
+rule "Remove class 0"
+salience 1001
+no-loop
+    when
+        $mark : LimitedTradeMark(limitedClassDescriptions != null &&
+                    limitedClassDescriptions.size() > 0)
+    then
+        # removes class description
+        Iterator it = $mark.limitedClassDescriptions.iterator();
+        while(it.hasNext()){
+        	ClassDescription classDesc = (ClassDescription)it.next();
+        	if(classDesc != null && classDesc.classNumber.equals("0")){
+        		it.remove();
+        	}
+        }
+
+end
+
+rule "Fees reader"
+salience 1000
+no-loop
+    when
+		FeeList($feeTypeList : feeTypeList)
+        $basicBefore : FeeType("basicFeeBeforeExpr".equals(nameKey)) from $feeTypeList
+        $basicAfter : FeeType("basicFeeAfterExpr".equals(nameKey)) from $feeTypeList
+        $basicBeforeCollective : FeeType("basicFeeBeforeExprCollective".equals(nameKey)) from $feeTypeList
+        $basicAfterCollective : FeeType("basicFeeAfterExprCollective".equals(nameKey)) from $feeTypeList
+        $extraClassBefore : FeeType("extraClassFeeBeforeExpr".equals(nameKey)) from $feeTypeList
+        $extraClassAfter : FeeType("extraClassFeeAfterExpr".equals(nameKey)) from $feeTypeList
+        $extraClassBeforeCollective : FeeType("extraClassFeeBeforeExprCollective".equals(nameKey)) from $feeTypeList
+        $extraClassAfterCollective : FeeType("extraClassFeeAfterExprCollective".equals(nameKey)) from $feeTypeList
+        $mC : FeeType("maxClasses".equals(nameKey)) from $feeTypeList
+    then
+    	TreeMap map = new TreeMap();
+        map.put("basicFeeBeforeExpr", $basicBefore);
+        map.put("basicFeeAfterExpr", $basicAfter);
+        map.put("basicFeeBeforeExprCollective", $basicBeforeCollective);
+        map.put("basicFeeAfterExprCollective", $basicAfterCollective);
+        map.put("extraClassFeeBeforeExpr", $extraClassBefore);
+        map.put("extraClassFeeAfterExpr", $extraClassAfter);
+        map.put("extraClassFeeBeforeExprCollective", $extraClassBeforeCollective);
+        map.put("extraClassFeeAfterExprCollective", $extraClassAfterCollective);
+        map.put("maxClasses", $mC);
+        insert(map);
+end
+
+rule "Basic Fee Before Expiration"
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        $mark : LimitedTradeMark(markRightKind.value() == "Individual", expirationDate.compareTo(now()) >= 0, $an: applicationNumber)
+        EServiceApplication($gsHList : gsHelpers)
+        $gsHlp: GSHelperDetails( tmApplicationNumber == $an) from $gsHList  
+    then
+        # Creates the base fee.
+        Fee fee = new Fee();
+        fee.setFeeType((FeeType) $map.get("basicFeeBeforeExpr"));
+        fee.setQuantity(1);
+        fee.setUnitAmount(((FeeType) $map.get("basicFeeBeforeExpr")).getDefaultValue());
+        fee.setAmount(fee.quantity * fee.unitAmount);
+        # Adds the base fee to the result list
+        $results.put(generateUID(fee, $mark), fee);
+end
+
+
+rule "Extra Class Fee Before Expiration"
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        $mark : LimitedTradeMark(markRightKind.value() == "Individual", expirationDate.compareTo(now()) >= 0, $an: applicationNumber)
+                    
+        EServiceApplication($gsHList : gsHelpers)
+        $gsHlp: GSHelperDetails( tmApplicationNumber == $an, classDescriptions != null &&
+                    classDescriptions.size() > ((FeeType) $map.get("maxClasses")).getDefaultValue() &&
+                    $totalClasses : classDescriptions.size()) from $gsHList  
+    then
+        # Creates the base fee.
+        Fee fee = new Fee();
+        fee.setFeeType((FeeType) $map.get("extraClassFeeBeforeExpr"));
+        fee.setQuantity($totalClasses - ((FeeType) $map.get("maxClasses")).getDefaultValue());
+	 	fee.setUnitAmount(((FeeType) $map.get("extraClassFeeBeforeExpr")).getDefaultValue());
+        fee.setAmount(fee.quantity * fee.unitAmount);
+        # Adds the base fee to the result list
+        $results.put(generateUID(fee, $mark), fee);
+end
+
+rule "Basic Fee Before Expiration Collective"
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        $mark : LimitedTradeMark(markRightKind.value() == "Collective" || markRightKind.value() == "Certificate", expirationDate.compareTo(now()) >= 0, $an: applicationNumber)
+        EServiceApplication($gsHList : gsHelpers)
+        $gsHlp: GSHelperDetails( tmApplicationNumber == $an) from $gsHList  
+    then
+        # Creates the base fee.
+        Fee fee = new Fee();
+        fee.setFeeType((FeeType) $map.get("basicFeeBeforeExprCollective"));
+        fee.setQuantity(1);
+        fee.setUnitAmount(((FeeType) $map.get("basicFeeBeforeExprCollective")).getDefaultValue());
+        fee.setAmount(fee.quantity * fee.unitAmount);
+        # Adds the base fee to the result list
+        $results.put(generateUID(fee, $mark), fee);
+end
+
+rule "Extra Class Fee Before Expiration Collective"
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        $mark : LimitedTradeMark(markRightKind.value() == "Collective" || markRightKind.value() == "Certificate", expirationDate.compareTo(now()) >= 0, $an: applicationNumber)
+        EServiceApplication($gsHList : gsHelpers)
+        $gsHlp: GSHelperDetails( tmApplicationNumber == $an, classDescriptions != null &&
+                    classDescriptions.size() > ((FeeType) $map.get("maxClasses")).getDefaultValue() &&
+                    $totalClasses : classDescriptions.size()) from $gsHList  
+    then
+        # Creates the base fee.
+        Fee fee = new Fee();
+        fee.setFeeType((FeeType) $map.get("extraClassFeeBeforeExprCollective"));
+        fee.setQuantity($totalClasses - ((FeeType) $map.get("maxClasses")).getDefaultValue());
+	 	fee.setUnitAmount(((FeeType) $map.get("extraClassFeeBeforeExprCollective")).getDefaultValue());
+        fee.setAmount(fee.quantity * fee.unitAmount);
+        # Adds the base fee to the result list
+        $results.put(generateUID(fee, $mark), fee);
+end
+
+rule "Basic Fee After Expiration"
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        $mark : LimitedTradeMark(markRightKind.value() == "Individual", expirationDate.compareTo(now()) <0 && now().compareTo(sixMonths(expirationDate)) <=0, $an: applicationNumber)
+        EServiceApplication($gsHList : gsHelpers)
+        $gsHlp: GSHelperDetails( tmApplicationNumber == $an) from $gsHList  
+    then
+        # Creates the base fee.
+        Fee fee = new Fee();
+        fee.setFeeType((FeeType) $map.get("basicFeeAfterExpr"));
+        fee.setQuantity(1);
+        fee.setUnitAmount(((FeeType) $map.get("basicFeeAfterExpr")).getDefaultValue());
+        fee.setAmount(fee.quantity * fee.unitAmount);
+        # Adds the base fee to the result list
+        $results.put(generateUID(fee, $mark), fee);
+end
+
+rule "Extra Class Fee After Expiration"
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        $mark : LimitedTradeMark(markRightKind.value() == "Individual", expirationDate.compareTo(now()) <0 && now().compareTo(sixMonths(expirationDate)) <=0, $an: applicationNumber)
+        EServiceApplication($gsHList : gsHelpers)
+        $gsHlp: GSHelperDetails( tmApplicationNumber == $an, classDescriptions != null &&
+                    classDescriptions.size() > ((FeeType) $map.get("maxClasses")).getDefaultValue() &&
+                    $totalClasses : classDescriptions.size()) from $gsHList  
+    then
+        # Creates the base fee.
+        Fee fee = new Fee();
+        fee.setFeeType((FeeType) $map.get("extraClassFeeAfterExpr"));
+        fee.setQuantity($totalClasses - ((FeeType) $map.get("maxClasses")).getDefaultValue());
+	 	fee.setUnitAmount(((FeeType) $map.get("extraClassFeeAfterExpr")).getDefaultValue());
+        fee.setAmount(fee.quantity * fee.unitAmount);
+        # Adds the base fee to the result list
+        $results.put(generateUID(fee, $mark), fee);
+end
+
+rule "Basic Fee After Expiration Collective"
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        $mark : LimitedTradeMark(markRightKind.value() == "Collective" || markRightKind.value() == "Certificate", expirationDate.compareTo(now()) <0 && now().compareTo(sixMonths(expirationDate)) <=0, $an: applicationNumber)
+        EServiceApplication($gsHList : gsHelpers)
+        $gsHlp: GSHelperDetails( tmApplicationNumber == $an) from $gsHList  
+    then
+        # Creates the base fee.
+        Fee fee = new Fee();
+        fee.setFeeType((FeeType) $map.get("basicFeeAfterExprCollective"));
+        fee.setQuantity(1);
+        fee.setUnitAmount(((FeeType) $map.get("basicFeeAfterExprCollective")).getDefaultValue());
+        fee.setAmount(fee.quantity * fee.unitAmount);
+        # Adds the base fee to the result list
+        $results.put(generateUID(fee, $mark), fee);
+end
+
+rule "Extra Class Fee After Expiration Collective"
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        $mark : LimitedTradeMark(markRightKind.value() == "Collective" || markRightKind.value() == "Certificate", expirationDate.compareTo(now()) <0 && now().compareTo(sixMonths(expirationDate)) <=0,$an: applicationNumber)
+        EServiceApplication($gsHList : gsHelpers)
+        $gsHlp: GSHelperDetails( tmApplicationNumber == $an, classDescriptions != null &&
+                    classDescriptions.size() > ((FeeType) $map.get("maxClasses")).getDefaultValue() &&
+                    $totalClasses : classDescriptions.size()) from $gsHList  
+    then
+        # Creates the base fee.
+        Fee fee = new Fee();
+        fee.setFeeType((FeeType) $map.get("extraClassFeeAfterExprCollective"));
+        fee.setQuantity($totalClasses - ((FeeType) $map.get("maxClasses")).getDefaultValue());
+	 	fee.setUnitAmount(((FeeType) $map.get("extraClassFeeAfterExprCollective")).getDefaultValue());
+        fee.setAmount(fee.quantity * fee.unitAmount);
+        # Adds the base fee to the result list
+        $results.put(generateUID(fee, $mark), fee);
+end
+
+//generates unique ids for the fees and also references the trademark to which the fee applies
+//tradeMark is null when the fee is general, not trademark dependant
+function String generateUID(Fee fee, TradeMark tradeMark){
+	String tradeMarkId = "";
+	String tradeMarkPOZ = "";
+	if(tradeMark != null){
+		tradeMarkId = tradeMark.getApplicationNumber() + "|";
+		tradeMarkPOZ = tradeMark.getApplicationNumber();
+		if (tradeMarkPOZ == null || tradeMarkPOZ == "")
+			tradeMarkPOZ = tradeMark.getRegistrationNumber();
+	}
+	fee.setStatus(tradeMarkPOZ);
+	return tradeMarkId + fee.toString();
+}
+
+//if trademark is null gets all fees
+function double getTotalAmount(Map result, TradeMark tradeMark) {
+	double amount = 0;
+	for(Object object: result.keySet()){
+		boolean add = false;
+		String key = (String) object;
+		String[] keyArray = key.split("\\|");
+		if(tradeMark == null || keyArray.length == 1){
+			add = true;
+		}else if(keyArray.length == 2 && keyArray[0].equals(tradeMark.getApplicationNumber())){
+			add = true;
+		}
+		if(add){
+			amount += ((Fee) result.get(key)).getAmount();
+		}
+	}
+    return amount;
+}
+
+function Date now(){
+	Calendar cal = Calendar.getInstance();
+    cal.set(Calendar.HOUR_OF_DAY, 0);
+    cal.set(Calendar.MINUTE, 0);
+    cal.set(Calendar.SECOND, 0);
+    cal.set(Calendar.MILLISECOND, 0);
+	return cal.getTime();
+}
+
+function Date sixMonths(Date exprDate){
+	Calendar cal = Calendar.getInstance();
+	cal.setTime(exprDate);
+	cal.add(Calendar.MONTH, cal.get(Calendar.MONTH)+6);
+    cal.set(Calendar.HOUR_OF_DAY, 0);
+    cal.set(Calendar.MINUTE, 0);
+    cal.set(Calendar.SECOND, 0);
+    cal.set(Calendar.MILLISECOND, 0);
+	return cal.getTime();
+}
+
+# --------------------------------------------------------------------------------
+# --------------------------- RULES FOR PAYMENT PROCESS --------------------------
+# --------------------------------------------------------------------------------
+/*
+rule "BRXXX Payment (basic and collective)"
+no-loop
+when
+	Fee($basicFee : basicFee,
+		$collectiveFee : collectiveFee,
+		$extraClassFeeBasic : extraClassFeeBasic,
+		$extraClassFeeCollective : extraClassFeeCollective,
+		$onlineAppDiscount : onlineAppDiscount,
+		$nationalSearchFee : nationalSearchFee,
+		$totalClasses : totalClasses,
+		$maxClasses : maxClasses)
+	$map : Map()
+then
+	DecimalFormat formatter = new DecimalFormat("####0.00");
+	modify($map){
+		put("F-001", formatter.format($basicFee + $collectiveFee - $onlineAppDiscount));
+	};
+	
+	if($totalClasses > $maxClasses){
+		modify($map){
+			put("F-002", formatter.format(($extraClassFeeBasic + $extraClassFeeCollective) * ($totalClasses - $maxClasses)));
+		};
+	}
+	
+	if($nationalSearchFee > 0){
+		modify($map){
+			put("F-003", formatter.format($nationalSearchFee));
+		};
+	}
+end
+*/

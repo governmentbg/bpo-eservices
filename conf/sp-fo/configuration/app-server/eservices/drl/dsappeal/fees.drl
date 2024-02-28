@@ -1,0 +1,84 @@
+package org.domain.rules;
+
+dialect "mvel"
+
+import eu.ohim.sp.core.domain.validation.ErrorCore;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.domain.payment.FeeList;
+import eu.ohim.sp.core.domain.payment.FeeType;
+import eu.ohim.sp.core.domain.payment.Fee;
+import eu.ohim.sp.core.domain.application.AppealKind;
+import eu.ohim.sp.core.domain.application.Appeal;
+import eu.ohim.sp.core.domain.application.EServiceApplication;
+import eu.ohim.sp.core.domain.design.DSeServiceApplication;
+import eu.ohim.sp.core.domain.design.DesignApplication;
+import eu.ohim.sp.core.domain.design.Design;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.TreeMap;
+import java.util.List;
+import java.util.Date
+
+rule "Fees reader"
+salience 1000
+no-loop
+    when
+		FeeList($feeTypeList : feeTypeList)
+        $f1 : FeeType("dsOneInventionRefusalFee".equals(nameKey)) from $feeTypeList
+        $f2 : FeeType("dsSetRefusalFee".equals(nameKey)) from $feeTypeList # Type cannot be determined so this fee does not take effect
+        $f3 : FeeType("dsEveryOtherRefusalFee".equals(nameKey)) from $feeTypeList
+        $f4 : FeeType("dsTerminationFee".equals(nameKey)) from $feeTypeList
+    then
+    	TreeMap map = new TreeMap();
+        map.put("dsOneInventionRefusalFee", $f1);
+        map.put("dsSetRefusalFee", $f2);
+        map.put("dsEveryOtherRefusalFee", $f3);
+        map.put("dsTerminationFee", $f4);
+        insert(map);
+end
+
+rule "Basic Fee"
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        DSeServiceApplication($appeals : appeals, $designDetails : designDetails)
+        eval($appeals != null && $appeals.size() >0)
+        eval($designDetails != null && $designDetails.size() >0)
+    then
+        # Creates the base fee.
+        for(Appeal app: $appeals){
+        	if(app.getAppealKind() != null && (app.getAppealKind().equals(AppealKind.APPEAL_AGAINST_REFUSAL))){
+        	    Fee fee1 = new Fee();
+                fee1.setFeeType((FeeType) $map.get("dsOneInventionRefusalFee"));
+                fee1.setQuantity(1);
+                fee1.setUnitAmount(((FeeType) $map.get("dsOneInventionRefusalFee")).getDefaultValue());
+                fee1.setAmount(fee1.quantity * fee1.unitAmount);
+                $results.put("dsOneInventionRefusalFee", fee1);
+
+                if ($designDetails.size() > 1){
+                    int selected = 0;
+                    for(DesignApplication ds: $designDetails){
+                        if (ds.getDesignDetails().get(0).getSelected()){
+                            selected++;
+                        }
+                    }
+                    if (selected > 1){
+                        Fee fee2 = new Fee();
+                        fee2.setFeeType((FeeType) $map.get("dsEveryOtherRefusalFee"));
+                        fee2.setQuantity(selected-1);
+                        fee2.setUnitAmount(((FeeType) $map.get("dsEveryOtherRefusalFee")).getDefaultValue());
+                        fee2.setAmount(fee2.quantity * fee2.unitAmount);
+                        $results.put("dsEveryOtherRefusalFee", fee2);
+                    }
+                }
+        	} else if (app.getAppealKind() != null && app.getAppealKind().equals(AppealKind.APPEAL_AGAINST_TERMINATION)){
+                Fee fee3 = new Fee();
+                fee3.setFeeType((FeeType) $map.get("dsTerminationFee"));
+                fee3.setQuantity(1);
+                fee3.setUnitAmount(((FeeType) $map.get("dsTerminationFee")).getDefaultValue());
+                fee3.setAmount(fee3.quantity * fee3.unitAmount);
+                $results.put("dsTerminationFee", fee3);
+        	}
+        }
+end

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  * $Id::                                                                       $
+  *       . * .
+  *     * RRRR  *    Copyright © 2012 OHIM: Office for Harmonization
+  *   .   RR  R   .  in the Internal Market (trade marks and designs)
+  *   *   RRR     *
+  *    .  RR RR  .   ALL RIGHTS RESERVED
+  *     * . _ . *
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:tm="http://www.tm-xml.org/XMLSchema/common" targetNamespace="http://www.example.org/state-configuration"
+           xmlns="http://www.example.org/state-configuration"
+           elementFormDefault="qualified">
+
+    <xs:element name="states">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="country" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="state" maxOccurs="unbounded">
+                                <xs:complexType>
+                                    <xs:simpleContent>
+                                        <xs:extension base="xs:string">
+                                            <xs:attribute name="code" type="xs:string" use="required"/>
+                                        </xs:extension>
+                                    </xs:simpleContent>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                        <xs:attribute name="countryCode" type="xs:string" use="required"/>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>

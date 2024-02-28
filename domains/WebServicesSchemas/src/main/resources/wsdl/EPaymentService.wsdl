@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions name="EPaymentService"
+	targetNamespace="http://ohim.eu/sp/services/epayment/v3"
+    xmlns:tns="http://ohim.eu/sp/services/epayment/v3"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap12/"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	
+    <wsdl:types>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://ohim.eu/sp/services/epayment/v3" schemaLocation="../xsd/services/EPaymentService.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    
+    <wsdl:message name="requestPayment">
+        <wsdl:part name="parameters" element="tns:requestPayment" />
+    </wsdl:message>
+    <wsdl:message name="requestPaymentResponse">
+        <wsdl:part name="parameters" element="tns:requestPaymentResponse" />
+    </wsdl:message>
+    
+    <wsdl:message name="notifyPaymentResult">
+        <wsdl:part name="parameters" element="tns:notifyPaymentResult" />
+    </wsdl:message>
+    <wsdl:message name="notifyPaymentResultResponse">
+        <wsdl:part name="parameters" element="tns:notifyPaymentResultResponse" />
+    </wsdl:message>
+
+    <wsdl:message name="paymentFault">
+        <wsdl:part name="parameters" element="tns:paymentFault" />
+    </wsdl:message>
+
+    <wsdl:portType name="EPaymentServicePortType">
+        <wsdl:operation name="requestPayment">
+            <wsdl:input name="requestPayment" message="tns:requestPayment" />
+            <wsdl:output name="requestPaymentResponse" message="tns:requestPaymentResponse" />
+            <wsdl:fault name="paymentFault" message="tns:paymentFault"/>
+        </wsdl:operation>
+        <wsdl:operation name="notifyPaymentResult">
+            <wsdl:input name="notifyPaymentResult" message="tns:notifyPaymentResult" />
+            <wsdl:output name="notifyPaymentResultResponse" message="tns:notifyPaymentResultResponse" />
+            <wsdl:fault name="paymentFault" message="tns:paymentFault"/>
+        </wsdl:operation>
+    </wsdl:portType>
+
+    <wsdl:binding name="EPaymentServiceBinding" type="tns:EPaymentServicePortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="notifyPaymentResult">
+            <soap:operation soapAction="" style="document"/>
+            <wsdl:input name="notifyPaymentResult">
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="notifyPaymentResultResponse">
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="paymentFault">
+                <soap:fault use="literal" name="paymentFault"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="requestPayment">
+            <soap:operation soapAction="" style="document"/>
+            <wsdl:input name="requestPayment">
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="requestPaymentResponse">
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="paymentFault">
+                <soap:fault use="literal" name="paymentFault"/>
+            </wsdl:fault>
+        </wsdl:operation>
+    </wsdl:binding>
+
+    <wsdl:service name="EPaymentService">
+        <wsdl:port name="EPaymentServicePort" binding="tns:EPaymentServiceBinding" >
+            <soap:address location="http://${fsp.ws.host}/${fsp.ws.context.root}${fsp.ws.payment.path}${fsp.ws.wsdl.services.path}"/>
+        </wsdl:port>
+    </wsdl:service>
+
+</wsdl:definitions>

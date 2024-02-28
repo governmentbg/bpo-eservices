@@ -1,0 +1,197 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:cache="http://www.springframework.org/schema/cache"
+       xmlns:jee="http://www.springframework.org/schema/jee" xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.1.xsd
+
+        http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache-3.1.xsd
+        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.1.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd">
+
+ 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="ignoreResourceNotFound" value="false"/>
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
+    	<property name="locations">
+        	<list>
+        		<value>file:///${sp.config}/authenticationclient.properties</value>
+        		<value>file:///${sp.config}/authenticationadapter.properties</value>
+                <value>file:///${sp.config}/ds-efiling/securityclient.properties</value>
+                <value>file:///${sp.config}/ds-efiling/ds-efiling.properties</value>
+                <value>file:///${sp.config}/ds-efiling/cas.properties</value>
+                <value>file:///${sp.config}/environment.properties</value>
+        	</list>
+    	</property>
+	</bean>
+
+    <bean id="messageSource" class="eu.ohim.sp.common.ui.util.ExposedResourceMessageBundleSource">
+        <property name="resourceLoader" ref="fileSystemResourceLoader" />
+        <property name="defaultEncoding" value="UTF-8" />
+        <property name="basenames">
+            <list>
+                <value>${labels.resource}</value>
+            </list>
+        </property>
+        <property name="useCodeAsDefaultMessage" value="true" />
+    </bean>
+
+    <bean id="fileSystemResourceLoader" class="org.springframework.core.io.FileSystemResourceLoader" />
+
+    <import resource="classpath*:softwarePackageContext-security.xml" />
+
+    <util:properties id="permissionsProperties" location="file:///${sp.config}/ds-efiling/permissions.properties" />
+
+    <!-- Activates various annotations to be detected in bean classes: Spring's
+        @Required and @Autowired, as well as JSR 250's @PostConstruct, @PreDestroy
+        and @Resource (if available). -->
+    <context:annotation-config />
+
+    <!-- Enables caching annotations -->
+    <cache:annotation-driven />
+
+    <task:annotation-driven />
+
+    <bean id="jndiProperties"
+        class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="properties">
+            <map>
+                <entry key="java.naming.factory.url.pkgs" value="org.jboss.ejb.client.naming" />
+                <entry key="jboss.naming.client.ejb.context" value="true"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="usedProvisionalNumbers" class="eu.ohim.sp.common.ui.form.application.UsedProvisionalNumbers"
+        scope="session">
+        <aop:scoped-proxy />
+    </bean>
+
+
+    <bean id="submittedMap" class="eu.ohim.sp.common.ui.form.application.SubmittedMap"
+        scope="session">
+        <aop:scoped-proxy />
+    </bean>
+
+    <jee:local-slsb id="documentService"
+        business-interface="eu.ohim.sp.core.document.DocumentService"
+        jndi-name="${document.jndi.name}" resource-ref="false"
+        environment-ref="jndiProperties" expose-access-context="true" />
+
+    <jee:local-slsb id="applicationService"
+        business-interface="eu.ohim.sp.core.application.ApplicationService"
+        jndi-name="${ds.application.jndi.name}" resource-ref="false"
+        environment-ref="jndiProperties" expose-access-context="true" />
+
+    <jee:local-slsb id="paymentService"
+        business-interface="eu.ohim.sp.core.epayment.EPaymentService"							
+        jndi-name="${payment.jndi.name}" resource-ref="false" environment-ref="jndiProperties" />
+
+    <jee:local-slsb id="applicantService"
+        business-interface="eu.ohim.sp.core.person.ApplicantService"
+        jndi-name="${applicant.jndi.name}" resource-ref="false"
+        environment-ref="jndiProperties" />
+
+    <jee:local-slsb id="representativeService"
+        business-interface="eu.ohim.sp.core.person.RepresentativeService"
+        jndi-name="${representative.jndi.name}" resource-ref="false"
+        environment-ref="jndiProperties" />
+
+    <jee:local-slsb id="personChangeService"
+        business-interface="eu.ohim.sp.core.person.PersonChangeServiceRemote"
+        jndi-name="${personChange.jndi.name}" resource-ref="false"
+        environment-ref="jndiProperties" />
+
+    <jee:local-slsb id="designerService"
+        business-interface="eu.ohim.sp.core.person.DesignerService"
+        jndi-name="${designer.jndi.name}" resource-ref="false"
+        environment-ref="jndiProperties" />
+
+    <jee:local-slsb id="inventorService"
+                    business-interface="eu.ohim.sp.core.person.InventorService"
+                    jndi-name="${inventor.jndi.name}" resource-ref="false"
+                    environment-ref="jndiProperties"/>
+
+    <jee:local-slsb id="systemConfigurationService"
+        business-interface="eu.ohim.sp.core.configuration.ConfigurationService"
+        jndi-name="${configuration.jndi.name}" resource-ref="false"
+        environment-ref="jndiProperties" />
+
+    <jee:local-slsb id="businessRulesService"
+        business-interface="eu.ohim.sp.core.rules.RulesService"
+        jndi-name="${businessrules.jndi.name}" resource-ref="false"
+        environment-ref="jndiProperties" />
+
+    <jee:local-slsb id="feeManagementService"
+        business-interface="eu.ohim.sp.core.fee.FeeCalculationService"
+        jndi-name="${fee.jndi.name}" resource-ref="false" environment-ref="jndiProperties" />
+
+    <jee:local-slsb id="userService"
+        business-interface="eu.ohim.sp.core.user.UserSearchService"
+        jndi-name="${user.jndi.name}" resource-ref="false" environment-ref="jndiProperties" />
+
+    <jee:local-slsb id="reportService"
+        business-interface="eu.ohim.sp.core.report.ReportService"
+        jndi-name="${report.jndi.name}" resource-ref="false" environment-ref="jndiProperties" />
+
+    <jee:local-slsb id="resourceService"
+        business-interface="eu.ohim.sp.core.resource.ResourceService"
+        jndi-name="${resource.jndi.name}" resource-ref="false"
+        environment-ref="jndiProperties" />
+		
+    <jee:local-slsb id="designService"
+        business-interface="eu.ohim.sp.core.register.DesignSearchService"
+        jndi-name="${design.jndi.name}" resource-ref="false"
+        environment-ref="jndiProperties" />		
+
+    <jee:local-slsb id="locarnoClassificationService"
+        business-interface="eu.ohim.sp.core.classification.LocarnoClassificationService"
+        jndi-name="${locarno.classification.jndi.name}" resource-ref="false"
+        environment-ref="jndiProperties" />	
+        		
+    <jee:local-slsb id="ipaplicationService"
+        business-interface="eu.ohim.sp.core.register.IPApplicationService"
+        jndi-name="${ipapplication.jndi.name}" resource-ref="false"
+        environment-ref="jndiProperties" />
+
+    <jee:local-slsb id="ipoAutocompleteService"
+                    business-interface="eu.ohim.sp.core.register.IPOAutocompleteSearchService"
+                    jndi-name="${bpo.ipoautocomplete.jndi.name}" resource-ref="false"
+                    environment-ref="jndiProperties" />
+
+    <jee:local-slsb id="bpoClassificationService"
+                    business-interface="eu.ohim.sp.core.classification.BPOClassificationService"
+                    jndi-name="${bpoClassification.service.jndi.name}" resource-ref="false"
+                    environment-ref="jndiProperties" />
+
+    <context:component-scan base-package="eu.ohim.sp.common.ui.webflow" />
+    <context:component-scan base-package="eu.ohim.sp.common.ui.preparer" />
+    <context:component-scan base-package="eu.ohim.sp.common.ui.service" />
+    <context:component-scan base-package="eu.ohim.sp.common.ui.validator" />
+        
+      
+    <context:component-scan base-package="eu.ohim.sp.dsefiling.ui.validator" />    
+    <context:component-scan base-package="eu.ohim.sp.dsefiling.ui.adapter" />
+    <context:component-scan base-package="eu.ohim.sp.dsefiling.ui.service" />
+    <context:component-scan base-package="eu.ohim.sp.common.ui.adapter" />
+        
+    <bean id="filterImportable" class="eu.ohim.sp.dsefiling.ui.adapter.DSFilterImportable" />
+    <bean id="flowBeanFactory" class="eu.ohim.sp.dsefiling.ui.adapter.DSFlowBeanFactory" />
+    
+    <bean id="addressService" class="eu.ohim.sp.dsefiling.ui.service.mock.MockedAddressService"/> 
+ 	
+    
+    <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+        <property name="cacheManager">
+            <bean class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+                <property name="configLocation" value="/WEB-INF/ehcache.xml" />
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="guardInterceptor" class="eu.ohim.sp.common.ui.interceptors.SingleRequestGuardInterceptor" />
+
+</beans>

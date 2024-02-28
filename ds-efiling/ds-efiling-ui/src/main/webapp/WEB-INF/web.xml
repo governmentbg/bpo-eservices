@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	version="3.0">
+    <display-name>SP DS e-Filing</display-name>
+
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/ds-efiling-service.xml</param-value>
+	</context-param>
+
+	<env-entry>
+		<env-entry-name>esapiPath</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>ds-efiling/ds-efiling-esapi.properties</env-entry-value>
+	</env-entry>
+
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>org.jboss.ejb.client.remoting.CheckServletContextListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>eu.ohim.sp.common.ui.listener.SessionListener</listener-class>
+	</listener>
+
+	<servlet>
+		<servlet-name>ds-efiling</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>
+				/WEB-INF/ds-efiling-servlet.xml
+				/WEB-INF/wizard-webflow-config.xml
+			</param-value>
+		</init-param>
+	</servlet>
+
+ 	<error-page>
+        <error-code>404</error-code>
+        <location>/errors/pageNotFound.jsp</location>
+    </error-page>
+
+	<error-page>
+		<location>/error.jsp</location>
+	</error-page>
+	
+	<session-config>
+		<session-timeout>60</session-timeout>
+	</session-config>
+
+	<servlet-mapping>
+		<servlet-name>ds-efiling</servlet-name>
+		<url-pattern>*.htm</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>ds-efiling</servlet-name>
+		<url-pattern>*.properties</url-pattern>
+	</servlet-mapping>
+
+    <filter>
+        <description>Set the correct Character encoding</description>
+        <filter-name>characterEncodingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <description>The encoding to use.</description>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+        <init-param>
+            <param-name>forceEncoding</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+
+    <filter>
+		<filter-name>errorHandlerFilter</filter-name>
+		<filter-class>eu.ohim.sp.dsefiling.ui.filters.ErrorHandlerFilter</filter-class>
+	</filter>
+
+    <filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+
+    <filter-mapping>
+        <filter-name>characterEncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+		<filter-name>errorHandlerFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+		<!-- These are needed by Tomcat 5 for forwards -->
+		<dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>ERROR</dispatcher>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>characterEncodingFilter</filter-name>
+		<servlet-name>ds-efiling</servlet-name>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<distributable />
+</web-app>

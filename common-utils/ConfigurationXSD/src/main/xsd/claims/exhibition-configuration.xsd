@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  * $Id::                                                                       $
+  *       . * .
+  *     * RRRR  *    Copyright © 2012 OHIM: Office for Harmonization
+  *   .   RR  R   .  in the Internal Market (trade marks and designs)
+  *   *   RRR     *
+  *    .  RR RR  .   ALL RIGHTS RESERVED
+  *     * . _ . *
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/exhibition-configuration" xmlns="http://www.example.org/exhibition-configuration" elementFormDefault="qualified">
+
+	<xs:element name="exhibitions">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="exhibition" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:attribute name="code" type="xs:string" use="required"/>
+						<xs:attribute name="value" type="xs:string"  use="required"/>
+						<xs:attribute name="name" type="xs:string"  use="required"/>
+						<xs:attribute name="city" type="xs:string"  use="optional"/>
+						<xs:attribute name="countrycode" type="xs:string"  use="optional"/>
+						<xs:attribute name="exhibitionDate" type="xs:date"  use="required"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+
+</xs:schema>

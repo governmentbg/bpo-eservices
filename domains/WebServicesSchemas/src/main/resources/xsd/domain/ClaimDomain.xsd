@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="qualified"
+           version="3.2"
+           targetNamespace="http://ohim.eu/sp/domain/claim/v3"
+           xmlns:tns="http://ohim.eu/sp/domain/claim/v3"
+           xmlns:common="http://ohim.eu/sp/domain/common/v3"
+           xmlns:resource="http://ohim.eu/sp/domain/resource/v3"
+           xmlns:class="http://ohim.eu/sp/domain/classification/v3"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:import namespace="http://ohim.eu/sp/domain/common/v3" schemaLocation="./CommonDomain.xsd"/>
+    <xs:import namespace="http://ohim.eu/sp/domain/resource/v3" schemaLocation="./ResourceDomain.xsd"/>
+    <xs:import namespace="http://ohim.eu/sp/domain/classification/v3" schemaLocation="./ClassificationDomain.xsd"/>
+
+    <xs:complexType name="Claim">
+        <xs:sequence>
+            <xs:element name="attachedDocuments" type="resource:AttachedDocument" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="status" type="xs:string" minOccurs="0"/>
+            <xs:element name="statusDate" type="xs:dateTime" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="Exhibition">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string" minOccurs="0"/>
+            <xs:element name="country" type="xs:string" minOccurs="0"/>
+            <xs:element name="city" type="xs:string" minOccurs="0"/>
+            <xs:element name="openingDate" type="xs:dateTime" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ExhibitionPriority">
+        <xs:complexContent>
+            <xs:extension base="tns:Claim">
+                <xs:sequence>
+                    <xs:element name="exhibition" type="tns:Exhibition" minOccurs="0"/>
+                    <xs:element name="date" type="xs:dateTime" minOccurs="0"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="MarkPartialClaim">
+        <xs:complexContent>
+            <xs:extension base="tns:Claim">
+                <xs:sequence>
+                    <xs:element name="partialIndicator" type="xs:boolean" minOccurs="0"/>
+                    <xs:element name="partialGoodsServices" type="class:ClassDescription" minOccurs="0"
+                                maxOccurs="unbounded"/>
+                    <xs:element name="partialGoodsServicesComment" type="xs:string" minOccurs="0"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="MarkPriority">
+        <xs:complexContent>
+            <xs:extension base="tns:MarkPartialClaim">
+                <xs:sequence>
+                    <xs:element name="filingOffice" type="xs:string"/>
+                    <xs:element name="filingNumber" type="xs:string"/>
+                    <xs:element name="filingDate" type="xs:dateTime" minOccurs="0"/>
+                    <xs:element name="certificateAttachedIndicator" type="xs:boolean" minOccurs="0"/>
+                    <xs:element name="translationAttachedIndicator" type="xs:boolean" minOccurs="0"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="MarkSeniority">
+        <xs:complexContent>
+            <xs:extension base="tns:MarkPartialClaim">
+                <xs:sequence>
+                    <xs:element name="office" type="xs:string" minOccurs="0" />
+                    <xs:element name="filingNumber" type="xs:string"
+                                minOccurs="0" />
+                    <xs:element name="filingDate" type="xs:dateTime"
+                                minOccurs="0" />
+                    <xs:element name="registrationDate" type="xs:dateTime"
+                                minOccurs="0" />
+                    <xs:element name="registrationNumber" type="xs:string"
+                                minOccurs="0" />
+                    <xs:element name="kind" type="tns:SeniorityKind"
+                                minOccurs="0" />
+                    <xs:element name="internationalTradeMarkCode" type="tns:InternationalTradeMarkCode"
+                                minOccurs="0" />
+                    <xs:element name="certicateAttachedIndicator" default="false"
+                                type="xs:boolean" />
+                    <xs:element name="imported" type="xs:boolean" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="IRTransformationPriority">
+        <xs:sequence>
+            <xs:element name="cancellationDate" type="xs:dateTime" minOccurs="0"/>
+            <xs:element name="imported" type="xs:boolean"/>
+            <xs:element name="priorityDate" type="xs:dateTime" minOccurs="0"/>
+            <xs:element name="registrationDate" type="xs:dateTime" minOccurs="0"/>
+            <xs:element name="registrationNumber" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ENUM -->
+
+    <xs:simpleType name="InternationalTradeMarkCode">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Madrid"/>
+            <xs:enumeration value="EU"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="SeniorityKind">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="National or regional trade mark"/>
+            <xs:enumeration value="International trade mark"/>
+            <xs:enumeration value="CTM"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="DivisionalApplicationDetails">
+        <xs:sequence>
+            <xs:element name="comment" type="common:Text" minOccurs="0"/>
+            <xs:element name="initialApplicationDate" type="xs:dateTime" minOccurs="0"/>
+            <xs:element name="initialApplicationNumber" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="DesignPriority">
+        <xs:sequence>
+            <xs:element name="filingOffice" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="filingNumber" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="filingDate" type="xs:date" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="certificateAttachedIndicator" type="xs:boolean"/>
+            <xs:element name="translationAttachedIndicator" type="xs:boolean"/>
+            <xs:element name="designsAssociatedIndicator" type="xs:boolean"/>
+            <xs:element name="applicantName" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="sequenceNumber" type="xs:integer" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="DesignExhibitionPriority">
+        <xs:complexContent>
+            <xs:extension base="tns:ExhibitionPriority">
+                <xs:sequence>
+                    <xs:element name="designsAssociatedIndicator" type="xs:boolean" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="sequenceNumber" type="xs:integer" minOccurs="0" maxOccurs="1"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+</xs:schema>
+    

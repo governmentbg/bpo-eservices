@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feeList xmlns:tns="http://www.example.org/test/"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.example.org/test/ ../../../../../../../../../../../../configuration-xsd/src/main/xsd/fees/fees.xsd ">
+
+    <feeTypeList>
+        <code>001</code>
+        <nameKey>basicFee</nameKey>
+        <description>basic fee</description>
+        <defaultValue>360</defaultValue>
+    </feeTypeList>
+    <feeTypeList>
+        <code>002</code>
+        <nameKey>basicFeeAfterFirst</nameKey>
+        <description>basic fee for each subsequent after first</description>
+        <defaultValue>90</defaultValue>
+    </feeTypeList>
+    <feeTypeList>
+        <code>003</code>
+        <nameKey>basicFeeComposition</nameKey>
+        <description>basic fee composition</description>
+        <defaultValue>450</defaultValue>
+    </feeTypeList>
+    
+</feeList>

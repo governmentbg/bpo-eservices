@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<div th:fragment="invalidityGroundKind-fragment" class="inlBlW100">
+
+    <div th:text="#{tm.invalidityGroundKindTitle}"></div>
+    <div class="mT10 rb-grid">
+        <div>
+            <input name="invalidityGroundKind" class="radio-btn vertical-rb" type="radio" value="badFaithOnly" th:attr="data-rel-field='invalidityGroundKind-field'" checked>
+            <div th:text="#{tm.invalidityGroundKind.badFaithOnly}" class="rb-text"></div>
+        </div>
+        <div>
+            <input name="invalidityGroundKind" class="radio-btn vertical-rb" type="radio" value="others" th:attr="data-rel-field='invalidityGroundKind-field'">
+            <div th:text="#{tm.invalidityGroundKind.others}" class="rb-text"></div>
+        </div>
+    </div>
+
+    <input type="hidden" class="input-param" id="invalidityGroundKind-field" value="badFaithOnly" th:attr="data-name='invalidityGroundKind'">
+
+</div>
+</html>

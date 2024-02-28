@@ -1,0 +1,7 @@
+<module xmlns="urn:jboss:module:1.0" name="com.thoughtworks">
+    <resources>
+        <resource-root path="qdox-1.12.1.jar"/>
+        <resource-root path="xstream-1.2.2.jar"/>
+        <resource-root path="xpp3_min-1.1.4c.jar"/>
+    </resources>
+</module>

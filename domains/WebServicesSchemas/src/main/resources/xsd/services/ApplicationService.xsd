@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="unqualified"
+           version="3.2"
+           targetNamespace="http://ohim.eu/sp/services/application/v3"
+           xmlns:tns="http://ohim.eu/sp/services/application/v3"
+           xmlns:common="http://ohim.eu/sp/domain/common/v3"
+           xmlns:application="http://ohim.eu/sp/domain/application/v3"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:import namespace="http://ohim.eu/sp/domain/common/v3" schemaLocation="../domain/CommonDomain.xsd" />
+    <xs:import namespace="http://ohim.eu/sp/domain/application/v3" schemaLocation="../domain/ApplicationDomain.xsd" />
+
+    <xs:element name="saveApplication" type="tns:SaveApplication" />
+    <xs:element name="saveApplicationResponse" type="tns:SaveApplicationResponse" />
+
+    <xs:element name="loadApplication" type="tns:LoadApplication" />
+    <xs:element name="loadApplicationResponse" type="tns:LoadApplicationResponse" />
+
+    <xs:element name="getApplicationNumber" type="tns:GetApplicationNumber" />
+    <xs:element name="getApplicationNumberResponse" type="tns:GetApplicationNumberResponse" />
+
+    <xs:element name="checkExistingApplication" type="tns:CheckExistingApplication" />
+    <xs:element name="checkExistingApplicationResponse" type="tns:CheckExistingApplicationResponse" />
+
+    <xs:element name="applicationFault" type="tns:ApplicationFault" />
+
+    <xs:complexType name="SaveApplication">
+        <xs:sequence>
+            <xs:element name="office" type="xs:string" minOccurs="0" />
+            <xs:element name="user" type="xs:string" />
+            <xs:element name="filingNumber" type="xs:string" />
+            <xs:element name="finalDraft" type="xs:boolean" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="SaveApplicationResponse">
+        <xs:sequence>
+            <xs:element name="result" type="common:Result" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="LoadApplication">
+        <xs:sequence>
+            <xs:element name="office" type="xs:string" minOccurs="0" />
+            <xs:element name="user" type="xs:string" minOccurs="0" />
+            <xs:element name="filingNumber" type="xs:string" />
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="LoadApplicationResponse">
+        <xs:sequence>
+            <xs:element name="applicationFile" type="xs:base64Binary" />
+        </xs:sequence>
+    </xs:complexType>
+
+	<xs:complexType name="GetApplicationNumber">
+		<xs:sequence>
+			<xs:element name="module" type="xs:string" />
+            <xs:element name="applicationType" type="xs:string" />
+            <xs:element name="filingNumber" type="xs:string" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="GetApplicationNumberResponse">
+		<xs:sequence>
+			<xs:element name="numberingResult" type="application:NumberingResult" />
+		</xs:sequence>
+	</xs:complexType>
+
+    <xs:complexType name="CheckExistingApplication">
+        <xs:sequence>
+            <xs:element name="applicationType" type="xs:string" />
+            <xs:element name="formName" type="xs:string" minOccurs="0" />
+            <xs:element name="applicationNumber" type="xs:string" minOccurs="0" />
+            <xs:element name="registrationNumber" type="xs:string" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="CheckExistingApplicationResponse">
+        <xs:sequence>
+            <xs:element name="checkResult" minOccurs="0" type="xs:boolean" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ApplicationFault">
+        <xs:sequence>
+            <xs:element name="fault" type="common:Fault" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema>

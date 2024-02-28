@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://dozer.sourceforge.net
+          http://dozer.sourceforge.net/schema/beanmapping.xsd">
+
+    <mapping type="one-way" map-null="false">
+        <class-a>bg.egov.regix.patentdepartment.SPCType</class-a>
+        <class-b>eu.ohim.sp.core.domain.patent.Patent</class-b>
+
+        <field>
+            <a>expiryDate</a>
+            <b>expirationDate</b>
+        </field>
+        <field>
+            <a>spcCurrentStatusCode</a>
+            <b>currentStatusCode</b>
+        </field>
+        <field>
+            <a>spcGroupStatusCode</a>
+            <b>groupStatusCode</b>
+        </field>
+        <field>
+            <a>spcCurrentStatusDate</a>
+            <b>currentStatusDate</b>
+        </field>
+        <field>
+            <a>spcTitle.value</a>
+            <b>patentTitle</b>
+        </field>
+        <field>
+            <a>spcDescription.value</a>
+            <b>patentAbstract</b>
+        </field>
+        <field>
+            <a>inventorDetails.inventor</a>
+            <b>inventors</b>
+            <a-hint>bg.egov.regix.patentdepartment.InventorType</a-hint>
+            <b-hint>eu.ohim.sp.core.domain.person.Inventor</b-hint>
+        </field>
+        <field>
+            <a>applicantDetails.applicant</a>
+            <b>applicants</b>
+            <a-hint>bg.egov.regix.patentdepartment.ApplicantType</a-hint>
+            <b-hint>eu.ohim.sp.core.domain.person.Applicant</b-hint>
+        </field>
+        <field>
+            <a>representativeDetails.representative</a>
+            <b>representatives</b>
+            <a-hint>bg.egov.regix.patentdepartment.RepresentativeType</a-hint>
+            <b-hint>eu.ohim.sp.core.domain.person.Representative</b-hint>
+        </field>
+
+        <field>
+            <a>publicationDetails</a>
+            <b>this</b>
+        </field>
+
+    </mapping>
+
+    <mapping type="one-way" map-null="false">
+        <class-a>bg.egov.regix.patentdepartment.InventorType</class-a>
+        <class-b>eu.ohim.sp.core.domain.person.Inventor</class-b>
+        <field>
+            <a>inventorIdentifier</a>
+            <b>identifiers[0].value</b>
+        </field>
+        <field>
+            <a>inventorAddressBook</a>
+            <b>this</b>
+            <a-hint>bg.egov.regix.patentdepartment.AddressBookType</a-hint>
+            <b-hint>eu.ohim.sp.core.domain.person.Person</b-hint>
+        </field>
+    </mapping>
+
+    <mapping type="one-way" map-null="false">
+        <class-a>bg.egov.regix.patentdepartment.ApplicantType</class-a>
+        <class-b>eu.ohim.sp.core.domain.person.Applicant</class-b>
+        <field custom-converter="eu.ohim.sp.external.register.converter.PersonIdentifierConverter">
+            <a>applicantIdentifier</a>
+            <b>identifiers</b>
+        </field>
+        <field>
+            <a>applicantAddressBook</a>
+            <b>this</b>
+            <a-hint>bg.egov.regix.patentdepartment.AddressBookType</a-hint>
+            <b-hint>eu.ohim.sp.core.domain.person.Person</b-hint>
+        </field>
+        <field>
+            <a>this</a>
+            <b>kind</b>
+            <a-hint>bg.egov.regix.patentdepartment.ApplicantType</a-hint>
+            <b-hint>eu.ohim.sp.core.domain.person.PersonKind</b-hint>
+        </field>
+
+    </mapping>
+
+    <mapping type="one-way" map-null="false">
+        <class-a>bg.egov.regix.patentdepartment.RepresentativeType</class-a>
+        <class-b>eu.ohim.sp.core.domain.person.Representative</class-b>
+        <field>
+            <a>representativeIdentifier</a>
+            <b>identifiers[0].value</b>
+        </field>
+        <field>
+            <a>representativeAddressBook.formattedNameAddress.name.formattedName.firstName</a>
+            <b>name.firstName</b>
+        </field>
+        <field>
+            <a>representativeAddressBook.formattedNameAddress.name.formattedName.middleName</a>
+            <b>name.middleName</b>
+        </field>
+        <field>
+            <a>representativeAddressBook.formattedNameAddress.name.formattedName.lastName</a>
+            <b>name.lastName</b>
+        </field>
+        <field>
+            <a>representativeAddressBook.formattedNameAddress.name.formattedName.organizationName</a>
+            <b>name.organizationName</b>
+        </field>
+    </mapping>
+
+    <mapping type="one-way" map-null="false">
+        <class-a>bg.egov.regix.patentdepartment.AddressBookType</class-a>
+        <class-b>eu.ohim.sp.core.domain.person.Person</class-b>
+        <field>
+            <a>formattedNameAddress.name.formattedName</a>
+            <b>name</b>
+            <a-hint>bg.egov.regix.patentdepartment.FormattedNameType</a-hint>
+            <b-hint>eu.ohim.sp.core.domain.person.PersonName</b-hint>
+        </field>
+        <field>
+            <a>formattedNameAddress.address.formattedAddress</a>
+            <b>addresses[0]</b>
+            <a-hint>bg.egov.regix.patentdepartment.FormattedAddressType</a-hint>
+            <b-hint>eu.ohim.sp.core.domain.contact.Address</b-hint>
+        </field>
+        <field>
+            <a>contactInformationDetails</a>
+            <b>this</b>
+            <a-hint>bg.egov.regix.patentdepartment.AddressBookType$ContactInformationDetails</a-hint>
+            <b-hint>eu.ohim.sp.core.domain.person.Person</b-hint>
+        </field>
+    </mapping>
+
+    <mapping type="one-way" map-null="false">
+        <class-a>bg.egov.regix.patentdepartment.FormattedNameType</class-a>
+        <class-b>eu.ohim.sp.core.domain.person.PersonName</class-b>
+    </mapping>
+
+    <mapping type="one-way" map-null="false">
+        <class-a>bg.egov.regix.patentdepartment.FormattedAddressType</class-a>
+        <class-b>eu.ohim.sp.core.domain.contact.Address</class-b>
+        <field>
+            <a>addressStreet</a>
+            <b>street</b>
+        </field>
+        <field>
+            <a>addressCity</a>
+            <b>city</b>
+        </field>
+        <field>
+            <a>formattedAddressCountryCode</a>
+            <b>country</b>
+        </field>
+        <field>
+            <a>addressState</a>
+            <b>state</b>
+        </field>
+        <field>
+            <a>addressPostcode</a>
+            <b>postCode</b>
+        </field>
+    </mapping>
+
+    <mapping type="one-way" map-null="false">
+        <class-a>bg.egov.regix.patentdepartment.AddressBookType$ContactInformationDetails</class-a>
+        <class-b>eu.ohim.sp.core.domain.person.Person</class-b>
+        <field custom-converter="eu.ohim.sp.external.register.converter.PhonesConverter">
+            <a>phone</a>
+            <b>phones</b>
+        </field>
+        <field custom-converter="eu.ohim.sp.external.register.converter.FaxesConverter">
+            <a>fax</a>
+            <b>phones</b>
+        </field>
+        <field custom-converter="eu.ohim.sp.external.register.converter.EmailsConverter">
+            <a>email</a>
+            <b>emails</b>
+        </field>
+        <field>
+            <a>url</a>
+            <b>urls</b>
+        </field>
+    </mapping>
+</mappings>

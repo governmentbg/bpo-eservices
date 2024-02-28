@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tradeMarkTypes xmlns="http://www.example.org/tradeMarkType-configuration"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.example.org/tradeMarkType-configuration tradeMarkType-configuration.xsd ">
+       <tradeMarkType code="" applicationType="" enabled="true" enabledGI="false">selectBox.SELECT</tradeMarkType>
+       <tradeMarkType code="Word" applicationType="" enabled="true" enabledGI="false">tradeMarkType.Word</tradeMarkType>
+       <tradeMarkType code="Figurative" applicationType="" enabled="true" enabledGI="false">tradeMarkType.Figurative</tradeMarkType>
+       <tradeMarkType code="Combined" applicationType="" enabled="true" enabledGI="false">tradeMarkType.Combined</tradeMarkType>
+       <tradeMarkType code="3-D" applicationType="" enabled="true" enabledGI="false">tradeMarkType.3-D</tradeMarkType>
+       <tradeMarkType code="Sound" applicationType="" enabled="true" enabledGI="false">tradeMarkType.Sound</tradeMarkType>
+       <tradeMarkType code="Motion" applicationType="" enabled="true" enabledGI="false">tradeMarkType.Motion</tradeMarkType>
+       <tradeMarkType code="Pattern" applicationType="" enabled="true" enabledGI="false">tradeMarkType.Pattern</tradeMarkType>
+       <tradeMarkType code="Position" applicationType="" enabled="true" enabledGI="false">tradeMarkType.Position</tradeMarkType>
+       <tradeMarkType code="Multimedia" applicationType="" enabled="true" enabledGI="false">tradeMarkType.Multimedia</tradeMarkType>
+       <tradeMarkType code="Hologram" applicationType="" enabled="true" enabledGI="false">tradeMarkType.Hologram</tradeMarkType>
+       <tradeMarkType code="Colour" applicationType="" enabled="true" enabledGI="false">tradeMarkType.Colour</tradeMarkType>
+       <tradeMarkType code="3dWord" applicationType="" enabled="false" enabledGI="false">tradeMarkType.3dWord</tradeMarkType>
+       <tradeMarkType code="Other" applicationType="" enabled="true" enabledGI="false">tradeMarkType.Other</tradeMarkType>
+
+       <tradeMarkType code="" applicationType="" enabled="true" enabledGI="true">selectBox.SELECT</tradeMarkType>
+       <tradeMarkType code="Geographic indication" applicationType="" enabled="true" enabledGI="true">giType.GeographicIndication</tradeMarkType>
+       <tradeMarkType code="Origin name" applicationType="" enabled="true" enabledGI="true">giType.OriginName</tradeMarkType>
+
+</tradeMarkTypes>

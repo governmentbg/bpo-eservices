@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow parent="common" xmlns="http://www.springframework.org/schema/webflow"
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:schemaLocation="http://www.springframework.org/schema/webflow
+                          http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+
+	<on-start>
+		<evaluate expression="'pt-invalidity'" result="flowScope.flowModeId"
+				  result-type="java.lang.String" />
+		<!-- This will work as long as the child elements are added before the parent flow -->
+
+		<evaluate expression="'/submitted_notmdn.htm'" result="flowScope.finalView" result-type="java.lang.String"/>
+		<evaluate expression="'error_page.notmdn'" result="flowScope.errorPage" result-type="java.lang.String"/>
+		<evaluate expression="'failureTile.notmdn'" result="flowScope.failureTile" result-type="java.lang.String"/>
+	</on-start>
+
+	<decision-state id="isLoadApplication">
+		<if test="flowScope.flowBean.isReadOnly()" then="submitted" else="reference_ptInvalidated" />
+	</decision-state>
+
+	<view-state id="reference_ptInvalidated" view="tiles.wiz.notmdn" model="flowBean">
+		<transition on="Next" to="invalidityBasisPt" validate="true" />
+	</view-state>
+
+	<view-state id="invalidityBasisPt" view="tiles.wiz.notmdn" model="flowBean">
+		<transition on="Previous" to="reference_ptInvalidated" validate="false" />
+		<transition on="Next" to="opponent_repressentative_inv" validate="true" />
+	</view-state>
+
+	<view-state id="opponent_repressentative_inv" view="tiles.wiz.notmdn" model="flowBean">
+		<transition on="Previous" to="invalidityBasisPt" validate="false" />
+		<transition on="Next" to="signature_attachments" validate="true" />
+	</view-state>
+
+	<view-state id="signature_attachments" view="tiles.wiz.notmdn" model="flowBean">
+		<transition on="Previous" to="opponent_repressentative_inv" validate="false" />
+		<transition on="Next" to="review" validate="true" />
+	</view-state>
+
+	<view-state id="review" view="tiles.wiz.notmdn" model="flowBean">
+		<transition on="Update_Patent" to="reference_ptInvalidated" validate="false">
+			<evaluate expression="!flowScope.flowBean.isReadOnly()" />
+		</transition>
+		<transition on="Update_OppositionBasis" to="invalidityBasisPt" validate="false">
+			<evaluate expression="!flowScope.flowBean.isReadOnly()" />
+		</transition>
+		<transition on="Update_Person" to="opponent_repressentative_inv" validate="false">
+			<evaluate expression="!flowScope.flowBean.isReadOnly()" />
+		</transition>
+		<transition on="Update_Signature" to="signature_attachments" validate="false">
+			<evaluate expression="!flowScope.flowBean.isReadOnly()" />
+		</transition>
+		<transition on="Update_Attachments" to="signature_attachments" validate="false">
+			<evaluate expression="!flowScope.flowBean.isReadOnly()" />
+		</transition>
+		<transition on="Previous" to="signature_attachments" validate="false">
+			<evaluate expression="!flowScope.flowBean.isReadOnly()" />
+		</transition>
+	</view-state>
+</flow>

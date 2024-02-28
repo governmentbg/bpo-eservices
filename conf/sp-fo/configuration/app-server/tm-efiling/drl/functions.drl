@@ -1,0 +1,672 @@
+package org.domain.rules;
+dialect "mvel"
+
+import java.util.Map;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.Calendar;
+import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import eu.ohim.sp.core.domain.design.Design;
+import org.apache.commons.lang.StringUtils;
+import eu.ohim.sp.core.domain.contact.Address;
+import eu.ohim.sp.core.domain.person.Applicant;
+import eu.ohim.sp.core.domain.person.PersonKind;
+import eu.ohim.sp.core.domain.person.PersonRoleKind;
+import eu.ohim.sp.core.domain.resources.Colour;
+import eu.ohim.sp.core.domain.trademark.TradeMark;
+import eu.ohim.sp.core.domain.person.Representative;
+import eu.ohim.sp.core.domain.validation.ErrorCore;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.domain.contact.ContactDetails;
+import eu.ohim.sp.core.configuration.domain.xsd.Field;
+import eu.ohim.sp.core.domain.design.DesignApplication;
+import eu.ohim.sp.core.domain.design.ProductIndication;
+import eu.ohim.sp.core.configuration.domain.xsd.Section;
+import eu.ohim.sp.core.configuration.domain.xsd.Sections;
+import eu.ohim.sp.core.domain.design.ProductIndicationClass;
+import eu.ohim.sp.core.configuration.domain.country.xsd.Countries;
+import eu.ohim.sp.core.domain.application.Signatory
+import eu.ohim.sp.core.domain.trademark.ClassDescription
+import eu.ohim.sp.core.domain.trademark.ClassificationTerm;
+import eu.ohim.sp.core.domain.claim.trademark.Priority;
+import eu.ohim.sp.core.configuration.domain.xsd.AvailableSection;
+import eu.ohim.sp.core.domain.resources.AttachedDocument;
+
+
+rule "BR sections"
+salience 2000
+when
+	$sectionList : ArrayList()
+then
+	for (Section section : $sectionList){
+		System.out.println ("We have the section: " + section.getCoreName());	
+		insert (section);		
+	}	
+end
+
+# Fills and adds an error to the error list (TEMPLATE)
+function void addError(String field, String code, String message, String section, ErrorList errorList){
+	# Error for the field
+	if(field != null){
+		errorList.addError(createError(field, code, message));
+	}
+
+	# Error for the section
+	if(section != null){
+		errorList.addError(createError(section, code, message));
+	}
+}
+
+# Creates a new error and returns it
+function ErrorCore createError(String info, String code, String message){
+	ErrorCore errorField = new ErrorCore();
+
+	if(info != null){
+		errorField.setField(info);
+		errorField.setErrorCode(code);
+		errorField.setErrorArgs(null);
+		errorField.setDisplayMessage(message);
+		errorField.setStackTrace("");
+		errorField.setServiceName("");
+		errorField.setSection("");
+		errorField.setBusinessRule(code);
+	}
+
+	return errorField;
+}
+
+
+//true: at least one applicant is from EEA
+function boolean checkApplicantsEEA(TradeMark tradeMark, boolean isApplicant, Section section, Countries countries){
+	try{
+	  	if (tradeMark.getApplicants() == null){
+	  		return false;
+	  	}
+	  	for (Applicant applicant : tradeMark.getApplicants()){
+			if (applicant != null && applicant.getAddresses() != null && applicant.getAddresses().size() > 0) {					
+				for(Address address : applicant.getAddresses()) {
+					if ( address == null){
+						return false;
+					}
+					if (isEEA(countries, address.getCountry()) == false){
+						return false;
+					} 	
+				}
+				return true;
+			}
+		}
+		return false;
+    } catch (NullPointerException e){
+        return false;
+    }	
+}
+
+//true: at least one representative is from EEA
+function boolean checkRepresentativesEEA(TradeMark tradeMark, boolean isApplicant, Section section, Countries countries){
+	try{
+	  	if (tradeMark.getRepresentatives() == null){
+	  		return false;
+	  	}	
+	  	for (Representative representative : tradeMark.getRepresentatives()){
+			if (representative != null && representative.getAddresses() != null && representative.getAddresses().size() > 0) {
+				for(Address address : representative.getAddresses()) {
+					if ( address == null){
+						return false;
+					}
+					if (isEEA(countries, address.getCountry()) == false){
+						return false;
+					} 	
+				}			
+				return true;
+			}
+		}	
+		return false;
+    } catch (NullPointerException e){
+        return false;
+    }		
+}
+
+function boolean checkCorrespondenceAddressEEA(DesignApplication designApplication, boolean isApplicant, Section section, Countries countries){
+  	
+  	for (ContactDetails contactDetails : designApplication.getContactDetails()){	
+		if (contactDetails != null && contactDetails.getAddress() != null && contactDetails.getAddress().size() > 0) {		
+			for(Address address : contactDetails.getAddress()) {					
+				if (isEEA(countries, address.getCountry()) == false){					
+					return false;
+				} 	
+			}			
+			return true;
+		}
+	}
+	return false;
+}
+
+
+# Checks if the country of the applicant/representative is from the EEA
+function boolean isEEA( Countries countries, String countryId){
+	for(Countries.Country country : countries.getCountry()){			
+		if(countryId.equals(country.getCode()) && country.isPartOfEEA()){
+			return true;
+		}
+	}
+	return false;
+}
+
+# Checks if the Product Information Main Classes are the same for every design in the application
+function boolean checkProductIndication(DesignApplication designApplication){
+    # TRY-CATCHES in this method are used to avoid the excessive use of IF-ELSE statements to check NULLS
+    # We check all the Designs
+    for(Design design : designApplication.getDesignDetails()){
+        try{
+            if(design.getProductIndications() != null){
+                if(design.getProductIndications().size() > 1){
+                    return false;
+                }
+            }
+        } catch (NullPointerException e){
+            return false;
+        }
+    }
+    return true;
+}
+
+# Gets the object position in the list
+function int indexOfObject(List list, Object object){
+	return list.indexOf(object);
+}
+
+/*
+# Checks if the field has the formatting according to the 6.2 SRS section
+function ErrorList checkDescription(String field, String description, String section, String errorBoxSection, String fieldname){
+	int contadorErrores = 0;
+	ErrorList errors = new ErrorList();
+	ErrorCore errorSection = null;
+	ErrorCore errorField = null;
+	String errorString = null;
+	description = description.trim().replaceAll("\\s+", " ");
+	String[] expressions = description.split("; ");
+
+	String upper_word = "[\\p{Lu}][\\p{Ll}]+";
+	String lower_word = "[\\p{Ll}]+";
+	String upper_complete = "[\\p{Lu}]+";
+	String any_word = "("+lower_word+"|"+upper_word+"|"+upper_complete+")";
+	String normal_sentence = upper_word+"([:,.]?[ ]"+lower_word+")+";
+	String lower_sentence = lower_word+"([:,.]?[ ]("+lower_word+")+";
+	String any_sentence = any_word+"([:,.]?[ ]"+any_word+")*";
+	String sentence_brackets_base =  "[\\(]"+any_sentence+"[\\)]";
+	String sentence_sbrackets_base = "[\\[]"+any_sentence+"[\\]]";
+	String sentence_keys_base =      "[\\{]"+any_sentence+"[\\}]";
+	String sentence_brackets =  "[\\(]"+any_sentence+"(([:,.])?[ ]"+any_sentence+"|([:,.])?[ ]"+sentence_sbrackets_base+"|([:,.])?[ ]"+sentence_keys_base+")*[\\)]";
+	String sentence_sbrackets = "[\\[]"+any_sentence+"(([:,.])?[ ]"+any_sentence+"|([:,.])?[ ]"+sentence_brackets_base+"|([:,.])?[ ]"+sentence_keys_base+")*[\\]]";
+	String sentence_keys =      "[\\{]"+any_sentence+"(([:,.])?[ ]"+any_sentence+"|([:,.])?[ ]"+sentence_sbrackets_base+"|([:,.])?[ ]"+sentence_brackets_base+")*[\\}]";
+	String sentence = any_sentence + "(([:,.])?[ ]"+sentence_brackets+"|([:,.])?[ ]"+sentence_sbrackets+"|([:,.])?[ ]"+sentence_keys+"|([:,.])?[ ]"+any_sentence+")*";
+	//String complete_field = sentence + "([;][ ]" + sentence + ")*";
+
+	Pattern pattern = Pattern.compile(sentence);
+
+	for (int i = 0; i < expressions.length; i++) {
+		Matcher matcher = pattern.matcher(expressions[i]);
+		if(expressions[i].length() > 512){
+			if(contadorErrores == 0){
+				errorString = "Expression number "+ (i+1) +" exceeds the maximum size (512 characters)";
+			}
+			contadorErrores++;
+		} else if (!matcher.matches()) {
+			if(contadorErrores == 0){
+				errorString = "Expression number "+ (i+1) +" is wrong";
+			}
+			contadorErrores++;
+		}
+	}
+	if(contadorErrores > 0){
+		errors.addError(createError(errorBoxSection,
+									null,
+									errorString + (contadorErrores>1 ? (contadorErrores-1) + " more error/s" : "")));
+		errors.addError(createError(field,
+									null,
+									errorString + (contadorErrores>1 ? (contadorErrores-1) + " more error/s" : "")));
+	}
+	return errors;
+}
+*/
+# Checks if the colour field has the correct format.
+function ErrorList checkColour(String description, String section, String errorBoxSection, String field){
+	String[] expressions = description.split(";");
+	String theRule = "^([\\pLu[\\pLl]+][ ]?)([\\pLl]{2,}[ ]?)*$";
+	ErrorList errors = new ErrorList();
+
+	Pattern pattern = Pattern.compile(theRule);
+
+	for (int i = 0; i < expressions.length; i++) {
+		Matcher matcher = pattern.matcher(expressions[i]);
+		if (!matcher.matches()) {
+			errors.addError(createError(errorBoxSection,
+										section + ".Expression.Failure",
+										"Expression number "+ (i+1) +" in " + field + " field is wrong"));
+		}
+	}
+	return errors;
+}
+
+/*
+# Checks if the G&S field has the correct format.
+function ErrorList checkGS(String description, String section, String errorBoxSection, String field){
+	String[] expressions = description.split(";");
+	String theRule = "^([\\pLu[\\pLl]+][ ]?)([\\pLl]{2,}[ ]?)*$";
+	ErrorList errors = new ErrorList();
+
+	Pattern pattern = Pattern.compile(theRule);
+
+	for (int i = 0; i < expressions.length; i++) {
+		Matcher matcher = pattern.matcher(expressions[i]);
+		if(expressions[i].length() > 512){
+			errors.addError(createError(errorBoxSection,
+										section + ".Expression.Failure",
+										"This field exceeds the maximum size (512 characters)"));
+		} else if (!matcher.matches()) {
+			errors.addError(createError(errorBoxSection,
+										section + ".Expression.Failure",
+										"Expression number "+ (i+1) +" in " + field + " field is wrong"));
+		}
+	}
+	return errors;
+}
+
+# Checks if a date is older than 6 months from actual date
+function ErrorList checkOldDate(Date date, String fieldName){
+	Date today = new Date();
+	ErrorList errors = new ErrorList();
+	//Gets the calendar object for the dates
+	Calendar todaysCalendar = Calendar.getInstance();
+	Calendar dateCalendar = Calendar.getInstance();
+	todaysCalendar.setTime(today);
+	dateCalendar.setTime(date);
+	//Substracts 6 months to today's calendar
+	todaysCalendar.add(Calendar.MONTH,-6);
+	//Checks if the date is bigger or smaller
+	if(todaysCalendar.after(dateCalendar)) {
+		errors.addError(createError(fieldName,
+									"BRXXX.Date.6Months",
+									"The date is older than 6 months"));
+	}
+	return errors;
+}
+
+*/
+
+
+/*
+# Checks the list looking for a EEA person
+function boolean checkPersonEEA(List list, boolean isApplicant, Section section){
+	Iterator itr = list.iterator();
+	Applicant applicant = null;
+	Representative representative = null;
+	while(itr.hasNext()){
+		if(isApplicant){
+			applicant = (Applicant) itr.next();
+			if(applicant.getIsEEA() || countryUsable(section, getSectionName(applicant.getApplicantKind().toString(), true)) == false){
+				return true;
+			}
+		} else {
+			representative = (Representative) itr.next();
+			if(representative.getIsEEA() || countryUsable(section, getSectionName(representative.getRepresentativeKind().toString(), false)) == false){
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+
+# Checks if the country field is usable
+function boolean countryUsable(Section section, String personSection){
+	List<Section> sectionList = section.getSubsection();
+	Section currentSection = null;
+	//Checks if we have the personSection
+	if(personSection == null){
+		return false;
+	}
+	//Finds the correct section of the person
+	Iterator<Section> sectionIterator = sectionList.iterator();
+	while(sectionIterator.hasNext()){
+		Section actualSection = sectionIterator.next();
+		if(personSection.equals(actualSection.getId().value())){
+			currentSection = actualSection;
+		}
+	}
+	//Checks if a section was found and search for the field
+	if(currentSection != null){
+		List<Field> fieldList = currentSection.getField();
+		//Finds the correct section of the person
+		Iterator<Field> fieldIterator = fieldList.iterator();
+		while(fieldIterator.hasNext()){
+			Field actualField = fieldIterator.next();
+			if("address.country".equals(actualField.getId())){
+				return actualField.isUsable();
+			}
+		}
+	}
+	return false;
+}
+
+# Gets the section of the person
+function String getSectionName(String personType, boolean isApplicant){
+	if(isApplicant){
+		if(personType.equals("Natural Person")){
+			return "applicant_naturalperson";
+		} else if(personType.equals("Legal Entity")){
+			return "applicant_legalentity";
+		} else if(personType.equals("Natural Person: Special Case")){
+			return "applicant_naturalpersonspecial";
+		} else {
+			return null;
+		}
+	} else {
+		if(personType.equals("Natural Person")){
+			return "representative_naturalperson";
+		} else if(personType.equals("Legal Entity")){
+			return "representative_legalentity";
+		} else if(personType.equals("Lawyer")){
+			return "representative_legalpractitioner";
+		} else if(personType.equals("Professional Representative")){
+			return "representative_professionalpractitioner";
+		} else if(personType.equals("Employee") || personType.equals("Employee with Economic Connections")){
+			return "representative_employeerepresentative";
+		} else {
+			return null;
+		}
+	}
+}
+
+# Checks the list looking for a Finland Applicant or Representative
+function boolean checkPersonCountry(List list, boolean isApplicant, String country){
+	Iterator itr = list.iterator();
+	Applicant applicant = null;
+	Representative representative = null;
+
+	if(list == null)
+		return false;
+
+	while(itr.hasNext()){
+		if(isApplicant){
+			applicant = (Applicant) itr.next();
+			if(applicant.getAddressBook() != null &&
+				applicant.getAddressBook().getDomicileCountryCode() != null &&
+				applicant.getAddressBook().getDomicileCountryCode().equals(country)){
+				return true;
+			}
+		} else {
+			representative = (Representative) itr.next();
+			if(representative.getAddressBook() != null &&
+				representative.getAddressBook().getDomicileCountryCode() != null &&
+				representative.getAddressBook().getDomicileCountryCode().equals(country)){
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+# Checks for the integrity of representatives with payment
+function int checkRepresentativePayment(Sections sections, String section1, String section2) {
+	int section1Order = -1;
+	int section2Order = -1;
+
+	Iterator<Section> sectionIterator = sections.getSection().iterator();
+	// Loop searching the sections
+	while (sectionIterator.hasNext()) {
+		Section section = sectionIterator.next();
+		if (section.getId().equals(section1)) {
+			section1Order = section.getViewStateOrder();
+		} else if (section.getId().equals(section2)) {
+			section2Order = section.getViewStateOrder();
+		}
+	}
+
+	if(section1Order <= 0){
+		if(section2Order <= 0){
+			return -9999;
+		} else {
+			return -9999;
+		}
+	} else {
+		if(section2Order <= 0){
+			return -9999;
+		} else {
+			return section2Order - section1Order;
+		}
+	}
+}
+*/
+# Checks the colour list looking for empty fields
+function boolean checkColourList(List list){
+	if(list == null)
+		return false;
+	
+	Iterator itr = list.iterator();
+	Colour colour = null;
+	while(itr.hasNext()){
+		colour = (Colour) itr.next();
+		if(StringUtils.isEmpty(colour.getValue()) == true){
+			return false;
+		}
+	}
+	return true;
+}
+
+
+# Checks the colour format
+function boolean checkColourFormat(String format, String value){
+	String Regex = "";
+	
+	// Pantone is not checked because is free text (IM)
+	if(format.equals("RAL")){
+		Regex = "[\\d]{4}";
+	} else {
+		if(format.equals("HEX")){
+			Regex = "#[\\dA-Fa-f]{6}";
+		} else {
+			if(format.equals("RGB")){
+				Regex = "[\\d]{9}";
+			} else {
+				Regex = "[\\pL\\s,-]{3,}";
+			}
+		}
+	}
+	
+	Pattern pattern = Pattern.compile(Regex);
+	
+	Matcher matcher = pattern.matcher(value);
+	if (!matcher.matches()) {
+		return false;
+	}
+	
+	// RGB number check
+	if(format.equals("RGB")){
+		String R = value.substring(0, 3);
+		String G = value.substring(3, 6);
+		String B = value.substring(6, 9);
+		
+		int rInt = Integer.parseInt(R);
+		int gInt = Integer.parseInt(G);
+		int bInt = Integer.parseInt(B);
+		
+		if(rInt > 255 || gInt > 255 || bInt > 255){
+			return false;
+		}
+	}
+	
+	return true;
+}
+
+# Checks if the applicant list contains an individual person who has signed, or just a legal entity
+function boolean applicantMatchesSignature(List applicantList, List signatoryList) {
+
+	Iterator itrApp = applicantList.iterator();
+    Applicant applicant = null;
+
+    while(itrApp.hasNext()){
+        applicant = (Applicant) itrApp.next();
+        Iterator itrSig = signatoryList.iterator();
+        if(applicant.getKind() == PersonKind.NATURAL_PERSON){
+            Signatory signatory = null;
+            while(itrSig.hasNext()){
+                signatory = (Signatory) itrSig.next();
+                if(signatory.getCapacity() == PersonRoleKind.APPLICANT
+                    && signatory.getName().contains(applicant.getName().getFirstName())
+                    && (applicant.getName().getMiddleName() == null || signatory.getName().contains(applicant.getName().getMiddleName()))
+                    && signatory.getName().contains(applicant.getName().getLastName())) {
+                    return true;
+                }
+            }
+        } else {
+            return true;
+        }
+    }
+
+	return false;
+}
+
+# Checks if there is any Bulgarian applicant (new requirement in DEVIMPFO-716)
+function boolean hasAnyApplicantFromCountry(TradeMark tradeMark, String countryId) {
+
+    if (tradeMark == null || tradeMark.getApplicants() == null){
+        return false;
+    }
+
+    for (Applicant applicant : tradeMark.getApplicants()){
+        if(anyAddressFromCountry(applicant.getAddresses(), countryId)){
+            return true;
+        }
+    }
+
+    return false;
+}
+
+function boolean hasAnyCAFromCountry(TradeMark tradeMark, String countryId) {
+    if (tradeMark == null || tradeMark.getContactDetails() == null){
+        return false;
+    }
+
+    for(ContactDetails cd: tradeMark.getContactDetails()){
+        if(anyAddressFromCountry(cd.getAddress(), countryId)){
+             return true;
+        }
+    }
+    return false;
+}
+
+function boolean anyAddressFromCountry(List addresses, String countryId) {
+
+    if(addresses == null || addresses.size() == 0) {
+        return false;
+    }
+
+	Iterator itrAdd = addresses.iterator();
+
+    while(itrAdd.hasNext()){
+        Address address = (Address) itrAdd.next();
+        if (countryId.equals(address.getCountry())){
+            return true;
+        }
+    }
+
+	return false;
+}
+
+function boolean validTermFound(List $classDescriptions){
+
+    Iterator iter = $classDescriptions.iterator();
+
+    while(iter.hasNext()){
+        ClassDescription cd = (ClassDescription)iter.next();
+        if(cd.getClassificationTerms() != null){
+            for(ClassificationTerm term: cd.getClassificationTerms()){
+                if(term.getTermAssessment() == null || term.getTermAssessment().getErrorEnum() == null){
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+
+}
+
+# Checks the description syntax. Returns true when valid.
+function boolean checkValidDescriptionSyntax(String value, boolean allowMultipleTerms){
+
+    if(StringUtils.isEmpty(value)){
+        return true;
+    }
+
+    if(value.indexOf('(') >= 0){
+        return checkValidSubDescriptionSyntax(value,'(',')');
+    }
+    if(value.indexOf('[') >= 0){
+        return checkValidSubDescriptionSyntax(value,'[',']');
+    }
+
+    String regex;
+    if(allowMultipleTerms){
+        regex = "(?U)[\\p{Alnum}„\"\\s-/,:;]*";
+    } else {
+        regex = "(?U)[\\p{Alnum}„\"\\s-/,:]*";
+    }
+
+    Pattern pattern = Pattern.compile(regex);
+
+    Matcher matcher = pattern.matcher(value);
+    if (matcher.matches()) {
+        return true;
+    }
+
+    return false;
+}
+
+function boolean checkValidSubDescriptionSyntax(String value, char open, char close) {
+    int openingChar = value.indexOf(open);
+    if (openingChar >= 0){
+        int closingChar = value.lastIndexOf(close);
+        if(closingChar < 0){
+            return false;
+        } else {
+            return checkValidDescriptionSyntax(value.substring(0, openingChar), true)
+                    && checkValidDescriptionSyntax(value.substring(openingChar + 1, closingChar), false)
+                    && checkValidDescriptionSyntax(value.substring(closingChar + 1), true);
+        }
+    }
+    return true;
+}
+
+function boolean hasDuplicatePriorities(List prioList){
+    for(int i=0; i< prioList.size()-1; i++){
+        Priority current = (Priority)prioList.get(i);
+        for(int j=i+1; j< prioList.size(); j++){
+            Priority comparable = (Priority)prioList.get(j);
+            if(comparable.getFilingNumber() != null && comparable.getFilingOffice() != null &&
+                comparable.getFilingNumber().equals(current.getFilingNumber()) &&
+                comparable.getFilingOffice().equals(current.getFilingOffice())){
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+function boolean containsNDocumentsOfType(List documents, String type, int n){
+    int timesFound = 0;
+    for(Object documentObj: documents){
+        AttachedDocument att = (AttachedDocument) documentObj;
+        if(att.getDocumentKind() != null && att.getDocumentKind().equals(type)){
+            timesFound++;
+        }
+    }
+    return timesFound >= n;
+}

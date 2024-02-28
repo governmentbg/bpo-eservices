@@ -1,0 +1,399 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>eu.ohim.sp.ui</groupId>
+		<artifactId>tm-efiling</artifactId>
+		<version>2.0.0-RELEASE</version>
+	</parent>
+
+	<artifactId>tm-efiling-ui</artifactId>
+	<name>sp-ui-tmefiling</name>
+	<packaging>war</packaging>
+
+	<properties>
+		<sonar.exclusions>
+			**/webapp/resources/scripts/vendor/*,
+			**/webapp/resources/scripts/uploader/*,
+			**/webapp/resources/scripts/gallery/*,
+			**/webapp/resources/scripts/additional-methods.js,
+			**/webapp/resources/scripts/bootstrap.js,
+			**/webapp/resources/scripts/bootstrap.paginate.js,
+			**/webapp/resources/scripts/bootstrap3-typeahead.js,
+			**/webapp/resources/scripts/bootstrap-datepicker-gh.js,
+			**/webapp/resources/scripts/colorpicker.js,
+			**/webapp/resources/scripts/dateFunctions.js,
+			**/webapp/resources/scripts/datepicker.js,
+			**/webapp/resources/scripts/html5.js,
+			**/webapp/resources/scripts/jquery.cookie.js,
+			**/webapp/resources/scripts/jquery.dataTables.js,
+			**/webapp/resources/scripts/jquery.fileupload.js,
+			**/webapp/resources/scripts/jquery.fileupload-ip.js,
+			**/webapp/resources/scripts/jquery.fileupload-ui.js,
+			**/webapp/resources/scripts/jquery.i18n.properties.js,
+			**/webapp/resources/scripts/jquery.iframe-transport.js,
+			**/webapp/resources/scripts/jquery.pajinate.js,
+			**/webapp/resources/scripts/jquery.position.js,
+			**/webapp/resources/scripts/jquery.smooth-scroll.min.js,
+			**/webapp/resources/scripts/jquery.treeview.js,
+			**/webapp/resources/scripts/jquery.validate.internationalization.js,
+			**/webapp/resources/scripts/jquery.validate.js,
+			**/webapp/resources/scripts/jquery-1.11.3.js,
+			**/webapp/resources/scripts/jquery-migrate-1.4.1.js,
+			**/webapp/resources/scripts/jquery-ui-1.8.23.js,
+			**/webapp/resources/scripts/load-image.min.js,
+			**/webapp/resources/scripts/locale.js,
+			**/webapp/resources/scripts/moment.min.js,
+			**/webapp/resources/scripts/plugins.js,
+			**/webapp/resources/scripts/tmpl.min.js,
+			**/webapp/resources/css/datepicker.css,
+			**/webapp/resources/css/fsp.css,
+			**/webapp/resources/css/gs.css
+		</sonar.exclusions>
+	</properties>
+
+	<!--<properties> -->
+	<!--<project.build.less-directory>${project.build.directory}/webapp/resources/less</project.build.less-directory> -->
+	<!--</properties> -->
+
+	<dependencies>
+		<!-- In application dependencies -->
+		<dependency>
+			<groupId>eu.ohim.sp.common</groupId>
+			<artifactId>CommonUtils</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>eu.ohim.sp.common</groupId>
+			<artifactId>ConfigurationXSD</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>eu.ohim.sp.common</groupId>
+			<artifactId>ui-template</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>eu.ohim.sp.common</groupId>
+			<artifactId>ui-fileupload</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>eu.ohim.sp.common</groupId>
+			<artifactId>UIComponent</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>eu.ohim.sp.common</groupId>
+			<artifactId>UIServiceImpl</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>eu.ohim.sp.domains</groupId>
+			<artifactId>CoreDomain</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>eu.ohim.sp.common</groupId>
+			<artifactId>StatisticalLogging</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>eu.ohim.sp.domains</groupId>
+			<artifactId>CoreServices</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>eu.ohim.sp.external</groupId>
+			<artifactId>FilingDomain</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>eu.ohim.sp.common</groupId>
+			<artifactId>WebSecurityClient</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>eu.ohim.sp.core</groupId>
+			<artifactId>MockTicketAdapter</artifactId>
+		</dependency>
+
+		<!-- Spring dependencies -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.webflow</groupId>
+			<artifactId>spring-webflow</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aspects</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-taglibs</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+		</dependency>
+
+		<!-- Tiles Configuration -->
+		<dependency>
+			<groupId>org.apache.tiles</groupId>
+			<artifactId>tiles-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.tiles</groupId>
+			<artifactId>tiles-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.tiles</groupId>
+			<artifactId>tiles-jsp</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+
+		<!-- Third Party dependencies -->
+		<dependency>
+			<groupId>aopalliance</groupId>
+			<artifactId>aopalliance</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>taglibs</groupId>
+			<artifactId>standard</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+		</dependency>
+
+		<!-- TODO: is it ever used? -->
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>javax.servlet.jsp-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+		</dependency>
+
+		<!-- Test dependencies -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			
+		</dependency>
+
+		<dependency>
+			<groupId>eu.ohim.sp.core</groupId>
+			<artifactId>MockPaymentAdapterUI</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.assertj</groupId>
+			<artifactId>assertj-core</artifactId>
+			<version>1.5.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>pl.pragmatists</groupId>
+			<artifactId>JUnitParams</artifactId>
+			<version>1.0.5</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>eu.ohim.sp.tests</groupId>
+			<artifactId>UITestUtils</artifactId>
+			<version>2.0.0-RELEASE</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<finalName>sp-ui-tmefiling</finalName>
+
+		<plugins>
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-resources</id>
+						<!-- here the phase you need -->
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${basedir}/target/sp-ui-tmefiling/WEB-INF/views</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${basedir}/../../common-ui/component/UIComponent/src/main/resources/META-INF/resources/jsp</directory>
+
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-resources2</id>
+						<!-- here the phase you need -->
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${basedir}/target/sp-ui-tmefiling/resources/scripts/developers</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${basedir}/../../common-ui/component/UIComponent/src/main/resources/META-INF/resources/scripts</directory>
+
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.lesscss</groupId>
+				<artifactId>lesscss-maven-plugin</artifactId>
+				<version>1.7.0.1.1</version>
+				<configuration>
+					<sourceDirectory>${basedir}/src/main/resources/less</sourceDirectory>
+					<outputDirectory>${basedir}/src/main/webapp/resources</outputDirectory>
+					<force>true</force>
+					<compress>false</compress>
+					<includes>
+						<include>css/fsp.less</include>
+						<include>css/gs.less</include>
+						<include>css/nav.less</include>
+					</includes>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+
+</project>

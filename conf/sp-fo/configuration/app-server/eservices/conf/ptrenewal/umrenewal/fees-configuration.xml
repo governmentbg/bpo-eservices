@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feeList xmlns:tns="http://www.example.org/test/"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.example.org/test/ ../../../../../../../../../../../../configuration-xsd/src/main/xsd/fees/fees.xsd ">
+
+    <feeTypeList>
+        <code>001</code>
+        <nameKey>basicFeeFirstRenewal</nameKey>
+        <description>basicFeeFirstRenewal</description>
+        <defaultValue>300</defaultValue>
+    </feeTypeList>
+
+    <feeTypeList>
+        <code>002</code>
+        <nameKey>basicFeeSecondRenewal</nameKey>
+        <description>basicFeeSecondRenewal</description>
+        <defaultValue>400</defaultValue>
+    </feeTypeList>
+
+    <feeTypeList>
+        <code>003</code>
+        <nameKey>umPenaltyFee</nameKey>
+        <description>umPenaltyFee</description>
+        <defaultValue>0</defaultValue>
+    </feeTypeList>
+
+</feeList>

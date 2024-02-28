@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
+                      xmlns:core="http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd"
+                      xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.2.xsd"
+                      xmlns:g="http://www.milyn.org/xsd/smooks/groovy-1.1.xsd">
+
+    <import file="smooks-BackOfficeSearchAdapter-applicantPart.xml"></import>
+    <import file="smooks-BackOfficeSearchAdapter-representativePart.xml"></import>
+
+    <jb:bean beanId="trademark" class="eu.ohim.sp.external.domain.trademark.TradeMark"
+             createOnElement="//TransactionData/TradeMarkDetails/TradeMark">
+
+        <jb:value data="//TradeMark/ApplicationDate" decoder="Date" property="applicationDate">
+            <jb:decodeParam name="format">yyyy-MM-dd</jb:decodeParam>
+        </jb:value>
+        <jb:value data="//TradeMark/ApplicationLanguageCode" property="applicationLanguage"/>
+        <jb:value data="//TradeMark/ApplicationNumber" property="applicationNumber"/>
+        <jb:value data="//TradeMark/ExpiryDate" decoder="Date" property="expirationDate">
+            <jb:decodeParam name="format">yyyy-MM-dd</jb:decodeParam>
+        </jb:value>
+        <jb:value data="//TradeMark/MarkCurrentStatusCode" property="currentStatus"/>
+        <jb:value data="//TradeMark/KindMark" decoder="SPEnum" property="markRightKind">
+            <jb:decodeParam name="enumType">eu.ohim.sp.external.domain.trademark.MarkKind</jb:decodeParam>
+            <jb:decodeParam name="defaultValue">OTHER</jb:decodeParam>
+            <jb:decodeParam name="Individual">INDIVIDUAL</jb:decodeParam>
+            <jb:decodeParam name="Collective">COLLECTIVE</jb:decodeParam>
+            <jb:decodeParam name="Certificate">CERTIFICATE</jb:decodeParam>
+            <jb:decodeParam name="Certification">CERTIFICATION</jb:decodeParam>
+            <jb:decodeParam name="Guarantee">COLLECTIVE</jb:decodeParam>
+            <jb:decodeParam name="Defensive">DEFENSIVE</jb:decodeParam>
+            <jb:decodeParam name="Other">OTHER</jb:decodeParam>
+        </jb:value>
+        <jb:value data="//TradeMark/RegistrationNumber" property="registrationNumber"/>
+        <jb:value data="//TradeMark/RegistrationDate" decoder="Date" property="registrationDate">
+            <jb:decodeParam name="format">yyyy-MM-dd</jb:decodeParam>
+        </jb:value>
+
+        <jb:wiring beanIdRef="wordSpecifications" property="wordSpecifications" />
+        <jb:wiring beanIdRef="imageSpecifications" property="imageSpecifications"/>
+
+        <jb:value data="//TradeMark/MarkFeature" decoder="SPEnum" property="markKind">
+            <jb:decodeParam name="enumType">eu.ohim.sp.external.domain.trademark.MarkFeature</jb:decodeParam>
+            <jb:decodeParam name="defaultValue">OTHER</jb:decodeParam>
+            <jb:decodeParam name="Word">WORD</jb:decodeParam>
+            <jb:decodeParam name="Figurative">FIGURATIVE</jb:decodeParam>
+            <jb:decodeParam name="3-D">THREE_D</jb:decodeParam>
+            <jb:decodeParam name="3D shape">THREE_D</jb:decodeParam>
+            <jb:decodeParam name="Colour">COLOUR</jb:decodeParam>
+            <jb:decodeParam name="Sound">SOUND</jb:decodeParam>
+            <jb:decodeParam name="Hologram">HOLOGRAM</jb:decodeParam>
+            <jb:decodeParam name="Combined">COMBINED</jb:decodeParam>
+            <jb:decodeParam name="Olfactory">OLFACTORY</jb:decodeParam>
+            <jb:decodeParam name="Position">POSITION</jb:decodeParam>
+            <jb:decodeParam name="Pattern">PATTERN</jb:decodeParam>
+            <jb:decodeParam name="Motion">MOTION</jb:decodeParam>
+            <jb:decodeParam name="Multimedia">MULTIMEDIA</jb:decodeParam>
+            <jb:decodeParam name="Hologram">HOLOGRAM</jb:decodeParam>
+            <jb:decodeParam name="Other">OTHER</jb:decodeParam>
+        </jb:value>
+
+        <jb:expression property="classDescriptions" execOnElement="//TradeMark/GoodsServicesDetails/GoodsServices">goodsServicesDetailsTMView.getClassDescriptionsDecode()</jb:expression>
+
+        <jb:wiring beanIdRef="applicantDetails" property="applicants"/>
+        <jb:wiring beanIdRef="representativeDetails" property="representatives"/>
+    </jb:bean>
+
+    <jb:bean beanId="goodsServicesDetailsTMView" class="eu.ohim.sp.integration.domain.smooks.SmooksClassDescriptionsDetailsTemp"
+             createOnElement="//TradeMark/GoodsServicesDetails/GoodsServices">
+        <jb:wiring beanIdRef="GoodsServicesTMView" property="classDescription"/>
+    </jb:bean>
+
+    <jb:bean beanId="GoodsServicesTMView" class="java.util.ArrayList"
+             createOnElement="//TradeMark/GoodsServicesDetails/GoodsServices/ClassDescriptionDetails">
+        <jb:wiring beanIdRef="GoodsServicesTerms"/>
+    </jb:bean>
+
+    <jb:bean beanId="GoodsServicesTerms" class="eu.ohim.sp.integration.domain.smooks.SmooksGoodsServicesTermsTemp"
+             createOnElement="//TradeMark/GoodsServicesDetails/GoodsServices/ClassDescriptionDetails/ClassDescription">
+        <jb:value data="//TradeMark/GoodsServicesDetails/GoodsServices/ClassDescriptionDetails/ClassDescription/ClassNumber" property="classNumber"/>
+        <jb:wiring beanIdRef="GoodsServicesDescriptionList" property="GoodsServicesDescription"/>
+    </jb:bean>
+
+    <jb:bean beanId="GoodsServicesDescriptionList" class="java.util.ArrayList"
+             createOnElement="//TradeMark/GoodsServicesDetails/GoodsServices/ClassDescriptionDetails/ClassDescription">
+        <jb:wiring beanIdRef="GoodsServicesDescription"/>
+    </jb:bean>
+
+    <jb:bean beanId="GoodsServicesDescription" class="eu.ohim.sp.integration.domain.smooks.SmooksGoodsServicesDescriptionTemp"
+             createOnElement="//TradeMark/GoodsServicesDetails/GoodsServices/ClassDescriptionDetails/ClassDescription/GoodsServicesDescription">
+        <jb:value data="//TradeMark/GoodsServicesDetails/GoodsServices/ClassDescriptionDetails/ClassDescription/GoodsServicesDescription"
+                  property="value"/>
+        <jb:value
+                data="//TradeMark/GoodsServicesDetails/GoodsServices/ClassDescriptionDetails/ClassDescription/GoodsServicesDescription/@languageCode"
+                property="languageCode" decoder="StringToLowerCase"/>
+    </jb:bean>
+
+    <jb:bean beanId="imageSpecifications" class="java.util.ArrayList" createOnElement="//TradeMark/MarkImageDetails/MarkImage">
+        <jb:wiring beanIdRef="imageSpecification"/>
+    </jb:bean>
+
+    <jb:bean beanId="imageSpecification" class="eu.ohim.sp.external.domain.trademark.ImageSpecification" createOnElement="//TradeMark/MarkImageDetails/MarkImage">
+        <jb:wiring beanIdRef="representation" property="representation"/>
+    </jb:bean>
+
+    <jb:bean beanId="representation" class="eu.ohim.sp.external.domain.resource.Document" createOnElement="//TradeMark/MarkImageDetails/MarkImage">
+        <jb:value property="data" data="//TradeMark/MarkImageDetails/MarkImage/ImageData"  decoder="BytesBase64"/>
+        <jb:value property="fileFormat" data="//TradeMark/MarkImageDetails/MarkImage/ImageMimeType"/>
+        <jb:value property="fileName" data="//TradeMark/MarkImageDetails/MarkImage/ImageName"/>
+    </jb:bean>
+
+    <jb:bean beanId="wordSpecifications" class="java.util.ArrayList" createOnElement="//TradeMark/WordMarkSpecification" >
+        <jb:wiring beanIdRef="wordSpecification"/>
+    </jb:bean>
+
+    <jb:bean beanId="wordSpecification" class="eu.ohim.sp.external.domain.trademark.WordSpecification" createOnElement="//TradeMark/WordMarkSpecification/MarkVerbalElementText">
+        <jb:value data="//TradeMark/WordMarkSpecification/MarkVerbalElementText" property="wordElements" />
+        <jb:value data="//TradeMark/WordMarkSpecification/MarkVerbalElementText/@languageCode" property="characterSet" />
+    </jb:bean>
+
+    <jb:bean beanId="applicantDetails" class="java.util.ArrayList"  createOnElement="//TradeMark/ApplicantDetails">
+        <jb:wiring beanIdRef="applicant"/>
+    </jb:bean>
+
+    <jb:bean beanId="representativeDetails" class="java.util.ArrayList" createOnElement="//TradeMark/RepresentativeDetails">
+        <jb:wiring beanIdRef="representative"/>
+    </jb:bean>
+
+
+    <jb:result retainBeans="trademark"/>
+
+</smooks-resource-list>

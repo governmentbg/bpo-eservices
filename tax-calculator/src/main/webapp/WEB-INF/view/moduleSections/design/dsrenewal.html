@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<div th:fragment="dsrenewal-fragment">
+
+    <div id="serial-renewal-frag" style="width: 100%" class="mb20px">
+        <div th:replace="fragments/serialRenewal :: serialRenewal-fragment"></div>
+    </div>
+
+    <div id="renewal-period-frag" style="width: 100%" class="mb20px">
+        <div th:replace="fragments/renewalPeriod :: renewalPeriod-fragment"></div>
+    </div>
+
+</div>
+</html>

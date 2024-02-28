@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd" 
+					xmlns:core="http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd" 
+					xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.2.xsd">
+ 
+ <core:filterSettings type="DOM" />
+     
+    <jb:bean beanId="trademark" class="eu.ohim.sp.external.domain.trademark.TradeMark" 
+     createOnElement="/Transaction/TradeMarkTransactionBody/TransactionContentDetails/TransactionData">
+ 
+    <jb:value data="/Transaction/TradeMarkTransactionBody/TransactionContentDetails/TransactionData/TradeMarkDetails/TradeMark/ApplicationDate" decoder="Date" property="applicationDate">
+        	<jb:decodeParam name="format">yyyy-MM-dd</jb:decodeParam>
+    </jb:value>
+    <jb:value data="/Transaction/TradeMarkTransactionBody/TransactionContentDetails/TransactionData/TradeMarkDetails/TradeMark/ApplicationLanguageCode" property="applicationLanguageCode"/>
+    <jb:value data="/Transaction/TradeMarkTransactionBody/TransactionContentDetails/TransactionData/TradeMarkDetails/TradeMark/ApplicationNumber" property="applicationNumber"/>
+    <jb:value data="/Transaction/TradeMarkTransactionBody/TransactionContentDetails/TransactionData/TradeMarkDetails/TradeMark/ApplicationReference" property="applicationReference"/>
+    <jb:value data="/Transaction/TradeMarkTransactionBody/TransactionContentDetails/TransactionData/TradeMarkDetails/TradeMark/ExpiryDate" decoder="Date" property="expiryDate">
+        <jb:decodeParam name="format">yyyy-MM-dd</jb:decodeParam>
+    </jb:value>
+    <jb:value data="/Transaction/TradeMarkTransactionBody/TransactionContentDetails/TransactionData/TradeMarkDetails/TradeMark/ReceivingOfficeNumber" property="receivingOfficeCode"/>
+    <jb:value data="/Transaction/TradeMarkTransactionBody/TransactionContentDetails/TransactionData/TradeMarkDetails/TradeMark/ReceivingOfficeDate" decoder="Date" property="receivingOfficeDate">
+     	<jb:decodeParam name="format">yyyy-MM-dd</jb:decodeParam>
+    </jb:value>
+    
+    <jb:value data="/Transaction/TradeMarkTransactionBody/TransactionContentDetails/TransactionData/TradeMarkDetails/TradeMark/RegistrationOfficeCode" property="registrationOffice"/>
+    
+    <jb:value data="/Transaction/TradeMarkTransactionBody/TransactionContentDetails/TransactionData/TradeMarkDetails/TradeMark/RegistrationNumber" property="registrationNumber"/>
+    <jb:value data="/Transaction/TradeMarkTransactionBody/TransactionContentDetails/TransactionData/TradeMarkDetails/TradeMark/SecondLanguageCode" property="secondLanguageCode"/>
+  </jb:bean>
+</smooks-resource-list>

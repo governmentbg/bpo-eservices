@@ -1,0 +1,69 @@
+package org.domain.rules;
+dialect "mvel"
+
+import java.util.HashMap;
+import org.apache.commons.lang.StringUtils;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.domain.application.Signatory;
+import eu.ohim.sp.core.configuration.domain.xsd.Field;
+import eu.ohim.sp.core.configuration.domain.xsd.Section;
+import eu.ohim.sp.core.domain.validation.RulesInformation;
+
+import eu.ohim.sp.core.domain.person.PersonRoleKind;
+
+rule "BR Full Name - Empty value"
+salience 500
+when
+	$errorList : ErrorList()
+	Section (coreName == "signature_details_section", $fields : field )
+	Field(id=="fullName", $fieldUsable: usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Signatory(name==null || StringUtils.isEmpty(name))
+    $rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	HashMap co = $customObjects;
+
+	Boolean imported = co.get("imported");
+
+
+	addError("fullName", "BRMandatory", "This field is mandatory", null, $errorList);
+
+end
+
+rule "BR Capacity - Empty value"
+salience 500
+when
+	$errorList : ErrorList()
+	Section (coreName == "signature_details_section", $fields : field )
+	Field(id=="personCapacity", $fieldUsable: usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Signatory(capacity ==null)
+    $rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	HashMap co = $customObjects;
+
+	Boolean imported = co.get("imported");
+
+
+	addError("personCapacity", "BRMandatory", "This field is mandatory", null, $errorList);
+
+end
+
+rule "BR Signature Associated Text - Empty value"
+salience 500
+when
+	$errorList : ErrorList()
+	Section (coreName == "signature_details_section", $fields : field )
+	Field(id=="signatureAssociatedText", $fieldUsable: usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Signatory(capacity == PersonRoleKind.OTHER && (associatedText == null || StringUtils.isEmpty(associatedText)))
+    $rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	HashMap co = $customObjects;
+
+	Boolean imported = co.get("imported");
+
+
+	addError("signatureAssociatedText", "BRMandatory", "This field is mandatory", null, $errorList);
+
+end

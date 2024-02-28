@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib version="2.0" xmlns="http://java.sun.com/xml/j2ee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">    
+ 
+    <tlib-version>2.0</tlib-version>
+    <uri>/tags/fsp-functions</uri>
+ 
+    <function>
+        <name>getLinkedDesignsNumbers</name>
+        <function-class>eu.ohim.sp.dsefiling.ui.functions.ElFunctions</function-class>
+        <function-signature>java.lang.String getLinkedDesignsNumbers(eu.ohim.sp.common.ui.form.design.ContainsDesignsLinkForm)</function-signature>
+    </function>
+    
+    <function>
+        <name>getLabelDesignViewType</name>
+        <function-class>eu.ohim.sp.dsefiling.ui.functions.ElFunctions</function-class>
+        <function-signature>java.lang.String getLabelDesignViewType(eu.ohim.sp.common.ui.form.design.DesignViewForm, java.util.List)</function-signature>
+    </function>
+    
+    <function>
+        <name>getDifferentLocarnoClassifications</name>
+        <function-class>eu.ohim.sp.dsefiling.ui.functions.ElFunctions</function-class>
+        <function-signature>jjava.util.Map getDifferentLocarnoClassifications(eu.ohim.sp.common.ui.form.design.DesignForm)</function-signature>
+	</function>
+	
+	<function>
+        <name>isMultipleDesignApplication</name>
+        <function-class>eu.ohim.sp.dsefiling.ui.functions.ElFunctions</function-class>
+        <function-signature>java.lang.Boolean isMultipleDesignApplication(eu.ohim.sp.dsefiling.ui.domain.DSFlowBean)</function-signature>
+	</function>
+	
+	<function>
+        <name>isOneDesignApplication</name>
+        <function-class>eu.ohim.sp.dsefiling.ui.functions.ElFunctions</function-class>
+        <function-signature>java.lang.Boolean isOneDesignApplication(eu.ohim.sp.dsefiling.ui.domain.DSFlowBean)</function-signature>
+	</function>
+	
+	<function>
+        <name>isVisibleDesignSelects</name>
+        <function-class>eu.ohim.sp.dsefiling.ui.functions.ElFunctions</function-class>
+        <function-signature>java.lang.Boolean isVisibleDesignSelects(eu.ohim.sp.dsefiling.ui.domain.DSFlowBean, eu.ohim.sp.common.ui.form.design.ContainsDesignsLinkForm)</function-signature>
+	</function>
+
+</taglib>

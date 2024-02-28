@@ -1,0 +1,25 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd">
+
+    <context:annotation-config />
+
+    <bean id="jndiProperties"
+          class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="properties">
+            <map>
+                <entry key="java.naming.factory.url.pkgs" value="org.jboss.ejb.client.naming"/>
+                <entry key="jboss.naming.client.ejb.context" value="true"/>
+            </map>
+        </property>
+    </bean>
+
+    <jee:local-slsb id="documentService"
+                    business-interface="eu.ohim.sp.core.document.DocumentServiceRemote"
+                    jndi-name="ejb:sp-core-document/DocumentServiceBean//DocumentServiceBean!eu.ohim.sp.core.document.DocumentServiceRemote" resource-ref="false"
+                    environment-ref="jndiProperties" expose-access-context="true" />
+</beans>

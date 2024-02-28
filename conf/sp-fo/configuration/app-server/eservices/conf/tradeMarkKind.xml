@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tradeMarkKinds xmlns="http://www.example.org/tradeMarkKind-configuration"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.example.org/tradeMarkKind-configuration tradeMarkKind-configuration.xsd ">
+       <tradeMarkKind code="">selectBox.SELECT</tradeMarkKind>
+       <tradeMarkKind code="INDIVIDUAL">Individual</tradeMarkKind>
+       <tradeMarkKind code="COLLECTIVE">Collective</tradeMarkKind>
+       <tradeMarkKind code="CERTIFICATE">Certificate</tradeMarkKind>
+</tradeMarkKinds>

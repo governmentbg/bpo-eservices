@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<legalActVersions xmlns="http://www.example.org/legalActVersion-configuration"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://www.example.org/legalActVersion-configuration legalActVersion-configuration.xsd ">
+    <legalActVersion  applicationType="tm-opposition" entryIntoForceDate="1901-01-01" endApplicabilityDate=""
+              code="" enabled="true">selectBox.SELECT</legalActVersion>
+    <legalActVersion  applicationType="tm-opposition" entryIntoForceDate="2020-01-01" endApplicabilityDate=""
+              code="2019" enabled="true">legalActVersion.2019</legalActVersion>
+</legalActVersions>

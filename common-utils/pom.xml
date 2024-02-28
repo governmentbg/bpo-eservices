@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+    <groupId>eu.ohim.sp.common</groupId>
+    <artifactId>common</artifactId>
+    <packaging>pom</packaging>
+
+	<name>Software Package Common</name>
+	<url>https://svn.oami.europa.eu/svn/emrepo/softwarepackage/common-utils/trunk</url>
+	
+	<ciManagement>
+		<system>Bamboo</system>
+		<url>http://ci-prod-bamboo-master:8085/bamboo/browse/SPCOMUT-SONR</url>
+	</ciManagement>
+	
+	<scm>
+		<connection>scm:svn:https://svn.oami.europa.eu/svn/emrepo/softwarepackage/common-utils/trunk</connection>
+		<developerConnection>scm:svn:https://svn.oami.europa.eu/svn/emrepo/softwarepackage/common-utils/trunk</developerConnection>
+		<url>https://svn.oami.europa.eu/svn/emrepo/softwarepackage/common-utils/trunk</url>
+	</scm>
+	
+	<issueManagement>
+		<system>JIRA</system>
+		<url>https://jira.ohimqaportal.eu/browse/DEVSPHARMO</url>
+	</issueManagement>
+
+    <organization>
+        <name>OHIM</name>
+        <url>http://oami.europa.eu/</url>
+    </organization>
+
+    <parent>
+        <groupId>eu.ohim.sp.ui</groupId>
+        <artifactId>CFO</artifactId>
+        <version>2.0.0-RELEASE</version>
+    </parent>
+
+	<modules>
+		<module>CommonUtils</module>
+		<module>ConfigurationXSD</module>
+		<module>MimeTypeUtils</module>
+		<module>EncryptionUtils</module>
+        <module>StatisticalLogging</module>
+		<module>SPMavenPlugin</module>
+	</modules>
+
+    <properties>
+        <pm.sp.common.current.version>2.0.0-RELEASE</pm.sp.common.current.version>
+        <pm.springframework.version>4.3.0.RELEASE</pm.springframework.version>
+        <pm.version.plugin.checkstyle>2.9.1</pm.version.plugin.checkstyle>
+    </properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>eu.ohim.sp.common</groupId>
+				<artifactId>CommonUtils</artifactId>
+				<version>${pm.sp.common.current.version}</version>
+			</dependency>	
+             <dependency>
+				<groupId>eu.ohim.sp.common</groupId>
+				<artifactId>ConfigurationXSD</artifactId>
+				<version>${pm.sp.common.current.version}</version>
+			</dependency>
+            <dependency>
+                <groupId>eu.ohim.sp.common</groupId>
+                <artifactId>SPMavenPlugin</artifactId>
+                <version>${pm.sp.common.current.version}</version>
+            </dependency>
+
+            <dependency>
+				<groupId>org.jvnet.jaxb2_commons</groupId>
+				<artifactId>jaxb2-basics-jaxb-xjc</artifactId>
+				<version>2.2.4-1</version>
+			</dependency>
+
+            <dependency>
+                <groupId>xstream</groupId>
+                <artifactId>xstream</artifactId>
+                <version>1.2.2</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jboss.spec</groupId>
+                <artifactId>jboss-javaee-6.0</artifactId>
+                <version>3.0.3.Final</version>
+                <type>pom</type>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>log4j</groupId>
+                <artifactId>log4j</artifactId>
+                <version>1.2.16</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>2.4</version>
+                <scope>compile</scope>
+            </dependency>
+            <dependency>
+                <groupId>commons-codec</groupId>
+                <artifactId>commons-codec</artifactId>
+                <version>1.6</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-lang</groupId>
+                <artifactId>commons-lang</artifactId>
+                <version>2.4</version>
+                <scope>compile</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.sun.jersey</groupId>
+                <artifactId>jersey-client</artifactId>
+                <version>1.12</version>
+                <scope>compile</scope>
+            </dependency>
+
+
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.12</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-all</artifactId>
+                <version>1.9.0</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+	</dependencyManagement>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<configuration>
+				  <tagNameFormat>@{project.version}</tagNameFormat>
+				</configuration>
+			</plugin>	
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>${pm.version.plugin.checkstyle}</version>
+                <configuration>
+                    <configLocation>../conf/src/main/resources/checkstyle.xml</configLocation>
+                    <propertiesLocation>../conf/src/main/resources/checkstyle.properties</propertiesLocation>
+                    <propertyExpansion>basedir=${project.basedir}</propertyExpansion>
+                    <failsOnError>false</failsOnError>
+                    <consoleOutput>false</consoleOutput>
+                </configuration>
+            </plugin>
+        </plugins>
+	</build>
+</project>

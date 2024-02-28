@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cotypes>
+	<cotype code="nif" label="cotypes.identifierkind.nif" />
+	<cotype code="nie" label="cotypes.identifierkind.nie" />
+	<cotype code="passport" label="cotypes.identifierkind.passport" />
+</cotypes>

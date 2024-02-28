@@ -1,0 +1,383 @@
+package org.domain.rules;
+dialect "mvel"
+
+import org.apache.commons.lang.StringUtils;
+import eu.ohim.sp.core.domain.contact.Email;
+import eu.ohim.sp.core.domain.contact.Phone;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.domain.application.Signatory;
+import eu.ohim.sp.core.domain.person.PersonRoleKind;
+import eu.ohim.sp.core.domain.contact.ContactDetails;
+import eu.ohim.sp.core.domain.contact.Address;
+import eu.ohim.sp.core.configuration.domain.xsd.Field;
+import eu.ohim.sp.core.domain.design.DesignApplication;
+import eu.ohim.sp.core.configuration.domain.xsd.Section;
+import eu.ohim.sp.core.configuration.domain.xsd.Sections;
+import eu.ohim.sp.core.domain.validation.RulesInformation;
+
+
+# *** CORRESPONDENCE checks
+# ------------------------------------------------------------------------------
+
+rule "BR Correspondence Name - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "correspondenceAddressForm.correspondenceName", $fieldUsable : usable, $fieldRequired : required) from $fields
+	ContactDetails($addresses : address, $addresses != null)   
+    $address : Address(postalName != null && postalName == "") from $addresses
+	$rulesInformation : RulesInformation($customObjects : customObjects ) 
+then  
+	HashMap co = $customObjects;      
+	Boolean imported = co.get("imported"); 
+	
+	if (imported == false){	
+		addError("correspondenceAddressForm.correspondenceName","BRMandatory","This field is mandatory", null, $errorList);
+	}else{
+		addError(null, "BR.correspondenceAddresses.correspondenceName.Empty", "The correspondence Name field is mandatory.", "mainForm.applicantionCADataSection", $errorList);			
+	}			
+end
+
+rule "BR Correspondence Name - Content"
+salience 1000
+when
+    $errorList : ErrorList()
+    Section( $fields : field )
+    Field( id == "correspondenceAddressForm.correspondenceName", $fieldUsable : usable, $regex : format) from $fields
+    eval($fieldUsable == true && StringUtils.isNotEmpty($regex))
+    ContactDetails($addresses : address, $addresses != null)    
+    $address : Address(StringUtils.isNotEmpty(postalName) && postalName not matches $regex) from $addresses
+    $rulesInformation : RulesInformation($customObjects : customObjects )
+then
+
+	HashMap co = $customObjects;    
+    Boolean imported = co.get("imported");
+
+    if (imported == false) {
+        addError("correspondenceAddressForm.correspondenceName",
+         "BRFormat", "This field has a bad format", null, $errorList);
+    } else {
+        addError(null, "BR.correspondenceAddresses.correspondenceName.Format", "The correspondence Name field has a bad format", null, $errorList);
+    }
+end
+
+rule "BR Correspondence Street - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "correspondenceAddressForm.addressForm.street", $fieldUsable : usable, $fieldRequired : required) from $fields
+	ContactDetails($addresses : address, $addresses != null)
+	$address : Address(street == null || (street != null && street == "")) from $addresses
+	eval($fieldUsable == true && $fieldRequired == true)
+	$rulesInformation : RulesInformation($customObjects : customObjects ) 
+then  
+	HashMap co = $customObjects;      
+	Boolean imported = co.get("imported"); 
+
+	if (imported == false){	
+		addError("correspondenceAddressForm.addressForm.street", "BRMandatory", "This field is mandatory", null, $errorList);;
+	}else{
+		addError(null, "BR.correspondenceAddresses.addressForm.street.Empty", "The correspondence Street field is mandatory.", "mainForm.applicantionCADataSection", $errorList);			
+	}			
+	
+end
+
+rule "BR Correspondence Street - Content"
+salience 1000
+when
+
+    $errorList : ErrorList()
+    Section( $fields : field )
+    Field( id == "correspondenceAddressForm.addressForm.street", $fieldUsable : usable, $regex : format) from $fields
+    eval($fieldUsable == true && StringUtils.isNotEmpty($regex))
+    ContactDetails($addresses : address, $addresses != null)
+    $address : Address(StringUtils.isNotEmpty(street) && street not matches $regex) from $addresses
+    $rulesInformation : RulesInformation($customObjects : customObjects )
+then
+    HashMap co = $customObjects;
+    Boolean imported = co.get("imported");
+
+    if (imported == false){
+        addError("correspondenceAddressForm.addressForm.street",
+         "BRFormat", "This field has a bad format", null, $errorList);
+    }else{
+        addError(null, "BR.correspondenceAddresses.addressForm.street.Format", "The correspondence Street field has a bad format", null, $errorList);
+    }
+end
+
+rule "BR Correspondence House Number - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "correspondenceAddressForm.addressForm.houseNumber", $fieldUsable : usable, $fieldRequired : required) from $fields
+	ContactDetails($addresses : address)
+	$address : Address(streetNumber==null || (streetNumber != null && streetNumber == "")) from $addresses
+	eval($fieldUsable == true && $fieldRequired == true)
+	$rulesInformation : RulesInformation($customObjects : customObjects ) 	
+then
+	HashMap co = $customObjects;      
+	Boolean imported = co.get("imported"); 
+	
+	if (imported == false){	
+		addError("correspondenceAddressForm.addressForm.houseNumber","BRMandatory", "This field is mandatory", null, $errorList);
+	}else{
+		addError(null, "BR.correspondenceAddresses.addressForm.houseNumber.Empty", "The correspondence House Number field is mandatory.", "mainForm.applicantionCADataSection", $errorList);			
+	}		
+end
+
+
+rule "BR Correspondence City - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "correspondenceAddressForm.addressForm.city", $fieldUsable : usable, $fieldRequired : required) from $fields
+	ContactDetails($addresses : address)
+	$address : Address(city == null || (city != null && city == "")) from $addresses
+	eval($fieldUsable == true && $fieldRequired == true)
+	$rulesInformation : RulesInformation($customObjects : customObjects ) 	
+then
+	HashMap co = $customObjects;      
+	Boolean imported = co.get("imported"); 
+	
+	if (imported == false){	
+		addError("correspondenceAddressForm.addressForm.city", "BRMandatory", "This field is mandatory", null, $errorList);
+	}else{
+		addError(null, "BR.correspondenceAddresses.addressForm.city.Empty", "The correspondence City field is mandatory.", "mainForm.applicantionCADataSection", $errorList);			
+	}	
+end
+
+rule "BR Correspondence City - Content"
+salience 1000
+when
+    $errorList : ErrorList()
+    Section( $fields : field )
+    Field( id == "correspondenceAddressForm.addressForm.city", $fieldUsable : usable, $regex : format) from $fields
+    eval($fieldUsable == true && StringUtils.isNotEmpty($regex))
+    ContactDetails($addresses : address, $addresses != null)
+    $address : Address(StringUtils.isNotEmpty(city) && city not matches $regex) from $addresses
+    $rulesInformation : RulesInformation($customObjects : customObjects )
+then
+    HashMap co = $customObjects;
+    Boolean imported = co.get("imported");
+
+    if (imported == false){
+        addError("correspondenceAddressForm.addressForm.city",
+         "BRFormat", "This field has a bad format", null, $errorList);
+    }else{
+        addError(null, "BR.correspondenceAddresses.addressForm.city.Format", "The correspondence city field has a bad format", null, $errorList);
+    }
+end
+
+rule "BR Correspondence Postal Code - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "correspondenceAddressForm.addressForm.postalCode", $fieldUsable : usable, $fieldRequired : required) from $fields
+	ContactDetails($addresses : address, $addresses != null)
+	$address : Address(postCode == null || (postCode != null && postCode == "")) from $addresses
+	eval($fieldUsable == true && $fieldRequired == true)
+	$rulesInformation : RulesInformation($customObjects : customObjects ) 	
+then
+	HashMap co = $customObjects;      
+	Boolean imported = co.get("imported"); 
+	
+	if (imported == false){	
+		addError("correspondenceAddressForm.addressForm.postalCode", "BRMandatory", "This field is mandatory",  null, $errorList);
+	}else{
+		addError(null, "BR.correspondenceAddresses.addressForm.postalCode.Empty", "The correspondence Postal Code field is mandatory.", "mainForm.applicantionCADataSection", $errorList);			
+	}		
+end
+
+rule "BR postal code - Content"
+salience 1000
+when
+    $errorList : ErrorList()
+    Section( $fields : field)
+    Field( id == "correspondenceAddressForm.addressForm.postalCode", $fieldUsable : usable, $regex : format) from $fields
+    eval($fieldUsable == true && StringUtils.isNotEmpty($regex))
+    ContactDetails(address != null, $addresses : address)
+    $address : Address(StringUtils.isNotEmpty(postCode) && postCode not matches $regex) from $addresses
+    $rulesInformation : RulesInformation($customObjects : customObjects)
+then
+    HashMap co = $customObjects;
+    Boolean imported = co.get("imported");
+
+    if (imported == false){
+        addError("correspondenceAddressForm.addressForm.postalCode", "BRFormat", "This field has a bad format", null, $errorList);
+    }else {
+        addError(null, "BR.person.address.postalCode.format", "The postal code field has a bad format.", "mainForm.applicantionCADataSection", $errorList);
+    }
+end
+
+
+rule "BR Correspondence Country - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section(   $fields : field )
+	Field( id == "correspondenceAddressForm.addressForm.country", $fieldUsable : usable, $fieldRequired : required) from $fields
+	ContactDetails($addresses : address, $addresses != null)
+	$address : Address(country == null || (country != null && country == "")) from $addresses
+	eval($fieldUsable == true && $fieldRequired == true)
+	$rulesInformation : RulesInformation($customObjects : customObjects ) 	
+then
+	HashMap co = $customObjects;      
+	Boolean imported = co.get("imported"); 
+	
+	if (imported == false){	
+		addError("correspondenceAddressForm.addressForm.country", "BRMandatory", "This field is mandatory", null, $errorList);
+	}else{
+		addError(null, "BR.correspondenceAddresses.addressForm.country.Empty", "The correspondence Country field is mandatory.", "mainForm.applicantionCADataSection", $errorList);			
+	}	
+end
+
+rule "BR Correspondence stateProvince - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "correspondenceAddressForm.addressForm.stateprovince", $fieldUsable : usable, $fieldRequired : required) from $fields
+	ContactDetails($addresses : address, $addresses != null)	
+	eval($fieldUsable == true && $fieldRequired == true)	
+	$address : Address(state != null && state == "") from $addresses	
+	$rulesInformation : RulesInformation($customObjects : customObjects ) 		  
+then
+	HashMap co = $customObjects;      
+	Boolean imported = co.get("imported"); 
+	
+	if (imported == false){	
+		addError("correspondenceAddressForm.addressForm.stateprovince", "BRMandatory", "This field is mandatory", null, $errorList);
+	}else{
+		addError(null, "BR.correspondenceAddresses.addressForm.stateprovince.Empty", "The correspondence state field is mandatory.", "mainForm.applicantionCADataSection", $errorList);			
+	}	
+end
+
+rule "BR Correspondence Phone - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "correspondenceAddressForm.correspondencePhone",$fieldUsable : usable, $fieldRequired : required, $regex : format) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	ContactDetails ($phones : phone, phone == null || phone.size() == 0 || (phone!=null && phone.size()>0 && StringUtils.isEmpty(phone[0].getNumber())==true )  )
+	$rulesInformation : RulesInformation($customObjects : customObjects ) 			
+then	
+	HashMap co = $customObjects;      
+	Boolean imported = co.get("imported"); 
+	
+	if (imported == false){	
+		addError("correspondenceAddressForm.correspondencePhone", "BRMandatory", "This field is mandatory",  null, $errorList);
+	}else{
+		addError(null, "BR.correspondenceAddresses.correspondencePhone.Empty", "The correspondence Phone field is mandatory", "mainForm.applicantionCADataSection", $errorList);			
+	}
+end
+
+rule "BR Correspondence Phone - Content"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "correspondenceAddressForm.correspondencePhone", $fieldUsable : usable, $fieldRequired : required, $regex : format) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)		
+	ContactDetails ($phones : phone )
+	Phone($phoneKind:phoneKind, $number:number, StringUtils.isEmpty(number)==false && number not matches $regex) from $phones
+	$rulesInformation : RulesInformation($customObjects : customObjects ) 	
+then	
+	HashMap co = $customObjects;      
+	Boolean imported = co.get("imported"); 
+	
+	if ($phoneKind!=null  && !$phoneKind.toString().equals("Fax")) {
+		if (imported == false){	
+			addError("correspondenceAddressForm.correspondencePhone", "BRFormat", "This field has a bad format",  null, $errorList);
+		}else{
+			addError(null, "BR.correspondenceAddresses.correspondencePhone.Format", "The correspondence Phone field has a bad format", "mainForm.applicantionCADataSection", $errorList);			
+		}
+	}
+end
+
+
+rule "BR Correspondence Fax - Content"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "correspondenceAddressForm.correspondenceFax",$fieldUsable : usable, $fieldRequired : required, $regex : format) from $fields
+	ContactDetails ($phones : fax)
+	Phone($phoneKind:phoneKind,$number:number, StringUtils.isEmpty(number)==false && number not matches $regex) from $phones
+	$rulesInformation : RulesInformation($customObjects : customObjects ) 		
+then
+	HashMap co = $customObjects;      
+	Boolean imported = co.get("imported"); 
+	
+	if ($phoneKind!=null  && $phoneKind.toString().equals("Fax")) {
+		if (imported == false){		
+			addError("correspondenceAddressForm.correspondenceFax", "BRFormat", "This field has a bad format",  null, $errorList);
+		}else{
+			addError(null, "BR.correspondenceAddresses.correspondenceFax.Format", "The correspondence Fax field has a bad format", "mainForm.applicantionCADataSection", $errorList);			
+		}		
+	}
+end
+
+rule "BR Correspondence Email - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "correspondenceAddressForm.correspondenceEmail", $fieldUsable : usable, $fieldRequired : required, $regex : format) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)		
+	ContactDetails ($emails : email, email == null || email.size()==0 || (email!=null && email.size()>0 && StringUtils.isEmpty(email[0])==true)  )	
+	$rulesInformation : RulesInformation($customObjects : customObjects ) 		
+then
+	HashMap co = $customObjects;      
+	Boolean imported = co.get("imported"); 
+
+	if (imported == false){		
+		addError("correspondenceAddressForm.correspondenceEmail", "BRMandatory", "This field is mandatory",  null, $errorList);
+	}else{
+		addError(null, "BR.correspondenceAddresses.correspondenceEmail.Empty", "The correspondence Email field is mandatory", "mainForm.applicantionCADataSection", $errorList);			
+	}	
+end
+
+rule "BR Correspondence Email - Content"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "correspondenceAddressForm.correspondenceEmail",$fieldUsable : usable, $fieldRequired : required, $regex : format) from $fields
+	ContactDetails ($emails : email, (email!=null&& email.size()>0) && (StringUtils.isEmpty(email[0])==false && email[0] not matches $regex))	
+	$rulesInformation : RulesInformation($customObjects : customObjects ) 		
+then
+	HashMap co = $customObjects;      
+	Boolean imported = co.get("imported"); 
+
+	if (imported == false){	
+		addError("correspondenceAddressForm.correspondenceEmail", "BRFormat", "This field has a bad format",  null, $errorList);
+	}else{
+		addError(null, "BR.correspondenceAddresses.correspondenceEmail.format", "The correspondence Email field has a bad format", "mainForm.applicantionCADataSection", $errorList);			
+	} 	
+end
+
+rule "BR Correspondence eCorrespondence - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "correspondenceAddressForm.electronicCorrespondence",$fieldUsable : usable, $fieldRequired : required, $regex : format) from $fields
+	ContactDetails (electronicCorrespondence == null)
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+	eval($fieldUsable)
+then
+	HashMap co = $customObjects;
+	Boolean imported = co.get("imported");
+
+	if (imported == false){
+		addError("correspondenceAddressForm.electronicCorrespondence", "BRMandatory", "This field is mandatory",  null, $errorList);
+	}else{
+		addError(null, "BR.correspondenceAddresses.electronicCorrespondence", "Select preferences about electronic correspondence", "mainForm.applicantionCADataSection", $errorList);
+	}
+end

@@ -1,0 +1,82 @@
+package org.domain.rules;
+dialect "mvel"
+
+import org.apache.commons.lang.StringUtils;
+import eu.ohim.sp.core.domain.resources.Document;
+import eu.ohim.sp.core.domain.resources.FODocument;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.configuration.domain.xsd.Field;
+import eu.ohim.sp.core.configuration.domain.xsd.Section;
+import org.apache.commons.lang.StringUtils;
+import eu.ohim.sp.core.domain.validation.RulesInformation;
+import java.util.HashMap;
+
+global eu.ohim.sp.core.domain.validation.ErrorList errorList;
+
+/*
+rule "BR File Description - Empty"
+salience 1000
+when
+ $errorList : ErrorList()
+ Document( comment == null || comment == "")
+then 
+	addError("fileWrapper.description", "BRMandatory", "This field is mandatory",null, $errorList); 	
+end
+*/
+
+rule "Path creator - FODocument"
+salience 1000
+no-loop
+    when
+        $document : FODocument(customProperties.containsKey("filingNumber"),
+								customProperties.containsKey("applicationType"),
+								$path : ("/" + customProperties.get("applicationType") + "/" + customProperties.get("filingNumber")))
+		$map : HashMap();
+    then
+		$map.put("path", $path);
+end
+
+rule "Path creator - Document"
+salience 1000
+no-loop
+    when
+        $document : Document(customProperties.containsKey("customPath"),
+								customProperties.containsKey("applicationType"),
+								$path : ("/" + customProperties.get("applicationType") +
+								(customProperties.containsKey("filingNumber")?("/" + customProperties.get("filingNumber")) : "") +
+								"/" + customProperties.get("customPath")))
+		$map : HashMap();
+    then
+		$map.put("path", $path);
+end
+
+rule "BR48a Attachment Description - Empty"
+salience 1000
+when
+	
+	$errorList : ErrorList()
+	Section($fields : field )
+	Field( id == "otherAttachments.description", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Document(StringUtils.isEmpty(comment) == true)
+	
+then
+    System.out.println("				>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Inside decription otherAttachments rule <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+	addError("fileWrapper.description",	"BR48a.OtherAttachments.Description.Empty", "This field is mandatory", null, $errorList);
+end
+
+
+rule "BR48a Attachment Description when other document - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	$rulesInformation : RulesInformation($docType : customObjects["docType"] )
+	Section (id.value() == "otherAttachments", $fields : field)
+	Field( id == "otherAttachments.description", $fieldUsable : usable) from $fields
+	Field( id == "otherAttachments.docType", $fieldUsableType : usable) from $fields
+	eval($fieldUsable == true && $fieldUsableType == true)
+	Document(StringUtils.isEmpty(comment) == true)
+	eval($docType == "Other Document")
+then
+	addError("fileWrapper.description",	"BR48a.OtherAttachments.Description.Empty", "This field is mandatory", null, $errorList);
+end

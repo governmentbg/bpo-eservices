@@ -1,0 +1,1706 @@
+package org.domain.rules;
+dialect "mvel"
+
+import eu.ohim.sp.core.domain.validation.ErrorCore;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.configuration.domain.xsd.Section;
+import eu.ohim.sp.core.configuration.domain.xsd.Field;
+import eu.ohim.sp.core.configuration.domain.xsd.Sections;
+import eu.ohim.sp.core.configuration.domain.xsd.AvailableSection;	   
+import java.util.Map;
+import java.util.ArrayList;
+import org.apache.commons.lang.*;
+import eu.ohim.sp.core.domain.application.EServiceApplication;
+import eu.ohim.sp.core.domain.design.DSeServiceApplication;
+import eu.ohim.sp.core.domain.design.Design;
+import eu.ohim.sp.core.domain.design.DesignApplication;
+import eu.ohim.sp.core.domain.trademark.TMeServiceApplication;
+import eu.ohim.sp.core.domain.patent.PTeServiceApplication;
+import eu.ohim.sp.core.domain.validation.RulesInformation;
+import java.util.Map;
+import java.util.HashMap;
+import java.lang.*;
+import eu.ohim.sp.core.domain.person.Applicant;
+import eu.ohim.sp.core.domain.person.Representative;
+import eu.ohim.sp.core.domain.person.PersonIdentifier;
+import eu.ohim.sp.core.domain.person.PersonKind;
+import java.util.List;
+import java.util.ArrayList;
+import eu.ohim.sp.core.domain.opposition.OppositionGround;
+import eu.ohim.sp.core.domain.opposition.OppositionRelativeGrounds;
+import eu.ohim.sp.core.domain.opposition.GroundCategoryKind;
+import eu.ohim.sp.core.domain.trademark.TradeMark;
+import eu.ohim.sp.core.domain.trademark.LimitedTradeMark;
+global eu.ohim.sp.core.domain.validation.ErrorList errorList;
+import java.util.Calendar;
+import java.util.Date;
+import eu.ohim.sp.core.domain.application.Signatory;
+import eu.ohim.sp.core.domain.design.DesignApplication;
+import eu.ohim.sp.core.domain.licence.Licence;
+import eu.ohim.sp.core.domain.trademark.GSHelperDetails;
+import eu.ohim.sp.core.domain.trademark.ApplicationExtent;
+import java.lang.System;
+import java.util.Date;
+import java.util.Calendar;
+import eu.ohim.sp.core.domain.person.Holder;
+import eu.ohim.sp.core.domain.resources.AttachedDocument;
+import eu.ohim.sp.core.configuration.domain.xsd.AvailableSection
+import eu.ohim.sp.core.domain.patent.Patent
+import eu.ohim.sp.core.domain.application.Appeal;
+import eu.ohim.sp.core.domain.userdoc.UserdocRelationRestriction;
+import eu.ohim.sp.core.domain.userdoc.Userdoc
+import eu.ohim.sp.core.domain.person.Inventor
+import eu.ohim.sp.core.domain.person.Assignee;
+
+
+
+rule "BR404 - Number of Applicants"
+salience 1000
+when
+	$errorList : ErrorList()
+	$stateId : RulesInformation($customObjects : customObjects)
+	EServiceApplication(applicants.size() <= 0)
+then
+  	HashMap co = $customObjects;
+    String stateId = co.get("stateId");
+    String flowModeId = co.get("flowModeId");
+
+    if ((!flowModeId.equalsIgnoreCase("tm-opposition") && !flowModeId.equalsIgnoreCase("tm-objection") && !flowModeId.equalsIgnoreCase("tm-revocation")
+         && !flowModeId.equalsIgnoreCase("tm-invalidity") && !flowModeId.equalsIgnoreCase("ds-invalidity") && !flowModeId.equalsIgnoreCase("pt-invalidity") && !flowModeId.equalsIgnoreCase("spc-invalidity") && !flowModeId.equalsIgnoreCase("um-invalidity"))
+          || (stateId.equalsIgnoreCase("opponent_repressentative")|| stateId.equalsIgnoreCase("opponent_repressentative_inv") || stateId.equalsIgnoreCase("opponent_repressentative_rev"))){
+		addError(null, "BR8.ApplicantNumber.Empty."+flowModeId.toLowerCase(),	"You must add at least one applicant",	"mainForm.personalDataSection",	$errorList);
+	}
+end
+
+rule "BR404 - Number of Designers"
+salience 1000
+when
+	$errorList : ErrorList()
+	$stateId : RulesInformation($customObjects : customObjects)
+	EServiceApplication(designers.size() <= 0)
+then
+  	HashMap co = $customObjects;
+    String stateId = co.get("stateId");
+    String flowModeId = co.get("flowModeId");
+
+    if (flowModeId.endsWith("-authorreg")){
+        addError(null, "BR8.DesignerNumber.Empty."+flowModeId.toLowerCase(),	"You must add at least one designer",	"mainForm.designerSection",	$errorList);
+    }
+end
+
+rule "BR404_1 - Correspondence address mandatory Phone"
+salience 1000
+when
+	$errorList : ErrorList()
+	RulesInformation($sections : customObjects["sections"])
+    Sections($sectionList : section) from $sections
+    Section($sectionId : id, $fields : field ) from $sectionList
+    eval ($sectionId == AvailableSection.APPLICATION_CA)
+    Field( id == "correspondenceAddressForm.correspondencePhone", $required : required, $fieldUsable : usable, $regex : format) from $fields
+    eval ($required == true && $fieldUsable == true)
+    EServiceApplication($cd : contactDetails)
+    eval($cd != null)
+    eval($cd.size() > 0)
+    eval($cd[0].phone == null || ($cd[0].phone != null && $cd[0].phone.size() == 0) || ($cd[0].phone != null && $cd[0].phone.size() > 0 && StringUtils.isEmpty($cd[0].phone[0].number)))
+then
+	addError(null, "BR8.Phone.Mandatory",	"The Correspondence phone is mandatory",	"mainForm.applicantionCADataSection",	$errorList);
+end
+
+rule "BR404_2 - Correspondence address Phone format"
+salience 1000
+when
+	$errorList : ErrorList()
+	RulesInformation($sections : customObjects["sections"])
+    Sections($sectionList : section) from $sections
+    Section($sectionId : id, $fields : field ) from $sectionList
+    eval ($sectionId == AvailableSection.APPLICATION_CA)
+    Field( id == "correspondenceAddressForm.correspondencePhone", $required : required, $fieldUsable : usable, $regex : format) from $fields
+    eval ($required == true && $fieldUsable == true && $regex != null)
+    EServiceApplication(contactDetails.size() > 0 && (contactDetails[0].phone != null && contactDetails[0].phone.size() > 0 && StringUtils.isNotEmpty(contactDetails[0].phone[0].number) && contactDetails[0].phone[0].number not matches $regex))
+then
+	addError(null, "BR8.Phone.Format",	"The Correspondence phone has a bad format",	"mainForm.applicantionCADataSection",	$errorList);
+end
+
+rule "BR404_3 - Correspondence address mandatory Email"
+salience 1000
+when
+	$errorList : ErrorList()
+	RulesInformation($sections : customObjects["sections"])
+    Sections($sectionList : section) from $sections
+    Section($sectionId : id, $fields : field ) from $sectionList
+    eval ($sectionId == AvailableSection.APPLICATION_CA)
+    Field( id == "correspondenceAddressForm.correspondenceEmail", $required : required, $fieldUsable : usable, $regex : format) from $fields
+    eval ($required == true && $fieldUsable == true)
+    EServiceApplication($cd : contactDetails)
+    eval($cd != null)
+    eval($cd.size() > 0)
+    eval($cd[0].email == null || ($cd[0].email != null && $cd[0].email.size() == 0) || ($cd[0].email != null && $cd[0].email.size() > 0 && StringUtils.isEmpty($cd[0].email[0])))
+then
+	addError(null, "BR8.Email.Mandatory",	"The Correspondence email is mandatory",	"mainForm.applicantionCADataSection",	$errorList);
+end
+
+rule "BR404_4 - Correspondence address Email format"
+salience 1000
+when
+	$errorList : ErrorList()
+	RulesInformation($sections : customObjects["sections"])
+    Sections($sectionList : section) from $sections
+    Section($sectionId : id, $fields : field ) from $sectionList
+    eval ($sectionId == AvailableSection.APPLICATION_CA)
+    Field( id == "correspondenceAddressForm.correspondenceEmail", $required : required, $fieldUsable : usable, $regex : format) from $fields
+    eval ($required == true && $fieldUsable == true && $regex != null)
+    EServiceApplication(contactDetails.size() > 0 && (contactDetails[0].email != null && contactDetails[0].email.size() > 0 && StringUtils.isNotEmpty(contactDetails[0].email[0]) && contactDetails[0].email[0] not matches $regex))
+then
+	addError(null, "BR8.Email.Format",	"The Correspondence email has a bad format",	"mainForm.applicantionCADataSection",	$errorList);
+end
+
+rule "BR404_5 - Correspondence address mandatory Fax"
+salience 1000
+when
+	$errorList : ErrorList()
+	RulesInformation($sections : customObjects["sections"])
+    Sections($sectionList : section) from $sections
+    Section($sectionId : id, $fields : field ) from $sectionList
+    eval ($sectionId == AvailableSection.APPLICATION_CA)
+    Field( id == "correspondenceAddressForm.correspondenceFax", $required : required, $fieldUsable : usable, $regex : format) from $fields
+    eval ($required == true && $fieldUsable == true)
+    EServiceApplication(contactDetails.size() <= 0 || contactDetails[0].fax == null || (contactDetails[0].fax != null && contactDetails[0].fax.size() == 0) || (contactDetails[0].fax != null && contactDetails[0].fax.size() > 0 && StringUtils.isEmpty(contactDetails[0].fax[0].number)))
+then
+	addError(null, "BR8.Phone.Mandatory",	"The Correspondence phone is mandatory",	"mainForm.applicantionCADataSection",	$errorList);
+end
+
+rule "BR404_6 - Correspondence address Fax format"
+salience 1000
+when
+	$errorList : ErrorList()
+	RulesInformation($sections : customObjects["sections"])
+    Sections($sectionList : section) from $sections
+    Section($sectionId : id, $fields : field ) from $sectionList
+    eval ($sectionId == AvailableSection.APPLICATION_CA)
+    Field( id == "correspondenceAddressForm.correspondenceFax", $required : required, $fieldUsable : usable, $regex : format) from $fields
+    eval ($required == true && $fieldUsable == true && $regex != null)
+    EServiceApplication(contactDetails.size() > 0 && (contactDetails[0].fax != null && contactDetails[0].fax.size() > 0 && StringUtils.isNotEmpty(contactDetails[0].fax[0].number) && contactDetails[0].fax[0].number not matches $regex))
+then
+	addError(null, "BR8.Phone.Format",	"The Correspondence phone has a bad format",	"mainForm.applicantionCADataSection",	$errorList);
+end
+
+
+rule "BR504 - Number of assignee in TRANSFER, LICENCE, REM, SECURITY, INVDENIAL"
+salience 1000
+when
+	$errorList : ErrorList()
+	$stateId : RulesInformation($customObjects : customObjects)
+	EServiceApplication(assignees.size() < 1)
+then
+  	HashMap co = $customObjects;
+    String stateId = co.get("stateId");
+    String flowModeId = co.get("flowModeId");
+
+    if ( flowModeId.endsWith("-transfer")){
+		addError(null, "BR8.AssigneeNumber.Empty",	"You must add at least one assignee",	"mainForm.personalDataSection",	$errorList);
+	} else if(flowModeId.endsWith("-licence") || flowModeId.endsWith("-compulsorylicence")){
+		addError(null, "BR8.AssigneeNumber.Licence.Empty",	"You must add at least one licensee",	"mainForm.personalDataSection",	$errorList);
+	} else if(flowModeId.endsWith("-rem")){
+		addError(null, "BR8.AssigneeNumber.Rem.Empty",	"You must add at least one rem creditor",	"mainForm.personalDataSection",	$errorList);
+	}	else if(flowModeId.endsWith("-security")){
+		addError(null, "BR8.AssigneeNumber.Security.Empty",	"You must add at least one security measure receiver",	"mainForm.personalDataSection",	$errorList);
+	} else if(flowModeId.endsWith("-invdenial")){
+      		addError(null, "BR8.AssigneeNumber.InvDenial.Empty",	"You must add at least one inventor",	"mainForm.personalDataSection",	$errorList);
+      	}
+end
+
+rule "BR505 - Same inventors from patent - INVDENIAL"
+salience 1000
+when
+	$errorList : ErrorList()
+	$stateId : RulesInformation($customObjects : customObjects)
+	PTeServiceApplication($patentList : patentList, $assignees : assignees)
+	eval($patentList != null && $patentList.size() > 0 && $assignees != null && $assignees.size() > 0)
+then
+  	HashMap co = $customObjects;
+    String stateId = co.get("stateId");
+    String flowModeId = co.get("flowModeId");
+
+if(flowModeId.endsWith("-invdenial")){
+    boolean mismatch = false;
+    for(Assignee assignee : $assignees){
+        mismatch = true;
+            for(Inventor inventor : $patentList.get(0).getInventors()){
+                        if (inventor.getIdentifiers().get(0).getValue().equalsIgnoreCase(assignee.personNumber)){
+                            mismatch = false;
+                        }
+                    }
+            if (mismatch){
+                addError(null, "BR8.Assignee.Valid",	"Added inventors must be from the selected patent",	"mainForm.personalDataSection",	$errorList);
+                return;
+            }
+        }
+}
+end
+
+rule "BR610 - Number of holders in CHANGE"
+salience 1000
+when
+	$errorList : ErrorList()
+	$stateId : RulesInformation($customObjects : customObjects)
+	EServiceApplication(holders.size() < 1)
+then
+  	HashMap co = $customObjects;
+    String stateId = co.get("stateId");
+    String flowModeId = co.get("flowModeId");
+
+    if ( flowModeId.endsWith("-change")){
+		addError(null, "BR610.HolderNumber.Empty",	"You must add at least one holder",	"mainForm.personalDataSection",	$errorList);
+	}
+end
+
+//rule "BR611 - Number of changes in CHANGE"
+//salience 1000
+//when
+//	$errorList : ErrorList()
+//	$stateId : RulesInformation($customObjects : customObjects)
+//	EServiceApplication(personChanges == null || personChanges.isEmpty())
+//then
+//  	HashMap co = $customObjects;
+//    String stateId = co.get("stateId");
+//    String flowModeId = co.get("flowModeId");
+//
+//    if ( flowModeId.equalsIgnoreCase("tm-changerep") || flowModeId.equalsIgnoreCase("ds-changerep") ){
+//		addError(null, "BR611.PersonChangeNumber.Empty",	"You must add at least one change",	"personChanges",	$errorList);
+//	}
+//end
+
+rule "BR - Basis of Opposition with older dates regarding the opposed mark "
+salience 1000
+when
+	$errorList : ErrorList()
+	$stateId : RulesInformation($customObjects : customObjects)
+	TMeServiceApplication($oppositionGrounds : oppositionGrounds)
+	TMeServiceApplication($tradeMarks : tradeMarks)
+	eval($oppositionGrounds!=null)
+	eval($oppositionGrounds.size() > 0)
+	eval($tradeMarks!=null)
+	eval($tradeMarks.size() > 0)
+then
+	HashMap co = $customObjects;
+    String stateId = co.get("stateId");
+    String flowModeId = co.get("flowModeId");
+	String args = "";
+	String gcCompare = "";
+	Date opposedApplicationDate = new Date();
+	Date opposedPriorityDate = new Date();
+	Date earlierApplicationDate = new Date();
+	Date earlierPriorityDate = new Date();
+	LimitedTradeMark limTradeMark = $tradeMarks.get(0);
+	if (limTradeMark!=null && limTradeMark.getPriorities()!=null && limTradeMark.getPriorities().size()>0  && flowModeId.equalsIgnoreCase("tm-opposition") && stateId.equalsIgnoreCase("oppositionBasis")  ){
+
+		opposedApplicationDate = limTradeMark.getApplicationDate();
+		opposedPriorityDate = limTradeMark.getPriorities().get(0).getFilingDate();
+		List errorArgs = new ArrayList();
+		int max = $oppositionGrounds.size();
+		int i = 0;
+		OppositionGround obg = $oppositionGrounds.get(i);
+		String gc = GroundCategoryKind.RELATIVE_GROUNDS.toString();
+		for (i=0; i<max; i++) {
+			obg = $oppositionGrounds.get(i);
+			if (obg.getGroundCategory()!=null){
+				gcCompare = obg.getGroundCategory().toString();
+				if (gcCompare.equalsIgnoreCase(gc)){
+					earlierApplicationDate = ((OppositionRelativeGrounds)obg).getEarlierTradeMarkDetails().getApplicationDate();
+					earlierPriorityDate = ((OppositionRelativeGrounds)obg).getEarlierTradeMarkDetails().getPriorities().get(0).getFilingDate();
+					if (earlierApplicationDate!=null && opposedApplicationDate!=null && earlierApplicationDate.compareTo(opposedApplicationDate)>0 ) {
+						args += Integer.toString((i+1)) + "; ";
+					}
+					else if (earlierPriorityDate!=null && opposedPriorityDate!=null && earlierPriorityDate.compareTo(opposedPriorityDate)>0 ) {
+						args += Integer.toString((i+1)) + "; ";
+					}
+				}
+
+			}
+		}
+		if (args!=""){
+			errorArgs.add(args);
+			addErrorArgs(null, "BR111."+flowModeId+".dates", "Earliest of either application date or priority date of earlier trade mark must be before earliest of either application date or priority date of challenged trade mark.", "mainForm.claimSection", $errorList, errorArgs);
+		}
+	}
+
+
+end
+
+rule "BR Reference - Format"
+salience 1000
+when
+       	$errorList : ErrorList()
+      	RulesInformation($sections : customObjects["sections"])
+      	Sections($sectionList : section) from $sections
+		Section($sectionId : id, $fields : field ) from $sectionList
+		eval ($sectionId == AvailableSection.MARKREFERENCE)
+		Field( id == "reference", $fieldUsable : usable, $regex : format) from $fields
+		eval ($fieldUsable == true && $regex != null)
+       	TMeServiceApplication($applicationReference : applicationReference, $applicationReference not matches $regex)
+       	eval ($applicationReference != "")
+then
+		addError("reference", "BR414.applicationReference.format", "This field has a bad format", null, $errorList);
+end
+
+
+rule "BR407 - Number of Trademarks"
+salience 1000
+when
+	$errorList : ErrorList()
+	$stateId : RulesInformation($customObjects : customObjects)
+	TMeServiceApplication(tradeMarks==null || tradeMarks.size() <= 0)
+then
+	HashMap co = $customObjects;
+    String stateId = co.get("stateId");
+    String flowModeId = co.get("flowModeId");
+
+	if ( (!flowModeId.equalsIgnoreCase("tm-opposition") && !flowModeId.equalsIgnoreCase("tm-objection") && !flowModeId.equalsIgnoreCase("tm-revocation")
+                  && !flowModeId.equalsIgnoreCase("tm-invalidity")) ||
+		(stateId.equalsIgnoreCase("reference_tmOpposed") || stateId.equalsIgnoreCase("reference_tmRevoced") ||
+		stateId.equalsIgnoreCase("reference_tmInvalidated") || stateId.equalsIgnoreCase("reference_tmObjected")) ){
+		addError(null, "BR407.Trademark.Empty", "You must add at least one trademark",	"mainForm.markRepresentationSection", $errorList);
+	}
+end
+
+rule "BR407 - Number of Patents"
+salience 1000
+when
+	$errorList : ErrorList()
+	$stateId : RulesInformation($customObjects : customObjects)
+	PTeServiceApplication(patentList ==null || patentList.size() <= 0)
+then
+	HashMap co = $customObjects;
+    String stateId = co.get("stateId");
+    String flowModeId = co.get("flowModeId");
+
+	if (flowModeId.startsWith("pt-") || flowModeId.startsWith("um-") || flowModeId.startsWith("ep-") || flowModeId.startsWith("sv-") || flowModeId.startsWith("spc-")){
+		addError(null, "BR.Patent.Empty."+flowModeId, "You must add patent", "mainForm.patentSection", $errorList);
+	}
+end
+
+rule "BR447 - Number of Designs"
+salience 1000
+when
+	$errorList : ErrorList()
+	$stateId : RulesInformation($customObjects : customObjects)
+	DSeServiceApplication(designDetails== null || designDetails.size() <= 0)
+then
+	HashMap co = $customObjects;
+    String stateId = co.get("stateId");
+    String flowModeId = co.get("flowModeId");
+
+	if ( !flowModeId.equalsIgnoreCase("ds-invalidity") || stateId.equalsIgnoreCase("reference_dsInvalidated")){
+		addError(null, "BR447.Design.Empty", "You must add at least one design",	"mainForm.designSection", $errorList);
+	}
+end
+
+rule "BR111 - Number of Basis of Opposition"
+salience 1000
+when
+	$errorList : ErrorList()
+	$stateId : RulesInformation($customObjects : customObjects)
+	EServiceApplication(oppositionGrounds== null || oppositionGrounds.size() <= 0)
+then
+	HashMap co = $customObjects;
+    String stateId = co.get("stateId");
+    String flowModeId = co.get("flowModeId");
+
+	if ( stateId.equalsIgnoreCase("oppositionBasis")  || stateId.equalsIgnoreCase("objectionBasis") || stateId.equalsIgnoreCase("invalidityBasis") || stateId.equalsIgnoreCase("invalidityBasisPt") || stateId.equalsIgnoreCase("invalidityBasisUm") || stateId.equalsIgnoreCase("revocationBasis") ){
+	addError(null, "BR111."+flowModeId+".Empty", "You must add at least one Basis", "mainForm.claimSection", $errorList);
+	}
+end
+
+rule "BR141 - Number of Signatures"
+salience 1000
+when
+	$errorList : ErrorList()
+	$stateId : RulesInformation($customObjects : customObjects)
+	EServiceApplication(signatures==null || signatures.size() <= 0)
+then
+	HashMap co = $customObjects;
+    String stateId = co.get("stateId");
+    String flowModeId = co.get("flowModeId");
+	if (  (!flowModeId.equalsIgnoreCase("tm-opposition") && !flowModeId.equalsIgnoreCase("tm-objection") && !flowModeId.equalsIgnoreCase("tm-revocation")
+	        && !flowModeId.equalsIgnoreCase("tm-invalidity") && !flowModeId.equalsIgnoreCase("ds-invalidity") && !flowModeId.equalsIgnoreCase("pt-invalidity") && !flowModeId.equalsIgnoreCase("spc-invalidity")  && !flowModeId.equalsIgnoreCase("um-invalidity")) || stateId.equalsIgnoreCase("signature_attachments") || stateId.equalsIgnoreCase("review_submit")
+   		 ){
+		addError(null, "BR141.Signature.Empty", "You must add at least one signature.", "mainForm.signatureSection", $errorList);
+	}
+end
+
+
+/*rule "BR141a - Duplicated Signatures"
+salience 1000
+when
+	$errorList : ErrorList()
+	$stateId : RulesInformation($customObjects : customObjects)
+	EServiceApplication($signatures : signatures)
+	eval($signatures!=null)
+then
+	int i=0;
+	int j=0;
+	boolean isError=false;
+	int max=$signatures.size();
+
+	String stringa="";
+	String stringbo="";
+	for (i=0;i<max;i++){
+		for(j=0;j<max;j++){
+		stringa=((Signatory)$signatures.get(i)).getUserId();
+		stringbo=((Signatory)$signatures.get(j)).getUserId();
+			if((i!=j) && (stringa.equalsIgnoreCase(stringbo)) && !(isError)){
+				isError=true;
+			}
+		}
+	}
+
+	if(isError){
+		addError(null, "BR142.Signature.repeat", "You can not repeat signatures.", "mainForm.signatureSection", $errorList);
+	}
+
+end*/
+
+rule "BR141b - Duplicated TMs"
+salience 1000
+when
+	$errorList : ErrorList()
+	TMeServiceApplication($tradeMarks : tradeMarks)
+	eval ($tradeMarks!=null && $tradeMarks.size() > 0)
+then
+int i=0;
+	int j=0;
+	boolean isError=false;
+	int max=$tradeMarks.size();
+
+	String stringa="";
+	String stringbo="";
+	for (i=0;i<max;i++){
+		for(j=0;j<max;j++){
+		stringa=((TradeMark)$tradeMarks.get(i)).getApplicationNumber();
+		stringbo=((TradeMark)$tradeMarks.get(j)).getApplicationNumber();
+			if((i!=j) && (stringa.equalsIgnoreCase(stringbo)) && !(isError)){
+				isError=true;
+			}
+		}
+	}
+
+	if(isError){
+		addError(null, "BR141b.Trademark.repeat", "You can not repeat TradeMarks.", "mainForm.markRepresentationSection", $errorList);
+	}
+
+end
+
+
+rule "BR141c - Duplicated Designs"
+salience 1000
+when
+	$errorList : ErrorList()
+	DSeServiceApplication($designDetails : designDetails)
+	eval($designDetails!= null && $designDetails.size() > 0)
+then
+int i=0;
+	int j=0;
+	boolean isError=false;
+	int max=$designDetails.size();
+
+	String stringa="";
+	String stringbo="";
+	for (i=0;i<max;i++){
+		for(j=0;j<max;j++){
+		stringa=((DesignApplication)$designDetails.get(i)).getDesignDetails().get(0).getDesignIdentifier();
+		stringbo=((DesignApplication)$designDetails.get(j)).getDesignDetails().get(0).getDesignIdentifier();
+			if((i!=j) && (stringa.equalsIgnoreCase(stringbo)) && !(isError)){
+				isError=true;
+			}
+		}
+	}
+
+	if(isError){
+		addError(null, "BR141c.Design.repeat", "You can not repeat designs.", "mainForm.designSection", $errorList);
+	}
+
+end
+
+rule "Number of Licences"
+salience 1000
+when
+	$errorList : ErrorList()
+	$stateId : RulesInformation($customObjects : customObjects)
+	EServiceApplication(licences.size() <= 0)
+then
+  	HashMap co = $customObjects;
+    String flowModeId = co.get("flowModeId");
+
+    if (flowModeId.endsWith("-licence") || flowModeId.endsWith("-compulsorylicence")){
+		addError(null, "LicenceNumber.Empty",	"You must add at least one licence details",	"mainForm.licenceDataSection",	$errorList);
+	}
+end
+
+rule "Number of Appeals"
+salience 1000
+when
+	$errorList : ErrorList()
+	$stateId : RulesInformation($customObjects : customObjects)
+	EServiceApplication(appeals ==null || appeals.size() <= 0)
+then
+  	HashMap co = $customObjects;
+    String flowModeId = co.get("flowModeId");
+
+    if ( flowModeId.endsWith("-appeal")){
+		addError(null, "AppealNumber.Empty",	"You must add at least one appeal details",	"mainForm.appealSection",	$errorList);
+	}
+end
+
+
+rule "Number of assignees for exclusive licence"
+salience 1000
+when
+	$errorList : ErrorList()
+	$stateId : RulesInformation($customObjects : customObjects)
+	EServiceApplication($licences: licences, $assignees: assignees)
+	eval($licences != null && $licences.size()>0 && $assignees != null && $assignees.size() >1)
+then
+	Licence lic = $licences.get(0);
+    if (lic.getLicenceKind() != null && lic.getLicenceKind().toString().equals("Exclusive")){
+		addError(null, "ExclusiveLicence.Assignee.MoreThanOne",	"You can not file this application with more than one licensee for an exclusive licence",	"mainForm.licenceDataSection",	$errorList);
+	}
+end
+
+rule "Can not oppose or invalidate yourself"
+salience 1000
+when
+	$errorList : ErrorList()
+	$stateId : RulesInformation($customObjects : customObjects)
+	TMeServiceApplication($tradeMarks : tradeMarks, $oppositionGrounds: oppositionGrounds)
+then
+	HashMap co = $customObjects;
+    String stateId = co.get("stateId");
+  	if($tradeMarks != null && $tradeMarks.size() > 0 && $oppositionGrounds != null && $oppositionGrounds.size() >0 && (stateId.equals("oppositionBasis") || stateId.equals("invalidityBasis"))) {
+  		LimitedTradeMark tm = $tradeMarks.get(0);
+  		for(OppositionGround ground: $oppositionGrounds){
+  			if(ground instanceof OppositionRelativeGrounds) {
+  				OppositionRelativeGrounds relGround= (OppositionRelativeGrounds)ground;
+  				if(relGround.getEarlierTradeMarkDetails() != null && relGround.getEarlierTradeMarkDetails().getApplicationNumber() != null){
+  					if(relGround.getEarlierTradeMarkDetails().getApplicationNumber().equalsIgnoreCase(tm.getApplicationNumber())){
+  						addError(null, "Grounds.Based.OnSelf",	"You can not file an attack against yourself",	"mainForm.groundsSection",	$errorList);
+  					}
+  				}
+  			}
+  		}
+
+  	}
+
+
+end
+
+rule "Bad signature provided"
+salience 1000
+when
+	$errorList : ErrorList()
+	$stateId : RulesInformation($customObjects : customObjects)
+	EServiceApplication($signedPersons: signatures)
+	eval($signedPersons !=null && $signedPersons.size()>0)
+then
+  	for(Signatory signatory:$signedPersons){
+  		if(signatory.getName() == null || signatory.getCapacity() == null || (signatory.getCapacity().toString().equals("Other") && signatory.getAssociatedText() == null)){
+			addError(null, "Signatories.Bad.Signature",	"The data you have provided for the signatories is incomplete. Please check.",	"mainForm.signatureSection",	$errorList);
+		}
+	}
+end
+
+rule "Bad date of fame"
+salience 1000
+when
+	$errorList : ErrorList()
+	$stateId : RulesInformation($customObjects : customObjects)
+	TMeServiceApplication($tradeMarks : tradeMarks, $grounds: oppositionGrounds)
+	eval ($tradeMarks!=null && $tradeMarks.size() > 0 && $tradeMarks.get(0) != null && $grounds != null && $grounds.size()>0)
+then
+	HashMap co = $customObjects;
+ 	String stateId = co.get("stateId");
+  	LimitedTradeMark tm = $tradeMarks.get(0);
+  	Date appDate = tm.getApplicationDate();
+  	if("oppositionBasis".equals(stateId) || "invalidityBasis".equals(stateId)){
+	  	for(OppositionGround ground: $grounds) {
+	  		if(ground instanceof OppositionRelativeGrounds) {
+	  			OppositionRelativeGrounds relGround= (OppositionRelativeGrounds)ground;
+	  			if(relGround.getEarlierTradeMarkDetails() != null && relGround.getDateOfFame() != null){
+	  				if(appDate != null && appDate.compareTo(relGround.getDateOfFame()) <0) {
+	  					String right = relGround.getEarlierEntitlementRightType();
+	  					addError(null, "Grounds.Contains.Bad.DateOfFame."+right,	"You have added bad date of fame/date of use",	"mainForm.groundsSection",	$errorList);
+	  				}
+	  			}
+	  		}
+	  	}
+  	}
+
+
+end
+
+rule "DUplicate opposition basis"
+salience 1000
+when
+	$errorList : ErrorList()
+	$stateId : RulesInformation($customObjects : customObjects)
+	TMeServiceApplication($grounds: oppositionGrounds)
+	eval ($grounds != null && $grounds.size()>1)
+then
+	HashMap co = $customObjects;
+ 	String stateId = co.get("stateId");
+ 	ArrayList grounds = $grounds;
+ 	boolean addErrorBool = false;
+  	if("oppositionBasis".equals(stateId) || "invalidityBasis".equals(stateId)){
+  		for(OppositionGround ground: $grounds) {
+  			int index = $grounds.indexOf(ground);
+  			for(OppositionGround ground2: $grounds) {
+  				if($grounds.indexOf(ground2) > index && ground instanceof OppositionRelativeGrounds && ground2 instanceof OppositionRelativeGrounds) {
+  					OppositionRelativeGrounds relGr = (OppositionRelativeGrounds) ground;
+  					OppositionRelativeGrounds relGr2 = (OppositionRelativeGrounds) ground2;
+
+  					if(relGr.getEarlierEntitlementRightType().equals(relGr2.getEarlierEntitlementRightType())
+  						&& relGr.getEarlierTradeMarkDetails() != null &&  relGr2.getEarlierTradeMarkDetails() != null
+  						&& relGr.getEarlierTradeMarkDetails().getApplicationNumber().equals(relGr2.getEarlierTradeMarkDetails().getApplicationNumber())){
+  						addErrorBool = true;
+  					}
+  				}
+  			}
+  		}
+  	}
+  	if(addErrorBool) {
+  		addError(null, "Grounds.Contains.Same.Basis",	"It is illegal to add the same trademark for the same earlier entitlement right type",	"mainForm.groundsSection",	$errorList);
+  	}
+
+
+end
+
+rule "Security measure not chosen correctly"
+salience 1000
+when
+	$errorList : ErrorList()
+	$stateId : RulesInformation($customObjects : customObjects)
+	EServiceApplication($secMeasure: securityMeasure)
+then
+	HashMap co = $customObjects;
+	String flowModeId = co.get("flowModeId");
+	if(flowModeId.endsWith("-security")){
+	    if($secMeasure == null || ($secMeasure.getSecurityMeasureForbidRightsUse() == false && $secMeasure.getSecurityMeasureForbidRightsManage() == false)){
+		    addError(null, "Security.Measure.Not.Chosen",	"You have to choose the security measure",	"mainForm.securityMeasureSection",	$errorList);
+		}
+	}
+end
+
+rule "Number of GSHelpers"
+salience 1000
+when
+	$errorList : ErrorList()
+	$stateId : RulesInformation($customObjects : customObjects)
+	EServiceApplication(gsHelpers == null || gsHelpers.size() <= 0)
+then
+  	HashMap co = $customObjects;
+    String flowModeId = co.get("flowModeId");
+
+    if ( flowModeId.equalsIgnoreCase("tm-surrender") || flowModeId.equalsIgnoreCase("tm-withdrawal")
+    || flowModeId.equalsIgnoreCase("tm-transfer")|| flowModeId.equalsIgnoreCase("tm-renewal")
+    || flowModeId.equalsIgnoreCase("tm-opposition")|| flowModeId.equalsIgnoreCase("tm-objection")
+    || flowModeId.equalsIgnoreCase("tm-revocation")|| flowModeId.equalsIgnoreCase("tm-invalidity")){
+		addError(null, "GSHelperNumber.Empty."+flowModeId,	"You must add at least one request details",	"mainForm.gsHelperDataSection",	$errorList);
+	}
+end
+
+rule "GSHelpers with no GandS"
+salience 1000
+when
+	$errorList : ErrorList()
+	$stateId : RulesInformation($customObjects : customObjects)
+	EServiceApplication($helpers : gsHelpers)
+	eval($helpers != null && $helpers.size() > 0)
+	GSHelperDetails(classDescriptions == null || classDescriptions.size() == 0, $applicationExtent : applicationExtent) from $helpers
+then
+  	HashMap co = $customObjects;
+    String flowModeId = co.get("flowModeId");
+
+    if ((flowModeId.equalsIgnoreCase("tm-surrender") || flowModeId.equalsIgnoreCase("tm-withdrawal")) && $applicationExtent == ApplicationExtent.PARTIAL_GOODS_AND_SERVICES){
+		addError(null, "GSHelperNumber.Empty.gs",	"You have provided bad request details. The goods and services list can not be empty",	"mainForm.gsHelperDataSection",	$errorList);
+	} else if(flowModeId.equalsIgnoreCase("tm-transfer")|| flowModeId.equalsIgnoreCase("tm-renewal")||flowModeId.equalsIgnoreCase("tm-opposition")|| flowModeId.equalsIgnoreCase("tm-objection")
+	    || flowModeId.equalsIgnoreCase("tm-invalidity")|| flowModeId.equalsIgnoreCase("tm-revocation")){
+		addError(null, "GSHelperNumber.Empty.gs",	"You have provided bad request details. The goods and services list can not be empty",	"mainForm.gsHelperDataSection",	$errorList);
+	}
+end
+
+
+rule "No Trademark for GSHelper"
+salience 1000
+when
+	$errorList : ErrorList()
+	$stateId : RulesInformation($customObjects : customObjects)
+	TMeServiceApplication($tradeMarks : tradeMarks, $gsHelpers: gsHelpers)
+	eval($tradeMarks != null && $tradeMarks.size() >0 && $gsHelpers != null && $gsHelpers.size() >0)
+then
+  	HashMap co = $customObjects;
+    String flowModeId = co.get("flowModeId");
+
+    if ( flowModeId.equalsIgnoreCase("tm-surrender") || flowModeId.equalsIgnoreCase("tm-withdrawal")
+    || flowModeId.equalsIgnoreCase("tm-transfer")|| flowModeId.equalsIgnoreCase("tm-renewal")
+    || flowModeId.equalsIgnoreCase("tm-opposition")|| flowModeId.equalsIgnoreCase("tm-objection")
+    || flowModeId.equalsIgnoreCase("tm-invalidity")|| flowModeId.equalsIgnoreCase("tm-revocation")){
+    	for(GSHelperDetails gs: $gsHelpers){
+    		boolean found = false;
+    		for(LimitedTradeMark tm: $tradeMarks){
+    			if(tm.getApplicationNumber() != null && tm.getApplicationNumber().equals(gs.getTmApplicationNumber())) {
+    				found = true;
+    			}
+			}
+			if(!found){
+				addError(null, "GSHelper.NoTM",	"For every request details there has to be a corresponding trademark",	"mainForm.gsHelperDataSection",	$errorList);
+				return;
+			}
+		}
+	}
+
+end
+
+rule "No Trademark for licence gs helper"
+salience 1000
+when
+	$errorList : ErrorList()
+	$stateId : RulesInformation($customObjects : customObjects)
+	TMeServiceApplication($tradeMarks: tradeMarks, $licences: licences)
+	eval($tradeMarks != null && $tradeMarks.size() >0 && $licences != null && $licences.size() >0)
+then
+  	HashMap co = $customObjects;
+    String flowModeId = co.get("flowModeId");
+
+    if ( flowModeId.equalsIgnoreCase("tm-licence")){
+    	for(Licence lc: $licences){
+    		boolean found = false;
+    		for(LimitedTradeMark tm: $tradeMarks){
+    			if(tm.getApplicationNumber() != null && tm.getApplicationNumber().equals(lc.getGsHelper().getTmApplicationNumber())) {
+    				found = true;
+    			}
+			}
+			if(!found){
+				addError(null, "GSHelper.NoTM",	"For every request details there has to be a corresponding trademark",	"mainForm.licenceDataSection",	$errorList);
+				return;
+			}
+		}
+	}
+
+end
+
+rule "No Trademark for appeal gs helper"
+salience 1000
+when
+	$errorList : ErrorList()
+	$stateId : RulesInformation($customObjects : customObjects)
+	TMeServiceApplication($tradeMarks: tradeMarks, $appeals: appeals)
+	eval($tradeMarks != null && $tradeMarks.size() >0 && $appeals != null && $appeals.size() >0)
+then
+  	HashMap co = $customObjects;
+    String flowModeId = co.get("flowModeId");
+
+    if ( flowModeId.equalsIgnoreCase("tm-appeal")){
+    	for(Appeal appeal: $appeals){
+    		boolean found = false;
+    		for(LimitedTradeMark tm: $tradeMarks){
+    			if(tm.getApplicationNumber() != null && tm.getApplicationNumber().equals(appeal.getGsHelper().getTmApplicationNumber())) {
+    				found = true;
+    			}
+			}
+			if(!found){
+				addError(null, "GSHelper.NoTM",	"For every request details there has to be a corresponding trademark",	"mainForm.licenceDataSection",	$errorList);
+				return;
+			}
+		}
+	}
+
+end
+
+rule "GSHelper Licence on partial extent mandatory to delete GS"
+salience 1000
+when
+	$errorList : ErrorList()
+	$tm: TMeServiceApplication($tradeMarks : tradeMarks, $licences: licences)
+	eval($licences != null && $licences.size() > 0)
+then
+	for(Licence lc: $licences){
+		if(lc.getGsHelper().getApplicationExtent() != null && lc.getGsHelper().getApplicationExtent().equals(ApplicationExtent.PARTIAL_GOODS_AND_SERVICES)&& lc.getGsHelper().getClassDescriptions() != null && lc.getGsHelper().getClassDescriptions().size() > 0 && ($tm.getRemovedGS(lc.getGsHelper()) == null || $tm.getRemovedGS(lc.getGsHelper()).size() == 0)){
+
+			addError(null,
+			 "gshelper.GS.partial.mandatory.deletion",
+			 "It is mandatory to remove goods and services from the provided list",
+			 "mainForm.licenceDataSection",
+			 $errorList);
+			 return;
+		}
+	}
+end
+
+rule "GSHelper Appeal on partial extent mandatory to delete GS"
+salience 1000
+when
+	$errorList : ErrorList()
+	$tm: TMeServiceApplication($tradeMarks : tradeMarks, $appeals: appeals)
+	eval($appeals != null && $appeals.size() > 0)
+then
+	for(Appeal appeal: $appeals){
+		if(appeal.getGsHelper().getApplicationExtent() != null && appeal.getGsHelper().getApplicationExtent().equals(ApplicationExtent.PARTIAL_GOODS_AND_SERVICES)&& appeal.getGsHelper().getClassDescriptions() != null && appeal.getGsHelper().getClassDescriptions().size() > 0 && ($tm.getRemovedGS(appeal.getGsHelper()) == null || $tm.getRemovedGS(appeal.getGsHelper()).size() == 0)){
+
+			addError(null,
+			 "gshelper.GS.partial.mandatory.deletion",
+			 "It is mandatory to remove goods and services from the provided list",
+			 "mainForm.appealSection",
+			 $errorList);
+			 return;
+		}
+	}
+end
+
+
+rule "GSHelper on partial extent mandatory to delete GS"
+salience 1000
+when
+	$errorList : ErrorList()
+	$tm: TMeServiceApplication($tradeMarks : tradeMarks, $gsHelpers: gsHelpers)
+	eval($gsHelpers != null && $gsHelpers.size() > 0)
+then
+	for(GSHelperDetails $gh: $gsHelpers){
+		if($gh.getApplicationExtent() != null && $gh.getApplicationExtent().equals(ApplicationExtent.PARTIAL_GOODS_AND_SERVICES) && $gh.getClassDescriptions() != null && $gh.getClassDescriptions().size() > 0 && ($tm.getRemovedGS($gh) == null || $tm.getRemovedGS($gh).size() == 0)){
+
+			addError(null,
+			 "gshelper.GS.partial.mandatory.deletion",
+			 "It is mandatory to remove goods and services from the provided list",
+			 "mainForm.gsHelperDataSection",
+			 $errorList);
+			 return;
+		}
+	}
+end
+
+rule "Designs selected must be renewable"
+salience 1000
+when
+	$errorList : ErrorList()
+	$ds: DSeServiceApplication($designDetails: designDetails)
+	$stateId : RulesInformation($customObjects : customObjects)
+	eval($designDetails != null && $designDetails.size() > 0)
+then
+	HashMap co = $customObjects;
+    String flowModeId = co.get("flowModeId");
+    if(flowModeId.equals("ds-renewal")){
+		for(DesignApplication dsApp: $designDetails){
+			if(dsApp.getDesignDetails() != null && dsApp.getDesignDetails().size() >0 && dsApp.getDesignDetails().get(0) != null){
+				Design d = dsApp.getDesignDetails().get(0);
+				if((d.getSelected() != null && d.getSelected()==true) && !designRenewable(d)){
+					addError(null,
+					 "Design.All.Designs.MustBe.Renewable",
+					 "All selected designs must be within renewal period",
+					 "mainForm.designSection",
+					 $errorList);
+					 return;
+				 }
+			}
+		}
+	}
+end
+
+rule "Designs status"
+salience 1000
+when
+	$errorList : ErrorList()
+	$ds: DSeServiceApplication($designDetails: designDetails)
+	$stateId : RulesInformation($customObjects : customObjects)
+	eval($designDetails != null && $designDetails.size() > 0)
+then
+	HashMap co = $customObjects;
+    String flowModeId = co.get("flowModeId");
+
+		for(DesignApplication dsApp: $designDetails){
+			if(dsApp.getDesignDetails() != null && dsApp.getDesignDetails().size() >0 && dsApp.getDesignDetails().get(0) != null){
+				Design d = dsApp.getDesignDetails().get(0);
+				if(!flowModeId.equals("ds-invalidity")  && !flowModeId.equals("ds-generic") && !flowModeId.equals("ds-changerep") && !flowModeId.equals("ds-changeca") && !flowModeId.equals("ds-withdrawal") && !flowModeId.equals("ds-appeal")){
+				    if((d.getSelected() != null && d.getSelected()==true) && !(d.getCurrentStatus().value().equals("Registered")||d.getCurrentStatus().value().equals("Registered and fully published")
+					|| d.getCurrentStatus().value().equals("Invalidity procedure pending")
+					|| d.getCurrentStatus().value().equals("Expiring")
+					|| d.getCurrentStatus().value().equals("Design lapsed")
+					|| d.getCurrentStatus().value().equals("Filed")
+					|| d.getCurrentStatus().value().equals("Application published"))){
+						addError(null,
+						 "Design.All.Designs.MustBe.Registered",
+						 "All selected designs must have the status application published, filed, registered and fully published, invalidity procedure pending, expiring",
+						 "mainForm.designSection",
+						 $errorList);
+						 return;
+					 }
+				 } else if (flowModeId.equals("ds-invalidity")) {
+					if((d.getSelected() != null && d.getSelected()==true) && !(d.getCurrentStatus().value().equals("Registered")||d.getCurrentStatus().value().equals("Registered and fully published")
+					|| d.getCurrentStatus().value().equals("Invalidity procedure pending")
+					|| d.getCurrentStatus().value().equals("Expiring")
+					|| d.getCurrentStatus().value().equals("Design lapsed")
+					|| d.getCurrentStatus().value().equals("Design surrendered")	)){
+						addError(null,
+						 "Design.All.Designs.MustBe.Registered.Invalidity",
+						 "All selected designs must have the status registered and fully published, invalidity procedure pending, expiring, design lapsed, design surrendered",
+						 "mainForm.designSection",
+						 $errorList);
+						 return;
+					 }
+				 }
+			}
+		}
+
+end
+
+rule "Designs must not have expired for more than 6m"
+salience 1000
+when
+	$errorList : ErrorList()
+	$ds: DSeServiceApplication($designDetails: designDetails)
+	$stateId : RulesInformation($customObjects : customObjects)
+	eval($designDetails != null && $designDetails.size() > 0)
+then
+	HashMap co = $customObjects;
+    String flowModeId = co.get("flowModeId");
+
+    if(!flowModeId.equals("ds-generic")){
+
+        for(DesignApplication dsApp: $designDetails){
+            if(dsApp.getDesignDetails() != null && dsApp.getDesignDetails().size() >0 && dsApp.getDesignDetails().get(0) != null){
+                Design d = dsApp.getDesignDetails().get(0);
+                if((d.getSelected() != null && d.getSelected()==true) && !designCanBeFiled(d)){
+                        addError(null,
+                         "Design.Six.Months.After.Expiry",
+                         "All selected designs must not have expired for more than 6 months",
+                         "mainForm.designSection",
+                         $errorList);
+                         return;
+
+                     }
+                }
+            }
+	}
+
+end
+
+
+rule "Designs must befrom same application"
+salience 1000
+when
+	$errorList : ErrorList()
+	$ds: DSeServiceApplication($designDetails: designDetails)
+	eval($designDetails != null && $designDetails.size() > 0 && $designDetails.get(0) != null)
+then
+	DesignApplication d = $designDetails.get(0);
+    String appNum = d.getApplicationNumber();
+	for(DesignApplication dsApp: $designDetails){
+		if(!dsApp.getApplicationNumber().equals(appNum)){
+
+				addError(null,
+				 "Design.All.Designs.MustBe.From.One.Application",
+				 "All designs must belong to one multiple application",
+				 "mainForm.designSection",
+				 $errorList);
+				 return;
+		}
+	}
+
+end
+
+rule "Designs selected must not be 0"
+salience 1000
+when
+	$errorList : ErrorList()
+	$ds: DSeServiceApplication($designDetails: designDetails)
+	$stateId : RulesInformation($customObjects : customObjects)
+	eval($designDetails != null && $designDetails.size() > 0)
+then
+	HashMap co = $customObjects;
+	for(DesignApplication dsApp: $designDetails){
+		if(dsApp.getDesignDetails() != null && dsApp.getDesignDetails().size() >0 && dsApp.getDesignDetails().get(0) != null){
+			Design d = dsApp.getDesignDetails().get(0);
+			if(d.getSelected() != null && d.getSelected()==true){
+				 return;
+			}
+		}
+	}
+
+	addError(null,
+			"Design.AtLeast.One.Design.Selected",
+			"You have to select at least one design",
+			"mainForm.designSection",
+			$errorList);
+
+end
+
+function boolean designCanBeFiled(Design d){
+    if(d.getExpiryDate() == null) {
+    		return true;
+    }
+    Calendar cal = Calendar.getInstance();
+    cal.setTime(d.getExpiryDate());
+    cal.add(Calendar.MONTH, 6);
+    cal.add(Calendar.DATE, 1);
+    Date sixMonths = cal.getTime();
+
+    Date now = new Date();
+
+    if(now.before(sixMonths)){
+       return true;
+    }
+    return false;
+
+}
+
+function boolean designRenewable(Design d) {
+	if(d.getExpiryDate() == null) {
+		return false;
+	}
+	Calendar cal = Calendar.getInstance();
+	cal.setTime(d.getExpiryDate());
+    cal.add(Calendar.YEAR, -1);
+    cal.add(Calendar.DATE, -1);
+    Date yearBack = cal.getTime();
+
+	cal.setTime(d.getExpiryDate());
+	cal.add(Calendar.MONTH, 6);
+	cal.add(Calendar.DATE, 1);
+	Date sixMonths = cal.getTime();
+
+	Date now = new Date();
+
+    if(now.after(yearBack) && now.before(sixMonths)){
+    	return true;
+    }
+    return false;
+}
+
+rule "Change type not chosen"
+salience 1000
+when
+	$errorList : ErrorList()
+	$stateId : RulesInformation($customObjects : customObjects)
+	EServiceApplication($changeType: changeType)
+	eval(StringUtils.isEmpty($changeType))
+then
+	HashMap co = $customObjects;
+	String flowModeId = co.get("flowModeId");
+
+	if(flowModeId.endsWith("-generic")) {
+		addError(null, "Change.Type.Not.Chosen",	"You have to choose the type of request",	"changeType",	$errorList);
+	}
+end
+
+
+
+rule "Patent status"
+salience 1000
+when
+	$errorList : ErrorList()
+	PTeServiceApplication($patentList: patentList)
+	$stateId : RulesInformation($customObjects : customObjects)
+	eval($patentList != null && $patentList.size() == 1)
+then
+	HashMap co = $customObjects;
+    String flowModeId = co.get("flowModeId");
+    if (flowModeId.equals("um-renewal")) {
+		if(!$patentList.get(0).getGroupStatusCode().equals("Registered")){
+		addError(null, "Patent.All.UMs.MustBe.Registered", "The utility model must have the status registered",
+		"mainForm.patentSection", $errorList);
+		}
+	}
+end
+
+rule "UM must not have expired for more than 6m"
+salience 1000
+when
+	$errorList : ErrorList()
+	PTeServiceApplication($patentList: patentList)
+	$stateId : RulesInformation($customObjects : customObjects)
+	eval($patentList != null && $patentList.size() == 1)
+then
+	HashMap co = $customObjects;
+    String flowModeId = co.get("flowModeId");
+    if (flowModeId.equals("um-renewal")) {
+
+        if(!ptRenewableValidEntitlementDate($patentList.get(0))){
+               addError(null,
+               "Patent.No.Entitlement.Date", "The utility model has no entitlement date",
+               "mainForm.patentSection", $errorList);
+        } else if(ptRenewableOlderThan10Years($patentList.get(0))){
+               addError(null,
+               "Patent.More.Than.10.Years.Old", "The utility model is more than 10 years old",
+               "mainForm.patentSection", $errorList);
+        } else if(!ptRenewableCheckAvailability($patentList.get(0))){
+               addError(null,
+               "Patent.Not.In.Renewal.Period", "The utility model is not in renewal period",
+               "mainForm.patentSection", $errorList);
+        }
+
+	}
+end
+
+    function boolean ptRenewableValidEntitlementDate(Patent p) {
+        return p.getEntitlementDate() != null;
+    }
+
+    function boolean ptRenewableOlderThan10Years(Patent p) {
+        Calendar maxPeriodCal = Calendar.getInstance();
+        maxPeriodCal.setTime(p.getEntitlementDate());
+        maxPeriodCal.add(Calendar.YEAR, 10);
+        Date maxPeriodDate = maxPeriodCal.getTime();
+        Date today = new Date();
+        return maxPeriodDate.before(today);
+    }
+
+    function boolean ptRenewableCheckAvailability(Patent p){
+        Calendar renewal1Start = Calendar.getInstance();
+        Calendar renewal1End = Calendar.getInstance();
+
+        Calendar renewal2Start = Calendar.getInstance();
+        Calendar renewal2End = Calendar.getInstance();
+
+        Calendar today = Calendar.getInstance();
+
+        renewal1Start.setTime(p.getEntitlementDate());
+        renewal1End.setTime(p.getEntitlementDate());
+        renewal1Start.add(Calendar.YEAR, 3);
+        renewal1End.add(Calendar.YEAR, 4);
+        renewal1End.add(Calendar.MONTH, 6);
+
+        renewal2Start.setTime(p.getEntitlementDate());
+        renewal2End.setTime(p.getEntitlementDate());
+        renewal2Start.add(Calendar.YEAR, 6);
+        renewal2End.add(Calendar.YEAR, 7);
+        renewal2End.add(Calendar.MONTH, 6);
+
+        return (today.after(renewal1Start) && today.before(renewal1End)) || (today.after(renewal2Start) && today.before(renewal2End));
+    }
+
+
+rule "Change type mark status"
+salience 1000
+when
+	$errorList : ErrorList()
+	$stateId : RulesInformation($customObjects : customObjects)
+	TMeServiceApplication($tradeMarks : tradeMarks, $changeType: changeType)
+	eval(StringUtils.isNotEmpty($changeType))
+	TradeMark($currentStatus: currentStatus) from $tradeMarks
+then
+	HashMap co = $customObjects;
+	String flowModeId = co.get("flowModeId");
+	String statusErrorChangeType = null;
+	if("tm-generic".equals(flowModeId)) {
+	    if($changeType.equals("secondTimeLimitExtension") && !$currentStatus.equals("Application opposed")){
+			statusErrorChangeType = "secondTimeLimitExtension";
+		} else if(($changeType.equals("oppositionWithdrawal") || $changeType.equals("providePOW") || $changeType.equals("provideEvidenceTranslation") || $changeType.equals("submitAdditionalDocuments") || $changeType.equals("submitAdditionalEvidence")
+		|| $changeType.equals("respondToIrregularities")|| $changeType.equals("answerOpinionAgreementPreliminaryDenial")|| $changeType.equals("suspensionResumptionOfProceedings")|| $changeType.equals("firstTimeLimitExtension")|| $changeType.equals("applicationTechErrorRepairRequest")|| $changeType.equals("registerTechErrorRepairRequest")|| $changeType.equals("bpoErrorRepairRequest")) && 
+		($currentStatus.equals("Registration expired") || $currentStatus.equals("Expired") || $currentStatus.equals("Ended"))){
+			statusErrorChangeType = "mustNotBeEnded";
+		}
+	}
+
+	if(statusErrorChangeType != null){
+	    addError(null, "generic.service.status.error."+statusErrorChangeType,	"The mark status is not acceptable for this kind of service type. Valid statuses: Application opposed",	"mainForm.markRepresentationSection",	$errorList);
+	}
+end
+
+rule "Mark status"
+salience 1000
+when
+	$errorList : ErrorList()
+	$stateId : RulesInformation($customObjects : customObjects)
+	TMeServiceApplication($tradeMarks : tradeMarks)
+	TradeMark($currentStatus: currentStatus) from $tradeMarks
+then
+	HashMap co = $customObjects;
+	String flowModeId = co.get("flowModeId");
+	String statusErrorChangeType = null;
+
+	if("tm-providepow".equals(flowModeId)) {
+    	    if($currentStatus.equals("Registration expired") || $currentStatus.equals("Expired") || $currentStatus.equals("Ended")){
+    			statusErrorChangeType = "mustNotBeEnded";
+    		}
+    }
+
+	if(statusErrorChangeType != null){
+	    addError(null, "generic.service.status.error."+statusErrorChangeType,	"The mark status is not acceptable for this kind of service type. Valid statuses: Application opposed",	"mainForm.markRepresentationSection",	$errorList);
+	}
+end
+
+rule "Other attachments comment"
+salience 1000
+when
+	$errorList : ErrorList()
+	RulesInformation($sections : customObjects["sections"])
+    Sections($sectionList : section) from $sections
+	Section($sectionId : id, $fields : field ) from $sectionList
+	eval ($sectionId == AvailableSection.OTHER_ATTACHMENTS)
+	Field( id == "comment", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval ($fieldUsable == true && $fieldRequired == true)
+	EServiceApplication($comment: comment)
+	eval ($comment == null)
+then
+	addError(null, "Comments.Empty", "Comment is mandatory", "mainForm.otherAttachments", $errorList);
+end
+
+rule "Other attachments comment generic services"
+salience 1000
+when
+	$errorList : ErrorList()
+	RulesInformation($sections : customObjects["sections"])
+    Sections($sectionList : section) from $sections
+	Section($sectionId : id, $fields : field ) from $sectionList
+	eval ($sectionId == AvailableSection.OTHER_ATTACHMENTS)
+	Field( id == "comment", $fieldUsable : usable) from $fields
+	eval ($fieldUsable == true)
+	EServiceApplication($comment: comment, $changeType: changeType)
+	eval ($changeType != null && $comment == null && !$changeType.equals("providePOW") && !$changeType.equals("certificateRequested") && !$changeType.equals("translationCorrection") && !$changeType.equals("priorityDeclaration")&& !$changeType.equals("applicationTechErrorRepairRequest") && !$changeType.equals("registerTechErrorRepairRequest") && !$changeType.equals("bpoErrorRepairRequest"))
+then
+	addError(null, "Comments.genericService.Empty", "Comment is mandatory", "mainForm.otherAttachments", $errorList);
+end
+
+rule "Other attachments attachments generic services"
+salience 1000
+when
+	$errorList : ErrorList()
+	RulesInformation($sections : customObjects["sections"])
+    Sections($sectionList : section) from $sections
+	Section($sectionId : id, $fields : field ) from $sectionList
+	eval ($sectionId == AvailableSection.OTHER_ATTACHMENTS)
+	Field( id == "otherAttachments", $fieldUsable : usable) from $fields
+	eval ($fieldUsable == true)
+	EServiceApplication($changeType: changeType, $docs: documents)
+	eval($docs == null || $docs.size() == 0)
+	eval ($changeType != null && ($changeType.equals("providePOW") || $changeType.equals("provideEvidenceTranslation")|| $changeType.equals("submitAdditionalDocuments") || $changeType.equals("submitAdditionalEvidence") || $changeType.equals("respondToIrregularities") || $changeType.equals("answerOpinionAgreementPreliminaryDenial") || $changeType.equals("standpointReply") || $changeType.equals("attachmentChanges") || $changeType.equals("notificationCorrection") || $changeType.equals("paidTaxesDocs") || $changeType.equals("translationCorrection")))
+then
+	addError(null, "Attachments.genericService.Empty", "Attachments is mandatory", "mainForm.otherAttachments", $errorList);
+end
+
+rule "Other attachments - missing mandatory document types"
+salience 1000
+when
+	$errorList : ErrorList()
+	RulesInformation($sections : customObjects["sections"])
+	RulesInformation($requredAttachments : customObjects["attachmentsMandatoryList"])
+    Sections($sectionList : section) from $sections
+	Section($sectionId : id, $fields : field ) from $sectionList
+	eval ($sectionId == AvailableSection.OTHER_ATTACHMENTS)
+	Field( id == "otherAttachments", $fieldUsable : usable) from $fields
+	eval ($fieldUsable == true)
+	EServiceApplication($docs: documents)
+	eval($requredAttachments != null && $requredAttachments.size() > 0)
+then
+    if($docs == null || $docs.size() == 0) {
+        addError(null, "Attachments.mandatory.missing", "Mandatory attachments have not been added", "mainForm.otherAttachments", $errorList);
+    } else {
+        boolean hasError = false;
+        for(String r : $requredAttachments){
+            boolean contained = false;
+            for (AttachedDocument d : $docs){
+                if (d.getDocumentKind().equals(r)){
+                    contained = true;
+                }
+            }
+            if(!contained){
+                hasError = true;
+            }
+        }
+        if (hasError){
+            addError(null, "Attachments.mandatory.missing", "Mandatory attachments have not been added", "mainForm.otherAttachments", $errorList);
+        }
+    }
+end
+
+rule "Other attachments generic services - error requests"
+salience 1000
+when
+	$errorList : ErrorList()
+	RulesInformation($sections : customObjects["sections"])
+    Sections($sectionList : section) from $sections
+	Section($sectionId : id, $fields : field ) from $sectionList
+	eval ($sectionId == AvailableSection.OTHER_ATTACHMENTS)
+	Field( id == "otherAttachments", $fieldUsable : usable) from $fields
+	eval ($fieldUsable == true)
+	Field( id == "comment", $commentUsable : usable) from $fields
+    eval ($commentUsable == true)
+	EServiceApplication($changeType: changeType, $docs: documents, $comment: comment)
+	eval ($changeType != null && ($changeType.equals("applicationTechErrorRepairRequest") || $changeType.equals("registerTechErrorRepairRequest")|| $changeType.equals("bpoErrorRepairRequest")))
+    (eval($docs == null) or (eval($docs != null) and not AttachedDocument(documentKind == "Correction Letter") from $docs)) and eval ($comment == null)
+then
+	addError(null, "Attachments.mandatory.or.comment", "Attachments or comment is mandatory", "mainForm.otherAttachments", $errorList);
+end
+
+rule "Other attachments pages count generic services"
+salience 1000
+when
+	$errorList : ErrorList()
+	RulesInformation($sections : customObjects["sections"])
+    Sections($sectionList : section) from $sections
+	Section($sectionId : id, $fields : field ) from $sectionList
+	eval ($sectionId == AvailableSection.OTHER_ATTACHMENTS)
+	Field( id == "pagesCountAttachment", $fieldUsable : usable) from $fields
+	eval ($fieldUsable == true)
+	EServiceApplication($pagesCountAttachment: pagesCountAttachment, $changeType: changeType)
+	eval ($changeType != null && StringUtils.isEmpty($pagesCountAttachment) && $changeType.equals("translationCorrection"))
+then
+	addError("pagesCountAttachment", "AttachmentPagesCount.genericService.Empty", "Attachments pages count is mandatory", "mainForm.otherAttachments", $errorList);
+end
+
+rule "Other attachments pages count - Format"
+salience 1000
+when
+	$errorList : ErrorList()
+	RulesInformation($sections : customObjects["sections"])
+    Sections($sectionList : section) from $sections
+	Section($sectionId : id, $fields : field ) from $sectionList
+	eval ($sectionId == AvailableSection.OTHER_ATTACHMENTS)
+	Field( id == "pagesCountAttachment", $fieldUsable : usable, $regex : format) from $fields
+    eval ($fieldUsable == true && $regex != null)
+    EServiceApplication($pagesCountAttachment: pagesCountAttachment, $changeType: changeType, $pagesCountAttachment not matches $regex)
+    eval ($changeType != null && !StringUtils.isEmpty($pagesCountAttachment) && $changeType.equals("translationCorrection"))
+then
+    addError("pagesCountAttachment", "AttachmentPagesCount.genericService.NotNumber", "Attachments pages count must be a number", "mainForm.otherAttachments", $errorList);
+end
+
+rule "Other attachments pages count must be > 0"
+salience 500
+when
+	$errorList : ErrorList()
+    RulesInformation($sections : customObjects["sections"])
+    Sections($sectionList : section) from $sections
+    Section($sectionId : id, $fields : field ) from $sectionList
+    eval ($sectionId == AvailableSection.OTHER_ATTACHMENTS)
+	Field( id == "pagesCountAttachment", $fieldUsable : usable, $regex : format) from $fields
+	eval ($fieldUsable == true && $regex != null)
+	EServiceApplication($pagesCountAttachment: pagesCountAttachment, $changeType: changeType, $pagesCountAttachment matches $regex)
+    eval ($changeType != null && !StringUtils.isEmpty($pagesCountAttachment) && $pagesCountAttachment <= 0 && $changeType.equals("translationCorrection"))
+then
+    addError("pagesCountAttachment", "AttachmentPagesCount.genericService.NotNumber", "Attachments pages count must be > 0", "mainForm.otherAttachments", $errorList);
+end
+
+rule "Other attachments - document type Translation Correction"
+salience 1000
+no-loop
+when
+$errorList : ErrorList()
+    RulesInformation($sections : customObjects["sections"])
+    Sections($sectionList : section) from $sections
+    Section($sectionId : id, $fields : field ) from $sectionList
+    eval ($sectionId == AvailableSection.OTHER_ATTACHMENTS)
+    EServiceApplication($changeType: changeType, $docs: documents)
+    (eval($docs == null) or (eval($docs != null) and not AttachedDocument(documentKind == "Translation Correction") from $docs)) and eval($changeType != null && $changeType.equals("translationCorrection"))
+then
+	addError(null, "Attachments.genericService.NotTranslationCorrection", "Document type must be Translation Correction", "mainForm.otherAttachments", $errorList);
+end
+
+rule "Other attachments - change type Action Correction Action Correction"
+salience 1000
+no-loop
+when
+$errorList : ErrorList()
+    RulesInformation($sections : customObjects["sections"])
+    Sections($sectionList : section) from $sections
+    Section($sectionId : id, $fields : field ) from $sectionList
+    eval ($sectionId == AvailableSection.OTHER_ATTACHMENTS)
+    EServiceApplication($changeType: changeType, $docs: documents)
+    eval($changeType != null && $changeType.equals("actionCorrection"))
+    (eval($docs == null) or (eval($docs != null) and not AttachedDocument(documentKind == "Action Correction") from $docs))
+then
+	addError(null, "Attachments.genericService.NotActionCorrection", "Attachments must contain Action Correction", "mainForm.otherAttachments", $errorList);
+end
+
+rule "Other attachments - change type Action Correction EUIPO Communication Copy"
+salience 1000
+no-loop
+when
+$errorList : ErrorList()
+    RulesInformation($sections : customObjects["sections"])
+    Sections($sectionList : section) from $sections
+    Section($sectionId : id, $fields : field ) from $sectionList
+    eval ($sectionId == AvailableSection.OTHER_ATTACHMENTS)
+    EServiceApplication($changeType: changeType, $docs: documents)
+    eval($changeType != null && $changeType.equals("actionCorrection"))
+    (eval($docs == null) or (eval($docs != null) and not AttachedDocument(documentKind == "EUIPO Communication Copy") from $docs))
+then
+	addError(null, "Attachments.genericService.NotEUIPOComCopy", "Attachments must contain EUIPO Communication Copy", "mainForm.otherAttachments", $errorList);
+end
+
+rule "Other attachments - -docchanges"
+salience 1000
+no-loop
+when
+$errorList : ErrorList()
+$stateId : RulesInformation($customObjects : customObjects)
+    RulesInformation($sections : customObjects["sections"])
+    Sections($sectionList : section) from $sections
+    Section($sectionId : id, $fields : field ) from $sectionList
+    eval ($sectionId == AvailableSection.OTHER_ATTACHMENTS)
+    EServiceApplication($docs: documents)
+    (eval($docs == null) or (eval($docs != null) and not AttachedDocument(documentKind == "Description" || documentKind == "Claim" || documentKind == "Drawing") from $docs))
+then
+    HashMap co = $customObjects;
+    String stateId = co.get("stateId");
+    String flowModeId = co.get("flowModeId");
+
+    if(flowModeId.endsWith("-docchanges")){
+        addError(null, "Attachments.docchanges.Empty", "You must add at least one description, claim or drawing", "mainForm.otherAttachments", $errorList);
+    }
+end
+
+rule "Other attachments - spc-extendterm"
+salience 1000
+no-loop
+when
+$errorList : ErrorList()
+$stateId : RulesInformation($customObjects : customObjects)
+    RulesInformation($sections : customObjects["sections"])
+    Sections($sectionList : section) from $sections
+    Section($sectionId : id, $fields : field ) from $sectionList
+    eval ($sectionId == AvailableSection.OTHER_ATTACHMENTS)
+    EServiceApplication($docs: documents)
+    (eval($docs == null) or (eval($docs != null) and not (AttachedDocument(documentKind == "Amending Annex 1") from $docs or AttachedDocument(documentKind == "Approved Pediatric Plan") from $docs)))
+then
+    HashMap co = $customObjects;
+    String stateId = co.get("stateId");
+    String flowModeId = co.get("flowModeId");
+
+    if(flowModeId.equalsIgnoreCase("spc-extendterm")){
+        addError(null, "Attachments.spcextendterm.Empty", "You must add the mandatory document types", "mainForm.otherAttachments", $errorList);
+    }
+end
+
+rule "Attachments mandatory"
+salience 1000
+when
+	$errorList : ErrorList()
+	$stateId : RulesInformation($customObjects : customObjects)
+	RulesInformation($sections : customObjects["sections"])
+    Sections($sectionList : section) from $sections
+	Section($sectionId : id, $fields : field ) from $sectionList
+	eval ($sectionId == AvailableSection.OTHER_ATTACHMENTS)
+	Field( id == "otherAttachments", $fieldUsable : usable) from $fields
+	eval ($fieldUsable == true)
+	EServiceApplication($docs: documents)
+	eval($docs == null || $docs.size() == 0)
+then
+    HashMap co = $customObjects;
+    String stateId = co.get("stateId");
+    String flowModeId = co.get("flowModeId");
+
+    if(flowModeId.endsWith("-providepow") || flowModeId.endsWith("-paidtaxes")){
+        addError(null, "Attachments.genericService.Empty", "Attachments is mandatory", "mainForm.otherAttachments", $errorList);
+    }
+end
+
+
+
+/* Imported applicants VAT check */
+rule "BR404_1 - Applicant VAT number"
+salience 1000
+when
+	$errorList : ErrorList()
+	RulesInformation($customObjects : customObjects, $sections : customObjects["sections"])
+    Sections($sectionList : section) from $sections
+	Section($subSectionList : subsection) from $sectionList
+	$subsection : Section($sectionId : id, $fields : field ) from $subSectionList
+	eval ($sectionId == AvailableSection.APPLICANT_LEGALENTITY)
+	Field( id == "businessVatNumber", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval ($fieldUsable == true && $fieldRequired == true)
+	EServiceApplication($applicants : applicants)
+	Applicant(kind == PersonKind.LEGAL_ENTITY, $identifiers : identifiers) from $applicants
+	PersonIdentifier($code : identifierKindCode, $value : value) from $identifiers
+	eval ($code == "Company Number" && StringUtils.isEmpty($value))
+then
+	addError(null, "BR814.applicant.organizationRegistrationNumber.empty", "The field \"Business/VAT number\" is mandatory", "mainForm.personalDataSection",	$errorList);
+end
+
+rule "BR404 - Number of Correspondence addresses"
+salience 1000
+when
+	$errorList : ErrorList()
+	$stateId : RulesInformation($customObjects : customObjects)
+	EServiceApplication(contactDetails == null || contactDetails.size() == 0)
+then	
+  	HashMap co = $customObjects;
+    String stateId = co.get("stateId");
+    String flowModeId = co.get("flowModeId");
+    
+    if (flowModeId.endsWith("-appeal") || flowModeId.endsWith("-generic") || flowModeId.endsWith("-changeca") ||
+        ((flowModeId.equalsIgnoreCase("tm-opposition") || flowModeId.equalsIgnoreCase("tm-objection") || flowModeId.equalsIgnoreCase("tm-revocation") || flowModeId.equalsIgnoreCase("spc-extendterm")
+        || flowModeId.equalsIgnoreCase("tm-invalidity")|| flowModeId.equalsIgnoreCase("ds-invalidity") || flowModeId.equalsIgnoreCase("pt-invalidity") || flowModeId.equalsIgnoreCase("spc-invalidity") || flowModeId.equalsIgnoreCase("um-invalidity"))
+        && (stateId.equalsIgnoreCase("opponent_repressentative")|| stateId.equalsIgnoreCase("opponent_repressentative_inv") || stateId.equalsIgnoreCase("opponent_repressentative_rev")))){
+		addError(null, "BRCA.applicationCANumber.Empty",	"You must add at least one correspondence address",	"mainForm.applicantionCADataSection",	$errorList);
+	}			 
+end
+
+rule "CA mandatory to be in BG"
+salience 1000
+when
+	$errorList : ErrorList()
+	$esApplication: EServiceApplication($contactDetails: contactDetails)
+	eval ($contactDetails  != null && $contactDetails.size() > 0)
+	eval (!hasAnyCAFromCountry($esApplication, "BG"))
+then
+    addError(null, "BR.CA.must.be.in.BG", "It is mandatory that the correspondence address is in Bulgaria", "mainForm.applicantionCADataSection", $errorList);
+end
+
+
+rule "At least one holder must be changed"
+salience 1000
+when
+	$errorList : ErrorList()
+	$stateId : RulesInformation($customObjects : customObjects)
+	EServiceApplication($holders: holders)
+	eval($holders != null && $holders.size() >0)
+then
+  	HashMap co = $customObjects;
+    String stateId = co.get("stateId");
+    String flowModeId = co.get("flowModeId");
+
+    if ( flowModeId.endsWith("-change")){
+        int changesNum  = 0;
+        for(Holder h: $holders){
+            if(h.getIdentifiers() == null || h.getIdentifiers().size() < 1){
+                changesNum++;
+            } else {
+                PersonIdentifier foundId  = null;
+                for(PersonIdentifier pi: h.getIdentifiers()){
+                    if(pi.getIdentifierKindCode() == null){
+                        foundId = pi;
+                    }
+                }
+                if(foundId == null || (foundId != null && foundId.getValue() == null)){
+                    changesNum++;
+                }
+            }
+        }
+        if(changesNum == 0){
+		    addError(null, "holder.change.required."+flowModeId,	"You must make at least one change in the holders details",	"mainForm.personalDataSection",	$errorList);
+		}
+	}
+end
+
+rule "BR must select esign doc declaration"
+salience 1000
+when
+ $errorList : ErrorList()
+ RulesInformation($stateId : customObjects.get("stateId"), $sections : customObjects["sections"])
+ Sections($sectionList : section) from $sections
+ Section (viewStateId == $stateId, coreName == "application_declarations" && visible == true)  from $sectionList
+ EServiceApplication(esignDocDeclaration == null || esignDocDeclaration == false)
+
+then
+	addError("esignDocDeclaration", "esignDocDeclaration.must.select", "You must select the declaration","mainForm.commonApplicationSection", $errorList);
+end
+
+rule "BR document type must be added"
+salience 1000
+no-loop
+when
+ $errorList : ErrorList()
+ RulesInformation($stateId : customObjects.get("stateId"), $sections : customObjects["sections"])
+ Sections($sectionList : section) from $sections
+ Section (viewStateId == $stateId, coreName == "other_attachments" && visible == true, $fields: field)  from $sectionList
+ Field(id=="processInitiatedBeforePublication", visible == true, usable == true) from $fields
+ EServiceApplication(processInitiatedBeforePublication != null && processInitiatedBeforePublication == true, $docs: documents)
+ eval($docs == null) or (eval($docs != null) and not AttachedDocument(documentKind == "EPO Transfer Change Form Copy") from $docs) or (eval($docs != null) and not AttachedDocument(documentKind == "EPO Transfer Change Form Translation") from $docs)
+then
+	addError("processInitiatedBeforePublication", "processInitiatedBeforePublication.must.add.document", "You must add the documents of the proper kinds","mainForm.otherAttachments", $errorList);
+end
+
+
+rule "BR - representatives attachments - bad option"
+salience 1000
+when
+	$errorList : ErrorList()
+    RulesInformation($stateId : customObjects.get("stateId"), $flowModeId: customObjects.get("flowModeId"), $sections : customObjects["sections"])
+    Sections($sectionList : section) from $sections
+    Section (viewStateId == $stateId, id == AvailableSection.REPRESENTATIVE && visible == true, $subsections: subsection)  from $sectionList
+    Section(id == AvailableSection.REPRESENTATIVE_NATURALPERSON, $fldsNatural: field) from $subsections
+    Section(id == AvailableSection.REPRESENTATIVE_FORM_ASSOCIATION,  $fldsAssoc: field) from $subsections
+    not Field(id == "representativeAttachment.attachment", visible == true) from $fldsNatural and not Field(id == "representativeAttachment.attachment", visible == true) from $fldsAssoc
+	EServiceApplication($reps : representatives)
+	eval($reps!= null && $reps.size() > 0)
+then
+    boolean isError=false;
+    for (Representative representative : $reps){
+        if(representative.getPersonRoleRelationships() != null && representative.getPersonRoleRelationships().size() > 0 &&
+            representative.getPersonRoleRelationships().get(0).getDocuments() != null &&
+                                           representative.getPersonRoleRelationships().get(0).getDocuments().size() > 0 &&
+                                           representative.getPersonRoleRelationships().get(0).getDocuments().get(0).getDocument() != null &&
+                                           representative.getPersonRoleRelationships().get(0).getDocuments().get(0).getDocument().getStatus() != null &&
+                                           representative.getPersonRoleRelationships().get(0).getDocuments().get(0).getDocument().getStatus().equals("To Follow")){
+        	isError=true;
+        }
+    }
+    if(isError){
+        addError(null, "attachment.cannot.be.to.follow",	"Invalid POW option",	"mainForm.personalDataSection",	$errorList);
+    }
+end
+
+rule "BR - representatives attachments - select option"
+salience 1000
+when
+	$errorList : ErrorList()
+    RulesInformation($stateId : customObjects.get("stateId"), $flowModeId: customObjects.get("flowModeId"), $sections : customObjects["sections"])
+    Sections($sectionList : section) from $sections
+    Section (viewStateId == $stateId, id == AvailableSection.REPRESENTATIVE && visible == true, $subsections: subsection)  from $sectionList
+    Section(id == AvailableSection.REPRESENTATIVE_NATURALPERSON, $fldsNatural: field) from $subsections
+    Section(id == AvailableSection.REPRESENTATIVE_FORM_ASSOCIATION,  $fldsAssoc: field) from $subsections
+    Field(id == "representativeAttachment.provided", visible == true) from $fldsNatural and Field(id == "representativeAttachment.provided", visible == true) from $fldsAssoc
+	EServiceApplication($reps : representatives)
+	eval($reps!= null && $reps.size() > 0)
+	exists Representative(personRoleRelationships == null || personRoleRelationships.size() == 0) from $reps
+then
+    addError(null, "representative.pow.choose.option",	"Select POW option",	"mainForm.personalDataSection",	$errorList);
+end
+
+rule "BR must select declaration"
+salience 1000
+when
+ $errorList : ErrorList()
+ EServiceApplication((smallCompanyFiles == null || smallCompanyFiles.isEmpty()) && smallCompany == true)
+
+then
+	addError(null, "smallCompanyDeclaration.must.select", "You must select the declaration","mainForm.smallCompanyFiles", $errorList);
+end
+
+rule "BR must select userdoc"
+salience 1000
+when
+    $errorList : ErrorList()
+    RulesInformation($stateId : customObjects.get("stateId"), $flowModeId: customObjects.get("flowModeId"), $sections : customObjects["sections"])
+    Sections($sectionList : section) from $sections
+    Section (viewStateId == $stateId, id == AvailableSection.USERDOC && visible == true, $subsections: subsection)  from $sectionList
+    EServiceApplication(selectedUserdoc == null && userdocRelationRestriction != null && userdocRelationRestriction == UserdocRelationRestriction.USERDOC_RELATION_MANDATORY)
+
+then
+	addError(null, "userdoc.must.select", "You must select user filed document","mainForm.userdoc", $errorList);
+end
+
+rule "BR must select what to relate the request to"
+salience 1000
+when
+    $errorList : ErrorList()
+    RulesInformation($stateId : customObjects.get("stateId"), $flowModeId: customObjects.get("flowModeId"), $sections : customObjects["sections"])
+    Sections($sectionList : section) from $sections
+    Section (viewStateId == $stateId, id == AvailableSection.USERDOC && visible == true, $subsections: subsection)  from $sectionList
+    EServiceApplication(selectedUserdoc == null && relateRequestToObject == null && userdocRelationRestriction != null && userdocRelationRestriction == UserdocRelationRestriction.USERDOC_RELATION_OPTIONAL)
+
+then
+	addError(null, "relate.request.must.select", "You must select what to relate your request to","mainForm.userdoc", $errorList);
+end
+
+
+rule "Bad representative pow details provided"
+salience 1000
+when
+	$errorList : ErrorList()
+	RulesInformation($stateId : customObjects.get("stateId"), $flowModeId: customObjects.get("flowModeId"), $sections : customObjects["sections"])
+	Sections($sectionList : section) from $sections
+    Section (viewStateId == $stateId, id == AvailableSection.REPRESENTATIVE && visible == true, $subsections: subsection)  from $sectionList
+	EServiceApplication($reps: representatives)
+	eval($reps != null && $reps.size() > 0)
+	Representative(powValidityIndefiniteIndicator == null || (powValidityIndefiniteIndicator == false && powValidityEndDate == null) || (powValidityIndefiniteIndicator == true && powValidityEndDate != null) || powReauthorizationIndicator == null) from $reps
+then
+    addError(null, "Representatives.Bad.Pow.Details",	"You need to provide valid representative POA details for every representative",	"mainForm.personalDataSection",	$errorList);
+end

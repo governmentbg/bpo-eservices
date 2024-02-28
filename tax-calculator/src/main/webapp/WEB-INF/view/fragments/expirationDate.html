@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<div th:fragment="expirationDate-fragment" class="inlBlW100">
+
+    <div th:text="#{tm.expirationDate}" style="display: inline-block"></div>
+    <div class="mT10" style="display: inline-block">
+        <input readonly id="expiration-date-field" type="text" data-type="datepicker" style="width: 100px" th:attr="data-name='expirationDate'"
+        class="input-param datepicker txtField ui-inputfield search-filter ui-autocomplete-input">
+    </div>
+    <div id="six-months-message" style="color: red" th:text="#{six_months}"></div>
+
+    <script>
+        //Activates datepicker after ajax call
+        $(document).ready(function () {
+            // $('#expiration-date-field').datepicker();
+            $("#expiration-date-field").datepicker({
+                minDate: "-6m"
+            });
+            $('#expiration-date-field').datepicker("setDate", new Date());
+
+        });
+    </script>
+</div>
+</html>

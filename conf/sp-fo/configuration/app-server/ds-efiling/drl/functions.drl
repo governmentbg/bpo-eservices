@@ -1,0 +1,300 @@
+package org.domain.rules;
+dialect "mvel"
+
+import java.util.Map;
+import java.util.Date;
+import java.util.List;
+import java.util.Calendar;
+import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import org.apache.commons.lang.StringUtils;
+import eu.ohim.sp.core.domain.contact.Address;
+import eu.ohim.sp.core.domain.person.Applicant;
+import eu.ohim.sp.core.domain.person.Representative;
+import eu.ohim.sp.core.domain.validation.ErrorCore;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.configuration.domain.xsd.Sections;
+import eu.ohim.sp.core.configuration.domain.xsd.Section;
+import eu.ohim.sp.core.configuration.domain.xsd.Field;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.domain.design.DesignApplication;
+import eu.ohim.sp.core.domain.contact.ContactDetails;
+import eu.ohim.sp.core.configuration.domain.country.xsd.Countries;
+import java.util.Set
+import java.util.HashSet
+import eu.ohim.sp.core.domain.design.ProductIndication
+import eu.ohim.sp.core.domain.design.ProductIndicationClass
+import eu.ohim.sp.core.domain.design.Design
+import eu.ohim.sp.core.domain.design.ProductIndicationKind;
+import eu.ohim.sp.core.domain.design.Priority;
+import eu.ohim.sp.core.domain.resources.AttachedDocument;
+
+# Fills and adds an error to the error list (TEMPLATE)
+function void addError(String field, String code, String message, String section, ErrorList errorList){
+	# Error for the field
+	if(field != null){
+		errorList.addError(createError(field, code, message));
+	}
+
+	# Error for the section
+	if(section != null){
+		errorList.addError(createError(section, code, message));
+	}
+}
+
+function void addErrorWarning(boolean isWarning, String code, String message, String section, ErrorList errorList){
+     if(isWarning){
+        errorList.addError(createErrorWarning(section, code, message,isWarning));
+     }
+}
+
+# Creates a new error and returns it
+function ErrorCore createError(String info, String code, String message){
+	ErrorCore errorField = new ErrorCore();
+
+	if(info != null){
+		errorField.setField(info);
+		errorField.setErrorCode(code);
+		errorField.setErrorArgs(null);
+		errorField.setDisplayMessage(message);
+		errorField.setStackTrace("");
+		errorField.setServiceName("");
+		errorField.setSection("");
+		errorField.setBusinessRule(code);
+	}
+
+	return errorField;
+}
+
+function ErrorCore createErrorWarning(String info, String code, String message, boolean isWarning){
+    ErrorCore errorField = new ErrorCore();
+    List<String> list = new ArrayList(1);
+    list.add((new Boolean(isWarning)).toString());
+	if(info != null){
+		errorField.setField(info);
+		errorField.setErrorCode(code);
+		errorField.setErrorArgs(list);
+		errorField.setDisplayMessage(message);
+		errorField.setStackTrace("");
+		errorField.setServiceName("");
+		errorField.setSection("");
+		errorField.setBusinessRule(code);
+		errorField.setWarning(isWarning);
+	}
+
+	return errorField;
+}
+
+# Gets the object position in the list
+function int indexOfObject(List list, Object object){
+	return list.indexOf(object);
+}
+
+function boolean checkApplicantsEEA(DesignApplication designApplication, boolean isApplicant, Section section, Countries countries){
+	try{  	
+	  	for (Applicant applicant : designApplication.getApplicants()){	
+			if (applicant.getAddresses() != null && applicant.getAddresses().size() > 0) {
+				for(Address address : applicant.getAddresses()) {
+					if ( address == null){
+						return false;
+					}
+					if (isEEA(countries, address.getCountry()) == false){					
+						return false;
+					} 	
+				}			
+				return true;
+			}
+		}
+		return false;
+    } catch (NullPointerException e){
+        return false;
+    }	
+}
+
+function boolean checkRepresentativesEEA(DesignApplication designApplication, boolean isApplicant, Section section, Countries countries){
+	try{
+	  	for (Representative representative : designApplication.getRepresentatives()){
+			if (representative != null && representative.getAddresses() != null && representative.getAddresses().size() > 0) {
+				for(Address address : representative.getAddresses()) {
+					if ( address == null){
+						return false;
+					}
+					if (isEEA(countries, address.getCountry()) == false){
+						return false;
+					} 	
+				}			
+				return true;
+			}
+		}	
+		return false;
+    } catch (NullPointerException e){
+        return false;
+    }		
+}
+
+function boolean checkCorrespondenceAddressEEA(DesignApplication designApplication, boolean isApplicant, Section section, Countries countries){
+	try{	
+		if (designApplication.getContactDetails() != null){
+			for (ContactDetails contactDetails : designApplication.getContactDetails()){
+				if (contactDetails != null && contactDetails.getAddress() != null && contactDetails.getAddress().size() > 0) {
+					for(Address address : contactDetails.getAddress()) {
+						if (isEEA(countries, address.getCountry()) == false){
+							return false;
+						}
+					}
+					return true;
+				}
+			}
+		}
+		return false;
+    } catch (NullPointerException e){
+        return false;
+    }	
+}
+
+
+
+# Checks if the country of the applicant/representative is from the EEA
+function boolean isEEA( Countries countries, String countryId){
+	for(Countries.Country country : countries.getCountry()){				
+		if(countryId.equals(country.getCode()) && country.isPartOfEEA()){
+			return true;
+		}
+	}
+	return false;
+}
+
+function List<String> getPIClassesList(List pIClassList){
+    Set<String> classSet = new HashSet<String>();
+
+    # Obtains all the main class names
+    for(ProductIndicationClass pic : (List<ProductIndicationClass>)pIClassList){
+        classSet.add(pic.getMainClass());
+    }
+
+    List<String> classList = new ArrayList<String>();
+    classList.addAll(classSet);
+
+    return classList;
+}
+
+function List<String> getFirstClassesProductAlone(List designs){
+for(Design d: (List<Design>)designs){
+    for(ProductIndication pi: d.getProductIndications()){
+        if(ProductIndicationKind.SINGLE_PRODUCT.equals(pi.getKind())){
+             return getPIClassesList(pi.getClasses());
+        }
+    }
+}
+return null;
+}
+# Checks if the Product Information Main Classes are the same for every design in the application
+function boolean checkProductIndicationClasses(DesignApplication designApplication){
+     List<Design> designs = designApplication.getDesignDetails();
+     List<String>  firstClassesProductAlone = getFirstClassesProductAlone(designs);
+     if(firstClassesProductAlone == null){
+        return true;
+     } else {
+         for(Design d:designs){
+            for(ProductIndication pi: d.getProductIndications()){
+                if(ProductIndicationKind.SINGLE_PRODUCT.equals(pi.getKind())){
+                    List<String> oneClassProductAlone = getPIClassesList(pi.getClasses());
+                    if(firstClassesProductAlone.size() != oneClassProductAlone.size() ||
+                                        !firstClassesProductAlone.containsAll(oneClassProductAlone)){
+                                        return false;
+                    }
+                }
+            }
+         }
+     }
+     return true;
+}
+
+function int setCompositionCount(DesignApplication desApp) {
+	int i = 0;
+	for(Design des : desApp.getDesignDetails()) {
+		for(ProductIndication prodInd : des.getProductIndications()) {
+			if(prodInd.getKind() == ProductIndicationKind.SET_COMPOSITION) {
+				i++;
+			}
+		}
+	}
+	return i;
+}
+
+
+function boolean hasAnyApplicantFromCountry(DesignApplication designApplication, String countryId) {
+
+    if (designApplication == null || designApplication.getApplicants() == null){
+        return false;
+    }
+
+    for (Applicant applicant : designApplication.getApplicants()){
+        if(anyAddressFromCountry(applicant.getAddresses(), countryId)){
+            return true;
+        }
+    }
+
+    return false;
+}
+
+function boolean hasAnyCAFromCountry(DesignApplication designApplication, String countryId) {
+    if (designApplication == null || designApplication.getContactDetails() == null){
+        return false;
+    }
+
+    for(ContactDetails cd: designApplication.getContactDetails()){
+        if(anyAddressFromCountry(cd.getAddress(), countryId)){
+             return true;
+        }
+    }
+    return false;
+}
+
+function boolean anyAddressFromCountry(List addresses, String countryId) {
+
+    if(addresses == null || addresses.size() == 0) {
+        return false;
+    }
+
+	Iterator itrAdd = addresses.iterator();
+
+    while(itrAdd.hasNext()){
+        Address address = (Address) itrAdd.next();
+        if (countryId.equals(address.getCountry())){
+            return true;
+        }
+    }
+
+	return false;
+}
+
+function boolean hasDuplicatePriorities(List prioList){
+    for(int i=0; i< prioList.size()-1; i++){
+        Priority current = (Priority)prioList.get(i);
+        for(int j=i+1; j< prioList.size(); j++){
+            Priority comparable = (Priority)prioList.get(j);
+            if(comparable.getFilingNumber() != null && comparable.getFilingOffice() != null &&
+                comparable.getFilingNumber().equals(current.getFilingNumber()) &&
+                comparable.getFilingOffice().equals(current.getFilingOffice())){
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+function boolean containsNDocumentsOfType(List documents, String type, int n){
+    int timesFound = 0;
+    for(Object documentObj: documents){
+        AttachedDocument att = (AttachedDocument) documentObj;
+        if(att.getDocumentKind() != null && att.getDocumentKind().equals(type)){
+            timesFound++;
+        }
+    }
+    return timesFound >= n;
+}

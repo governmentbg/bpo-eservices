@@ -1,0 +1,79 @@
+package org.domain.rules;
+
+dialect "mvel"
+
+import eu.ohim.sp.core.domain.validation.ErrorCore;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.domain.payment.FeeList;
+import eu.ohim.sp.core.domain.payment.FeeType;
+import eu.ohim.sp.core.domain.payment.Fee;
+import eu.ohim.sp.core.domain.trademark.TradeMark;
+import eu.ohim.sp.core.domain.trademark.LimitedTradeMark;
+import eu.ohim.sp.core.domain.application.AppealKind;
+import eu.ohim.sp.core.domain.application.Appeal;
+import eu.ohim.sp.core.domain.application.EServiceApplication;
+import eu.ohim.sp.core.domain.patent.PTeServiceApplication;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.TreeMap;
+import java.util.List;
+import java.util.Date;
+
+rule "Fees reader"
+salience 1000
+no-loop
+    when
+		FeeList($feeTypeList : feeTypeList)
+        $f1 : FeeType("spcRefusalFee".equals(nameKey)) from $feeTypeList
+        $f3 : FeeType("spcTerminationFee".equals(nameKey)) from $feeTypeList
+        $f4 : FeeType("smallCompanyDiscount".equals(nameKey)) from $feeTypeList
+    then
+    	TreeMap map = new TreeMap();
+        map.put("spcRefusalFee", $f1);
+        map.put("spcTerminationFee", $f3);
+        map.put("smallCompanyDiscount", $f4);
+        insert(map);
+end
+
+rule "Basic Fee"
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        PTeServiceApplication($appeals : appeals, $smallCompany : smallCompany, $patentList : patentList)
+        eval($appeals != null && $appeals.size() >0)
+        eval($smallCompany != null)
+        eval($patentList != null && $patentList.size() >0)
+    then
+        # Creates the base fee.
+        for(Appeal app: $appeals){
+        	if(app.getAppealKind() != null && (app.getAppealKind().equals(AppealKind.APPEAL_AGAINST_REFUSAL)) && $patentList.size() == 1){
+        	    FeeType feeType1 = (FeeType) $map.get("spcRefusalFee");
+                Fee fee1 = calculateDoubleDiscountedFee($map, feeType1, $smallCompany, 1);
+                $results.put("spcRefusalFee", fee1);
+            } else if (app.getAppealKind() != null && app.getAppealKind().equals(AppealKind.APPEAL_AGAINST_TERMINATION)){
+        	    FeeType feeType3 = (FeeType) $map.get("spcTerminationFee");
+                Fee fee3 = calculateDoubleDiscountedFee($map, feeType3, $smallCompany, 1);
+                $results.put("spcTerminationFee", fee3);
+        	}
+        }
+
+end
+
+function Fee calculateDoubleDiscountedFee(TreeMap map, FeeType feeType, boolean isSmallCompany, int quantity){
+    FeeType smallCompanyDiscountFeeType =  (FeeType) map.get("smallCompanyDiscount");
+
+    Fee fee = new Fee();
+    fee.setFeeType(feeType);
+    fee.setQuantity(quantity);
+    fee.setUnitAmount(feeType.getDefaultValue());
+    fee.setAmount(fee.getUnitAmount());
+
+    if(isSmallCompany){
+         fee.setAmount(fee.getAmount() - (fee.getAmount()*smallCompanyDiscountFeeType.getDefaultValue()));
+    }
+
+    fee.setAmount(fee.getAmount()*fee.getQuantity());
+
+    return fee;
+}

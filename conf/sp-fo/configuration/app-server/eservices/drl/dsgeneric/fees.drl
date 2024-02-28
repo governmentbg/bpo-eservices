@@ -1,0 +1,60 @@
+package org.domain.rules;
+
+dialect "mvel"
+
+import eu.ohim.sp.core.domain.validation.ErrorCore;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.domain.design.Design;
+import eu.ohim.sp.core.domain.design.DesignApplication;
+import eu.ohim.sp.core.domain.validation.RulesInformation;
+import eu.ohim.sp.core.domain.payment.FeeList;
+import eu.ohim.sp.core.domain.payment.FeeType;
+import eu.ohim.sp.core.domain.payment.Fee;
+import eu.ohim.sp.core.domain.resources.DocumentKind;
+import eu.ohim.sp.core.domain.resources.Document;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.TreeMap;
+import java.util.List;
+import java.util.Date;
+import java.util.Calendar;
+import java.text.DecimalFormat;
+import org.apache.log4j.Logger;
+import eu.ohim.sp.core.domain.application.EServiceApplication;
+import java.lang.*;
+import org.apache.commons.lang.*;
+
+rule "Fees reader"
+salience 1000
+no-loop
+    when
+		FeeList($feeTypeList : feeTypeList)
+    then
+    	TreeMap map = new TreeMap();
+    	for(FeeType feeType: $feeTypeList){
+    	    map.put(feeType.getNameKey(), feeType);
+    	}
+        insert(map);
+end
+
+rule "Basic Fee"
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+		$design : DesignApplication()
+        EServiceApplication( $changeType : changeType, StringUtils.isNotEmpty(changeType) )
+    then
+        FeeType feeType = (FeeType) $map.get($changeType);
+        // Do not create fee if value is 0
+        if (feeType != null) {
+            # Creates the base fee
+            Fee fee = new Fee();
+            fee.setFeeType(feeType);
+            fee.setQuantity(1);
+            fee.setUnitAmount(feeType.getDefaultValue());
+            fee.setAmount(fee.quantity * fee.unitAmount);
+            # Adds the base fee to the result list
+            $results.put($changeType, fee);
+        }
+end

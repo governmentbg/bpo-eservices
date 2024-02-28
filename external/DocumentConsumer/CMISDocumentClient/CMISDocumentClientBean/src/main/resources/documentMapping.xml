@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://dozer.sourceforge.net
+          http://dozer.sourceforge.net/schema/beanmapping.xsd">
+
+    <configuration>
+        <custom-converters>
+            <converter type="eu.ohim.sp.external.document.jcr.converter.DataConverter">
+                <class-a>org.jcrom.JcrFile</class-a>
+                <class-b>java.lang.Byte</class-b>
+            </converter>
+        </custom-converters>
+    </configuration>
+
+
+    <mapping>
+        <class-a>eu.ohim.sp.external.document.jcr.domain.Attachment</class-a>
+        <class-b>eu.ohim.sp.core.domain.resources.Document</class-b>
+
+        <field>
+            <a>name</a>
+            <b>fileName</b>
+        </field>
+
+        <field>
+            <a>identifier</a>
+            <b>documentId</b>
+        </field>
+
+        <field>
+            <a>attachmentType</a>
+            <b>fileFormat</b>
+        </field>
+
+        <field custom-converter="eu.ohim.sp.external.document.jcr.converter.DataConverter">
+            <a>file</a>
+            <b>data</b>
+            <a-hint>org.jcrom.JcrFile</a-hint>
+            <b-hint>java.lang.Byte</b-hint>
+        </field>
+        <field>
+        	<a>file.name</a>
+        	<b>fileName</b>
+        </field>
+        <field>
+        	<a>file.mimeType</a>
+        	<b>fileFormat</b>
+        </field>
+    </mapping>
+
+</mappings> 

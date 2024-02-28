@@ -1,0 +1,35 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>eu.ohim.sp.external</groupId>
+		<artifactId>external</artifactId>
+		<version>2.0.0-RELEASE</version>
+	</parent>
+
+    <artifactId>ApplicationConsumer</artifactId>
+    <packaging>pom</packaging>
+	<name>Application Consumer</name>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>eu.ohim.sp.external</groupId>
+                <artifactId>ApplicationClientBean</artifactId>
+                <version>${pm.sp.external.current.version}</version>
+                <type>ejb</type>
+            </dependency>
+            <dependency>
+                <groupId>eu.ohim.sp.external</groupId>
+                <artifactId>ApplicationClientWS</artifactId>
+                <version>${pm.sp.external.current.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+
+	<modules>
+		<module>ApplicationClientBean</module>		
+	</modules>
+	
+</project>

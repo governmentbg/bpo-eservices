@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feeList xmlns:tns="http://www.example.org/test/"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.example.org/test/ ../../../../../../../../../../../../configuration-xsd/src/main/xsd/fees/fees.xsd ">
+
+    <feeTypeList>
+        <code>001</code>
+        <nameKey>basicFeeFirstRenewal</nameKey>
+        <description>basic fee</description>
+        <defaultValue>270</defaultValue>
+    </feeTypeList>
+
+    <feeTypeList>
+        <code>002</code>
+        <nameKey>basicFeeSecondRenewal</nameKey>
+        <description>basic fee</description>
+        <defaultValue>360</defaultValue>
+    </feeTypeList>
+
+    <feeTypeList>
+        <code>003</code>
+        <nameKey>basicFeeThirdRenewal</nameKey>
+        <description>basic fee</description>
+        <defaultValue>500</defaultValue>
+    </feeTypeList>
+    
+    <feeTypeList>
+        <code>004</code>
+        <nameKey>penaltyFee</nameKey>
+        <description>outside Period penalty Fee</description>
+        <defaultValue>250</defaultValue>
+    </feeTypeList>
+    
+</feeList>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="unqualified"
+	version="3.2"
+    targetNamespace="http://ohim.eu/sp/services/epayment/v3"
+    xmlns:tns="http://ohim.eu/sp/services/epayment/v3"
+    xmlns:payment="http://ohim.eu/sp/domain/epayment-wrapper/v3"
+    xmlns:common="http://ohim.eu/sp/domain/common/v3"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:import namespace="http://ohim.eu/sp/domain/epayment-wrapper/v3" schemaLocation="../domain/PaymentWrapperDomain.xsd"/>
+    <xs:import namespace="http://ohim.eu/sp/domain/common/v3" schemaLocation="../domain/CommonDomain.xsd"/>
+
+    <xs:element name="requestPayment" type="tns:RequestPayment"/>
+    <xs:element name="requestPaymentResponse" type="tns:RequestPaymentResponse"/>
+
+    <xs:element name="notifyPaymentResult" type="tns:NotifyPaymentResult"/>
+    <xs:element name="notifyPaymentResultResponse" type="tns:NotifyPaymentResultResponse"/>
+    
+    <xs:element name="paymentFault" type="tns:PaymentFault"/>
+
+    <xs:complexType name="RequestPayment">
+        <xs:sequence>
+            <xs:element name="application" type="payment:RequestPaymentApplication" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="RequestPaymentResponse">
+        <xs:sequence>
+            <xs:element name="return" type="payment:PaymentRequest" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="NotifyPaymentResult">
+        <xs:sequence>
+            <xs:element name="map" type="common:ParamsMap" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="NotifyPaymentResultResponse">
+        <xs:sequence>
+            <xs:element name="return" type="payment:PaymentResult" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="PaymentFault">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="common:Fault" />
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema>

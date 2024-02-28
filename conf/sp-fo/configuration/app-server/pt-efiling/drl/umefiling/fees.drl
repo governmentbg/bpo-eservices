@@ -1,0 +1,134 @@
+package org.domain.rules;
+
+dialect "mvel"
+
+import eu.ohim.sp.core.domain.patent.PatentApplication;
+import eu.ohim.sp.core.domain.validation.ErrorCore;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.domain.payment.FeeList;
+import eu.ohim.sp.core.domain.payment.FeeType;
+import eu.ohim.sp.core.domain.payment.Fee;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.TreeMap;
+import java.util.List;
+import java.util.Date
+import eu.ohim.sp.core.domain.patent.PatentTransformation
+import eu.ohim.sp.core.domain.patent.PCT;
+
+rule "Fees reader"
+salience 1000
+no-loop
+    when
+		FeeList($feeTypeList : feeTypeList)
+        $basicFee : FeeType("basicFee".equals(nameKey)) from $feeTypeList
+        $examinationFee : FeeType("examinationFee".equals(nameKey)) from $feeTypeList
+        $priorityFee : FeeType("priorityFee".equals(nameKey)) from $feeTypeList
+        $smallCompanyDiscount : FeeType("smallCompanyDiscount".equals(nameKey)) from $feeTypeList
+
+    then
+    	TreeMap map = new TreeMap();
+        map.put("basicFee", $basicFee);
+        map.put("examinationFee", $examinationFee);
+        map.put("priorityFee", $priorityFee);
+        map.put("smallCompanyDiscount", $smallCompanyDiscount);
+        insert(map);
+end
+
+rule "Basic Fee"
+salience 100
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        PatentApplication($smallCompany: smallCompany, patent != null, $transforms: patent.transformationPriorities, $pcts: patent.pcts)
+    then
+        FeeType smallCompanyDiscountFeeType =  (FeeType) $map.get("smallCompanyDiscount");
+        FeeType basicFeeType =  (FeeType) $map.get("basicFee");
+
+        Fee fee = new Fee();
+        fee.setFeeType(basicFeeType);
+        fee.setQuantity(1);
+        Double amount = 0.0;
+        boolean feesPayed = feesArePayedInTransformation($transforms) || feesArePayedInPCT($pcts);
+        if(!feesPayed){
+            fee.setUnitAmount(basicFeeType.getDefaultValue());
+
+            if($smallCompany){
+                 amount = fee.getUnitAmount() - (fee.getUnitAmount()*smallCompanyDiscountFeeType.getDefaultValue());
+            } else {
+                amount = fee.getUnitAmount();
+            }
+        } else {
+             fee.setUnitAmount(0.0);
+        }
+
+        fee.setAmount(fee.getQuantity() * amount);
+        $results.put("basicFee", fee);
+end
+
+rule "Examination Fee"
+salience 90
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        PatentApplication(patent != null, $transforms: patent.transformationPriorities)
+    then
+        boolean feesPayed = feesArePayedInTransformation($transforms);
+        Fee fee = new Fee();
+        fee.setFeeType((FeeType) $map.get("examinationFee"));
+        fee.setQuantity(1);
+        if(!feesPayed){
+            fee.setUnitAmount(((FeeType) $map.get("examinationFee")).getDefaultValue());
+        } else {
+            fee.setUnitAmount(0.0);
+        }
+        fee.setAmount(fee.getQuantity() * fee.getUnitAmount());
+        $results.put("examinationFee", fee);
+end
+
+rule "PriorityFee"
+salience 80
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        PatentApplication(patent != null && patent.priorities != null && patent.priorities.size() > 0, $prioSize: patent.priorities.size())
+    then
+        Fee fee = new Fee();
+        fee.setFeeType((FeeType) $map.get("priorityFee"));
+        fee.setQuantity($prioSize);
+        fee.setUnitAmount(((FeeType) $map.get("priorityFee")).getDefaultValue());
+        fee.setAmount(fee.getQuantity() * fee.getUnitAmount());
+        $results.put("priorityFee", fee);
+end
+
+
+function boolean feesArePayedInTransformation(List transformations){
+    if( transformations == null || transformations.size() == 0){
+        return false;
+    }
+    for(int i =0; i< transformations.size(); i++){
+        PatentTransformation transformation = (PatentTransformation) transformations.get(i);
+        if(transformation.isPayedFees()){
+            return true;
+        }
+    }
+
+    return false;
+}
+
+function boolean feesArePayedInPCT(List pcts){
+    if( pcts == null || pcts.size() == 0){
+        return false;
+    }
+    for(int i =0; i< pcts.size(); i++){
+        PCT pct = (PCT) pcts.get(i);
+        if(pct.isPayedFees()){
+            return true;
+        }
+    }
+
+    return false;
+}

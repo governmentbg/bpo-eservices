@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dossierChangeTypes xmlns="http://www.example.org/dossierChangeType-configuration"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://www.example.org/dossierChangeType-configuration dossierChangeType-configuration.xsd ">
+    
+    <dossierChangeType applicationType="tm-generic" code="" enabled="true">selectBox.SELECT</dossierChangeType>
+	<dossierChangeType applicationType="tm-generic" code="provideEvidenceTranslation" enabled="true">dossierChangeType.tm.provideEvidenceTranslation</dossierChangeType>
+	<dossierChangeType applicationType="tm-generic" code="submitAdditionalEvidence" enabled="true">dossierChangeType.tm.submitAdditionalEvidence</dossierChangeType>
+	<dossierChangeType applicationType="tm-generic" code="respondToIrregularities" enabled="true">dossierChangeType.tm.respondToIrregularities</dossierChangeType>
+	<dossierChangeType applicationType="tm-generic" code="answerOpinionAgreementPreliminaryDenial" enabled="true">dossierChangeType.tm.answerOpinionAgreementPreliminaryDenial</dossierChangeType>
+	<dossierChangeType applicationType="tm-generic" code="suspensionResumptionOfProceedings" enabled="true">dossierChangeType.tm.suspensionResumptionOfProceedings</dossierChangeType>
+	<dossierChangeType applicationType="tm-generic" code="singleTimeExtension" enabled="true">dossierChangeType.tm.singleTimeExtension</dossierChangeType>
+	<dossierChangeType applicationType="tm-generic" code="firstTimeLimitExtension" enabled="true">dossierChangeType.tm.firstTimeLimitExtension</dossierChangeType>
+	<dossierChangeType applicationType="tm-generic" code="secondTimeLimitExtension" enabled="true">dossierChangeType.tm.secondTimeLimitExtension</dossierChangeType>
+	<dossierChangeType applicationType="tm-generic" code="tmTimeLimitRenew" enabled="true">dossierChangeType.tm.tmTimeLimitRenew</dossierChangeType>
+	<dossierChangeType applicationType="tm-generic" code="applicationTechErrorRepairRequest" enabled="true">dossierChangeType.tm.applicationTechErrorRepairRequest</dossierChangeType>
+	<dossierChangeType applicationType="tm-generic" code="registerTechErrorRepairRequest" enabled="true">dossierChangeType.tm.registerTechErrorRepairRequest</dossierChangeType>
+	<dossierChangeType applicationType="tm-generic" code="bpoErrorRepairRequest" enabled="true">dossierChangeType.tm.bpoErrorRepairRequest</dossierChangeType>
+	<dossierChangeType applicationType="tm-generic" code="oppositionWithdrawal" enabled="true">dossierChangeType.tm.oppositionWithdrawal</dossierChangeType>
+    <dossierChangeType applicationType="tm-generic" code="licenceTermination" enabled="true">dossierChangeType.tm.licenceTermination</dossierChangeType>
+	<dossierChangeType applicationType="tm-generic" code="remRenewal" enabled="true">dossierChangeType.tm.remRenewal</dossierChangeType>
+	<dossierChangeType applicationType="tm-generic" code="remChange" enabled="true">dossierChangeType.tm.remChange</dossierChangeType>
+	<dossierChangeType applicationType="tm-generic" code="remTermination" enabled="true">dossierChangeType.tm.remTermination</dossierChangeType>
+	<dossierChangeType applicationType="tm-generic" code="enforcement" enabled="true">dossierChangeType.tm.enforcement</dossierChangeType>
+	<dossierChangeType applicationType="tm-generic" code="bankruptcyTermination" enabled="true">dossierChangeType.tm.bankruptcyTermination</dossierChangeType>
+    <dossierChangeType applicationType="tm-generic" code="securityTermination" enabled="true">dossierChangeType.tm.securityTermination</dossierChangeType>
+	<dossierChangeType applicationType="tm-generic" code="dossierAccess" enabled="true">dossierChangeType.tm.dossierAccess</dossierChangeType>
+	<dossierChangeType applicationType="tm-generic" code="refundRequest" enabled="true">dossierChangeType.tm.refundRequest</dossierChangeType>
+	<dossierChangeType applicationType="tm-generic" code="certificateRequested" enabled="true">dossierChangeType.tm.certificateRequested</dossierChangeType>
+	<dossierChangeType applicationType="tm-generic" code="submitAdditionalDocuments" enabled="true">dossierChangeType.tm.submitAdditionalDocuments</dossierChangeType>
+
+	<dossierChangeType applicationType="ds-generic" code="" enabled="true">selectBox.SELECT</dossierChangeType>
+	<dossierChangeType applicationType="ds-generic" code="standpointReply" enabled="true">dossierChangeType.ds.standpointReply</dossierChangeType>
+	<dossierChangeType applicationType="ds-generic" code="invalidityTimeLimitExtension" enabled="true">dossierChangeType.ds.invalidityTimeLimitExtension</dossierChangeType>
+	<dossierChangeType applicationType="ds-generic" code="applicationTechErrorRepairRequest" enabled="true">dossierChangeType.ds.applicationTechErrorRepairRequest</dossierChangeType>
+	<dossierChangeType applicationType="ds-generic" code="registerTechErrorRepairRequest" enabled="true">dossierChangeType.ds.registerTechErrorRepairRequest</dossierChangeType>
+	<dossierChangeType applicationType="ds-generic" code="bpoErrorRepairRequest" enabled="true">dossierChangeType.ds.bpoErrorRepairRequest</dossierChangeType>
+	<dossierChangeType applicationType="ds-generic" code="dossierAccess" enabled="true">dossierChangeType.ds.dossierAccess</dossierChangeType>
+	<dossierChangeType applicationType="ds-generic" code="refundRequest" enabled="true">dossierChangeType.ds.refundRequest</dossierChangeType>
+	<dossierChangeType applicationType="ds-generic" code="licenceTermination" enabled="true">dossierChangeType.ds.licenceTermination</dossierChangeType>
+	<dossierChangeType applicationType="ds-generic" code="remRenewal" enabled="true">dossierChangeType.ds.remRenewal</dossierChangeType>
+	<dossierChangeType applicationType="ds-generic" code="remChange" enabled="true">dossierChangeType.ds.remChange</dossierChangeType>
+	<dossierChangeType applicationType="ds-generic" code="remTermination" enabled="true">dossierChangeType.ds.remTermination</dossierChangeType>
+	<dossierChangeType applicationType="ds-generic" code="enforcement" enabled="true">dossierChangeType.ds.enforcement</dossierChangeType>
+	<dossierChangeType applicationType="ds-generic" code="bankruptcyTermination" enabled="true">dossierChangeType.ds.bankruptcyTermination</dossierChangeType>
+	<dossierChangeType applicationType="ds-generic" code="securityTermination" enabled="true">dossierChangeType.ds.securityTermination</dossierChangeType>
+	<dossierChangeType applicationType="ds-generic" code="renewalTimeLimitRenew" enabled="true">dossierChangeType.ds.renewalTimeLimitRenew</dossierChangeType>
+	<dossierChangeType applicationType="ds-generic" code="priorityDeclaration" enabled="true">dossierChangeType.ds.priorityDeclaration</dossierChangeType>
+	<dossierChangeType applicationType="ds-generic" code="priorityCertificatePresentation" enabled="true">dossierChangeType.ds.priorityCertificatePresentation</dossierChangeType>
+	<dossierChangeType applicationType="ds-generic" code="exhibitionEvidence" enabled="true">dossierChangeType.ds.exhibitionEvidence</dossierChangeType>
+	<dossierChangeType applicationType="ds-generic" code="termRecovery" enabled="true">dossierChangeType.ds.termRecovery</dossierChangeType>
+	<dossierChangeType applicationType="ds-generic" code="submitAdditionalDocuments" enabled="true">dossierChangeType.ds.submitAdditionalDocuments</dossierChangeType>
+
+	<dossierChangeType applicationType="pt-generic" code="" enabled="true">selectBox.SELECT</dossierChangeType>
+	<dossierChangeType applicationType="pt-generic" code="thirdPersonObjection" enabled="true">dossierChangeType.pt.thirdPersonObjection</dossierChangeType>
+	<dossierChangeType applicationType="pt-generic" code="standpointReply" enabled="true">dossierChangeType.pt.standpointReply</dossierChangeType>
+	<dossierChangeType applicationType="pt-generic" code="duplicateIssuance" enabled="true">dossierChangeType.pt.duplicateIssuance</dossierChangeType>
+	<dossierChangeType applicationType="pt-generic" code="firstTimeLimitExtension" enabled="true">dossierChangeType.pt.firstTimeLimitExtension</dossierChangeType>
+	<dossierChangeType applicationType="pt-generic" code="secondTimeLimitExtension" enabled="true">dossierChangeType.pt.secondTimeLimitExtension</dossierChangeType>
+	<dossierChangeType applicationType="pt-generic" code="licenceDeletion" enabled="true">dossierChangeType.pt.licenceDeletion</dossierChangeType>
+	<dossierChangeType applicationType="pt-generic" code="remRenewal" enabled="true">dossierChangeType.pt.remRenewal</dossierChangeType>
+	<dossierChangeType applicationType="pt-generic" code="remChange" enabled="true">dossierChangeType.pt.remChange</dossierChangeType>
+	<dossierChangeType applicationType="pt-generic" code="remDeletion" enabled="true">dossierChangeType.pt.remDeletion</dossierChangeType>
+	<dossierChangeType applicationType="pt-generic" code="enforcement" enabled="true">dossierChangeType.pt.enforcement</dossierChangeType>
+	<dossierChangeType applicationType="pt-generic" code="securityDeletion" enabled="true">dossierChangeType.pt.securityDeletion</dossierChangeType>
+	<dossierChangeType applicationType="pt-generic" code="bankruptcyDeletion" enabled="true">dossierChangeType.pt.bankruptcyDeletion</dossierChangeType>
+	<dossierChangeType applicationType="pt-generic" code="applicationTechErrorRepairRequest" enabled="true">dossierChangeType.pt.applicationTechErrorRepairRequest</dossierChangeType>
+	<dossierChangeType applicationType="pt-generic" code="registerTechErrorRepairRequest" enabled="true">dossierChangeType.pt.registerTechErrorRepairRequest</dossierChangeType>
+	<dossierChangeType applicationType="pt-generic" code="bpoErrorRepairRequest" enabled="true">dossierChangeType.pt.bpoErrorRepairRequest</dossierChangeType>
+	<dossierChangeType applicationType="pt-generic" code="dossierAccess" enabled="true">dossierChangeType.pt.dossierAccess</dossierChangeType>
+	<dossierChangeType applicationType="pt-generic" code="refundRequest" enabled="true">dossierChangeType.pt.refundRequest</dossierChangeType>
+	<dossierChangeType applicationType="pt-generic" code="termRecovery" enabled="true">dossierChangeType.pt.termRecovery</dossierChangeType>
+	<dossierChangeType applicationType="pt-generic" code="licenceAvailability" enabled="true">dossierChangeType.pt.licenceAvailability</dossierChangeType>
+	<dossierChangeType applicationType="pt-generic" code="licenceAvailabilityWithdrawal" enabled="true">dossierChangeType.pt.licenceAvailabilityWithdrawal</dossierChangeType>
+	<dossierChangeType applicationType="pt-generic" code="fastTrack" enabled="true">dossierChangeType.pt.fastTrack</dossierChangeType>
+	<dossierChangeType applicationType="pt-generic" code="fastTrackWithdrawal" enabled="true">dossierChangeType.pt.fastTrackWithdrawal</dossierChangeType>
+	<dossierChangeType applicationType="pt-generic" code="priorityCertificateIssuance" enabled="true">dossierChangeType.pt.priorityCertificateIssuance</dossierChangeType>
+	<dossierChangeType applicationType="pt-generic" code="priorityDeclaration" enabled="true">dossierChangeType.pt.priorityDeclaration</dossierChangeType>
+	<dossierChangeType applicationType="pt-generic" code="priorityCertificatePresentation" enabled="true">dossierChangeType.pt.priorityCertificatePresentation</dossierChangeType>
+	<dossierChangeType applicationType="pt-generic" code="exhibitionEvidence" enabled="true">dossierChangeType.pt.exhibitionEvidence</dossierChangeType>
+	<dossierChangeType applicationType="pt-generic" code="submitAdditionalDocuments" enabled="true">dossierChangeType.pt.submitAdditionalDocuments</dossierChangeType>
+
+	<dossierChangeType applicationType="um-generic" code="" enabled="true">selectBox.SELECT</dossierChangeType>
+	<dossierChangeType applicationType="um-generic" code="standpointReply" enabled="true">dossierChangeType.um.standpointReply</dossierChangeType>
+	<dossierChangeType applicationType="um-generic" code="duplicateIssuance" enabled="true">dossierChangeType.um.duplicateIssuance</dossierChangeType>
+	<dossierChangeType applicationType="um-generic" code="licenceDeletion" enabled="true">dossierChangeType.um.licenceDeletion</dossierChangeType>
+	<dossierChangeType applicationType="um-generic" code="remRenewal" enabled="true">dossierChangeType.um.remRenewal</dossierChangeType>
+	<dossierChangeType applicationType="um-generic" code="remChange" enabled="true">dossierChangeType.um.remChange</dossierChangeType>
+	<dossierChangeType applicationType="um-generic" code="remDeletion" enabled="true">dossierChangeType.um.remDeletion</dossierChangeType>
+	<dossierChangeType applicationType="um-generic" code="enforcement" enabled="true">dossierChangeType.um.enforcement</dossierChangeType>
+	<dossierChangeType applicationType="um-generic" code="securityDeletion" enabled="true">dossierChangeType.um.securityDeletion</dossierChangeType>
+	<dossierChangeType applicationType="um-generic" code="bankruptcyDeletion" enabled="true">dossierChangeType.um.bankruptcyDeletion</dossierChangeType>
+	<dossierChangeType applicationType="um-generic" code="applicationTechErrorRepairRequest" enabled="true">dossierChangeType.um.applicationTechErrorRepairRequest</dossierChangeType>
+	<dossierChangeType applicationType="um-generic" code="registerTechErrorRepairRequest" enabled="true">dossierChangeType.um.registerTechErrorRepairRequest</dossierChangeType>
+	<dossierChangeType applicationType="um-generic" code="bpoErrorRepairRequest" enabled="true">dossierChangeType.um.bpoErrorRepairRequest</dossierChangeType>
+	<dossierChangeType applicationType="um-generic" code="dossierAccess" enabled="true">dossierChangeType.um.dossierAccess</dossierChangeType>
+	<dossierChangeType applicationType="um-generic" code="refundRequest" enabled="true">dossierChangeType.um.refundRequest</dossierChangeType>
+	<dossierChangeType applicationType="um-generic" code="termRecovery" enabled="true">dossierChangeType.um.termRecovery</dossierChangeType>
+	<dossierChangeType applicationType="um-generic" code="priorityDeclaration" enabled="true">dossierChangeType.um.priorityDeclaration</dossierChangeType>
+	<dossierChangeType applicationType="um-generic" code="priorityCertificatePresentation" enabled="true">dossierChangeType.um.priorityCertificatePresentation</dossierChangeType>
+	<dossierChangeType applicationType="um-generic" code="priorityCertificateIssuance" enabled="true">dossierChangeType.um.priorityCertificateIssuance</dossierChangeType>
+	<dossierChangeType applicationType="um-generic" code="replyTermExtent" enabled="true">dossierChangeType.um.replyTermExtent</dossierChangeType>
+	<dossierChangeType applicationType="um-generic" code="delayWithdrawal" enabled="true">dossierChangeType.um.delayWithdrawal</dossierChangeType>
+	<dossierChangeType applicationType="um-generic" code="privilegeClaim" enabled="true">dossierChangeType.um.privilegeClaim</dossierChangeType>
+	<dossierChangeType applicationType="um-generic" code="submitAdditionalDocuments" enabled="true">dossierChangeType.um.submitAdditionalDocuments</dossierChangeType>
+
+	<dossierChangeType applicationType="ep-generic" code="" enabled="true">selectBox.SELECT</dossierChangeType>
+	<dossierChangeType applicationType="ep-generic" code="standpointReply" enabled="true">dossierChangeType.ep.standpointReply</dossierChangeType>
+	<dossierChangeType applicationType="ep-generic" code="notificationCorrection" enabled="true">dossierChangeType.ep.notificationCorrection</dossierChangeType>
+	<dossierChangeType applicationType="ep-generic" code="duplicateIssuance" enabled="true">dossierChangeType.ep.duplicateIssuance</dossierChangeType>
+	<dossierChangeType applicationType="ep-generic" code="translationCorrection" enabled="true">dossierChangeType.ep.translationCorrection</dossierChangeType>
+	<dossierChangeType applicationType="ep-generic" code="licenceDeletion" enabled="true">dossierChangeType.ep.licenceDeletion</dossierChangeType>
+	<dossierChangeType applicationType="ep-generic" code="remRenewal" enabled="true">dossierChangeType.ep.remRenewal</dossierChangeType>
+	<dossierChangeType applicationType="ep-generic" code="remChange" enabled="true">dossierChangeType.ep.remChange</dossierChangeType>
+	<dossierChangeType applicationType="ep-generic" code="remDeletion" enabled="true">dossierChangeType.ep.remDeletion</dossierChangeType>
+	<dossierChangeType applicationType="ep-generic" code="enforcement" enabled="true">dossierChangeType.ep.enforcement</dossierChangeType>
+	<dossierChangeType applicationType="ep-generic" code="securityDeletion" enabled="true">dossierChangeType.ep.securityDeletion</dossierChangeType>
+	<dossierChangeType applicationType="ep-generic" code="bankruptcyDeletion" enabled="true">dossierChangeType.ep.bankruptcyDeletion</dossierChangeType>
+	<dossierChangeType applicationType="ep-generic" code="registerTechErrorRepairRequest" enabled="true">dossierChangeType.ep.registerTechErrorRepairRequest</dossierChangeType>
+	<dossierChangeType applicationType="ep-generic" code="applicationTechErrorRepairRequest" enabled="true">dossierChangeType.ep.applicationTechErrorRepairRequest</dossierChangeType>
+	<dossierChangeType applicationType="ep-generic" code="bpoErrorRepairRequest" enabled="true">dossierChangeType.ep.bpoErrorRepairRequest</dossierChangeType>
+	<dossierChangeType applicationType="ep-generic" code="dossierAccess" enabled="true">dossierChangeType.ep.dossierAccess</dossierChangeType>
+	<dossierChangeType applicationType="ep-generic" code="refundRequest" enabled="true">dossierChangeType.ep.refundRequest</dossierChangeType>
+	<dossierChangeType applicationType="ep-generic" code="termRecovery" enabled="true">dossierChangeType.ep.termRecovery</dossierChangeType>
+	<dossierChangeType applicationType="ep-generic" code="actionCorrection" enabled="true">dossierChangeType.ep.actionCorrection</dossierChangeType>
+	<dossierChangeType applicationType="ep-generic" code="submitAdditionalDocuments" enabled="true">dossierChangeType.ep.submitAdditionalDocuments</dossierChangeType>
+
+	<dossierChangeType applicationType="sv-generic" code="" enabled="true">selectBox.SELECT</dossierChangeType>
+	<dossierChangeType applicationType="sv-generic" code="standpointReply" enabled="true">dossierChangeType.sv.standpointReply</dossierChangeType>
+	<dossierChangeType applicationType="sv-generic" code="duplicateIssuance" enabled="true">dossierChangeType.sv.duplicateIssuance</dossierChangeType>
+	<dossierChangeType applicationType="sv-generic" code="firstTimeLimitExtension" enabled="true">dossierChangeType.sv.firstTimeLimitExtension</dossierChangeType>
+	<dossierChangeType applicationType="sv-generic" code="licenceDeletion" enabled="true">dossierChangeType.sv.licenceDeletion</dossierChangeType>
+	<dossierChangeType applicationType="sv-generic" code="remRenewal" enabled="true">dossierChangeType.sv.remRenewal</dossierChangeType>
+	<dossierChangeType applicationType="sv-generic" code="remChange" enabled="true">dossierChangeType.sv.remChange</dossierChangeType>
+	<dossierChangeType applicationType="sv-generic" code="remDeletion" enabled="true">dossierChangeType.sv.remDeletion</dossierChangeType>
+	<dossierChangeType applicationType="sv-generic" code="enforcement" enabled="true">dossierChangeType.sv.enforcement</dossierChangeType>
+	<dossierChangeType applicationType="sv-generic" code="securityDeletion" enabled="true">dossierChangeType.sv.securityDeletion</dossierChangeType>
+	<dossierChangeType applicationType="sv-generic" code="bankruptcyDeletion" enabled="true">dossierChangeType.sv.bankruptcyDeletion</dossierChangeType>
+	<dossierChangeType applicationType="sv-generic" code="applicationTechErrorRepairRequest" enabled="true">dossierChangeType.sv.applicationTechErrorRepairRequest</dossierChangeType>
+	<dossierChangeType applicationType="sv-generic" code="registerTechErrorRepairRequest" enabled="true">dossierChangeType.sv.registerTechErrorRepairRequest</dossierChangeType>
+	<dossierChangeType applicationType="sv-generic" code="bpoErrorRepairRequest" enabled="true">dossierChangeType.sv.bpoErrorRepairRequest</dossierChangeType>
+	<dossierChangeType applicationType="sv-generic" code="dossierAccess" enabled="true">dossierChangeType.sv.dossierAccess</dossierChangeType>
+	<dossierChangeType applicationType="sv-generic" code="refundRequest" enabled="true">dossierChangeType.sv.refundRequest</dossierChangeType>
+	<dossierChangeType applicationType="sv-generic" code="priorityCertificatePresentation" enabled="true">dossierChangeType.sv.priorityCertificatePresentation</dossierChangeType>
+	<dossierChangeType applicationType="sv-generic" code="priorityCertificateIssuance" enabled="true">dossierChangeType.sv.priorityCertificateIssuance</dossierChangeType>
+	<dossierChangeType applicationType="sv-generic" code="submitAdditionalDocuments" enabled="true">dossierChangeType.sv.submitAdditionalDocuments</dossierChangeType>
+<!--	<dossierChangeType applicationType="sv-generic" code="nameResearch" enabled="true">dossierChangeType.sv.nameResearch</dossierChangeType>-->
+
+	<dossierChangeType applicationType="spc-generic" code="" enabled="true">selectBox.SELECT</dossierChangeType>
+	<dossierChangeType applicationType="spc-generic" code="standpointReply" enabled="true">dossierChangeType.spc.standpointReply</dossierChangeType>
+	<dossierChangeType applicationType="spc-generic" code="duplicateIssuance" enabled="true">dossierChangeType.spc.duplicateIssuance</dossierChangeType>
+	<dossierChangeType applicationType="spc-generic" code="firstTimeLimitExtension" enabled="true">dossierChangeType.spc.firstTimeLimitExtension</dossierChangeType>
+	<dossierChangeType applicationType="spc-generic" code="secondTimeLimitExtension" enabled="true">dossierChangeType.spc.secondTimeLimitExtension</dossierChangeType>
+	<dossierChangeType applicationType="spc-generic" code="licenceDeletion" enabled="true">dossierChangeType.spc.licenceDeletion</dossierChangeType>
+	<dossierChangeType applicationType="spc-generic" code="remRenewal" enabled="true">dossierChangeType.spc.remRenewal</dossierChangeType>
+	<dossierChangeType applicationType="spc-generic" code="remChange" enabled="true">dossierChangeType.spc.remChange</dossierChangeType>
+	<dossierChangeType applicationType="spc-generic" code="remDeletion" enabled="true">dossierChangeType.spc.remDeletion</dossierChangeType>
+	<dossierChangeType applicationType="spc-generic" code="securityDeletion" enabled="true">dossierChangeType.spc.securityDeletion</dossierChangeType>
+	<dossierChangeType applicationType="spc-generic" code="bankruptcyDeletion" enabled="true">dossierChangeType.spc.bankruptcyDeletion</dossierChangeType>
+	<dossierChangeType applicationType="spc-generic" code="applicationTechErrorRepairRequest" enabled="true">dossierChangeType.spc.applicationTechErrorRepairRequest</dossierChangeType>
+	<dossierChangeType applicationType="spc-generic" code="registerTechErrorRepairRequest" enabled="true">dossierChangeType.spc.registerTechErrorRepairRequest</dossierChangeType>
+	<dossierChangeType applicationType="spc-generic" code="bpoErrorRepairRequest" enabled="true">dossierChangeType.spc.bpoErrorRepairRequest</dossierChangeType>
+	<dossierChangeType applicationType="spc-generic" code="dossierAccess" enabled="true">dossierChangeType.spc.dossierAccess</dossierChangeType>
+	<dossierChangeType applicationType="spc-generic" code="refundRequest" enabled="true">dossierChangeType.spc.refundRequest</dossierChangeType>
+	<dossierChangeType applicationType="spc-generic" code="submitAdditionalDocuments" enabled="true">dossierChangeType.spc.submitAdditionalDocuments</dossierChangeType>
+
+
+<!--INVALID CHANGETYPES-->
+	<!--	<dossierChangeType applicationType="pt-generic" code="attachmentChanges" enabled="true">dossierChangeType.pt.attachmentChanges</dossierChangeType>-->
+	<!--	<dossierChangeType applicationType="um-generic" code="attachmentChanges" enabled="true">dossierChangeType.um.attachmentChanges</dossierChangeType>-->
+	<!--	<dossierChangeType applicationType="um-generic" code="firstTimeLimitExtension" enabled="true">dossierChangeType.um.firstTimeLimitExtension</dossierChangeType>-->
+	<!--	<dossierChangeType applicationType="um-generic" code="secondTimeLimitExtension" enabled="true">dossierChangeType.um.secondTimeLimitExtension</dossierChangeType>-->
+<!--	<dossierChangeType applicationType="pt-generic" code="paidTaxesDocs" enabled="true">dossierChangeType.pt.paidTaxesDocs</dossierChangeType>-->
+<!--	<dossierChangeType applicationType="um-generic" code="paidTaxesDocs" enabled="true">dossierChangeType.um.paidTaxesDocs</dossierChangeType>-->
+<!--	<dossierChangeType applicationType="ep-generic" code="paidTaxesDocs" enabled="true">dossierChangeType.ep.paidTaxesDocs</dossierChangeType>-->
+	
+</dossierChangeTypes>

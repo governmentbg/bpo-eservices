@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>eu.ohim.sp.external</groupId>
+        <artifactId>ClassificationConsumer</artifactId>
+        <version>2.0.0-RELEASE</version>
+    </parent>
+
+    <artifactId>LocarnoClassificationClientBean</artifactId>
+    <name>LocarnoClassificationClientBean</name>
+    <packaging>ejb</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>eu.ohim.sp.common</groupId>
+            <artifactId>CommonUtils</artifactId>
+        </dependency>
+		<dependency>
+            <groupId>eu.ohim.sp.common</groupId>
+            <artifactId>ConfigurationXSD</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>eu.ohim.sp.domains</groupId>
+            <artifactId>CoreDomain</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>eu.ohim.sp.domains</groupId>
+            <artifactId>CoreServices</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>eu.ohim.sp.domains</groupId>
+            <artifactId>ExternalServices</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>eu.ohim.sp.domains</groupId>
+            <artifactId>ExternalDomain</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>eu.ohim.sp.external</groupId>
+            <artifactId>SPWSException</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>eu.ohim.sp.domains</groupId>
+            <artifactId>WebServicesSchemas</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>eu.ohim.sp.external</groupId>
+            <artifactId>CommonClientService</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.spec</groupId>
+            <artifactId>jboss-javaee-6.0</artifactId>
+            <type>pom</type>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.dozer</groupId>
+            <artifactId>dozer</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-ejb-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib</classpathPrefix>
+                            <classpathLayoutType>custom</classpathLayoutType>
+                            <customClasspathLayout>$${artifact.artifactId}.$${artifact.extension}
+                            </customClasspathLayout>
+                        </manifest>
+                        <manifestEntries>
+                            <Dependencies>eu.ohim.sp, net.sf.dozer</Dependencies>
+                        </manifestEntries>
+                    </archive>
+                    <ejbVersion>3.0</ejbVersion>
+                </configuration>
+            </plugin>
+        </plugins>
+
+    </build>
+
+</project>

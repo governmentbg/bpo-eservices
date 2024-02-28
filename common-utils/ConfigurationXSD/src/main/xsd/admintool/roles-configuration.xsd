@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  * $Id:: roles-configuration.xsd 49260 2013-09-18 16:28:02Z jaraful      $
+  *       . * .
+  *     * RRRR  *    Copyright © 2012 OHIM: Office for Harmonization
+  *   .   RR  R   .  in the Internal Market (trade marks and designs)
+  *   *   RRR     *
+  *    .  RR RR  .   ALL RIGHTS RESERVED
+  *     * . _ . *
+-->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.example.org/test/"
+        targetNamespace="http://www.example.org/test/">
+
+    <complexType name="sectionRights">
+        <sequence>
+            <element name="name" type="string" minOccurs="0" maxOccurs="1"/>
+            <element name="link" type="string" minOccurs="0" maxOccurs="1"/>
+            <element name="rights" type="string" minOccurs="0" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+
+    <element name="sectionPermissions">
+        <complexType>
+            <sequence>
+                <element name="sectionRights" type="tns:sectionRights" minOccurs="0" maxOccurs="unbounded" />
+            </sequence>
+        </complexType>
+    </element>
+
+</schema>

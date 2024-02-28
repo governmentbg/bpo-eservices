@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow parent="pt-common" xmlns="http://www.springframework.org/schema/webflow"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.springframework.org/schema/webflow
+                          http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd" start-state="start">
+
+    <on-start>
+        <evaluate expression="'is-efiling'" result="flowScope.flowModeId"
+                  result-type="java.lang.String" />
+        <!-- This will work as long as the child elements are added before the parent flow -->
+        <evaluate expression="logService.registerVisit(flowScope.flowModeId)"/>
+        <evaluate expression="flowScope.loaded ? null : flowBeanAction.addUserPersonDetails(flowScope.flowBean, flowScope.flowModeId)" result="flowScope.userPersonDetails" />
+        <evaluate expression="personService.addUserDetails(flowScope.flowBean, flowScope.flowModeId)"/>
+        <evaluate expression="flowBeanAction.clearInventors(flowScope.flowBean)"/>
+    </on-start>
+
+    <decision-state id="start">
+        <if test="requestParameters.form_id != null ? (flowScope.flowBean != null ? (flashScope.error_code == null ? true : false) : false) : false"
+            then="#{flowRequestContext.getActiveFlow().containsState('wiz0p') ? 'wiz0p' : 'oneform'}"
+            else="#{flowRequestContext.getActiveFlow().containsState('wizhome') ? 'wizhome' : 'oneform'}"/>
+    </decision-state>
+
+    <view-state id="wizhome" view="homepage" model="flowBean">
+        <transition on="GlobalLogin" to="GlobalLogin" validate="false">
+            <set name="flowScope.currentState" value="'wizhome'"/>
+        </transition>
+
+        <transition on="Next" to="oneform" validate="false" />
+    </view-state>
+
+    <view-state id="oneform" view="tiles" model="flowBean">
+        <transition on="GlobalLogin" to="GlobalLogin" validate="false">
+            <set name="flowScope.currentState" value="'oneform'"/>
+        </transition>
+        <transition on="Next" to="review" validate="true" />
+        <transition on="Previous" to="wizhome" validate="false" />
+    </view-state>
+
+    <view-state id="review" view="tiles" model="flowBean">
+        <transition on="GlobalLogin" to="GlobalLogin" validate="false">
+            <set name="flowScope.currentState" value="'review'"/>
+        </transition>
+
+        <transition on="Update_Patent" to="oneform" validate="false" />
+        <transition on="Update_Person" to="oneform" validate="false" />
+        <transition on="Previous" to="oneform" validate="false" />
+    </view-state>
+</flow>

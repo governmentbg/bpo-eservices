@@ -1,0 +1,284 @@
+package org.domain.rules;
+dialect "mvel"
+
+import eu.ohim.sp.core.domain.payment.Payment;
+import eu.ohim.sp.core.domain.person.PersonRole;
+import eu.ohim.sp.core.domain.payment.PaymentFee;
+import eu.ohim.sp.core.domain.payment.PaymentKind;
+import eu.ohim.sp.core.domain.person.PersonRoleKind;
+import eu.ohim.sp.core.configuration.domain.xsd.Field;
+import eu.ohim.sp.core.configuration.domain.xsd.Section;
+import eu.ohim.sp.core.domain.application.EServiceApplication;
+import eu.ohim.sp.core.domain.contact.Email
+
+
+rule "BR Pay Later Attached Documents - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "payment_details", $fields : field )  
+	Field(id=="payLaterAttachment", $fieldUsable: usable, $fieldRequired : required) from $fields  
+	eval($fieldUsable == true && $fieldRequired == true)
+	EServiceApplication($payments : payments) 
+	
+	PaymentFee (payLaterAttachedDocuments != null && payLaterAttachedDocuments.size() == 0, $status: status, status !=  null) from $payments
+then 
+
+	String statusValue = $status.value();
+	if ( statusValue.equals("To follow")){
+		addError("paymentForm.payLaterAttachment.attachment", "BR.payment.paylaterAttachment.Empty", "Please provide your proof of payment", "mainForm.paymentDataSection", $errorList);	
+	}
+	
+end
+
+
+rule "BR firstName - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "name", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)	
+	EServiceApplication($payments : payments) 
+    PaymentFee ($payer : payer, $status: status) from $payments	   
+	PersonRole((name != null && StringUtils.isEmpty(name.firstName)) || (name==null)) from $payer 	
+then
+	String statusValue = $status.value();
+	if ( !statusValue.equals("To follow")){
+		addError("paymentForm.name", "BRMandatory", "This field is mandatory", null, $errorList);		
+	}	
+end
+
+
+
+rule "BR surname - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "surname", $fieldUsable : usable, $fieldRequired : required ) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	 		
+	EServiceApplication($payments : payments) 
+    PaymentFee ($payer : payer, $status : status) from $payments	
+    PersonRole((name != null && StringUtils.isEmpty(name.lastName))  || (name==null)) from $payer    
+then
+	String statusValue = $status.value();	
+	if ( !statusValue.equals("To follow")){
+		addError("paymentForm.surname", "BRMandatory", "This field is mandatory", null, $errorList);	
+	}	
+end
+
+/*
+rule "BR company - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "company", $fieldUsable : usable, $fieldRequired : required ) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)		
+	DesignApplication($payments : payments)     
+    PaymentFee ($payer : payer, $status : status) from $payments	
+    PersonRole((name != null && StringUtils.isEmpty(name.organizationName))  || (name==null)) from $payer  
+then
+	String statusValue = $status.value();	
+	if ( !statusValue.equals("To follow")){
+		addError("paymentForm.company", "BRMandatory", "This field is mandatory", null, $errorList);
+	}		
+end
+*/
+
+rule "BR Email - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "email", $regex : format, $fieldRequired : required, $fieldUsable : usable ) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)		 	
+	EServiceApplication($payments : payments) 
+    PaymentFee ($payer : payer, $status : status) from $payments	
+    PersonRole($emails : emails, emails == null || emails.size() >= 0  ) from $payer 
+	Email(emailAddress == null || emailAddress == "" ) from $emails      		
+then
+	String statusValue = $status.value();	
+	if ( !statusValue.equals("To follow")){
+		addError("paymentForm.email", "BRMandatory", "This field is mandatory", null, $errorList);	
+	}	
+end
+
+rule "BR Email - Content"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "email", $fieldUsable : usable, $regex : format ) from $fields	 	
+	EServiceApplication($payments : payments) 
+    PaymentFee ($payer : payer, $status: status) from $payments	
+    PersonRole($emails : emails) from $payer 
+	Email(emailAddress != null && emailAddress != "" && emailAddress not matches $regex) from $emails     	
+then
+	String statusValue = $status.value();	
+	if ( !statusValue.equals("To follow")){
+		addError("paymentForm.email", "BRFormat", "This field has a bad format",  null, $errorList);
+	}		
+end
+
+	/*	
+rule "BR payerType - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "payerType", $fieldUsable : usable, $fieldRequired : required ) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)	 		
+	DesignApplication($payments : payments)
+    PaymentFee ($payerIdentifier : payerIdentifier, payerIdentifier == null, $status: status) from $payments	 
+then
+	System.out.println ("BR payerType - Empty ");	
+	String statusValue = $status.value();	
+	if ( !statusValue.equals("To follow")){
+		System.out.println ("BR payerType 2 - Empty ");		
+		addError("paymentForm.selectedPayer", "BRMandatory", "This field is mandatory", null, $errorList);
+	}	
+end
+*/
+
+rule "BR selectedPayer - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "selectedPayer", $fieldUsable : usable, $fieldRequired : required ) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)	 		
+	EServiceApplication($payments : payments) 
+    PaymentFee ($payerIdentifier : payerIdentifier, payerIdentifier == null, $status: status) from $payments
+then
+	String statusValue = $status.value();	
+	if ( !statusValue.equals("To follow")){
+		addError("paymentForm.selectedPayer", "BRMandatory", "This field is mandatory", null, $errorList);
+	}		
+end
+
+
+rule "BR paymentMethod - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "paymentMethod", $fieldUsable : usable, $fieldRequired : required ) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)	 		
+	EServiceApplication($payments : payments) 
+    PaymentFee (kind == null, $status: status) from $payments	
+then
+	String statusValue = $status.value();	
+	if ( !statusValue.equals("To follow")){
+		addError("paymentForm.paymentMethod", "BRMandatory", "This field is mandatory", null, $errorList);	
+	}	
+end
+
+
+rule "BR city - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "address.city", $fieldUsable : usable, $fieldRequired : required ) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)	 		
+	EServiceApplication($payments : payments) 
+    PaymentFee ($payer : payer, $status: status) from $payments	
+    PersonRole(addresses == null || addresses.size() == 0 || (addresses != null && addresses.get(0) != null && (addresses.get(0).city == null || addresses.get(0).city == ""))) from $payer  	
+then
+	String statusValue = $status.value();	
+	if ( !statusValue.equals("To follow")){
+		addError("paymentForm.address.city", "BRMandatory", "This field is mandatory", null, $errorList);
+	}	
+end
+
+
+rule "BR country - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "address.country", $fieldUsable : usable, $fieldRequired : required ) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)	 		
+	EServiceApplication($payments : payments) 
+    PaymentFee ($payer : payer, $status: status) from $payments	
+    PersonRole(addresses == null || addresses.size() == 0 || (addresses != null && addresses.get(0) != null && (addresses.get(0).country == null || addresses.get(0).country == ""))) from $payer  	
+then
+	String statusValue = $status.value();	
+	if ( !statusValue.equals("To follow")){
+		addError("paymentForm.address.country", "BRMandatory", "This field is mandatory", null, $errorList);
+	}	
+end
+
+
+rule "BR stateProvince - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "address.stateprovince", $fieldUsable : usable, $fieldRequired : required ) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)	 	
+	EServiceApplication($payments : payments) 
+    PaymentFee ($payer : payer, $status: status) from $payments	
+    PersonRole($addresses : addresses, addresses == null || addresses.size() == 0 || addresses.get(0).state == null || addresses.get(0).state == "" ) from $payer 	
+then
+	String statusValue = $status.value();	
+	if ( !statusValue.equals("To follow")){
+		addError("paymentForm.address.stateprovince", "BRMandatory", "This field is mandatory", null, $errorList);	
+	}	
+end
+
+
+rule "BR postal code - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "address.postalCode", $fieldUsable : usable, $fieldRequired : required ) from $fields
+	eval($fieldUsable == true && $fieldRequired == true) 		
+	EServiceApplication($payments : payments) 
+    PaymentFee ($payer : payer, $status: status) from $payments	
+    PersonRole(addresses == null || addresses.size() == 0 || (addresses != null && addresses.get(0) != null && (addresses.get(0).postCode == null || addresses.get(0).postCode == ""))) from $payer 	 
+then	
+	String statusValue = $status.value();	
+	if ( !statusValue.equals("To follow")){
+		addError("paymentForm.address.postalCode", "BRMandatory", "This field is mandatory", null, $errorList);
+	}	
+end
+
+
+rule "BR street - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "address.street", $fieldUsable : usable, $fieldRequired : required ) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)	 	
+	EServiceApplication($payments : payments) 
+    PaymentFee ($payer : payer, $status: status) from $payments	
+    PersonRole(addresses == null || addresses.size() == 0 || (addresses != null && addresses.get(0) != null && (addresses.get(0).street == null || addresses.get(0).street == ""))) from $payer 	 
+then
+	String statusValue = $status.value();	
+	if ( !statusValue.equals("To follow")){
+		addError("paymentForm.address.street", "BRMandatory", "This field is mandatory", null, $errorList);	
+	}	
+end
+
+rule "BR house number - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "address.houseNumber", $fieldUsable : usable, $fieldRequired : required ) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)		
+	EServiceApplication($payments : payments) 
+    PaymentFee ($payer : payer, $status: status) from $payments	
+    PersonRole(addresses == null || addresses.size() == 0 || (addresses != null && addresses.get(0) != null && (addresses.get(0).streetNumber == null || addresses.get(0).streetNumber == ""))) from $payer 	
+then
+	String statusValue = $status.value();	
+	if ( !statusValue.equals("To follow")){
+		addError("paymentForm.address.houseNumber", "BRMandatory", "This field is mandatory", null, $errorList);
+	}	
+end

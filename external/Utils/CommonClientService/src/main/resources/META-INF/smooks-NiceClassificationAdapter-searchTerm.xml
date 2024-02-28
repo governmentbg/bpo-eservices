@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
+	xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.4.xsd">
+
+	<jb:bean beanId="searchTerm"
+		class="eu.ohim.sp.external.domain.classification.wrapper.SearchResults"
+		createOnElement="//TransactionData">
+		<jb:wiring beanIdRef="terms" property="terms" />
+		<jb:value
+			data="//TransactionData/ClassificationTermResponse/TotalNumTermsSatisfyingSearchCriteria"
+			decoder="Integer" property="totalResults" />
+	</jb:bean>
+	<jb:bean beanId="terms" class="java.util.ArrayList"
+		createOnElement="//TransactionData">
+		<jb:wiring beanIdRef="Term" />
+	</jb:bean>
+
+	<jb:bean beanId="trademarkList" class="java.util.ArrayList"
+		createOnElement="//TransactionData/ClassificationTermResponse/ClassificationTermDetails/ClassificationTerm/ClassificationTermDetails/ClassificationTermSource/TaxonomyParents">
+		<jb:wiring beanIdRef="trademarkListIdentifier" />
+	</jb:bean>
+	
+	<jb:bean beanId="Term"
+		class="eu.ohim.sp.external.domain.classification.wrapper.Term"
+		createOnElement="//TransactionData/ClassificationTermResponse/ClassificationTermDetails/ClassificationTerm">
+		<jb:value
+			data="//TransactionData/ClassificationTermResponse/ClassificationTermDetails/ClassificationTerm/ClassificationTermDetails/ClassificationTermSource/Identifier"
+			property="id" />
+		<jb:value
+			data="//TransactionData/ClassificationTermResponse/ClassificationTermDetails/ClassificationTerm/ClassificationTermText/@languageCode"
+			property="lang" />
+		<jb:value
+			data="//TransactionData/ClassificationTermResponse/ClassificationTermDetails/ClassificationTerm/ClassNumber"
+			decoder="Integer" property="niceClass" />
+		<jb:value
+			data="//TransactionData/ClassificationTermResponse/ClassificationTermDetails/ClassificationTerm/ScopeAvailability"
+			decoder="Boolean" property="scopeAcceptability" />
+		<jb:value
+			data="//TransactionData/ClassificationTermResponse/ClassificationTermDetails/ClassificationTerm/ClassificationTermText"
+			property="text" />
+		<jb:wiring beanIdRef="trademarkList" property="parentIds" />
+	</jb:bean>
+
+	<jb:value beanId="trademarkListIdentifier" data="//TransactionData/ClassificationTermResponse/ClassificationTermDetails/ClassificationTerm/ClassificationTermDetails/ClassificationTermSource/TaxonomyParents/Identifier" />
+</smooks-resource-list>                      

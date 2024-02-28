@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:sec="http://www.springframework.org/schema/security"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+				        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+
+    <!-- AUTHENTICATION CONFIGURATION -->
+    <sec:authentication-manager alias="spAuthenticationManager">
+        <sec:authentication-provider>
+            <sec:user-service properties="file:///${sp.config}/admin-tool/users.properties" />
+        </sec:authentication-provider>
+    </sec:authentication-manager>
+
+    <bean id="spDelegateAuthenticationEntryPoint"
+          class="org.springframework.security.web.authentication.Http403ForbiddenEntryPoint" />
+
+    <bean id="spDelegateLogoutHandler"
+          class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler" />
+
+    <bean id="spDelegateLogoutSuccessHandler"
+          class="org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler" >
+        <property name="defaultTargetUrl" value="${admin.tool.fe.url}" />
+        <property name="alwaysUseDefaultTargetUrl" value="true" />
+    </bean>
+
+
+    <bean id="spDelegateAccessDeniedHandler"
+          class="org.springframework.security.web.access.AccessDeniedHandlerImpl" />
+
+    <bean id="spSuccessHandler"
+          class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler" >
+        <property name="defaultTargetUrl" value="${admin.tool.fe.url}" />
+        <property name="alwaysUseDefaultTargetUrl" value="true" />
+    </bean>
+
+    <!-- FILTERS CONFIGURATION -->
+    <bean id="spDelegateAuthenticationFilter"
+          class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter">
+        <property name="authenticationManager" ref="spAuthenticationManager" />
+        <property name="authenticationSuccessHandler" ref="spSuccessHandler" />
+    </bean>
+
+</beans>

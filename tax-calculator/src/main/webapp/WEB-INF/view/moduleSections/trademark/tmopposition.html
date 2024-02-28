@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<div th:fragment="tmopposition-fragment">
+
+    <div id="mark-kind-frag" style="width: 100%" class="mb20px">
+        <div th:replace="fragments/markKind :: markKind-fragment"></div>
+    </div>
+    <div id="invalidity-kind-frag" class="mb20px">
+        <div th:replace="fragments/invalidityGroundKind :: invalidityGroundKind-fragment"></div>
+    </div>
+
+</div>
+</html>

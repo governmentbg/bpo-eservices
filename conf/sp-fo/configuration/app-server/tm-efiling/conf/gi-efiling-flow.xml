@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow parent="tm-efiling" xmlns="http://www.springframework.org/schema/webflow"
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:schemaLocation="http://www.springframework.org/schema/webflow
+                          http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd" start-state="start">
+
+	<on-start>
+		<evaluate expression="'gi-efiling'" result="flowScope.flowModeId"
+				  result-type="java.lang.String"/>
+		<!-- This will work as long as the child elements are added before the parent flow -->
+		<evaluate expression="logService.registerVisit(flowScope.flowModeId)"/>
+		<evaluate expression="flowScope.loaded ? null : flowBeanAction.addUserPersonDetails(flowScope.flowBean, flowScope.flowModeId)" result="flowScope.userPersonDetails" />
+		<evaluate expression="personService.addUserDetails(flowScope.flowBean, flowScope.flowModeId)"/>
+	</on-start>
+
+	<decision-state id="start">
+		<if test="requestParameters.form_id != null ? (flowScope.flowBean != null ? (flashScope.error_code == null ? true : false) : false) : false"
+			then="#{flowRequestContext.getActiveFlow().containsState('wiz0') ? 'wiz0' : 'review'}"
+			else="#{'wizhome'}"/>
+	</decision-state>
+
+	<view-state id="wizhome" view="homepage" model="flowBean">
+		<transition on="Next" to="wiz0" validate="false"/>
+
+		<transition on="GlobalLogin" to="GlobalLogin" validate="false">
+			<set name="flowScope.currentState" value="'wizhome'"/>
+		</transition>
+	</view-state>
+
+	<view-state id="wiz0" view="tiles.wiz" model="flowBean">
+		<transition on="Next" to="wiz1" validate="true"/>
+		<transition on="Previous" to="wizhome" validate="false"/>
+
+		<transition on="GlobalLogin" to="GlobalLogin" validate="false">
+			<set name="flowScope.currentState" value="'wiz0'"/>
+		</transition>
+	</view-state>
+
+	<view-state id="wiz1" view="tiles.wiz" model="flowBean">
+		<on-entry>
+			<evaluate expression="flowBeanAction.clearUnnecessaryGSDescriptionFields(flowScope.flowBean)"/>
+		</on-entry>
+		<transition on="Next" to="wiz3" validate="true"/>
+		<transition on="Previous" to="wiz0" validate="false"/>
+
+		<transition on="GlobalLogin" to="GlobalLogin" validate="false">
+			<set name="flowScope.currentState" value="'wiz1'"/>
+		</transition>
+	</view-state>
+
+	<view-state id="wiz3" view="tiles.wiz" model="flowBean">
+		<transition on="Next" to="wiz4" validate="true"/>
+		<transition on="Login" to="wiz3" validate="false"/>
+		<transition on="Previous" to="wiz1" validate="false"/>
+
+		<transition on="GlobalLogin" to="GlobalLogin" validate="false">
+			<set name="flowScope.currentState" value="'wiz3'"/>
+		</transition>
+	</view-state>
+
+	<view-state id="wiz4" view="tiles.wiz" model="flowBean">
+		<transition on="Previous" to="wiz3" validate="false"/>
+
+		<transition on="GlobalLogin" to="GlobalLogin" validate="false">
+			<set name="flowScope.currentState" value="'wiz4'"/>
+		</transition>
+	</view-state>
+
+	<global-transitions>
+		<transition on="Update_Mark" to="wiz0" validate="false"/>
+		<transition on="Update_Person" to="wiz3" validate="false"/>
+		<transition on="Update_GoodsServices" to="wiz1" validate="false"/>
+		<transition on="Update_OtherAttachments" to="wiz4" validate="true"/>
+	</global-transitions>
+
+</flow>

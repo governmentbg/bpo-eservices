@@ -1,0 +1,104 @@
+
+    <field id="fullName">
+        <visible>true</visible>
+        <usable>true</usable>
+        <required>true</required>
+        <previousCTMImportable>true</previousCTMImportable>
+        <priorityImportable>true</priorityImportable>
+        <seniorityImportable>true</seniorityImportable>
+        <transformationImportable>true</transformationImportable>
+        <generalImportable>true</generalImportable>
+        <editableImport>true</editableImport>
+    </field>
+    <field id="position">
+        <visible>false</visible>
+        <usable>false</usable>
+        <required>false</required>
+        <previousCTMImportable>true</previousCTMImportable>
+        <priorityImportable>true</priorityImportable>
+        <seniorityImportable>true</seniorityImportable>
+        <transformationImportable>true</transformationImportable>
+        <generalImportable>true</generalImportable>
+        <editableImport>false</editableImport>
+    </field>
+
+    <field id="email">
+        <visible>false</visible>
+        <usable>false</usable>
+        <required>false</required>
+        <previousCTMImportable>true</previousCTMImportable>
+        <priorityImportable>true</priorityImportable>
+        <seniorityImportable>true</seniorityImportable>
+        <transformationImportable>true</transformationImportable>
+        <generalImportable>true</generalImportable>
+        <format>^[A-Za-z0-9\._-]+@([A-Za-z0-9][A-Za-z0-9-]*[A-Za-z0-9]\.)+([A-Za-z]+\.)?([A-Za-z]+)$</format>
+        <editableImport>false</editableImport>
+    </field>
+
+    <field id="userId">
+        <visible>false</visible>
+        <usable>false</usable>
+        <required>false</required>
+        <previousCTMImportable>true</previousCTMImportable>
+        <priorityImportable>true</priorityImportable>
+        <seniorityImportable>true</seniorityImportable>
+        <transformationImportable>true</transformationImportable>
+        <generalImportable>true</generalImportable>
+        <editableImport>false</editableImport>
+    </field>
+
+    <field id="personCapacity">
+        <visible>true</visible>
+        <usable>true</usable>
+        <required>true</required>
+        <previousCTMImportable>false</previousCTMImportable>
+        <priorityImportable>false</priorityImportable>
+        <seniorityImportable>false</seniorityImportable>
+        <transformationImportable>false</transformationImportable>
+        <generalImportable>false</generalImportable>
+        <editableImport>true</editableImport>
+    </field>
+    <field id="personAddress">
+        <visible>false</visible>
+        <usable>false</usable>
+        <required>false</required>
+        <previousCTMImportable>false</previousCTMImportable>
+        <priorityImportable>false</priorityImportable>
+        <seniorityImportable>false</seniorityImportable>
+        <transformationImportable>false</transformationImportable>
+        <generalImportable>false</generalImportable>
+        <editableImport>false</editableImport>
+    </field>
+    <field id="date">
+        <visible>false</visible>
+        <usable>false</usable>
+        <required>false</required>
+        <previousCTMImportable>false</previousCTMImportable>
+        <priorityImportable>false</priorityImportable>
+        <seniorityImportable>false</seniorityImportable>
+        <transformationImportable>false</transformationImportable>
+        <generalImportable>false</generalImportable>
+        <editableImport>false</editableImport>
+    </field>
+    <field id="signaturePlace">
+        <visible>false</visible>
+        <usable>false</usable>
+        <required>false</required>
+        <previousCTMImportable>false</previousCTMImportable>
+        <priorityImportable>false</priorityImportable>
+        <seniorityImportable>false</seniorityImportable>
+        <transformationImportable>false</transformationImportable>
+        <generalImportable>false</generalImportable>
+        <editableImport>false</editableImport>
+    </field>
+    <field id="signatureAssociatedText">
+        <visible>true</visible>
+        <usable>true</usable>
+        <required>true</required>
+        <previousCTMImportable>false</previousCTMImportable>
+        <priorityImportable>false</priorityImportable>
+        <seniorityImportable>false</seniorityImportable>
+        <transformationImportable>false</transformationImportable>
+        <generalImportable>false</generalImportable>
+        <editableImport>true</editableImport>
+    </field>

@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+
+<project name="db-placeholder-replacer" default="replace" basedir=".">
+
+    <!-- ================================================================== -->
+    <!-- Set varialbes                                                      -->
+    <!-- ================================================================== -->
+    <property name="src.general.file" value="general.sql"/>
+    <property name="dest.general.file" value="general_updated.sql"/>
+    
+    <property name="src.dsefiling.file" value="dsefiling.sql"/>
+    <property name="dest.dsefiling.file" value="dsefiling_updated.sql"/>
+    
+    <property name="src.tmefiling.file" value="tmefiling.sql"/>
+    <property name="dest.tmefiling.file" value="tmefiling_updated.sql"/>
+    
+    <property name="src.eservices.file" value="eservices.sql"/>
+    <property name="dest.eservices.file" value="eservices_updated.sql"/>
+
+    <!-- Read variables from other properties files -->
+    <property file="db.properties"/>
+
+    <!-- ================================================================== -->
+    <!-- Filters properties files and replace @tokens@ with values found in -->
+    <!-- build properties                                                   -->
+    <!-- ================================================================== -->
+    <filterset id="properties.filter" begintoken="@" endtoken="@">
+        <filtersfile file="db.properties"/>
+    </filterset>
+
+    <!-- ================================================================== -->
+    <!-- Initialize build derictories                                       -->
+    <!-- ================================================================== -->
+    <target name="replace" description="Initialize build derictories">
+        <echo>Replacing placeholders...</echo>
+        <copy file="${src.general.file}" tofile="${dest.general.file}" filtering="true" overwrite="true">
+            <filterset refid="properties.filter"/>
+        </copy>
+        
+        <copy file="${src.dsefiling.file}" tofile="${dest.dsefiling.file}" filtering="true" overwrite="true">
+            <filterset refid="properties.filter"/>
+        </copy>
+        
+        <copy file="${src.tmefiling.file}" tofile="${dest.tmefiling.file}" filtering="true" overwrite="true">
+            <filterset refid="properties.filter"/>
+        </copy>
+        
+        <copy file="${src.eservices.file}" tofile="${dest.eservices.file}" filtering="true" overwrite="true">
+            <filterset refid="properties.filter"/>
+        </copy>
+
+    </target>
+
+
+</project>

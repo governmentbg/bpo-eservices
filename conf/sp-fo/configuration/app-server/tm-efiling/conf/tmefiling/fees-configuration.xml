@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<feeList>
+	<feeTypeList>
+		<code>001</code>
+		<nameKey>basicFee</nameKey>
+		<description>basic fee</description>
+		<defaultValue>520.0</defaultValue>
+	</feeTypeList>
+	<feeTypeList>
+		<code>002</code>
+		<nameKey>collectiveFee</nameKey>
+		<description>collective fee</description>
+		<defaultValue>1010.0</defaultValue>
+	</feeTypeList>
+	<feeTypeList>
+		<code>003</code>
+		<nameKey>extraClassBasicFee</nameKey>
+		<description>extra class basic fee</description>
+		<defaultValue>30.0</defaultValue>
+	</feeTypeList>
+	<feeTypeList>
+		<code>004</code>
+		<nameKey>extraClassCollectiveFee</nameKey>
+		<description>extra class collective fee</description>
+		<defaultValue>80.0</defaultValue>
+	</feeTypeList>
+	<feeTypeList>
+		<code>006</code>
+		<nameKey>nationalSearchFee</nameKey>
+		<description>national search fee</description>
+		<defaultValue>0.0</defaultValue>
+	</feeTypeList>
+	<feeTypeList>
+		<code>007</code>
+		<nameKey>maxClasses</nameKey>
+		<description>maximum amount of classes</description>
+		<defaultValue>3.0</defaultValue>
+		<configFee>true</configFee>
+	</feeTypeList>
+	<feeTypeList>
+		<code>008</code>
+		<nameKey>publicationFee</nameKey>
+		<description>publication fee</description>
+		<defaultValue>0.0</defaultValue>
+	</feeTypeList>
+	<feeTypeList>
+		<code>009</code>
+		<nameKey>priorityFee</nameKey>
+		<description>priority fee</description>
+		<defaultValue>20.0</defaultValue>
+	</feeTypeList>
+	<feeTypeList>
+		<code>010</code>
+		<nameKey>exhibitionFee</nameKey>
+		<description>exhibition fee</description>
+		<defaultValue>20.0</defaultValue>
+	</feeTypeList>
+	<feeTypeList>
+		<code>011</code>
+		<nameKey>certificateFee</nameKey>
+		<description>certificate fee</description>
+		<defaultValue>1010.0</defaultValue>
+	</feeTypeList>
+	<feeTypeList>
+		<code>012</code>
+		<nameKey>extraClassFeeCertificate</nameKey>
+		<description>extra class fee certificate</description>
+		<defaultValue>80.0</defaultValue>
+	</feeTypeList>
+	<feeTypeList>
+		<code>013</code>
+		<nameKey>certificateRequestedFee</nameKey>
+		<description>fee for requested issuing of registration certificate</description>
+		<defaultValue>50.0</defaultValue>
+	</feeTypeList>
+</feeList>

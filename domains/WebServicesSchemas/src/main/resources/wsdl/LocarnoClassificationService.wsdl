@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions name="LocarnoClassificationService"
+	targetNamespace="http://ohim.eu/sp/services/locarno-classification/v3"
+    xmlns:tns="http://ohim.eu/sp/services/locarno-classification/v3"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap12/"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+
+    <wsdl:types>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://ohim.eu/sp/services/locarno-classification/v3" schemaLocation="../xsd/services/LocarnoClassificationService.xsd" />
+        </xsd:schema>
+    </wsdl:types>
+
+    <wsdl:message name="searchProductIndication">
+        <wsdl:part name="parameters" element="tns:searchProductIndication" />
+    </wsdl:message>
+    <wsdl:message name="searchProductIndicationResponse">
+        <wsdl:part name="parameters" element="tns:searchProductIndicationResponse" />
+    </wsdl:message>
+    
+    <wsdl:message name="getProductIndications">
+        <wsdl:part name="parameters" element="tns:getProductIndications" />
+    </wsdl:message>
+    <wsdl:message name="getProductIndicationsResponse">
+        <wsdl:part name="parameters" element="tns:getProductIndicationsResponse" />
+    </wsdl:message>
+    
+    <wsdl:message name="getFullClassification">
+        <wsdl:part name="parameters" element="tns:getFullClassification" />
+    </wsdl:message>
+    <wsdl:message name="getFullClassificationResponse">
+        <wsdl:part name="parameters" element="tns:getFullClassificationResponse" />
+    </wsdl:message>
+    
+    <wsdl:message name="locarnoClassificationFault">
+        <wsdl:part name="parameters" element="tns:locarnoClassificationFault"/>
+    </wsdl:message>
+
+    <wsdl:portType name="LocarnoClassificationServicePortType">
+        <wsdl:operation name="getProductIndications">
+            <wsdl:input name="getProductIndications" message="tns:getProductIndications" />
+            <wsdl:output name="getProductIndicationsResponse" message="tns:getProductIndicationsResponse" />
+            <wsdl:fault name="locarnoClassificationFault" message="tns:locarnoClassificationFault"/>
+        </wsdl:operation>
+        <wsdl:operation name="getFullClassification">
+            <wsdl:input name="getFullClassification" message="tns:getFullClassification" />
+            <wsdl:output name="getFullClassificationResponse" message="tns:getFullClassificationResponse" />
+            <wsdl:fault name="locarnoClassificationFault" message="tns:locarnoClassificationFault"/>
+        </wsdl:operation>
+        <wsdl:operation name="searchProductIndication">
+            <wsdl:input name="searchProductIndication" message="tns:searchProductIndication" />
+            <wsdl:output name="searchProductIndicationResponse" message="tns:searchProductIndicationResponse" />
+            <wsdl:fault name="locarnoClassificationFault" message="tns:locarnoClassificationFault"/>
+        </wsdl:operation>
+    </wsdl:portType>
+
+    <wsdl:binding name="LocarnoClassificationServiceBinding"
+                  type="tns:LocarnoClassificationServicePortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+        <wsdl:operation name="getProductIndications">
+            <soap:operation soapAction="" style="document" />
+            <wsdl:input name="getProductIndications">
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output name="getProductIndicationsResponse">
+                <soap:body use="literal" />
+            </wsdl:output>
+            <wsdl:fault name="locarnoClassificationFault">
+                <soap:fault use="literal" name="locarnoClassificationFault"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="getFullClassification">
+            <soap:operation soapAction="" style="document" />
+            <wsdl:input name="getFullClassification">
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output name="getFullClassificationResponse">
+                <soap:body use="literal" />
+            </wsdl:output>
+            <wsdl:fault name="locarnoClassificationFault">
+                <soap:fault use="literal" name="locarnoClassificationFault"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="searchProductIndication">
+            <soap:operation soapAction="" style="document" />
+            <wsdl:input name="searchProductIndication">
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output name="searchProductIndicationResponse">
+                <soap:body use="literal" />
+            </wsdl:output>
+            <wsdl:fault name="locarnoClassificationFault">
+                <soap:fault use="literal" name="locarnoClassificationFault"/>
+            </wsdl:fault>
+        </wsdl:operation>
+    </wsdl:binding>
+
+    <wsdl:service name="LocarnoClassificationService">
+        <wsdl:port name="LocarnoClassificationPort" binding="tns:LocarnoClassificationServiceBinding">
+            <soap:address location="http://${fsp.ws.host}/${fsp.ws.context.root}${fsp.ws.locarno.eu.ohim.sp.external.adapters.eu.ohim.sp.external.adapters.classification.path}${fsp.ws.wsdl.services.path}" />
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

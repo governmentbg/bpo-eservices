@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<div th:fragment="tmrenewal-fragment">
+
+    <div id="number-classes-frag" class="mb20px">
+        <div th:replace="fragments/classesCount :: classesCount-fragment"></div>
+    </div>
+    <div id="mark-kind-frag" style="width: 100%" class="mb20px">
+        <div th:replace="fragments/markKind :: markKind-fragment"></div>
+    </div>
+    <div id="expiration-date-frag" style="width: 100%" class="mb20px">
+        <div th:replace="fragments/expirationDate :: expirationDate-fragment"></div>
+    </div>
+
+</div>
+</html>

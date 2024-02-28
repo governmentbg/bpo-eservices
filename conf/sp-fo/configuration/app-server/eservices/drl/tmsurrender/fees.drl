@@ -1,0 +1,90 @@
+package org.domain.rules;
+
+dialect "mvel"
+
+import eu.ohim.sp.core.domain.validation.ErrorCore;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.domain.payment.FeeList;
+import eu.ohim.sp.core.domain.payment.FeeType;
+import eu.ohim.sp.core.domain.payment.Fee;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.TreeMap;
+import java.util.List;
+import java.util.Date;
+import eu.ohim.sp.core.domain.trademark.GSHelperDetails;
+import eu.ohim.sp.core.domain.trademark.ApplicationExtent;
+import eu.ohim.sp.core.domain.application.EServiceApplication;
+
+rule "Fees reader"
+salience 1000
+no-loop
+    when
+		FeeList($feeTypeList : feeTypeList)
+        $bF : FeeType("basicFee".equals(nameKey)) from $feeTypeList
+        $pF : FeeType("partialSurrenderFee".equals(nameKey)) from $feeTypeList
+        $tF : FeeType("totalSurrenderFee".equals(nameKey)) from $feeTypeList
+    then
+    	TreeMap map = new TreeMap();
+        map.put("basicFee", $bF);
+        map.put("partialSurrenderFee", $pF);
+        map.put("totalSurrenderFee", $tF);
+        insert(map);
+end
+
+rule "Basic Fee"
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        EServiceApplication($gsHList : gsHelpers)
+        eval($gsHList == null || $gsHList.size() == 0)
+    then
+        # Creates the base fee.
+        Fee fee = new Fee();
+        fee.setFeeType((FeeType) $map.get("basicFee"));
+        fee.setQuantity(1);
+        fee.setUnitAmount(((FeeType) $map.get("basicFee")).getDefaultValue());
+        fee.setAmount(fee.quantity * fee.unitAmount);
+        # Adds the base fee to the result list
+        $results.put("basicFee", fee);
+end
+
+rule "Surrender Fee"
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        EServiceApplication($gsHList : gsHelpers)     
+        eval($gsHList != null && $gsHList.size() >0)  
+        
+    then
+    	int count = 0;
+    	int countTotal = 0;
+    	for(GSHelperDetails hd: $gsHList){
+    		if(hd.getApplicationExtent().equals(ApplicationExtent.PARTIAL_GOODS_AND_SERVICES)) {
+    			count++;
+    		} else if(hd.getApplicationExtent().equals(ApplicationExtent.ALL_GOODS_AND_SERVICES)){
+                countTotal++;
+    		}
+    	}
+    	if(count > 0) {
+            Fee fee = new Fee();
+            fee.setFeeType((FeeType) $map.get("partialSurrenderFee"));
+            fee.setQuantity(count);
+            fee.setUnitAmount(((FeeType) $map.get("partialSurrenderFee")).getDefaultValue());
+            fee.setAmount(fee.quantity * fee.unitAmount);
+            # Adds the base fee to the result list
+            $results.put("partialSurrenderFee", fee);
+        }
+
+        if(countTotal > 0) {
+            Fee feeTotal = new Fee();
+            feeTotal.setFeeType((FeeType) $map.get("totalSurrenderFee"));
+            feeTotal.setQuantity(countTotal);
+            feeTotal.setUnitAmount(((FeeType) $map.get("totalSurrenderFee")).getDefaultValue());
+            feeTotal.setAmount(feeTotal.quantity * feeTotal.unitAmount);
+            # Adds the base fee to the result list
+            $results.put("totalSurrenderFee", feeTotal);
+        }
+end

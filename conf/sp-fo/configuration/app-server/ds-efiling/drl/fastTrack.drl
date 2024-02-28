@@ -1,0 +1,195 @@
+package org.domain.rules;
+
+dialect "mvel"
+
+import java.util.Map;
+import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.Calendar;
+import java.lang.*;
+import java.lang.System;
+import org.apache.commons.lang.*;
+import org.apache.commons.lang.StringUtils;
+
+import eu.ohim.sp.core.configuration.domain.xsd.Section;
+import eu.ohim.sp.core.configuration.domain.xsd.Field;
+import eu.ohim.sp.core.configuration.domain.xsd.Sections;
+import eu.ohim.sp.core.configuration.domain.xsd.AvailableSection;
+
+import eu.ohim.sp.core.domain.application.Signatory;
+import eu.ohim.sp.core.domain.application.EServiceApplication;
+import eu.ohim.sp.core.domain.design.DSeServiceApplication;
+import eu.ohim.sp.core.domain.design.Design;
+import eu.ohim.sp.core.domain.design.DesignApplication;
+import eu.ohim.sp.core.domain.fasttrack.FastTrackFail;
+import eu.ohim.sp.core.domain.licence.Licence;
+import eu.ohim.sp.core.domain.trademark.ClassificationTerm;
+import eu.ohim.sp.core.domain.trademark.ClassDescription;
+import eu.ohim.sp.core.domain.trademark.ClassificationErrorType
+import eu.ohim.sp.core.domain.trademark.TradeMarkApplication;
+import eu.ohim.sp.core.domain.trademark.GSHelperDetails;
+import eu.ohim.sp.core.domain.trademark.ApplicationExtent;
+import eu.ohim.sp.core.domain.trademark.LimitedTradeMark;
+import eu.ohim.sp.core.domain.trademark.TradeMark;
+import eu.ohim.sp.core.domain.trademark.MarkFeature;
+import eu.ohim.sp.core.domain.person.Applicant;
+import eu.ohim.sp.core.domain.person.Representative;
+import eu.ohim.sp.core.domain.person.PersonIdentifier;
+import eu.ohim.sp.core.domain.person.PersonKind;
+import eu.ohim.sp.core.domain.opposition.OppositionGround;
+import eu.ohim.sp.core.domain.opposition.OppositionRelativeGrounds;
+import eu.ohim.sp.core.domain.opposition.GroundCategoryKind;
+import eu.ohim.sp.core.domain.payment.PaymentFee;
+import eu.ohim.sp.core.domain.payment.MatchedFee;
+import eu.ohim.sp.core.domain.payment.PaymentStatusCode;
+import eu.ohim.sp.core.domain.validation.ErrorCore;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.domain.validation.RulesInformation;
+import eu.ohim.sp.core.domain.design.Priority
+import eu.ohim.sp.core.domain.design.ProductIndication
+import eu.ohim.sp.core.domain.design.ProductIndicationClass
+import eu.ohim.sp.core.domain.design.ProductIndicationTerm
+import eu.ohim.sp.core.domain.design.ValidationCode;
+
+
+rule "List creator"
+salience 1100
+no-loop
+    when
+        $results : HashMap()
+        # This rule has no WHEN. Is always triggered
+    then
+		# Inserts a new TreeMap in the session
+		ArrayList results = new ArrayList();
+		$results.put("fasttrack.fails", results);
+        insert(results);
+end
+
+rule "Fast Track : Unvalidated locarno terms"
+no-loop
+    when
+        $results : ArrayList()
+		RulesInformation($sections : customObjects["sections"])
+		Sections($sectionList : section) from $sections
+		Section(id == AvailableSection.DESIGNS_DETAILS, visible == true, $fields : field) from $sectionList
+        Field( id == "locarnoEnabled", usable == true, fastTrack == true, $fieldFastTrackValues : fastTrackValues) from $fields
+		DesignApplication(designDetails!=null && designDetails.size()>0, $designDetails : designDetails)
+    then
+        ArrayList results = $results;
+        List designDetails = $designDetails;
+        String[] args = null;
+        Design design = null;
+        int count = 0;
+        for (int i=0; i<designDetails.size(); i++) {
+            design = designDetails.get(i);
+            count = 0;
+            if(design.getProductIndications()!=null){
+                for (ProductIndication productIndication : design.getProductIndications()){
+                    if (productIndication!=null && productIndication.getValidationCode() != null && !productIndication.getValidationCode().equals(ValidationCode.OK)) {
+                        count++;
+                    }
+                }
+                if (count > 0) {
+                    args = { Integer.toString(count), Integer.toString(i+1) };
+                    results.add(new FastTrackFail("fasttrack.fail.rule.terms", args, false, "Update_Design", "#designsDetails"));
+                }
+            }
+        }
+end
+
+rule "Fast Track : Divisional Application"
+no-loop
+    when
+        $results : ArrayList()
+		RulesInformation($sections : customObjects["sections"])
+		Sections($sectionList : section) from $sections
+		Section(id == AvailableSection.DIVISIONAL_APPLICATION_SECTION, visible == true, fastTrack == true) from $sectionList
+		DesignApplication(divisionalApplicationDetails!=null)
+    then
+        $results.add(new FastTrackFail("fasttrack.fail.rule.divisionalApplication", null, false, "Update_Claim", "#divisionalApplicationSection"));
+end
+
+rule "Fast Track : Priority claim"
+no-loop
+    when
+        $results : ArrayList()
+		RulesInformation($sections : customObjects["sections"])
+		Sections($sectionList : section) from $sections
+        Section(id == AvailableSection.CLAIM, visible == true, $subsectionList : subsection) from $sectionList
+        Section(id == AvailableSection.PRIORITY, visible == true, fastTrack == true) from $subsectionList
+		DesignApplication(priorities!=null && priorities.size()>0, $priorities : priorities)
+    then
+        int count = 0;
+        for (Priority priority : $priorities){
+            if (priority.getAttachedDocuments()==null || priority.getAttachedDocuments().size()==0) {
+                count++;
+            }
+        }
+        if (count > 0) {
+            String[] args = { Integer.toString(count) };
+            $results.add(new FastTrackFail("fasttrack.fail.rule.claim.priority", args, false, "Update_Claim", "#claim"));
+        }
+end
+
+rule "Fast Track : Priority claim later"
+no-loop
+    when
+        $results : ArrayList()
+		RulesInformation($sections : customObjects["sections"])
+		Sections($sectionList : section) from $sections
+        Section(id == AvailableSection.CLAIM, visible == true, $fields : field) from $sectionList
+        Field( id == "priorityClaimLater", usable == true, fastTrack == true, $fieldFastTrackValues : fastTrackValues) from $fields
+		DesignApplication(priorityClaimLaterIndicator!=null, $priorityClaimLaterIndicator : priorityClaimLaterIndicator)
+    then
+        if ($fieldFastTrackValues!=null && $fieldFastTrackValues=="false" && $priorityClaimLaterIndicator==true) {
+            $results.add(new FastTrackFail("fasttrack.fail.rule.claim.priority.later", null, false, "Update_Claim", "#claim"));
+        }
+end
+
+rule "Fast Track : Different locarno classes in designs"
+no-loop
+    when
+        $results : ArrayList()
+    	RulesInformation($sections : customObjects["sections"])
+    	$designApp : DesignApplication(designDetails != null , $designDetails : designDetails)
+        eval(!checkProductIndicationClasses($designApp))
+    then
+        $results.add(new FastTrackFail("fasttrack.fail.rule.design.classes.differ", null, false, "Update_Design", "#designsDetails"));
+end
+
+rule "Fast Track : Online payment"
+no-loop
+    when
+        $results : ArrayList()
+        RulesInformation($sections : customObjects["sections"], $state: customObjects["stateId"])
+        Sections($sectionList : section) from $sections
+        Section(id == AvailableSection.OTHER_ATTACHMENTS, visible == true, $subsectionList : subsection, $sectionState: viewStateId) from $sectionList
+        eval($state == null || $state == $sectionState)
+        DesignApplication((willPayOnline == null || willPayOnline == false) && (documents == null || containsNDocumentsOfType(documents , "Proof of Payment", 1) == false))
+    then
+        $results.add(new FastTrackFail("fasttrack.fail.rule.online.payment", null, false, "Update_OtherAttachments", "#otherAttachments"));
+end
+
+rule "Fast Track : Power of Attorney"
+no-loop
+    when
+        $results : ArrayList()
+        RulesInformation($sections : customObjects["sections"], $state: customObjects["stateId"])
+        Sections($sectionList : section) from $sections
+        Section(id == AvailableSection.OTHER_ATTACHMENTS, visible == true, $subsectionList : subsection, $sectionState: viewStateId) from $sectionList
+        eval($state == null || $state == $sectionState)
+        DesignApplication(representatives != null && representatives.size() >0 && containsNDocumentsOfType(documents , "Power Of Attorney", 1) == false)
+    then
+        $results.add(new FastTrackFail("fasttrack.fail.rule.pow", null, false, "Update_OtherAttachments", "#otherAttachments"));
+end
+
+function List fromCsvToList(String values) {
+	if (values != null) {
+		return Arrays.asList(values.split(","));
+	} else {
+		return null;
+	}
+}

@@ -1,0 +1,16 @@
+<!--
+  ~ * DocumentService:: container.xml 03/09/13 10:33 karalch $
+  ~  * . * .
+  ~  * * RRRR * Copyright © 2013 OHIM: Office for Harmonization
+  ~  * . RR R . in the Internal Market (trade marks and designs)
+  ~  * * RRR *
+  ~  * . RR RR . ALL RIGHTS RESERVED
+  ~  * * . _ . *
+  -->
+
+<container xmlns="urn:oasis:names:tc:opendocument:xmlns:container"
+	version="1.0">
+	<rootfiles>
+		<rootfile full-path="application.xml" media-type="application/vnd.cf.tm+xml" />
+	</rootfiles>
+</container>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="unqualified"
+	version="3.2"
+	targetNamespace="http://ohim.eu/sp/services/user-search/v3"
+	xmlns:tns="http://ohim.eu/sp/services/user-search/v3" 
+	xmlns:user="http://ohim.eu/sp/domain/user/v3"
+	xmlns:common="http://ohim.eu/sp/domain/common/v3"		
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:import namespace="http://ohim.eu/sp/domain/user/v3" schemaLocation="../domain/UserDomain.xsd" />
+	<xs:import namespace="http://ohim.eu/sp/domain/common/v3" schemaLocation="../domain/CommonDomain.xsd" />
+
+	<xs:element name="searchUser" type="tns:SearchUser" />
+	<xs:element name="searchUserResponse" type="tns:SearchUserResponse" />
+	
+	<xs:element name="getUser" type="tns:GetUser" />
+	<xs:element name="getUserResponse" type="tns:GetUserResponse" />
+	
+	<xs:element name="getAllRoles" type="tns:GetAllRoles" />
+	<xs:element name="getAllRolesResponse" type="tns:GetAllRolesResponse" />
+	
+	<xs:element name="getAllGroups" type="tns:GetAllGroups" />
+	<xs:element name="getAllGroupsResponse" type="tns:GetAllGroupsResponse" />
+	
+	<xs:element name="userFault" type="tns:UserFault" />
+
+    <xs:element name="user" type="user:User" />
+    <xs:element name="foUser" type="user:FOUser" substitutionGroup="tns:user" />
+    <xs:element name="boUser" type="user:BOUser" substitutionGroup="tns:user" />
+
+    <xs:complexType name="UserFault">
+		<xs:sequence>
+			<xs:element minOccurs="0" name="return" type="common:Fault" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="SearchUser">
+		<xs:sequence>
+            <xs:element minOccurs="0" name="module" type="xs:string" />
+            <xs:element minOccurs="0" name="office" type="xs:string" />
+			<xs:element minOccurs="0" name="searchCriteria" type="common:ParamsMap" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SearchUserResponse">
+		<xs:sequence>
+			<xs:element minOccurs="0" maxOccurs="unbounded" ref="tns:user" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="GetUser">
+		<xs:sequence>
+            <xs:element minOccurs="0" name="module" type="xs:string" />
+            <xs:element minOccurs="0" name="office" type="xs:string" />
+			<xs:element minOccurs="0" name="username" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+    <xs:complexType name="GetUserResponse">
+		<xs:sequence>
+            <xs:element ref="tns:user"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="GetAllRoles" >
+        <xs:sequence>
+            <xs:element minOccurs="0" name="module" type="xs:string" />
+            <xs:element minOccurs="0" name="office" type="xs:string" />
+        </xs:sequence>
+    </xs:complexType>
+	<xs:complexType name="GetAllRolesResponse">
+		<xs:sequence>
+			<xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="user:UserRole" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="GetAllGroups" >
+        <xs:sequence>
+            <xs:element minOccurs="0" name="module" type="xs:string" />
+            <xs:element minOccurs="0" name="office" type="xs:string" />
+        </xs:sequence>
+    </xs:complexType>
+	<xs:complexType name="GetAllGroupsResponse">
+		<xs:sequence>
+			<xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="user:UserGroup" />
+		</xs:sequence>
+	</xs:complexType>
+
+</xs:schema>

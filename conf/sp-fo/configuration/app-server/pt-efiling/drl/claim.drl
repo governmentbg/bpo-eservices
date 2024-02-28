@@ -1,0 +1,543 @@
+package org.domain.rules;
+dialect "mvel"
+
+import java.util.Map;
+import java.util.ArrayList;
+import java.util.HashMap;
+import org.apache.commons.lang.*;
+import eu.ohim.sp.core.domain.patent.PatentPriority;
+import eu.ohim.sp.core.domain.patent.PCT;
+import eu.ohim.sp.core.domain.patent.ParallelApplication;
+import eu.ohim.sp.core.domain.claim.ExhibitionPriority;
+import eu.ohim.sp.core.domain.patent.PatentTransformation;
+import eu.ohim.sp.core.domain.application.DivisionalApplicationDetails;
+
+import eu.ohim.sp.core.configuration.domain.xsd.Section;
+import eu.ohim.sp.core.configuration.domain.xsd.Field;
+import eu.ohim.sp.core.domain.validation.RulesInformation
+import java.util.Calendar
+import java.util.Date;
+
+global eu.ohim.sp.core.domain.validation.ErrorList errorList;
+
+
+rule "BR Priority number - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "number", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	PatentPriority(StringUtils.isEmpty(filingNumber))
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	addError("number", "BRMandatory", "This field is mandatory", null, $errorList);
+end
+
+rule "BR Priority number - Format"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "number", $fieldUsable : usable, $fieldRequired : required, $regex: format) from $fields
+	eval($fieldUsable == true)
+	PatentPriority(StringUtils.isNotEmpty(filingNumber) && filingNumber not matches $regex)
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	addError("number", "BRFormat.priority.number", "This field has bad format", null, $errorList);
+end
+
+rule "BR Priority date - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "date", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	PatentPriority(filingDate == null)
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	addError("date", "BRMandatory", "This field is mandatory", null, $errorList);
+end
+
+rule "BR Priority date - Must be in the past"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "date", $fieldUsable : usable) from $fields
+	eval($fieldUsable == true)
+	PatentPriority(filingDate != null, $date: filingDate)
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+    Calendar calendar = Calendar.getInstance();
+    Date now = calendar.getTime();
+    if($date.compareTo(now) >0){
+        addError("date", "BR.future.date.error", "The date can not be in the future", null, $errorList);
+    }
+end
+
+rule "BR Priority country - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "country", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	PatentPriority(StringUtils.isEmpty(filingOffice))
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	addError("country", "BRMandatory", "This field is mandatory", null, $errorList);
+end
+
+rule "BR Priority attachment - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "filePriorityCertificate.attachment", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	PatentPriority(certicateAttachedIndicator && (attachedDocuments == null || attachedDocuments.size()<=0))
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	addError("filePriorityCertificate.attachment", "BRMandatory", "This field is mandatory", null, $errorList);
+end
+
+
+rule "BR DivisionalApplicationDetails number - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "numberDivisionalApplication", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	DivisionalApplicationDetails(StringUtils.isEmpty(initialApplicationNumber))
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	addError("numberDivisionalApplication", "BRMandatory", "This field is mandatory", null, $errorList);
+end
+
+rule "BR DivisionalApplicationDetails number - Format"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "numberDivisionalApplication", $fieldUsable : usable, $fieldRequired : required, $regex: format) from $fields
+	eval($fieldUsable == true)
+	DivisionalApplicationDetails(StringUtils.isNotEmpty(initialApplicationNumber) && initialApplicationNumber not matches $regex)
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	addError("numberDivisionalApplication", "BRFormat", "This field has bad format", null, $errorList);
+end
+
+rule "BR DivisionalApplicationDetails date - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "dateDivisionalApplication", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	DivisionalApplicationDetails(initialApplicationDate == null)
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	addError("dateDivisionalApplication", "BRMandatory", "This field is mandatory", null, $errorList);
+end
+
+rule "BR DivisionalApplicationDetails date - Must be in the past"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "dateDivisionalApplication", $fieldUsable : usable) from $fields
+	eval($fieldUsable == true)
+	DivisionalApplicationDetails(initialApplicationDate != null, $date: initialApplicationDate)
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+    Calendar calendar = Calendar.getInstance();
+    Date now = calendar.getTime();
+    if($date.compareTo(now) >0){
+        addError("dateDivisionalApplication", "BR.future.date.error", "The date can not be in the future", null, $errorList);
+    }
+end
+
+rule "BR Exhibition name - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "exhibitionName", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	ExhibitionPriority(exhibition == null || (StringUtils.isEmpty(exhibition.name)))
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	addError("exhibitionName", "BRMandatory", "This field is mandatory", null, $errorList);
+end
+
+rule "BR Exhibition date - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "firstDate", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	ExhibitionPriority(firstDisplayDate == null)
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	addError("firstDate", "BRMandatory", "This field is mandatory", null, $errorList);
+end
+
+rule "BR Exhibition date - Must be in the past"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "firstDate", $fieldUsable : usable) from $fields
+	eval($fieldUsable == true)
+	ExhibitionPriority(firstDisplayDate != null, $date: firstDisplayDate)
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+    Calendar calendar = Calendar.getInstance();
+    Date now = calendar.getTime();
+    if($date.compareTo(now) >0){
+        addError("firstDate", "BR.future.date.error", "The date can not be in the future", null, $errorList);
+    }
+end
+
+rule "BR PCT application number - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "applicationNumber", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	PCT(StringUtils.isEmpty(applicationNumber))
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	addError("applicationNumber", "BRMandatory", "This field is mandatory", null, $errorList);
+end
+
+rule "BR PCT application number - Format"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "applicationNumber", $fieldUsable : usable, $fieldRequired : required, $regex: format) from $fields
+	eval($fieldUsable == true)
+	PCT(StringUtils.isNotEmpty(applicationNumber) && applicationNumber not matches $regex)
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	addError("applicationNumber", "BRFormat", "This field has bad format", null, $errorList);
+end
+
+rule "BR PCT publication number - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "publicationNumber", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	PCT(StringUtils.isEmpty(publicationNumber))
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	addError("publicationNumber", "BRMandatory", "This field is mandatory", null, $errorList);
+end
+
+rule "BR PCT publication number - Format"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "publicationNumber", $fieldUsable : usable, $fieldRequired : required, $regex: format) from $fields
+	eval($fieldUsable == true)
+	PCT(StringUtils.isNotEmpty(publicationNumber) && publicationNumber not matches $regex)
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	addError("publicationNumber", "BRFormat", "This field has bad format", null, $errorList);
+end
+
+
+rule "BR PCT application date - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "applicationDate", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	PCT(applicationDate == null)
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	addError("applicationDate", "BRMandatory", "This field is mandatory", null, $errorList);
+end
+
+rule "BR PCT application date - Must be in the past"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "applicationDate", $fieldUsable : usable) from $fields
+	eval($fieldUsable == true)
+	PCT(applicationDate != null, $date: applicationDate)
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+    Calendar calendar = Calendar.getInstance();
+    Date now = calendar.getTime();
+    if($date.compareTo(now) >0){
+        addError("applicationDate", "BR.future.date.error", "The date can not be in the future", null, $errorList);
+    }
+end
+
+rule "BR PCT publication date - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "publicationDate", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	PCT(publicationDate == null)
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	addError("publicationDate", "BRMandatory", "This field is mandatory", null, $errorList);
+end
+
+rule "BR PCT publication date - Must be in the past"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "publicationDate", $fieldUsable : usable) from $fields
+	eval($fieldUsable == true)
+	PCT(publicationDate != null, $date: publicationDate)
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+    Calendar calendar = Calendar.getInstance();
+    Date now = calendar.getTime();
+    if($date.compareTo(now) >0){
+        addError("publicationDate", "BR.future.date.error", "The date can not be in the future", null, $errorList);
+    }
+end
+
+rule "BR PatentTransformation application number - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "applicationNumber", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	PatentTransformation(StringUtils.isEmpty(applicationNumber))
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	addError("applicationNumber", "BRMandatory", "This field is mandatory", null, $errorList);
+end
+
+rule "BR PatentTransformation application number - Format"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "applicationNumber", $fieldUsable : usable, $fieldRequired : required, $regex: format) from $fields
+	eval($fieldUsable == true)
+	PatentTransformation(StringUtils.isNotEmpty(applicationNumber) && applicationNumber not matches $regex)
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	addError("applicationNumber", "BRFormat", "This field had bad format", null, $errorList);
+end
+
+rule "BR PatentTransformation publication number - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "publicationNumber", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	PatentTransformation(StringUtils.isEmpty(publicationNumber))
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	addError("publicationNumber", "BRMandatory", "This field is mandatory", null, $errorList);
+end
+
+rule "BR PatentTransformation publication number - Format"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "publicationNumber", $fieldUsable : usable, $fieldRequired : required, $regex: format) from $fields
+	eval($fieldUsable == true)
+	PatentTransformation(StringUtils.isNotEmpty(publicationNumber) && publicationNumber not matches $regex)
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	addError("publicationNumber", "BRFormat", "This field had bad format", null, $errorList);
+end
+
+rule "BR PatentTransformation application date - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "applicationDate", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	PatentTransformation(applicationDate == null)
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	addError("applicationDate", "BRMandatory", "This field is mandatory", null, $errorList);
+end
+
+rule "BR PatentTransformation application date - Must be in the past"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "applicationDate", $fieldUsable : usable) from $fields
+	eval($fieldUsable == true)
+	PatentTransformation(applicationDate != null, $date: applicationDate)
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+    Calendar calendar = Calendar.getInstance();
+    Date now = calendar.getTime();
+    if($date.compareTo(now) >0){
+        addError("applicationDate", "BR.future.date.error", "The date can not be in the future", null, $errorList);
+    }
+end
+
+rule "BR PatentTransformation publication date - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "publicationDate", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	PatentTransformation(publicationDate == null)
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	addError("publicationDate", "BRMandatory", "This field is mandatory", null, $errorList);
+end
+
+rule "BR PatentTransformation publication date - Must be in the past"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "publicationDate", $fieldUsable : usable) from $fields
+	eval($fieldUsable == true)
+	PatentTransformation(publicationDate != null, $date: publicationDate)
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+    Calendar calendar = Calendar.getInstance();
+    Date now = calendar.getTime();
+    if($date.compareTo(now) >0){
+        addError("publicationDate", "BR.future.date.error", "The date can not be in the future", null, $errorList);
+    }
+end
+
+rule "BR ParallelApplication application number - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "applicationNumber", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	ParallelApplication(StringUtils.isEmpty(applicationNumber))
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	addError("applicationNumber", "BRMandatory", "This field is mandatory", null, $errorList);
+end
+
+rule "BR ParallelApplication application number - Format"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "applicationNumber", $fieldUsable : usable, $fieldRequired : required, $regex: format) from $fields
+	eval($fieldUsable == true )
+	ParallelApplication(StringUtils.isNotEmpty(applicationNumber) && applicationNumber not matches $regex)
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	addError("applicationNumber", "BRFormat", "This field has bad format", null, $errorList);
+end
+
+rule "BR ParallelApplication publication number - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "publicationNumber", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	ParallelApplication(StringUtils.isEmpty(publicationNumber))
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	addError("publicationNumber", "BRMandatory", "This field is mandatory", null, $errorList);
+end
+
+rule "BR ParallelApplication publication number - Format"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "publicationNumber", $fieldUsable : usable, $fieldRequired : required, $regex: format) from $fields
+	eval($fieldUsable == true )
+	ParallelApplication(StringUtils.isNotEmpty(publicationNumber) && publicationNumber not matches $regex)
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	addError("publicationNumber", "BRFormat", "This field has bad format", null, $errorList);
+end
+
+rule "BR ParallelApplication application date - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "applicationDate", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	ParallelApplication(applicationDate == null)
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	addError("applicationDate", "BRMandatory", "This field is mandatory", null, $errorList);
+end
+
+rule "BR ParallelApplication application date - Must be in the past"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "applicationDate", $fieldUsable : usable) from $fields
+	eval($fieldUsable == true)
+	ParallelApplication(applicationDate != null, $date: applicationDate)
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+    Calendar calendar = Calendar.getInstance();
+    Date now = calendar.getTime();
+    if($date.compareTo(now) >0){
+        addError("applicationDate", "BR.future.date.error", "The date can not be in the future", null, $errorList);
+    }
+end
+
+
+rule "BR ParallelApplication publication date - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "publicationDate", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	ParallelApplication(publicationDate == null)
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	addError("publicationDate", "BRMandatory", "This field is mandatory", null, $errorList);
+end
+
+rule "BR ParallelApplication publication date - Must be in the past"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "publicationDate", $fieldUsable : usable) from $fields
+	eval($fieldUsable == true)
+	ParallelApplication(publicationDate != null, $date: publicationDate)
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+    Calendar calendar = Calendar.getInstance();
+    Date now = calendar.getTime();
+    if($date.compareTo(now) >0){
+        addError("publicationDate", "BR.future.date.error", "The date can not be in the future", null, $errorList);
+    }
+end
+

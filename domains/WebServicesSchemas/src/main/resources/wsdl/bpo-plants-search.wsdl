@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:Q1="http://egov.bg/RegiX/PatentDepartment" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://bg.org/bpo/register/search/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="bpo-register-search" targetNamespace="http://bg.org/bpo/register/search/">
+	<wsdl:types>
+		<xsd:schema targetNamespace="http://bg.org/bpo/register/search/">
+			<xsd:import namespace="http://egov.bg/RegiX/PatentDepartment" schemaLocation="../xsd/services/patentdepartment/REG_PLANT_App_Number_Request.xsd"/>
+		</xsd:schema>
+		<xsd:schema>
+			<xsd:import namespace="http://egov.bg/RegiX/PatentDepartment" schemaLocation="../xsd/services/patentdepartment/REG_PLANT_Reg_Number_Request.xsd"/>
+			<xsd:import namespace="http://egov.bg/RegiX/PatentDepartment" schemaLocation="../xsd/services/patentdepartment/REG_PLANT_Owner_Request.xsd"/>
+			<xsd:import namespace="http://egov.bg/RegiX/PatentDepartment" schemaLocation="../xsd/services/patentdepartment/REG_PLANT_Name_Request.xsd"/>
+			<xsd:import namespace="http://egov.bg/RegiX/PatentDepartment" schemaLocation="../xsd/services/patentdepartment/REG_UM_PATENT_PatentDetails_Response.xsd"/>
+			<xsd:import namespace="http://egov.bg/RegiX/PatentDepartment" schemaLocation="../xsd/services/patentdepartment/REG_PLANT_App_Number_Request.xsd"/>
+		</xsd:schema>
+	</wsdl:types>
+	<wsdl:message name="NewOperationRequest">
+		<wsdl:part element="Q1:getPlantByAppNum" name="appNum"/>
+	</wsdl:message>
+	<wsdl:message name="NewOperationResponse">
+		<wsdl:part element="Q1:PatentDetails" name="GetPlantByAppNumResponse"/>
+	</wsdl:message>
+	<wsdl:message name="NewOperationRequest1">
+		<wsdl:part element="Q1:getPlantsByName" name="plantName"/>
+	</wsdl:message>
+	<wsdl:message name="NewOperationResponse1">
+		<wsdl:part element="Q1:PatentDetails" name="GetPlantsByNameResponse"/>
+	</wsdl:message>
+	<wsdl:message name="NewOperationRequest2">
+		<wsdl:part element="Q1:getPlantByOwnersName" name="ownersName"/>
+	</wsdl:message>
+	<wsdl:message name="NewOperationResponse2">
+		<wsdl:part element="Q1:PatentDetails" name="GetPlantByOwnersNameResponse"/>
+	</wsdl:message>
+	<wsdl:message name="NewOperationRequest3">
+		<wsdl:part element="Q1:getPlantByRegNum" name="regNum"/>
+	</wsdl:message>
+	<wsdl:message name="NewOperationResponse3">
+		<wsdl:part element="Q1:PatentDetails" name="GetPlantByRegNumResponse"/>
+	</wsdl:message>
+	<wsdl:portType name="BPOPlantsSearch">
+		<wsdl:operation name="getPlantByAppNum">
+			<wsdl:input message="tns:NewOperationRequest"/>
+			<wsdl:output message="tns:NewOperationResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="getPlantsByName">
+			<wsdl:input message="tns:NewOperationRequest1"/>
+			<wsdl:output message="tns:NewOperationResponse1"/>
+		</wsdl:operation>
+		<wsdl:operation name="getPlantByOwnersName">
+			<wsdl:input message="tns:NewOperationRequest2"/>
+			<wsdl:output message="tns:NewOperationResponse2"/>
+		</wsdl:operation>
+		<wsdl:operation name="getPlantByRegNum">
+			<wsdl:input message="tns:NewOperationRequest3"/>
+			<wsdl:output message="tns:NewOperationResponse3"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="BPOPlantsSearchBinding" type="tns:BPOPlantsSearch">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="getPlantByAppNum">
+			<soap:operation soapAction="http://bg.org/bpo/register/search/getPlantByAppNum"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="getPlantsByName">
+			<soap:operation soapAction="http://bg.org/bpo/register/search/getPlantsByName"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="getPlantByOwnersName">
+			<soap:operation soapAction="http://bg.org/bpo/register/search/getPlantByOwnersName"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="getPlantByRegNum">
+			<soap:operation soapAction="http://bg.org/bpo/register/search/getPlantByRegNum"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="BPOPlantsSearchService">
+		<wsdl:port binding="tns:BPOPlantsSearchBinding" name="BPOPlantsSearchServiceDefaultPort">
+			<soap:address location="http://www.example.org/"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

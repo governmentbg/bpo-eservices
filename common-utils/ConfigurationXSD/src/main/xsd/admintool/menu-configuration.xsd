@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  * $Id:: roles-configuration.xsd 49260 2013-09-18 16:28:02Z jaraful      $
+  *       . * .
+  *     * RRRR  *    Copyright © 2012 OHIM: Office for Harmonization
+  *   .   RR  R   .  in the Internal Market (trade marks and designs)
+  *   *   RRR     *
+  *    .  RR RR  .   ALL RIGHTS RESERVED
+  *     * . _ . *
+-->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.example.org/test/"
+        targetNamespace="http://www.example.org/test/">
+
+    <complexType name="section">
+        <sequence>
+            <element name="key" type="string" minOccurs="0" maxOccurs="1"/>
+            <element name="items" type="tns:items" />
+        </sequence>
+    </complexType>
+
+    <complexType name="items">
+        <sequence>
+            <element name="item" type="tns:item" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="item">
+        <simpleContent>
+            <extension base="string">
+                <attribute name="label" type="string" />
+                <attribute name="rights" type="string" />
+            </extension>
+        </simpleContent>
+    </complexType>
+
+
+    <complexType name="sections">
+	    <sequence>
+	        <element name="section" type="tns:section" minOccurs="0" maxOccurs="unbounded" />
+	    </sequence>
+    </complexType>
+    
+    <complexType name="module">
+   		<sequence>
+   			<element name="section" type="tns:section" minOccurs="0" maxOccurs="unbounded"/>
+  		</sequence>
+  		<attribute name="name"/>
+    </complexType>
+    
+    <element name="menu">
+    	<complexType>
+    		<sequence>
+    			<element name="module" type="tns:module" minOccurs="0" maxOccurs="unbounded"></element>
+    		</sequence>
+    	</complexType>
+    </element>
+
+</schema>

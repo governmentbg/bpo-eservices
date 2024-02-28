@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<div th:fragment="epApplicationKind-fragment" class="inlBlW100">
+
+    <div th:text="#{ep.аpplicationKind}"></div>
+    <div class="mT10 rb-grid">
+        <div>
+            <input name="epApplicationKind" class="radio-btn vertical-rb" type="radio" value="EP Validation Request" th:attr="data-rel-field='epApplicationKind-field'" checked>
+            <div th:text="#{ep.validation.request}" class="rb-text"></div>
+        </div>
+        <div>
+            <input name="epApplicationKind" class="radio-btn vertical-rb" type="radio" value="EP Validation Request for Changed Patent" th:attr="data-rel-field='epApplicationKind-field'">
+            <div th:text="#{ep.validation.request.for.changed.patent}" class="rb-text"></div>
+        </div>
+        <div>
+            <input name="epApplicationKind" class="radio-btn vertical-rb" type="radio" value="EP Temporary Protection" th:attr="data-rel-field='epApplicationKind-field'">
+            <div th:text="#{ep.temporary.protection}" class="rb-text"></div>
+        </div>
+    </div>
+
+    <input type="hidden" class="input-param" id="epApplicationKind-field" value="EP Validation Request" th:attr="data-name='epApplicationKind'">
+
+</div>
+</html>

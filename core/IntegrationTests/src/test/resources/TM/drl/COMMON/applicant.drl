@@ -1,0 +1,1024 @@
+package org.domain.rules;
+dialect "mvel"
+import eu.ohim.sp.core.domain.validation.ErrorCore;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.configuration.domain.xsd.Sections;
+import eu.ohim.sp.core.configuration.domain.xsd.Sections;
+import eu.ohim.sp.core.configuration.domain.xsd.Section;
+import eu.ohim.sp.core.configuration.domain.xsd.Field;
+import eu.ohim.sp.core.domain.person.Applicant;
+import eu.ohim.sp.core.domain.contact.AddressBook;
+import eu.ohim.sp.core.domain.contact.Address;
+import eu.ohim.sp.core.domain.person.ApplicantKind;
+import eu.ohim.sp.core.domain.contact.Phone;
+import eu.ohim.sp.core.domain.contact.PhoneKind;
+import eu.ohim.sp.core.domain.contact.ContactInformationDetails;
+import eu.ohim.sp.core.domain.validation.RulesInformation;
+
+import org.apache.commons.lang.StringUtils;
+
+rule "BR114 - Empty"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "type", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	Applicant(applicantKind==null &&
+			  (imported==false || (imported==true && $editableImportField==true)))
+	eval($fieldUsable == true && $fieldRequired == true)
+then
+	addError("type",
+		 "BRMandatory",
+			"This field is mandatory",
+		 null,
+		 $rulesInformation);
+end
+
+rule "BR115 - Content"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "id", $fieldUsable : usable, $regex : format, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && StringUtils.isEmpty($regex) == false)
+	Applicant(StringUtils.isEmpty(applicantIdentifier) == false &&
+			  applicantIdentifier not matches $regex &&
+			  (imported==false || (imported==true && $editableImportField==true)))
+then
+	addError("id",
+			 null,
+			 "This field has a bad format",
+			 null,
+			 $rulesInformation);
+end
+
+rule "BR116 - Empty"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "domicile", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	Applicant(addressBook != null &&
+			  StringUtils.isEmpty(addressBook.domicile) == true &&
+			  (imported==false || (imported==true && $editableImportField==true)))
+	eval($fieldUsable == true && $fieldRequired == true)
+then
+	addError("domicile",
+		 "BRMandatory",
+			"This field is mandatory",
+		 null,
+		 $rulesInformation);
+end
+
+rule "BR117 - Empty"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "domicileCountry", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	Applicant(addressBook != null &&
+			  StringUtils.isEmpty(addressBook.domicileCountryCode) == true &&
+			  (imported==false || (imported==true && $editableImportField==true)))
+	eval($fieldUsable == true && $fieldRequired == true)
+then
+	addError("domicileCountry",
+		 "BRMandatory",
+			"This field is mandatory",
+		 null,
+		 $rulesInformation);
+end
+
+rule "BR122 - Empty"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "email", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	Applicant(addressBook != null &&
+			  addressBook.contactInformationDetails != null &&
+			  (addressBook.contactInformationDetails.email==null || addressBook.contactInformationDetails.email =="") &&
+			  (imported==false || (imported==true && $editableImportField==true)))
+	eval($fieldUsable == true && $fieldRequired == true)
+then
+	addError("email",
+		 "BRMandatory",
+			"This field is mandatory",
+		 null,
+		 $rulesInformation);
+end
+
+rule "BR122 - Content"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "email", $fieldUsable : usable, $regex : format, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && StringUtils.isEmpty($regex) == false)
+	Applicant(addressBook != null &&
+			  addressBook.contactInformationDetails != null &&
+			  StringUtils.isEmpty(addressBook.contactInformationDetails.email) == false &&
+			  addressBook.contactInformationDetails.email not matches $regex &&
+			  (imported==false || (imported==true && $editableImportField==true)))
+then
+	addError("email",
+			 null,
+			 "This field has a bad format",
+			 null,
+			 $rulesInformation);
+end
+
+rule "BR123 - Content"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "website", $fieldUsable : usable, $regex : format, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && StringUtils.isEmpty($regex) == false)
+	Applicant(addressBook != null &&
+			  addressBook.contactInformationDetails != null &&
+			  StringUtils.isEmpty(addressBook.contactInformationDetails.url) == false &&
+			  addressBook.contactInformationDetails.url not matches $regex &&
+			  (imported==false || (imported==true && $editableImportField==true)))
+then
+	addError("website",
+			 null,
+			 "This field has a bad format",
+			 null,
+			 $rulesInformation);
+end
+
+rule "BR246 - Empty"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "address", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	Applicant(addressBook != null &&
+			  (addressBook.address ==null) &&
+			  (imported==false || (imported==true && $editableImportField==true)))
+	eval($fieldUsable == true && $fieldRequired == true)
+then
+	addError("address",
+		 "BRMandatory",
+			"This field is mandatory",
+		 null,
+		 $rulesInformation);
+end
+
+rule "BR121 - Content"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "fax", $fieldUsable : usable, $regex : format, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && StringUtils.isEmpty($regex) == false)
+	Applicant(addressBook != null &&
+			  addressBook.contactInformationDetails != null &&
+			  StringUtils.isEmpty(addressBook.contactInformationDetails.fax) == false &&
+			  addressBook.contactInformationDetails.fax not matches $regex &&
+			  (imported==false || (imported==true && $editableImportField==true)))
+then
+	addError("fax",
+			 null,
+			 "This field has a bad format",
+			 null,
+			 $rulesInformation);
+end
+
+rule "BR128 - Empty"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "nationality", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	Applicant((nationalityCode==null || nationalityCode =="") &&
+			  (imported==false || (imported==true && $editableImportField==true)))
+	eval($fieldUsable == true && $fieldRequired == true)
+then
+	addError("nationality",
+			 "BRMandatory",
+			"This field is mandatory",
+			 null,
+			 $rulesInformation);
+end
+
+rule "BR128 - Content"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "nationality", $fieldUsable : usable, $regex : format, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && StringUtils.isEmpty($regex) == false)
+	Applicant(StringUtils.isEmpty(nationalityCode) == false &&
+			  nationalityCode not matches $regex &&
+			  (imported==false || (imported==true && $editableImportField==true)))
+then
+	addError("nationality",
+			 null,
+			 "This field has a bad format",
+			 null,
+			 $rulesInformation);
+end
+
+rule "BR131 - Empty"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "surname", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	Applicant(addressBook != null &&
+			  addressBook.name != null &&
+			  (addressBook.name.lastName==null || addressBook.name.lastName =="") &&
+			  (imported==false || (imported==true && $editableImportField==true)))
+	eval($fieldUsable == true && $fieldRequired == true)
+then
+	addError("surname",
+			 "BRMandatory",
+			"This field is mandatory",
+			 null,
+			 $rulesInformation);
+end
+
+rule "BR131 - Content"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "surname", $fieldUsable : usable, $regex : format, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && StringUtils.isEmpty($regex) == false)
+	Applicant(addressBook != null &&
+			  addressBook.name != null &&
+			  StringUtils.isEmpty(addressBook.name.lastName) == false &&
+			  addressBook.name.lastName not matches $regex &&
+			  (imported==false || (imported==true && $editableImportField==true)))
+then
+	addError("surname",
+			 null,
+			 "This field has a bad format",
+			 null,
+			 $rulesInformation);
+end
+
+rule "BR132 - Empty"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "firstName", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	Applicant(addressBook != null &&
+			  addressBook.name != null &&
+			  (addressBook.name.firstName==null || addressBook.name.firstName =="") &&
+			  (imported==false || (imported==true && $editableImportField==true)))
+	eval($fieldUsable == true && $fieldRequired == true)
+then
+	addError("firstName",
+			 "BRMandatory",
+			"This field is mandatory",
+			 null,
+			 $rulesInformation);
+end
+
+rule "BR132 - Content"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "firstName", $fieldUsable : usable, $regex : format, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && StringUtils.isEmpty($regex) == false)
+	Applicant(addressBook != null &&
+			  addressBook.name != null &&
+			  StringUtils.isEmpty(addressBook.name.firstName) == false &&
+			  addressBook.name.firstName not matches $regex &&
+			  (imported==false || (imported==true && $editableImportField==true)))
+then
+	addError("firstName",
+			 null,
+			 "This field has a bad format",
+			 null,
+			 $rulesInformation);
+end
+
+rule "BR133 - Empty"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "legalForm", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	Applicant((legalForm==null || legalForm =="") &&
+			  (imported==false || (imported==true && $editableImportField==true)))
+	eval($fieldUsable == true && $fieldRequired == true)
+then
+	addError("legalForm",
+			 "BRMandatory",
+			"This field is mandatory",
+			 null,
+			 $rulesInformation);
+end
+
+rule "BR133 - Content"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "legalForm", $fieldUsable : usable, $regex : format, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && StringUtils.isEmpty($regex) == false)
+	Applicant(StringUtils.isEmpty(legalForm) == false &&
+			  legalForm not matches $regex &&
+			  (imported==false || (imported==true && $editableImportField==true)))
+then
+	addError("legalForm",
+			 null,
+			 "This field has a bad format",
+			 null,
+			 $rulesInformation);
+end
+
+rule "BR134 - Content"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "businessVatNumber", $fieldUsable : usable, $regex : format, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && StringUtils.isEmpty($regex) == false)
+	Applicant(StringUtils.isEmpty(businessVatNumber) == false &&
+			  businessVatNumber not matches $regex &&
+			  (imported==false || (imported==true && $editableImportField==true)))
+then
+	addError("businessVatNumber",
+			 null,
+			 "This field has a bad format",
+			 null,
+			 $rulesInformation);
+end
+
+rule "BR135 - Content"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "stateOfIncorporation", $fieldUsable : usable, $regex : format, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && StringUtils.isEmpty($regex) == false)
+	Applicant(StringUtils.isEmpty(applicantIncorporationState) == false &&
+			  applicantIncorporationState not matches $regex &&
+			  (imported==false || (imported==true && $editableImportField==true)))
+then
+	addError("stateOfIncorporation",
+			 null,
+			 "This field has a bad format",
+			 null,
+			 $rulesInformation);
+end
+
+rule "BR136a - Empty"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "name", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	Applicant(addressBook != null &&
+			  addressBook.name != null &&
+			  (addressBook.name.organizationName==null || addressBook.name.organizationName =="") &&
+			  (imported==false || (imported==true && $editableImportField==true)))
+	eval($fieldUsable == true && $fieldRequired == true && $sectionName == "applicant_legalentity")
+then
+	addError("name",
+			 "BRMandatory",
+			"This field is mandatory",
+			 null,
+			 $rulesInformation);
+end
+
+rule "BR136b - Empty"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "name", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	Applicant(addressBook != null &&
+			  addressBook.name != null &&
+			  (addressBook.name.lastName==null || addressBook.name.lastName =="") &&
+			  (imported==false || (imported==true && $editableImportField==true)))
+	eval($fieldUsable == true && $fieldRequired == true &&
+		 ($sectionName == "applicant_naturalperson" || $sectionName == "applicant_naturalpersonspecial"))
+then
+	addError("name",
+			 "BRMandatory",
+			"This field is mandatory",
+			 null,
+			 $rulesInformation);
+end
+
+rule "BR136a - Content"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "name", $fieldUsable : usable, $regex : format, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && StringUtils.isEmpty($regex) == false)
+	Applicant(addressBook != null &&
+			  addressBook.name != null &&
+			  StringUtils.isEmpty(addressBook.name.organizationName) == false &&
+			  addressBook.name.organizationName not matches $regex &&
+			  (imported==false || (imported==true && $editableImportField==true)))
+then
+	addError("name",
+			 null,
+			 "This field has a bad format",
+			 null,
+			 $rulesInformation);
+end
+
+rule "BR136b - Content"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "name", $fieldUsable : usable, $regex : format, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && StringUtils.isEmpty($regex) == false)
+	Applicant(addressBook != null &&
+			  addressBook.name != null &&
+			  StringUtils.isEmpty(addressBook.name.lastName) == false &&
+			  addressBook.name.lastName not matches $regex &&
+			  (imported==false || (imported==true && $editableImportField==true)))
+then
+	addError("name",
+			 null,
+			 "This field has a bad format",
+			 null,
+			 $rulesInformation);
+end
+
+rule "BR137a - Empty"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "address.street", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	Applicant(addressBook != null &&
+			  addressBook.address != null &&
+			  (addressBook.address.street==null || addressBook.address.street =="") &&
+			  (imported==false || (imported==true && $editableImportField==true)))
+	eval($fieldUsable == true && $fieldRequired == true)
+then
+	addError("address.street",
+			 "BRMandatory",
+			"This field is mandatory",
+			 null,
+			 $rulesInformation);
+end
+
+rule "BR137b - Empty"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "address.houseNumber", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	Applicant(addressBook != null &&
+			  addressBook.address != null &&
+			  (addressBook.address.houseNumber==null || addressBook.address.houseNumber =="") &&
+			  (imported==false || (imported==true && $editableImportField==true)))
+	eval($fieldUsable == true && $fieldRequired == true)
+then
+	addError("address.houseNumber",
+			 "BRMandatory",
+			"This field is mandatory",
+			 null,
+			 $rulesInformation);
+end
+
+rule "BR137a - Content"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "address.houseNumber", $fieldUsable : usable, $regex : format, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && StringUtils.isEmpty($regex) == false)
+	Applicant(addressBook != null &&
+			  addressBook.address != null &&
+			  StringUtils.isEmpty(addressBook.address.street) == false &&
+			  addressBook.address.street not matches $regex &&
+			  (imported==false || (imported==true && $editableImportField==true)))
+then
+	addError("address.houseNumber",
+			 null,
+			 "This field has a bad format",
+			 null,
+			 $rulesInformation);
+end
+
+rule "BR137b - Content"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "address.houseNumber", $fieldUsable : usable, $regex : format, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && StringUtils.isEmpty($regex) == false)
+	Applicant($fieldUsable == true &&
+			  addressBook != null &&
+			  addressBook.address != null &&
+			  StringUtils.isEmpty(addressBook.address.houseNumber) == false &&
+			  addressBook.address.houseNumber not matches $regex &&
+			  (imported==false || (imported==true && $editableImportField==true)))
+then
+	addError("address.houseNumber",
+			 null,
+			 "This field has a bad format",
+			 null,
+			 $rulesInformation);
+end
+
+rule "BR138 - Empty"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "address.postalCode", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	Applicant(addressBook != null &&
+			  addressBook.address != null &&
+			  (addressBook.address.postcode==null || addressBook.address.postcode =="") &&
+			  (imported==false || (imported==true && $editableImportField==true)))
+	eval($fieldUsable == true && $fieldRequired == true)
+then
+	addError("address.postalCode",
+			 "BRMandatory",
+			"This field is mandatory",
+			 null,
+			 $rulesInformation);
+end
+
+rule "BR138 - Content"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "address.postalCode", $fieldUsable : usable, $regex : format, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && StringUtils.isEmpty($regex) == false)
+	Applicant(addressBook != null &&
+			  addressBook.address != null &&
+			  StringUtils.isEmpty(addressBook.address.postcode) == false &&
+			  addressBook.address.postcode not matches $regex &&
+			  (imported==false || (imported==true && $editableImportField==true)))
+then
+	addError("address.postalCode",
+			 null,
+			 "This field has a bad format",
+			 null,
+			 $rulesInformation);
+end
+
+rule "BR141 - Empty"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "address.city", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	Applicant(addressBook != null &&
+			  addressBook.address != null &&
+			  (addressBook.address.city==null || addressBook.address.city =="") &&
+			  (imported==false || (imported==true && $editableImportField==true)))
+	eval($fieldUsable == true && $fieldRequired == true)
+then
+	addError("address.city",
+			 "BRMandatory",
+			"This field is mandatory",
+			 null,
+			 $rulesInformation);
+end
+
+rule "BR141 - Content"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "address.city", $fieldUsable : usable, $regex : format, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && StringUtils.isEmpty($regex) == false)
+	Applicant(addressBook != null &&
+			  addressBook.address != null &&
+			  StringUtils.isEmpty(addressBook.address.city) == false &&
+			  addressBook.address.city not matches $regex &&
+			  (imported==false || (imported==true && $editableImportField==true)))
+then
+	addError("address.city",
+			 null,
+			 "This field has a bad format",
+			 null,
+			 $rulesInformation);
+end
+
+rule "BR139 - Empty"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "address.country", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	Applicant(addressBook != null &&
+			  addressBook.address != null &&
+			  (addressBook.address.countryCode==null || addressBook.address.countryCode =="") &&
+			  (imported==false || (imported==true && $editableImportField==true)))
+	eval($fieldUsable == true && $fieldRequired == true)
+then
+	addError("address.country",
+			 "BRMandatory",
+			"This field is mandatory",
+			 null,
+			 $rulesInformation);
+end
+
+rule "BR139 - Content"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "address.country", $fieldUsable : usable, $regex : format, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && StringUtils.isEmpty($regex) == false)
+	Applicant(addressBook != null &&
+			  addressBook.address != null &&
+			  StringUtils.isEmpty(addressBook.address.countryCode) == false &&
+			  addressBook.address.countryCode not matches $regex &&
+			  (imported==false || (imported==true && $editableImportField==true)))
+then
+	addError("address.country",
+			 null,
+			 "This field has a bad format",
+			 null,
+			 $rulesInformation);
+end
+
+rule "BR140 - Content"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "address.stateprovince", $fieldUsable : usable, $regex : format, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && StringUtils.isEmpty($regex) == false)
+	Applicant(addressBook != null &&
+			  addressBook.address != null &&
+			  StringUtils.isEmpty(addressBook.address.state) == false &&
+			  addressBook.address.state not matches $regex &&
+			  (imported==false || (imported==true && $editableImportField==true)))
+then
+	addError("address.stateprovince",
+			 null,
+			 "This field has a bad format",
+			 null,
+			 $rulesInformation);
+end
+
+rule "BR146 - Content"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "phone", $fieldUsable : usable, $regex : format, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && StringUtils.isEmpty($regex) == false)
+	Applicant($fieldUsable == true &&
+			  addressBook != null &&
+			  addressBook.contactInformationDetails != null &&
+			  addressBook.contactInformationDetails.phone != null &&
+			  StringUtils.isEmpty(addressBook.contactInformationDetails.phone.telephoneNumber) == false &&
+			  addressBook.contactInformationDetails.phone.telephoneNumber not matches $regex &&
+			  (imported==false || (imported==true && $editableImportField==true)))
+then
+	addError("phone",
+			 null,
+			 "This field has a bad format",
+			 null,
+			 $rulesInformation);
+end
+
+rule "BR147 - Content"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "fax", $fieldUsable : usable, $regex : format, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && StringUtils.isEmpty($regex) == false)
+	Applicant(addressBook != null &&
+			  addressBook.contactInformationDetails != null &&
+			  addressBook.contactInformationDetails.phone != null &&
+			  StringUtils.isEmpty(addressBook.contactInformationDetails.phone.fax) == false &&
+			  addressBook.contactInformationDetails.phone.fax not matches $regex &&
+			  (imported==false || (imported==true && $editableImportField==true)))
+then
+	addError("fax",
+			 null,
+			 "This field has a bad format",
+			 null,
+			 $rulesInformation);
+end
+
+rule "BR152 Correspondence Name - Empty"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "correspondenceAddresses.correspondenceName", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	Applicant($addresses : correspondenceAddresses &&
+				   (imported==false ||
+		 		   (imported==true && $editableImportField==true)))
+	$address : AddressBook(name != null && StringUtils.isEmpty(name.lastName) == true) from $addresses
+	eval($fieldUsable == true &&
+		 $fieldRequired == true)
+then
+	addError("correspondenceAddresses[" + indexOfObject($addresses, $address) + "].correspondenceName",
+			 "BRMandatory",
+			 "This field is mandatory",
+			 null,
+			 $rulesInformation);
+end
+
+rule "BR152 Correspondence Street - Empty"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "correspondenceAddresses.addressForm.street", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	Applicant($addresses : correspondenceAddresses &&
+			   (imported==false ||
+	 		   (imported==true && $editableImportField==true)) &&
+	 		   hasCorrespondenceAddresses == true)
+	$address : AddressBook(address != null && StringUtils.isEmpty(address.street) == true) from $addresses
+	eval($fieldUsable == true &&
+		 $fieldRequired == true)
+then
+	addError("correspondenceAddresses[" + indexOfObject($addresses, $address) + "].addressForm.street",
+			 "BRMandatory",
+			 "This field is mandatory",
+			 null,
+			 $rulesInformation);
+end
+
+rule "BR152 Correspondence House Number - Empty"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "correspondenceAddresses.addressForm.houseNumber", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	Applicant($addresses : correspondenceAddresses &&
+			   (imported==false ||
+	 		   (imported==true && $editableImportField==true)) &&
+	 		   hasCorrespondenceAddresses == true)
+	$address : AddressBook(address != null && StringUtils.isEmpty(address.houseNumber) == true) from $addresses
+	eval($fieldUsable == true &&
+		 $fieldRequired == true)
+then
+	addError("correspondenceAddresses[" + indexOfObject($addresses, $address) + "].addressForm.houseNumber",
+			 "BRMandatory",
+			 "This field is mandatory",
+			 null,
+			 $rulesInformation);
+end
+
+rule "BR152 Correspondence City - Empty"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "correspondenceAddresses.addressForm.city", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	Applicant($addresses : correspondenceAddresses &&
+			   (imported==false ||
+	 		   (imported==true && $editableImportField==true)) &&
+	 		   hasCorrespondenceAddresses == true)
+	$address : AddressBook(address != null && StringUtils.isEmpty(address.city) == true) from $addresses
+	eval($fieldUsable == true &&
+		 $fieldRequired == true)
+then
+	addError("correspondenceAddresses[" + indexOfObject($addresses, $address) + "].addressForm.city",
+			 "BRMandatory",
+			 "This field is mandatory",
+			 null,
+			 $rulesInformation);
+end
+
+rule "BR152 Correspondence Postal Code - Empty"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "correspondenceAddresses.addressForm.postalCode", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	Applicant($addresses : correspondenceAddresses &&
+			   (imported==false ||
+	 		   (imported==true && $editableImportField==true)) &&
+	 		   hasCorrespondenceAddresses == true)
+	$address : AddressBook(address != null && StringUtils.isEmpty(address.postcode) == true) from $addresses
+	eval($fieldUsable == true &&
+		 $fieldRequired == true)
+then
+	addError("correspondenceAddresses[" + indexOfObject($addresses, $address) + "].addressForm.postalCode",
+			 "BRMandatory",
+			 "This field is mandatory",
+			 null,
+			 $rulesInformation);
+end
+
+rule "BR152 Correspondence Country - Empty"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "correspondenceAddresses.addressForm.country", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	Applicant($addresses : correspondenceAddresses &&
+			   (imported==false ||
+	 		   (imported==true && $editableImportField==true)) &&
+	 		   hasCorrespondenceAddresses == true)
+	$address : AddressBook(address != null && StringUtils.isEmpty(address.countryCode) == true) from $addresses
+	eval($fieldUsable == true &&
+		 $fieldRequired == true)
+then
+	addError("correspondenceAddresses[" + indexOfObject($addresses, $address) + "].addressForm.country",
+			 "BRMandatory",
+			 "This field is mandatory",
+			 null,
+			 $rulesInformation);
+end
+
+rule "BR152 Correspondence Name - Content"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "correspondenceAddresses.correspondencePhone", $fieldUsable : usable, $regex : format, $editableImportField : editableImport) from $fields
+	Applicant($addresses : correspondenceAddresses &&
+			   (imported==false ||
+	 		   (imported==true && $editableImportField==true)) &&
+	 		   hasCorrespondenceAddresses == true)
+	eval($fieldUsable == true &&
+		 StringUtils.isEmpty($regex) == false)
+	$address : AddressBook(name != null &&
+						   StringUtils.isEmpty(name.lastName) == false &&
+						   name.lastName not matches $regex) from $addresses
+then
+	addError("correspondenceAddresses[" + indexOfObject($addresses, $address) + "].correspondenceName",
+			 "BR152 - Correspondence . Content",
+			 "This field has a bad format",
+			 null,
+			 $rulesInformation);
+end
+
+rule "BR152 Correspondence Street - Content"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "correspondenceAddresses.addressForm.street", $fieldUsable : usable, $regex : format, $editableImportField : editableImport) from $fields
+	Applicant($addresses : correspondenceAddresses &&
+			   (imported==false ||
+	 		   (imported==true && $editableImportField==true)) &&
+	 		   hasCorrespondenceAddresses == true)
+	eval($fieldUsable == true &&
+		 StringUtils.isEmpty($regex) == false)
+	$address : AddressBook(address != null &&
+						   StringUtils.isEmpty(address.street) == false &&
+						   address.street not matches $regex) from $addresses
+then
+	addError("correspondenceAddresses[" + indexOfObject($addresses, $address) + "].addressForm.street",
+			 "BR152 - Correspondence street. Content",
+			 "This field has a bad format",
+			 null,
+			 $rulesInformation);
+end
+
+rule "BR152 Correspondence House Number - Content"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "correspondenceAddresses.addressForm.houseNumber", $fieldUsable : usable, $regex : format, $editableImportField : editableImport) from $fields
+	Applicant($addresses : correspondenceAddresses &&
+			   (imported==false ||
+	 		   (imported==true && $editableImportField==true)) &&
+	 		   hasCorrespondenceAddresses == true)
+	eval($fieldUsable == true &&
+		 StringUtils.isEmpty($regex) == false)
+	$address : AddressBook(address != null &&
+						   StringUtils.isEmpty(address.houseNumber) == false &&
+						   address.houseNumber not matches $regex) from $addresses
+then
+	addError("correspondenceAddresses[" + indexOfObject($addresses, $address) + "].addressForm.houseNumber",
+			 "BR152 - Correspondence house number. Content",
+			 "This field has a bad format",
+			 null,
+			 $rulesInformation);
+end
+
+rule "BR152 Correspondence City - Content"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "correspondenceAddresses.addressForm.city", $fieldUsable : usable, $regex : format, $editableImportField : editableImport) from $fields
+	Applicant($addresses : correspondenceAddresses &&
+			   (imported==false ||
+	 		   (imported==true && $editableImportField==true)) &&
+	 		   hasCorrespondenceAddresses == true)
+	eval($fieldUsable == true &&
+		 StringUtils.isEmpty($regex) == false)
+	$address : AddressBook(address != null &&
+						   StringUtils.isEmpty(address.city) == false &&
+						   address.city not matches $regex) from $addresses
+then
+	addError("correspondenceAddresses[" + indexOfObject($addresses, $address) + "].addressForm.city",
+			 "BR152 - Correspondence city. Content",
+			 "This field has a bad format",
+			 null,
+			 $rulesInformation);
+end
+
+rule "BR152 Correspondence Postal Code - Content"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "correspondenceAddresses.addressForm.postalCode", $fieldUsable : usable, $regex : format, $editableImportField : editableImport) from $fields
+	Applicant($addresses : correspondenceAddresses &&
+			   (imported==false ||
+	 		   (imported==true && $editableImportField==true)) &&
+	 		   hasCorrespondenceAddresses == true)
+	eval($fieldUsable == true &&
+		 StringUtils.isEmpty($regex) == false)
+	$address : AddressBook(address != null &&
+						   StringUtils.isEmpty(address.postcode) == false &&
+						   address.postcode not matches $regex) from $addresses
+then
+	addError("correspondenceAddresses[" + indexOfObject($addresses, $address) + "].addressForm.postalCode",
+			 "BR152 - Correspondence postal code. Content",
+			 "This field has a bad format",
+			 null,
+			 $rulesInformation);
+end
+
+rule "BR152 Correspondence Country - Content"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "correspondenceAddresses.addressForm.country", $fieldUsable : usable, $regex : format, $editableImportField : editableImport) from $fields
+	Applicant($addresses : correspondenceAddresses &&
+			   (imported==false ||
+	 		   (imported==true && $editableImportField==true)) &&
+	 		   hasCorrespondenceAddresses == true)
+	eval($fieldUsable == true &&
+		 StringUtils.isEmpty($regex) == false)
+	$address : AddressBook(address != null &&
+						   StringUtils.isEmpty(address.countryCode) == false &&
+						   address.countryCode not matches $regex) from $addresses
+then
+	addError("correspondenceAddresses[" + indexOfObject($addresses, $address) + "].addressForm.country",
+			 "BR152 - Correspondence country. Content",
+			 "This field has a bad format",
+			 null,
+			 $rulesInformation);
+end
+
+rule "BR152 Correspondence Email - Content"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "correspondenceAddresses.correspondenceEmail",
+			$fieldUsable : usable,
+			$regex : format,
+			$editableImportField : editableImport) from $fields
+	Applicant($addresses : correspondenceAddresses &&
+			   (imported==false ||
+	 		   (imported==true && $editableImportField==true)) &&
+	 		   hasCorrespondenceAddresses == true)
+	eval($fieldUsable == true &&
+		 StringUtils.isEmpty($regex) == false)
+	$address : AddressBook(contactInformationDetails != null &&
+						   StringUtils.isEmpty(contactInformationDetails.email) == false &&
+						   contactInformationDetails.email not matches $regex) from $addresses
+then
+	addError("correspondenceAddresses[" + indexOfObject($addresses, $address) + "].correspondenceEmail",
+			 "BR152 - Correspondence email. Content",
+			 "This field has a bad format",
+			 null,
+			 $rulesInformation);
+end
+
+rule "BR152 Correspondence Phone - Content"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "correspondenceAddresses.correspondencePhone",
+			$fieldUsable : usable,
+			$regex : format,
+			$editableImportField : editableImport) from $fields
+	Applicant($addresses : correspondenceAddresses &&
+			   (imported==false ||
+	 		   (imported==true && $editableImportField==true)) &&
+	 		   hasCorrespondenceAddresses == true)
+	eval($fieldUsable == true &&
+		 StringUtils.isEmpty($regex) == false)
+	$address : AddressBook(contactInformationDetails != null &&
+						   contactInformationDetails.phone != null &&
+						   StringUtils.isEmpty(contactInformationDetails.phone.number) == false &&
+						   contactInformationDetails.phone.number not matches $regex) from $addresses
+then
+	addError("correspondenceAddresses[" + indexOfObject($addresses, $address) + "].correspondencePhone",
+			 "BR152 - Correspondence phone. Content",
+			 "This field has a bad format",
+			 null,
+			 $rulesInformation);
+end

@@ -1,0 +1,56 @@
+<component xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/component/1.1.2"
+		   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		   xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/component/1.1.2 http://maven.apache.org/xsd/component-1.1.2.xsd">
+
+	<dependencySets>
+
+		<!-- Javadocs -->
+		<dependencySet>
+            <useProjectArtifact>false</useProjectArtifact>
+			<includes>
+				<include>eu.ohim.sp.core:core:*:javadoc</include>
+			</includes>
+			<outputDirectory>${docs.root}/javadoc</outputDirectory>
+			<unpack>true</unpack>
+		</dependencySet>
+
+	</dependencySets>
+
+	<fileSets>
+
+		<!-- Design Documentation -->
+		<fileSet>
+			<outputDirectory>${docs.root}/design/</outputDirectory>
+			<directory>${basedir}/../../doc/design/generic/DesignDocument/</directory>
+			<includes>
+				<include>SP-Software Package-DD.docx</include>
+			</includes>
+		</fileSet>
+		<fileSet>
+			<outputDirectory>${docs.root}/design/</outputDirectory>
+			<directory>${basedir}/../../doc/design/fo/DesignDocument/</directory>
+			<includes>
+				<include>SP-Front Office-DD.docx</include>
+			</includes>
+		</fileSet>
+        <fileSet>
+            <outputDirectory>${docs.root}/design/</outputDirectory>
+            <directory>${basedir}/../../doc/design/fo/PowerDesigner/reports/</directory>
+            <includes>
+                <include>SP-Front Office-LDM-v0.08-EN.rtf</include>
+                <include>SP-Front Office-PDM MySQL-v0.08-EN.rtf</include>
+                <include>SP-Front Office-PDM Oracle-v0.08-EN.rtf</include>
+            </includes>
+        </fileSet>
+
+        <!-- Installation Documentation -->
+        <fileSet>
+            <outputDirectory>${docs.root}/install/</outputDirectory>
+            <directory>${basedir}/../../doc/development/fo/</directory>
+            <includes>
+                <include>SP-FO-1.0.0-LPN-FULL-EN.docx</include>
+            </includes>
+        </fileSet>
+
+    </fileSets>
+</component>

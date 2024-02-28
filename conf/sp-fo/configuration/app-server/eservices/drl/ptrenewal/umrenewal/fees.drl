@@ -1,0 +1,141 @@
+package org.domain.rules;
+
+dialect "mvel"
+
+import eu.ohim.sp.core.domain.validation.ErrorCore;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.domain.design.Design;
+import eu.ohim.sp.core.domain.design.DesignApplication;
+import eu.ohim.sp.core.domain.validation.RulesInformation;
+import eu.ohim.sp.core.domain.payment.FeeList;
+import eu.ohim.sp.core.domain.payment.FeeType;
+import eu.ohim.sp.core.domain.payment.Fee;
+import eu.ohim.sp.core.domain.resources.DocumentKind;
+import eu.ohim.sp.core.domain.resources.Document;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.TreeMap;
+import java.util.List;
+import java.util.Date;
+import java.util.Calendar;
+import java.text.DecimalFormat;
+import org.apache.log4j.Logger;
+import eu.ohim.sp.core.domain.design.DSeServiceApplication;
+import eu.ohim.sp.core.domain.design.Design;
+import eu.ohim.sp.core.domain.design.DesignApplication;
+import eu.ohim.sp.core.domain.application.EServiceApplication;
+import eu.ohim.sp.core.domain.patent.PTeServiceApplication
+import eu.ohim.sp.core.domain.patent.PatentApplication
+import eu.ohim.sp.core.domain.patent.Patent;
+
+rule "Fees reader"
+salience 1000
+no-loop
+    when
+		FeeList($feeTypeList : feeTypeList)
+        $bFF : FeeType("basicFeeFirstRenewal".equals(nameKey)) from $feeTypeList
+        $bFS : FeeType("basicFeeSecondRenewal".equals(nameKey)) from $feeTypeList
+        $pFS : FeeType("umPenaltyFee".equals(nameKey)) from $feeTypeList
+    then
+    	TreeMap map = new TreeMap();
+        map.put("basicFeeFirstRenewal", $bFF);
+        map.put("basicFeeSecondRenewal", $bFS);
+        map.put("umPenaltyFee", $pFS);
+        insert(map);
+end
+
+rule "Basic Fee"
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        $pt: PTeServiceApplication($ptdet: patentList)
+        eval($ptdet != null && $ptdet.size() >0)
+    then
+
+        Fee fee = new Fee();
+        fee.setQuantity(1);
+        Double feeAmount = 0.0;
+        Patent patent = $ptdet.get(0);
+
+                Calendar renewal1Start = Calendar.getInstance();
+                Calendar renewal1End = Calendar.getInstance();
+
+                Calendar renewal2Start = Calendar.getInstance();
+                Calendar renewal2End = Calendar.getInstance();
+
+                Calendar today = Calendar.getInstance();
+                Calendar futureExpirationDate = Calendar.getInstance();
+                futureExpirationDate.setTime(patent.getEntitlementDate());
+
+                renewal1Start.setTime(patent.getEntitlementDate());
+                renewal1End.setTime(patent.getEntitlementDate());
+                renewal1Start.add(Calendar.YEAR, 3);
+                renewal1End.add(Calendar.YEAR, 4);
+                renewal1End.add(Calendar.MONTH, 6);
+
+                renewal2Start.setTime(patent.getEntitlementDate());
+                renewal2End.setTime(patent.getEntitlementDate());
+                renewal2Start.add(Calendar.YEAR, 6);
+                renewal2End.add(Calendar.YEAR, 7);
+                renewal2End.add(Calendar.MONTH, 6);
+
+                if (today.after(renewal1Start) && today.before(renewal1End)){
+                    fee.setFeeType((FeeType) $map.get("basicFeeFirstRenewal"));
+                    fee.setUnitAmount(((FeeType) $map.get("basicFeeFirstRenewal")).getDefaultValue());
+                    fee.setAmount(fee.quantity * fee.unitAmount);
+                    fee.setExpirationExtentYearsFromEntitlement("7");
+                    futureExpirationDate.add(Calendar.YEAR, 7);
+                    fee.setExpirationExtentNewDate(futureExpirationDate.getTime());
+                    feeAmount = fee.getAmount();
+                    $results.put("basicFeeFirstRenewal", fee);
+                } else if (today.after(renewal2Start) && today.before(renewal2End)){
+                    fee.setFeeType((FeeType) $map.get("basicFeeSecondRenewal"));
+                    fee.setUnitAmount(((FeeType) $map.get("basicFeeSecondRenewal")).getDefaultValue());
+                    fee.setAmount(fee.quantity * fee.unitAmount);
+                    fee.setExpirationExtentYearsFromEntitlement("10");
+                    futureExpirationDate.add(Calendar.YEAR, 10);
+                    fee.setExpirationExtentNewDate(futureExpirationDate.getTime());
+                    feeAmount = fee.getAmount();
+                    $results.put("basicFeeSecondRenewal", fee);
+                }
+
+	    Date expDate = patent.getExpirationDate();
+
+	    if(expDate.before(now())){
+			  Fee penaltyConstant = new Fee();
+			  penaltyConstant.setFeeType((FeeType) $map.get("umPenaltyFee"));
+			  penaltyConstant.setQuantity(1);
+			  penaltyConstant.setUnitAmount(feeAmount);
+			  penaltyConstant.setAmount(penaltyConstant.quantity * penaltyConstant.unitAmount);
+			  $results.put("umPenaltyFee", penaltyConstant);
+	    }
+
+end
+
+function Date now(){
+	Calendar cal = Calendar.getInstance();
+    cal.set(Calendar.HOUR_OF_DAY, 0);
+    cal.set(Calendar.MINUTE, 0);
+    cal.set(Calendar.SECOND, 0);
+    cal.set(Calendar.MILLISECOND, 0);
+	return cal.getTime();
+}
+
+function Date sixMonthsFromNow(){
+	Calendar cal = Calendar.getInstance();
+    cal.set(Calendar.HOUR_OF_DAY, 0);
+    cal.set(Calendar.MINUTE, 0);
+    cal.set(Calendar.SECOND, 0);
+    cal.set(Calendar.MILLISECOND, 0);
+    cal.add(Calendar.MONTH, 6);
+	return cal.getTime();
+}
+
+function Date addYearsToDate(Date date, int years){
+	Calendar cal = Calendar.getInstance();
+    cal.setTime(date);
+    cal.add(Calendar.YEAR, years);
+	return cal.getTime();
+}
+

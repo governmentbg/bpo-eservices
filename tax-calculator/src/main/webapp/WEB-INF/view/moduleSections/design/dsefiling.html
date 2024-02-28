@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<div th:fragment="dsefiling-fragment">
+
+    <div id="set-composition-frag" class="mb20px">
+        <div th:replace="fragments/setComposition :: setComposition-fragment"></div>
+    </div>
+    <div id="total-designs-count-frag" class="mb20px">
+        <div th:replace="fragments/totalDesignsCount :: totalDesignsCount-fragment"></div>
+    </div>
+    <div id="deferred-designs-count-frag" class="mb20px">
+        <div th:replace="fragments/deferredDesignsCount :: deferredDesignsCount-fragment"></div>
+    </div>
+    <div id="number-priorities-frag" class="mb20px">
+        <div th:replace="fragments/prioritiesCount :: prioritiesCount-fragment"></div>
+    </div>
+
+</div>
+</html>

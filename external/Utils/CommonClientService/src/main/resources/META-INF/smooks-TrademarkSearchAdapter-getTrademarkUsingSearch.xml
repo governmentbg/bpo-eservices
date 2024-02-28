@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd" 
+					xmlns:core="http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd" 
+					xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.2.xsd">
+ <core:filterSettings type="DOM" />
+     <jb:bean beanId="trademarkUris" class="java.util.ArrayList" createOnElement="/Transaction/TradeMarkTransactionBody/TransactionContentDetails/TransactionData/TradeMarkDetails">
+    <jb:wiring beanIdRef="trademarkURL"/>
+    
+  </jb:bean>
+
+ 
+  <jb:bean beanId="trademarkURL" class="eu.ohim.sp.integration.domain.smooks.FreeFormatString" createOnElement="Transaction/TradeMarkTransactionBody/TransactionContentDetails/TransactionData/TradeMarkDetails/TradeMark/TradeMarkURI">
+	<jb:value data="/Transaction/TradeMarkTransactionBody/TransactionContentDetails/TransactionData/TradeMarkDetails/TradeMark/TradeMarkURI" property="value"/>
+  </jb:bean>
+
+  
+</smooks-resource-list>

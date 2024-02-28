@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<roles xmlns="http://www.example.org/permissions" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.example.org/permissions permissions.xsd ">
+	<role name="ROLE_APP_ADMINTOOL_WEBADMIN">
+		<permissions>
+			<permission>Import_Previous</permission>
+			<permission>Priority_Add</permission>
+			<permission>Seniority_Add</permission>
+			<permission>Seniority_Import</permission>
+			<permission>Applicant_Add</permission>
+			<permission>Word_Mark</permission>
+			<permission>Figurative_Mark</permission>
+			<permission>Colour_Mark</permission>
+			<permission>Representative_Add</permission>
+			<permission>Representative_Import</permission>
+			<permission>Save_Load_Application</permission>
+		</permissions>
+	</role>
+</roles>

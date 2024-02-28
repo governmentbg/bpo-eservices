@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<div th:fragment="appealKind-fragment(obj)" class="inlBlW100">
+
+    <div th:text="#{tm.appealKindTitle}"></div>
+    <div class="mT10 rb-grid">
+        <div th:if="${obj == 'tm'}">
+            <input name="appealKind" class="radio-btn vertical-rb" type="radio" value="appealAgainstOppositionDecision" th:attr="data-rel-field='appealKind-field'">
+            <div th:text="#{tm.appealKind.oppositionDecision}" class="rb-text"></div>
+        </div>
+        <div>
+            <input name="appealKind" class="radio-btn vertical-rb" type="radio" value="appealAgainstRefusal" th:attr="data-rel-field='appealKind-field'">
+            <div th:if="${obj == 'tm'}" th:text="#{tm.appealKind.refusal}" class="rb-text"></div>
+            <div th:if="${obj == 'pt'}" th:text="#{pt.appealKind.refusal}" class="rb-text"></div>
+            <div th:if="${obj == 'um'}" th:text="#{um.appealKind.refusal}" class="rb-text"></div>
+            <div th:if="${obj == 'ds'}" th:text="#{ds.appealKind.refusal}" class="rb-text"></div>
+        </div>
+        <div>
+            <input name="appealKind" class="radio-btn vertical-rb" type="radio" value="appealAgainstTermination" th:attr="data-rel-field='appealKind-field'" checked>
+            <div th:if="${obj == 'tm'}" th:text="#{tm.appealKind.termination}" class="rb-text"></div>
+            <div th:if="${obj == 'pt'}" th:text="#{pt.appealKind.termination}" class="rb-text"></div>
+            <div th:if="${obj == 'um'}" th:text="#{um.appealKind.termination}" class="rb-text"></div>
+            <div th:if="${obj == 'ds'}" th:text="#{ds.appealKind.termination}" class="rb-text"></div>
+        </div>
+    </div>
+
+    <input type="hidden" class="input-param" id="appealKind-field" value="appealAgainstTermination" th:attr="data-name='appealKind'">
+
+</div>
+</html>

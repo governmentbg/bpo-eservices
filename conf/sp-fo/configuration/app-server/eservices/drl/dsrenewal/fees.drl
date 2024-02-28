@@ -1,0 +1,134 @@
+package org.domain.rules;
+
+dialect "mvel"
+
+import eu.ohim.sp.core.domain.validation.ErrorCore;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.domain.design.Design;
+import eu.ohim.sp.core.domain.design.DesignApplication;
+import eu.ohim.sp.core.domain.validation.RulesInformation;
+import eu.ohim.sp.core.domain.payment.FeeList;
+import eu.ohim.sp.core.domain.payment.FeeType;
+import eu.ohim.sp.core.domain.payment.Fee;
+import eu.ohim.sp.core.domain.resources.DocumentKind;
+import eu.ohim.sp.core.domain.resources.Document;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.TreeMap;
+import java.util.List;
+import java.util.Date;
+import java.util.Calendar;
+import java.text.DecimalFormat;
+import org.apache.log4j.Logger;
+import eu.ohim.sp.core.domain.design.DSeServiceApplication;
+import eu.ohim.sp.core.domain.design.Design;
+import eu.ohim.sp.core.domain.design.DesignApplication;
+
+rule "Fees reader"
+salience 1000
+no-loop
+    when
+		FeeList($feeTypeList : feeTypeList)
+        $bFF : FeeType("basicFeeFirstRenewal".equals(nameKey)) from $feeTypeList
+        $bFS : FeeType("basicFeeSecondRenewal".equals(nameKey)) from $feeTypeList
+        $bFT : FeeType("basicFeeThirdRenewal".equals(nameKey)) from $feeTypeList
+        $pF : FeeType("penaltyFee".equals(nameKey)) from $feeTypeList
+    then
+    	TreeMap map = new TreeMap();
+        map.put("basicFeeFirstRenewal", $bFF);
+        map.put("basicFeeSecondRenewal", $bFS);
+        map.put("basicFeeThirdRenewal", $bFT);
+        map.put("penaltyFee", $pF);
+        insert(map);
+end
+
+rule "Basic Fee"
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        $ds: DSeServiceApplication($dsdet: designDetails)
+        eval($dsdet != null && $dsdet.size() >0)
+    then
+
+        Fee fee = new Fee();        
+        fee.setQuantity(1);
+        
+        for(DesignApplication dsApp: $dsdet){
+	        if(dsApp.getDesignDetails() != null && dsApp.getDesignDetails().size() >0 && dsApp.getDesignDetails().get(0).getSelected() != null && dsApp.getDesignDetails().get(0).getSelected()==true) {
+	        	Design d = dsApp.getDesignDetails().get(0);
+	        	Date appDate = dsApp.getApplicationDate();
+	        	Date expDate = d.getExpiryDate();
+	        	int years = getYearsPassedFromAppDate(appDate, expDate);
+	        	if(years == 10){
+	        		fee.setFeeType((FeeType) $map.get("basicFeeFirstRenewal"));
+	        		fee.setUnitAmount(((FeeType) $map.get("basicFeeFirstRenewal")).getDefaultValue());
+	        	} else if (years ==15) {
+	        		fee.setFeeType((FeeType) $map.get("basicFeeSecondRenewal"));
+	        		fee.setUnitAmount(((FeeType) $map.get("basicFeeSecondRenewal")).getDefaultValue());
+	        	} else if (years == 20) {
+	        		fee.setFeeType((FeeType) $map.get("basicFeeThirdRenewal"));
+	        		fee.setUnitAmount(((FeeType) $map.get("basicFeeThirdRenewal")).getDefaultValue());
+	        	} else {
+	        		return;
+	        	}
+	        	
+	        	fee.setAmount(fee.quantity * fee.unitAmount);
+	
+	        	$results.put(generateUID(fee, dsApp), fee);
+	        	
+	        	
+	        	if(d.getExpiryDate().before(now())){
+	        		
+			        Fee penaltyConstant = new Fee();
+			        penaltyConstant.setFeeType((FeeType) $map.get("penaltyFee"));
+			        penaltyConstant.setQuantity(1);
+			        penaltyConstant.setUnitAmount(((FeeType) $map.get("penaltyFee")).getDefaultValue());
+			        penaltyConstant.setAmount(penaltyConstant.quantity * penaltyConstant.unitAmount);
+			
+			        $results.put(generateUID(penaltyConstant, dsApp), penaltyConstant);
+	        	}
+	        	return;       	
+	        	
+	        }     
+        }
+                
+end
+
+function String generateUID(Fee fee, DesignApplication designApplication){
+	String designId = "";
+	String designPOZ = "";
+	if(designApplication != null){
+		designId = designApplication.getDesignDetails().get(0).getDesignIdentifier() + "|";
+		designPOZ = designApplication.getDesignDetails().get(0).getDesignIdentifier();
+		if (designPOZ == null || designPOZ == "")
+			designPOZ = designApplication.getDesignDetails().get(0).getRegistrationNumber();
+	}
+	fee.setStatus(designPOZ);
+	return designId + fee.toString();
+}
+
+
+function Date now(){
+	Calendar cal = Calendar.getInstance();
+    cal.set(Calendar.HOUR_OF_DAY, 0);
+    cal.set(Calendar.MINUTE, 0);
+    cal.set(Calendar.SECOND, 0);
+    cal.set(Calendar.MILLISECOND, 0);
+	return cal.getTime();
+}
+
+function int getYearsPassedFromAppDate(Date appDate, Date expDate){
+	if(appDate == null || expDate == null){
+		return 0;
+	}
+
+	Calendar appcal = Calendar.getInstance();
+	appcal.setTime(appDate);
+	
+    Calendar expcal = Calendar.getInstance();
+	expcal.setTime(expDate);
+	
+	return (expcal.get(Calendar.YEAR) - appcal.get(Calendar.YEAR));
+}
+

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:webflow="http://www.springframework.org/schema/webflow-config"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/webflow-config http://www.springframework.org/schema/webflow-config/spring-webflow-config-2.3.xsd">
+    
+    <bean class="org.springframework.webflow.mvc.servlet.FlowHandlerAdapter" >
+		<property name="flowExecutor" ref="flowExecutor" />
+	</bean>
+	
+	<bean class="org.springframework.webflow.mvc.servlet.FlowHandlerMapping" >
+		<property name="flowRegistry" ref="flowRegistry" />
+	</bean>
+	
+	<bean id="mvcViewFactoryCreator" class="org.springframework.webflow.mvc.builder.MvcViewFactoryCreator" >
+	    <property name="viewResolvers" ref="tilesViewResolver"/>
+	</bean>
+	
+	<!-- Executes flows: the central entry point into the Spring Web Flow system -->
+	<webflow:flow-executor id="flowExecutor" flow-registry="flowRegistry">
+		<webflow:flow-execution-listeners>
+			<webflow:listener ref="securityFlowExecutionListener"/>
+		</webflow:flow-execution-listeners>
+	</webflow:flow-executor>	
+	
+	<bean id="securityFlowExecutionListener" class="org.springframework.webflow.security.SecurityFlowExecutionListener">
+		<property name="accessDecisionManager" ref="decisionManager"/>
+	</bean>
+	
+	<bean id="decisionManager" class="org.springframework.security.access.vote.UnanimousBased">
+		<property name="decisionVoters">
+			<list>
+				<bean id="roleVoter" class="org.springframework.security.access.vote.RoleVoter">
+					<property name="rolePrefix" value="" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="flowRegistry" class="eu.ohim.sp.common.ui.webflow.SpFlowRegistry">
+		<constructor-arg index="0" ref="flowBuilderServices" />
+		<constructor-arg index="1" ref="systemConfigurationService" />
+		<constructor-arg index="2" ref="sectionViewConfiguration" />
+        <constructor-arg index="3" value="${sp.module}" />
+	</bean>
+
+	<bean id="defaultConversionService" class="org.springframework.binding.convert.service.DefaultConversionService">
+		<constructor-arg ref="dateConversionService"/>
+	</bean>
+
+	<bean id="dateConversionService" class="eu.ohim.sp.common.ui.webflow.DateConversionService"/>
+    
+	<webflow:flow-builder-services id="flowBuilderServices"
+		view-factory-creator="mvcViewFactoryCreator"
+		validator="formValidator"
+		conversion-service="defaultConversionService"/>
+		
+	<bean id="spFlowExecutionExceptionHandler" class="eu.ohim.sp.common.ui.webflow.SpFlowExecutionExceptionHandler" />
+	
+</beans>

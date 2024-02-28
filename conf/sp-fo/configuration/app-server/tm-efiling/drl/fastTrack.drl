@@ -1,0 +1,277 @@
+package org.domain.rules;
+
+dialect "mvel"
+
+import java.util.Map;
+import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.Calendar;
+import java.lang.*;
+import java.lang.System;
+import org.apache.commons.lang.*;
+import org.apache.commons.lang.StringUtils;
+
+import eu.ohim.sp.core.configuration.domain.xsd.Section;
+import eu.ohim.sp.core.configuration.domain.xsd.Field;
+import eu.ohim.sp.core.configuration.domain.xsd.Sections;
+import eu.ohim.sp.core.configuration.domain.xsd.AvailableSection;
+
+import eu.ohim.sp.core.domain.application.Signatory;
+import eu.ohim.sp.core.domain.application.EServiceApplication;
+import eu.ohim.sp.core.domain.design.DSeServiceApplication;
+import eu.ohim.sp.core.domain.design.Design;
+import eu.ohim.sp.core.domain.design.DesignApplication;
+import eu.ohim.sp.core.domain.fasttrack.FastTrackFail;
+import eu.ohim.sp.core.domain.licence.Licence;
+import eu.ohim.sp.core.domain.trademark.ClassificationTerm;
+import eu.ohim.sp.core.domain.trademark.ClassDescription;
+import eu.ohim.sp.core.domain.trademark.ClassificationErrorType
+import eu.ohim.sp.core.domain.trademark.TradeMarkApplication;
+import eu.ohim.sp.core.domain.trademark.GSHelperDetails;
+import eu.ohim.sp.core.domain.trademark.ApplicationExtent;
+import eu.ohim.sp.core.domain.trademark.LimitedTradeMark;
+import eu.ohim.sp.core.domain.trademark.TradeMark;
+import eu.ohim.sp.core.domain.trademark.MarkFeature;
+import eu.ohim.sp.core.domain.person.Applicant;
+import eu.ohim.sp.core.domain.person.Representative;
+import eu.ohim.sp.core.domain.person.PersonIdentifier;
+import eu.ohim.sp.core.domain.person.PersonKind;
+import eu.ohim.sp.core.domain.opposition.OppositionGround;
+import eu.ohim.sp.core.domain.opposition.OppositionRelativeGrounds;
+import eu.ohim.sp.core.domain.opposition.GroundCategoryKind;
+import eu.ohim.sp.core.domain.payment.PaymentFee;
+import eu.ohim.sp.core.domain.payment.MatchedFee;
+import eu.ohim.sp.core.domain.payment.PaymentStatusCode;
+import eu.ohim.sp.core.domain.validation.ErrorCore;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.domain.validation.RulesInformation;
+import eu.ohim.sp.core.domain.claim.trademark.Priority
+import eu.ohim.sp.core.domain.claim.TransformationPriority
+import eu.ohim.sp.core.domain.resources.AttachedDocument;
+
+
+rule "List creator"
+salience 1100
+no-loop
+    when
+        $results : HashMap()
+        # This rule has no WHEN. Is always triggered
+    then
+		# Inserts a new TreeMap in the session
+		ArrayList results = new ArrayList();
+		$results.put("fasttrack.fails", results);
+        insert(results);
+end
+
+
+rule "Fast Track : Type of mark"
+no-loop
+    when
+        $results : ArrayList()
+		TradeMarkApplication(tradeMark!=null, $tradeMark : tradeMark)
+		TradeMark(markKind != null, $markKind : markKind) from $tradeMark
+		RulesInformation($sections : customObjects["sections"])
+		Sections($sectionList : section) from $sections
+		Section(id == AvailableSection.TYPEMARK, visible == true, $subsectionList : subsection) from $sectionList
+		Section(id.value() == fromMarkFeatureToSectionId($markKind), visible == true, isFastTrack() == null || isFastTrack() == false) from $subsectionList
+    then
+        String[] args = { ($markKind==null?"?":"fasttrack.mark.names."+$markKind.name()) };
+        $results.add(new FastTrackFail("fasttrack.fail.rule.markkind", args, true, "Update_Mark", "#typemark"));
+end
+
+rule "Fast Track : Collective mark"
+no-loop
+    when
+        $results : ArrayList()
+        TradeMarkApplication(tradeMark!=null, $tradeMark : tradeMark)
+        TradeMark($markKind: markKind, $markRightKind: markRightKind, markRightKind != null && markRightKind.value() == "Collective") from $tradeMark
+        RulesInformation($sections : customObjects["sections"])
+        Sections($sectionList : section) from $sections
+        Section(id == AvailableSection.TYPEMARK, visible == true, $subsectionList : subsection) from $sectionList
+        Section(id.value() == fromMarkFeatureToSectionId($markKind), visible == true, $fields: field) from $subsectionList
+        Field(id=="mainForm.collectiveMark", usable == true, visible == true, fastTrack == true, fastTrackValues == "false") from $fields
+    then
+        String[] args = { ($markRightKind==null?"?":"fasttrack.markRightKind."+$markRightKind.value()) };
+        $results.add(new FastTrackFail("fasttrack.fail.rule.markRightKind", args, true, "Update_Mark", "#collectiveMark"));
+end
+
+rule "Fast Track : Certificate mark"
+no-loop
+    when
+        $results : ArrayList()
+        TradeMarkApplication(tradeMark!=null, $tradeMark : tradeMark)
+        TradeMark($markKind: markKind, $markRightKind: markRightKind, markRightKind != null && markRightKind.value() == "Certificate") from $tradeMark
+        RulesInformation($sections : customObjects["sections"])
+        Sections($sectionList : section) from $sections
+        Section(id == AvailableSection.TYPEMARK, visible == true, $subsectionList : subsection) from $sectionList
+        Section(id.value() == fromMarkFeatureToSectionId($markKind), visible == true, $fields: field) from $subsectionList
+        Field(id=="mainForm.certificateMark", usable == true, visible == true, fastTrack == true, fastTrackValues == "false") from $fields
+    then
+        String[] args = { ($markRightKind==null?"?":"fasttrack.markRightKind."+$markRightKind.value()) };
+        $results.add(new FastTrackFail("fasttrack.fail.rule.markRightKind", args, true, "Update_Mark", "#certificateMark"));
+end
+
+rule "Fast Track : Unvalidated terms against alpha terms"
+no-loop
+    when
+        $results : ArrayList()
+		RulesInformation($sections : customObjects["sections"])
+		Sections($sectionList : section) from $sections
+		Section(id == AvailableSection.GOODSANDSERVICES, visible == true, fastTrack == true) from $sectionList
+		TradeMarkApplication(tradeMark!=null, $tradeMark : tradeMark)
+        TradeMark(classDescriptions!=null && classDescriptions.size()>0, $classDescriptions : classDescriptions) from $tradeMark
+		ClassDescription(classificationTerms!=null && classificationTerms.size()>0, $classificationTerms : classificationTerms, $classNumber : classNumber) from $classDescriptions
+    then
+		int count = 0;
+		for (ClassificationTerm term : $classificationTerms){
+			if (term.getNiceTermAssessment()!=null) {
+				count++;
+			}
+		}
+		if (count > 0) {
+		    String[] args = { Integer.toString(count), ($classNumber==null?"?":$classNumber) };
+			$results.add(new FastTrackFail("fasttrack.fail.rule.terms", args, false, "Update_GoodsServices", "#goodsandservices"));
+		}
+end
+
+rule "Fast Track : Priority claim"
+no-loop
+    when
+        $results : ArrayList()
+		RulesInformation($sections : customObjects["sections"])
+		Sections($sectionList : section) from $sections
+        Section(id == AvailableSection.CLAIM, visible == true, $subsectionList : subsection) from $sectionList
+        Section(id == AvailableSection.PRIORITY, visible == true, fastTrack == true) from $subsectionList
+		TradeMarkApplication(tradeMark!=null, $tradeMark : tradeMark)
+		TradeMark(priorities!=null && priorities.size()>0, $priorities : priorities) from $tradeMark
+    then
+        int count = 0;
+        for (Priority priority : $priorities){
+            if (priority.getAttachedDocuments()==null || priority.getAttachedDocuments().size()==0) {
+                count++;
+            }
+        }
+        if (count > 0) {
+            String[] args = { Integer.toString(count) };
+            $results.add(new FastTrackFail("fasttrack.fail.rule.claim.priority", args, false, "Update_Claim", "#claim"));
+        }
+end
+
+rule "Fast Track : Exhibition claim"
+no-loop
+    when
+        $results : ArrayList()
+		RulesInformation($sections : customObjects["sections"])
+		Sections($sectionList : section) from $sections
+        Section(id == AvailableSection.CLAIM, visible == true, $subsectionList : subsection) from $sectionList
+        Section(id == AvailableSection.EXHIBITION, visible == true, fastTrack == true) from $subsectionList
+		TradeMarkApplication(tradeMark!=null, $tradeMark : tradeMark)
+		TradeMark(exhibitionPriorities!=null && exhibitionPriorities.size()>0, $exhibitionPriorities : exhibitionPriorities) from $tradeMark
+    then
+        String[] args = { Integer.toString($exhibitionPriorities.size()) };
+        $results.add(new FastTrackFail("fasttrack.fail.rule.claim.exhibition", args, false, "Update_Claim", "#claim"));
+end
+
+rule "Fast Track : Transformation claim"
+no-loop
+    when
+        $results : ArrayList()
+		RulesInformation($sections : customObjects["sections"])
+		Sections($sectionList : section) from $sections
+        Section(id == AvailableSection.CLAIM, visible == true, $subsectionList : subsection) from $sectionList
+        Section(id == AvailableSection.TRANSFORMATION, visible == true, fastTrack == true) from $subsectionList
+		TradeMarkApplication(tradeMark!=null, $tradeMark : tradeMark)
+		TradeMark(transformationPriorities!=null && transformationPriorities.size()>0, $transformationPriorities : transformationPriorities) from $tradeMark
+    then
+        int count = 0;
+        for(TransformationPriority priority: $transformationPriorities){
+            if(priority.getTransformationCountryCode().equalsIgnoreCase("wo")){
+                count++;
+            }
+        }
+        if(count >0){
+            String[] argsCount = { Integer.toString(count) };
+            $results.add(new FastTrackFail("fasttrack.fail.rule.claim.transformation", argsCount, false, "Update_Claim", "#claim"));
+        }
+end
+
+rule "Fast Track : CTMTransformation claim"
+no-loop
+    when
+        $results : ArrayList()
+		RulesInformation($sections : customObjects["sections"])
+		Sections($sectionList : section) from $sections
+        Section(id == AvailableSection.CLAIM, visible == true, $subsectionList : subsection) from $sectionList
+        Section(id == AvailableSection.CTM_TRANSFORMATION, visible == true, fastTrack == true) from $subsectionList
+		TradeMarkApplication(tradeMark!=null, $tradeMark : tradeMark)
+		TradeMark(transformationPriorities!=null && transformationPriorities.size()>0, $transformationPriorities : transformationPriorities) from $tradeMark
+    then
+        int countCTM = 0;
+        for(TransformationPriority priority: $transformationPriorities){
+            if(priority.getTransformationCountryCode().equalsIgnoreCase("em")){
+                countCTM++;
+            }
+        }
+        if(countCTM >0){
+            String[] argsCTMCount = { Integer.toString(countCTM) };
+            $results.add(new FastTrackFail("fasttrack.fail.rule.claim.ctmtransformation", argsCTMCount, false, "Update_Claim", "#claim"));
+        }
+end
+
+rule "Fast Track : Online payment"
+no-loop
+    when
+        $results : ArrayList()
+        RulesInformation($sections : customObjects["sections"], $state: customObjects["stateId"])
+        Sections($sectionList : section) from $sections
+        Section(id == AvailableSection.OTHER_ATTACHMENTS, visible == true, $subsectionList : subsection, $sectionState: viewStateId) from $sectionList
+        eval($state == null || $state == $sectionState)
+        TradeMarkApplication((willPayOnline == null || willPayOnline == false) && (documents == null || containsNDocumentsOfType(documents , "Proof of Payment", 1) == false))
+    then
+        $results.add(new FastTrackFail("fasttrack.fail.rule.online.payment", null, false, "Update_OtherAttachments", "#otherAttachments"));
+end
+
+rule "Fast Track : Power of Attorney"
+no-loop
+    when
+        $results : ArrayList()
+        RulesInformation($sections : customObjects["sections"], $state: customObjects["stateId"])
+        Sections($sectionList : section) from $sections
+        Section(id == AvailableSection.OTHER_ATTACHMENTS, visible == true, $subsectionList : subsection, $sectionState: viewStateId) from $sectionList
+        eval($state == null || $state == $sectionState)
+        TradeMarkApplication(tradeMark!=null, tradeMark.representatives != null && tradeMark.representatives.size() >0 && containsNDocumentsOfType(documents , "Power Of Attorney", 1) == false)
+    then
+        $results.add(new FastTrackFail("fasttrack.fail.rule.pow", null, false, "Update_OtherAttachments", "#otherAttachments"));
+end
+
+
+function List fromCsvToList(String values) {
+	if (values != null) {
+		return Arrays.asList(values.split(","));
+	} else {
+		return null;
+	}
+}
+
+function String fromMarkFeatureToSectionId(MarkFeature markFeature) {
+	if (markFeature != null) {
+		if (markFeature == MarkFeature.COLOUR) return "colourmark";
+		else if (markFeature == MarkFeature.FIGURATIVE) return "figurative";
+		else if (markFeature == MarkFeature.STYLIZED_CHARACTERS) return "3dwordmark";
+		else if (markFeature == MarkFeature.COMBINED) return "figwordmark";
+		else if (markFeature == MarkFeature.SOUND) return "soundmark";
+		else if (markFeature == MarkFeature.WORD) return "wordmark";
+		else if (markFeature == MarkFeature.OTHER) return "other";
+		else if (markFeature == MarkFeature.THREE_D) return "3dmark";
+		else if (markFeature == MarkFeature.HOLOGRAM) return "hologrammark";
+		else if (markFeature == MarkFeature.PATTERN) return "patternmark";
+		else if (markFeature == MarkFeature.POSITION) return "positionmark";
+		else if (markFeature == MarkFeature.THREE_D_SHAPE) return "shapemark";
+		else if (markFeature == MarkFeature.MULTIMEDIA) return "multimediamark";
+		else if (markFeature == MarkFeature.MOTION) return "motionmark";
+	}
+	return "0";
+}

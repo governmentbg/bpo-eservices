@@ -1,0 +1,552 @@
+package org.domain.rules;
+dialect "mvel"
+
+import eu.ohim.sp.core.domain.trademark.TradeMark;
+import eu.ohim.sp.core.domain.trademark.MarkFeature;
+import eu.ohim.sp.core.domain.trademark.LimitedTradeMark;
+import eu.ohim.sp.core.domain.validation.RulesInformation;
+import eu.ohim.sp.core.domain.validation.ErrorCore;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+
+import eu.ohim.sp.core.configuration.domain.xsd.Section;
+import eu.ohim.sp.core.configuration.domain.xsd.Field;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.lang.Boolean;
+
+import org.apache.commons.lang.StringUtils;
+
+global eu.ohim.sp.core.domain.validation.ErrorList errorList;
+
+rule "BR1300 - Application Number - Required"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )	
+	Field( id == "applicationNumber", $ANUsable : usable, $ANRequired : required) from $fields
+	eval($ANUsable == true && $ANRequired == true)
+	TradeMark(applicationNumber == null || StringUtils.equals(applicationNumber,""))
+then
+	addError(null,
+		 "BR1300.trademark.Empty",
+		 "This field is mandatory",
+		 "applicationNumber",
+		 $errorList);
+end
+
+rule "BR1301 - Application Date - Required"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "applicationDate", $ADUsable : usable, $ADRequired : required) from $fields
+	eval($ADUsable == true && $ADRequired == true)
+	TradeMark(applicationDate == null)
+then
+	addError(null,
+		 "BR1301.trademark.Empty",
+		 "This field is mandatory",
+		 "applicationDate",
+		 $errorList);
+end
+
+rule "BR1302 - Application Representation - Required"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	TradeMark($applicationRepresentation : wordSpecifications.get(0).wordElements, markKind != MarkFeature.FIGURATIVE)
+	Field( id == "applicationRepresentation", $ARUsable : usable, $ARRequired : required, $regex : format) from $fields
+	eval($ARUsable == true && $ARRequired == true)
+then
+    if (StringUtils.isEmpty($applicationRepresentation) ||
+            (!StringUtils.isEmpty($regex) && Pattern.matches($regex, $applicationRepresentation))) {
+	    addError(null,
+		    "BR1302.trademark.Format",
+		    "This field has a wrong format",
+		    "applicationRepresentation",
+		    $errorList);
+    }
+end
+
+#rule "BR1303 - File Attachment - ???? TODO ????"
+#salience 1000
+#when
+#then
+#end
+
+rule "BR1304 - Registration Number - Required"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "registrationNumber", $RNUsable : usable, $RNRequired : required) from $fields
+	eval($RNUsable == true && $RNRequired == true)
+	TradeMark(registrationNumber == null || StringUtils.equals(registrationNumber,""))	
+then
+	addError(null,
+		 "BR1304.trademark.Empty",
+		 "This field is mandatory",
+		 "registrationNumber",
+		 $errorList);
+end
+
+rule "BR1304b - Application Number or Registration Number - Required"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )	
+	Field( id == "registrationNumber", $RNUsable : usable, $RNRequired : required) from $fields
+	Field( id == "applicationNumber", $ANUsable : usable, $ANRequired : required) from $fields
+	eval($RNUsable == true)
+	eval($ANUsable == true)
+	TradeMark(registrationNumber == null || StringUtils.equals(registrationNumber,""))	
+	TradeMark(applicationNumber == null || StringUtils.equals(applicationNumber,""))
+then
+	addError(null,
+    		 "BR1304b.trademark.Empty",
+    		 "Application Number or Registration Number - Required",
+    		 "formMessages",
+    		 $errorList);
+end
+
+rule "BR1305 - Registration Date - Required"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "registrationDate", $RDUsable : usable, $RDRequired : required) from $fields
+	eval($RDUsable == true && $RDRequired == true)
+	TradeMark(registrationDate == null)	
+then
+	addError(null,
+		 "BR1305.trademark.Empty",
+		 "This field is mandatory",
+		 "registrationDate",
+		 $errorList);
+end
+
+rule "BR1305b - Application Date or Registration Date - Required"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "registrationDate", $RDUsable : usable, $RDRequired : required) from $fields
+	Field( id == "applicationDate", $ADUsable : usable, $ADRequired : required) from $fields	
+	eval($RDUsable == true)
+	eval($ADUsable == true)
+	TradeMark(registrationDate == null)	
+	TradeMark(applicationDate == null)
+then
+	addError(null,
+    		 "BR1305b.trademark.Empty",
+    		 "Application Date or Registration Date - Required",
+    		 "formMessages",
+    		 $errorList);
+end
+
+rule "BR354 - Registration Date - Absolute grounds"
+salience 1000
+when
+	$errorList : ErrorList()
+	RulesInformation($customObjects : customObjects)
+	Section( $fields : field )
+	Field( id == "registrationDate", $RDUsable : usable) from $fields
+	eval($RDUsable == true)
+	TradeMark(registrationDate == null)	
+then
+    HashMap co = $customObjects;
+	Boolean imported = co.get("importAction");    
+    String eservice = co.get("eservice");
+	if("tm-invalidity".equals(eservice)) {
+		if(imported) {
+			addError(null,
+				 "BR354.registrationdate.absolutegrounds",
+				 "You are unable to add absolute grounds with registration date empty",
+				 "formWarnings",
+				 $errorList);
+		}
+	}
+end
+
+#rule "BR1306 - Publication Date - ???? TODO ????"
+#salience 1000
+#when
+#then
+#end
+
+rule "BR1307 - Expiry Date - Optional"
+salience 1000
+when
+	$errorList : ErrorList()
+	RulesInformation($customObjects : customObjects)
+	Section( $fields : field )
+	Field( id == "expiryDate", $EDUsable : usable, $EDRequired : required) from $fields
+	eval($EDUsable == true && $EDRequired == true)	
+	TradeMark(expirationDate == null)
+then
+    HashMap co = $customObjects;
+    String eservice = co.get("eservice");
+
+	addError(null,
+		 "BR1307.trademark.Empty",
+		 "This field is mandatory",
+		 "expiryDate",
+		 $errorList);
+end
+
+rule "BR1308 - TradeMark Type Value - Required (only transfer and renewal)"
+salience 1000
+when
+	$errorList : ErrorList()
+	RulesInformation($customObjects : customObjects)
+	Section( $fields : field )
+	Field( id == "tradeMarkKind", $TMTUsable : usable, $TMTRequired : required) from $fields
+	eval($TMTUsable == true && $TMTRequired == true)	
+	TradeMark(markRightKind != null && (StringUtils.equals(markRightKind.toString(),"Collective") == false && StringUtils.equals(markRightKind.toString(),"Individual") == false&& StringUtils.equals(markRightKind.toString(),"Certificate") == false))
+then
+    HashMap co = $customObjects;
+    String eservice = co.get("eservice");
+
+    addError(null,
+		 "BR1308.trademark.Value",
+		 "This field has a wrong value",
+		 "tradeMarkKind",
+		 $errorList);	
+end
+
+rule "BR1308 (2) - TradeMark Type - Required"
+salience 1000
+when
+	$errorList : ErrorList()
+	RulesInformation($customObjects : customObjects)
+	Section( $fields : field )
+	Field( id == "tradeMarkKind", $TMTUsable : usable, $TMTRequired : required) from $fields
+	eval($TMTUsable == true && $TMTRequired == true)	
+	TradeMark(markRightKind == null)	
+then
+    HashMap co = $customObjects;
+    String eservice = co.get("eservice");
+
+	addError(null,
+		 "BR1308.trademark.Empty",
+		 "This field is mandatory",
+		 "tradeMarkKind",
+		 $errorList);
+	
+end
+
+rule "BR408 - TradeMark renewable"
+salience 1000
+when
+	$errorList : ErrorList()
+	RulesInformation($customObjects : customObjects)
+	Section( $fields : field )
+	Field( id == "formMessages", $TMTUsable : usable, $TMTRequired : required) from $fields
+	eval($TMTUsable == true && $TMTRequired == true)
+	TradeMark($ed : expirationDate)		
+	eval($ed != null)
+then
+    HashMap co = $customObjects;
+    Boolean blocking = co.get("renewableBlockingMessage");
+    String eservice = co.get("eservice");
+
+    if("tm-renewal".equals(eservice)) {
+	    Calendar calendar = Calendar.getInstance();
+	    calendar.setTime($ed);
+	    calendar.add(Calendar.MONTH, -12);
+	    Date ed_minus_12 = calendar.getTime();
+	    calendar.setTime($ed);
+	    calendar.add(Calendar.MONTH, 6);
+	    Date ed_plus_6 = calendar.getTime();
+
+	    calendar.setTime(new Date());
+		calendar.set(Calendar.HOUR_OF_DAY, 0);
+   		calendar.set(Calendar.MINUTE, 0);
+    	calendar.set(Calendar.SECOND, 0);
+    	calendar.set(Calendar.MILLISECOND, 0);
+    	Date today = calendar.getTime();
+
+
+		if((today.compareTo(ed_minus_12)<0 || today.compareTo(ed_plus_6)>0) && blocking) {
+			addError(null,
+				"BR408.trademark.Renewable",
+			 	"Trade Mark SHOULD be within renewal period",
+			 	"formMessages",
+			 	$errorList);
+		}
+	}
+end
+
+rule "BR408 - TradeMark revocable/invalidatable"
+salience 1000
+when
+	$errorList : ErrorList()
+	RulesInformation($customObjects : customObjects)
+	Section( $fields : field )
+	Field( id == "formMessages", $TMTUsable : usable, $TMTRequired : required) from $fields
+	eval($TMTUsable == true && $TMTRequired == true)
+	TradeMark($regDate : registrationDate, $regOffice: registrationOffice)
+	eval($regDate == null)
+then
+    HashMap co = $customObjects;
+    String eservice = co.get("eservice");
+	Boolean imported = co.get("importAction");
+    if("tm-revocation".equals(eservice) || "tm-invalidity".equals(eservice)) {
+    	if("BG".equals($regOffice)){
+			addError(null,
+				"BR408.trademark.mustBe.registered",
+			 	"Trade Mark must be registered",
+			 	"formMessages",
+			 	$errorList);
+		}
+	}
+end
+
+rule "Trademark must not be registered for objection/opposition"
+salience 1000
+when
+	$errorList : ErrorList()
+	RulesInformation($customObjects : customObjects)
+	Section( $fields : field )
+	Field( id == "formMessages", $TMTUsable : usable, $TMTRequired : required) from $fields
+	eval($TMTUsable == true && $TMTRequired == true)
+	TradeMark($regDate : registrationDate)
+	eval($regDate != null)
+then
+    HashMap co = $customObjects;
+    String eservice = co.get("eservice");
+	Boolean imported = co.get("importAction");
+	if("tm-opposition".equals(eservice) || "tm-objection".equals(eservice)) {
+	    if(imported) {
+			addError(null,
+				"BR408.trademark.mustNotBe.registered",
+			 	"It is required to import a trademark application and not a registered trademark",
+			 	"formMessages",
+			 	$errorList);
+		}
+	}
+end
+
+rule "BR408 - TradeMark opposable"
+salience 1000
+when
+	$errorList : ErrorList()
+	RulesInformation($customObjects : customObjects)
+	Section( $fields : field )
+	Field( id == "publicationDate", $ADUsable : usable) from $fields
+	eval($ADUsable == true)
+	TradeMark($pd : publicationDate, $regOff : registrationOffice)
+	eval($pd != null && $regOff != null)
+then
+    HashMap co = $customObjects;
+    Boolean blocking = co.get("opposableBlockingMessage");
+    String eservice = co.get("eservice");
+    Boolean markInternational = "WO".equalsIgnoreCase($regOff);
+
+    if("tm-opposition".equals(eservice) || "tm-objection".equals(eservice)) {
+	    Calendar calendar = Calendar.getInstance();
+	    calendar.setTime($pd);
+	    calendar.add(Calendar.MONTH, 3);
+	    Date pd_plus_3 = calendar.getTime();
+	    calendar.setTime($pd);
+	    calendar.add(Calendar.MONTH, 6);
+	    Date pd_plus_6 = calendar.getTime();
+	    calendar.setTime($pd);
+	    calendar.add(Calendar.MONTH, 9);
+	    Date pd_plus_9 = calendar.getTime();
+
+		calendar.setTime(new Date());
+		calendar.set(Calendar.HOUR_OF_DAY, 0);
+   		calendar.set(Calendar.MINUTE, 0);
+    	calendar.set(Calendar.SECOND, 0);
+    	calendar.set(Calendar.MILLISECOND, 0);
+    	Date today = calendar.getTime();
+
+		if(((!markInternational && (today.compareTo(pd_plus_3)>0 || today.compareTo($pd)< 0)) || (markInternational && (today.compareTo(pd_plus_6)<0 || today.compareTo(pd_plus_9) >0))) && blocking ) {
+			addError(null,
+				"BR408.trademark.Opposable",
+			 	"Trade Mark SHOULD be within opposable/objectable period (for national marks - in 3 months after publication; for international - between 6 and 9th months after publication date)",
+			 	"formMessages",
+			 	$errorList);
+		}
+	}
+end
+
+    
+rule "BR408 - TradeMark status"
+salience 1000
+when
+	$errorList : ErrorList()
+	RulesInformation($customObjects : customObjects)
+	Section( $fields : field )
+	Field( id == "formMessages", $TMTUsable : usable, $TMTRequired : required) from $fields
+	eval($TMTUsable == true)
+	TradeMark($st : currentStatus, $regOffice: registrationOffice)
+	eval($st != null)	
+then
+	HashMap co = $customObjects;
+	Boolean imported = co.get("imported");
+	if(imported) {
+
+	    Boolean blocking = new Boolean("true");
+	    String eservice = co.get("eservice");
+
+		if("tm-renewal".equals(eservice)) {        
+			blocking = co.get("renewalStatusBlockingMessage");
+		}  else if("tm-opposition".equals(eservice) || "tm-objection".equals(eservice)) {
+			blocking = co.get("oppositionStatusBlockingMessage");
+		} else if("tm-rem".equals(eservice)) {
+			blocking = co.get("remStatusBlockingMessage");
+		} else if("tm-surrender".equals(eservice)) {
+			blocking = co.get("surrenderStatusBlockingMessage");
+		} else if("tm-appeal".equals(eservice)) {
+			blocking = co.get("appealStatusBlockingMessage");
+		}
+
+		if("tm-renewal".equals(eservice)){
+			if(!("Registered".equals($st) || "Expired".equals($st)) && blocking) {
+				addError(null,
+					"BR356.trademark.Registered.or.Expired",
+				 	"Trade Mark SHOULD be in registered or expired status",
+				 	"formMessages",
+				 	$errorList);
+			}
+
+		} else if("tm-surrender".equals(eservice)) {
+			if(!("Registered".equals($st)) && blocking) {
+				addError(null,
+					"BR408.trademark.Registered",
+				 	"Trade Mark SHOULD be in registered status",
+				 	"formMessages",
+				 	$errorList);
+			}
+		} else if("tm-opposition".equals(eservice) || "tm-objection".equals(eservice)) {
+			if(!("Application published".equals($st)) && !("Application opposed".equals($st)) && blocking) {
+				addError(null,
+					"BR408.trademark.Published",
+				 	"Trade Mark SHOULD be in published or opposed status",
+				 	"formMessages",
+				 	$errorList);
+			}
+		} else if("tm-withdrawal".equals(eservice) || "tm-appeal".equals(eservice)) {
+			if(!("Filed".equals($st) || "Application filed".equals($st) ||"Appeal pending".equals($st) ||"Application opposed".equals($st) ||"Application published".equals($st) ) && blocking) {
+			    if($regOffice == null || !$regOffice.equals("WO")){
+                    addError(null,
+                    "BR408.trademark.mustNotBe.registered",
+                    "It is required to import a trademark application and not a registered trademark",
+                    "formMessages",
+                    $errorList);
+				}
+			}
+		} else if("tm-transfer".equals(eservice) || "tm-change".equals(eservice) || "tm-bankruptcy".equals(eservice) || "tm-rem".equals(eservice) || "tm-licence".equals(eservice) || "tm-security".equals(eservice)) {
+			if(!("Filed".equals($st) || "Registered".equals($st) || "Application filed".equals($st) ||"Appeal pending".equals($st) ||"Application opposed".equals($st) ||"Application published".equals($st)) && blocking) {
+				addError(null,
+				"BR408.trademark.mustBe.registered.or.filed",
+			 	"It is required to import a trademark application or a registered trademark",
+			 	"formMessages",
+			 	$errorList);
+			}
+		} 
+	}
+end
+
+rule "BR163 - Publication Date Null"
+salience 1000
+when
+	$errorList : ErrorList()
+	RulesInformation($customObjects : customObjects)	
+	Section( $fields : field )
+	Field( id == "publicationDate", $ADUsable : usable) from $fields
+	eval($ADUsable == true)
+	TradeMark($pd : publicationDate)	
+	eval($pd == null)
+then
+    HashMap co = $customObjects;
+    String eservice = co.get("eservice");		
+	Boolean imported = co.get("importAction");
+	if("tm-opposition".equals(eservice) || "tm-objection".equals(eservice)) {
+	    if(imported) {
+			addError(null,
+				 "BR165.trademark.PubDate.Empty",
+				 "Empty publication date: the check on the opposability/objectability character of the TM will take place later.",
+				 "formMessages",
+				 $errorList);
+		}
+	}
+end
+
+rule "BR2023 (At least one Goods & Services mandatory)"
+salience 1000
+when
+       $errorList : ErrorList() 
+       RulesInformation($customObjects : customObjects)	    
+       $TM: LimitedTradeMark()                 
+then   	 
+	 	HashMap co = $customObjects;  
+        Boolean isTMWithdrawal = "tm-withdrawal".equals(co.get("eservice"));
+	
+       if (!isTMWithdrawal && (($TM.getLimitedClassDescriptions()==null) || ($TM.getLimitedClassDescriptions().size()==0))){               
+			addError(null,
+				 "BR2023.goodsAndServices.empty",
+				 "You must select at least one good and service.",
+				 "formMessages",
+				 $errorList);            
+       }
+end
+
+rule "BR1324 - Trademark representation"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	RulesInformation($customObjects : customObjects)		
+	Field( id == "applicationRepresentation", $RNUsable : usable) from $fields
+	Field( id == "representationAttachment", $ANUsable : usable) from $fields
+	eval($RNUsable == true)
+	eval($ANUsable == true)
+	$tm : TradeMark()	
+then
+	//TODO: map the file in the core object and check here that is not null (work in progress)
+    HashMap co = $customObjects;
+    String eservice = co.get("eservice");		
+	Boolean imported = co.get("imported");
+	if(!imported) {	
+		if(($tm.getWordSpecifications()==null || $tm.getWordSpecifications().get(0)==null || "".equals($tm.getWordSpecifications().get(0).getWordElements())) && ($tm.getImageSpecifications()==null || $tm.getImageSpecifications().size()==0)) {
+			addError(null,
+				 "BR1324.trademark.Representation",
+				 "You MUST provide a trademark representation: text or image",
+				 "formMessages",
+				 $errorList);
+		}
+	}
+end
+
+rule "BRCHKTM - Check existing application"
+salience 1000
+when
+	$errorList : ErrorList()
+	RulesInformation($customObjects : customObjects)
+	Section( $fields : field )
+	Field( id == "formMessages", $DSUsable : usable, $DSRequired : required) from $fields
+	eval($DSUsable == true && $DSRequired == true)
+	$DA : TradeMark()
+then
+    HashMap co = $customObjects;
+    Boolean applicationExistInPortal = co.get("applicationExistInPortal");
+    String eservice = co.get("eservice");
+
+    if("tm-renewal".equals(eservice) && (applicationExistInPortal)) {
+    	addError(null,
+				"BRCHK.trademark.applicationExistInPortal",
+				"Exists a renewal application for challenged trademark",
+				"formMessages",
+				$errorList);	
+    }
+end

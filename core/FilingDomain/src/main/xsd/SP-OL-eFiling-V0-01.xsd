@@ -1,0 +1,1345 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<xs:schema elementFormDefault="unqualified" attributeFormDefault="unqualified"
+           version="0.01"
+           targetNamespace="http://fsp.ohim.eu/XMLSchema"
+           xmlns="http://fsp.ohim.eu/XMLSchema"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:annotation>
+        <xs:documentation>
+            SP Objectless Filing schema created on 2022-11-08,
+            based on SP Patent Filing schema Version 0.01
+        </xs:documentation>
+    </xs:annotation>
+
+    <!-- ==================================================================== -->
+    <!-- External type definitions -->
+    <!-- ==================================================================== -->
+    <xs:include schemaLocation="external/ISOCountryCodeType-V2011.xsd" />
+    <xs:include schemaLocation="external/ISOCountryCodeType-V2011.xsd" />
+    <xs:include schemaLocation="external/ISOCurrencyCodeType-V2008.xsd" />
+    <xs:include schemaLocation="external/ISOLanguageCodeType-V2002.xsd" />
+    <xs:include schemaLocation="external/WIPOST3CodeType-V2011.xsd" />
+
+    <!-- TRANSACTION ELEMENT -->
+
+    <!-- ==================================================================== -->
+    <!-- Transaction -->
+    <!-- ==================================================================== -->
+    <xs:element name="Transaction" type="TransactionType" />
+
+    <!-- TYPES DEFINITION -->
+
+    <!-- ==================================================================== -->
+    <!-- TransactionType -->
+    <!-- ==================================================================== -->
+    <xs:complexType name="TransactionType">
+        <xs:sequence>
+            <xs:element name="TransactionHeader" type="TransactionHeaderType" minOccurs="0"/>
+            <xs:element name="ObjectlessTransactionBody" type="TransactionBodyType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ====================================================================== -->
+    <!-- TransactionHeaderType.xsd -->
+    <!-- ====================================================================== -->
+    <xs:complexType name="TransactionHeaderType">
+        <xs:sequence>
+            <xs:element name="SenderDetails" type="SenderDetailsType" minOccurs="0" />
+            <xs:element name="ReceiverDetails" type="ReceiverDetailsType" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ==================================================================== -->
+    <!-- TransactionBodyType -->
+    <!-- ==================================================================== -->
+    <xs:complexType name="TransactionBodyType">
+        <xs:sequence>
+            <xs:element name="TransactionErrorDetails" type="TransactionErrorDetailsType" minOccurs="0" />
+            <xs:element name="TransactionContentDetails" type="TransactionContentDetailsType" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ====================================================================== -->
+    <!-- Filename : TransactionErrorDetailsType.xsd -->
+    <!-- ====================================================================== -->
+    <xs:complexType name="TransactionErrorDetailsType">
+        <xs:sequence>
+            <xs:element name="TransactionError" type="TransactionErrorType" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ====================================================================== -->
+    <!-- Filename : TransactionErrorType.xsd -->
+    <!-- ====================================================================== -->
+    <xs:complexType name="TransactionErrorType">
+        <xs:sequence>
+            <xs:element name="TransactionErrorCode" type="TransactionErrorCodeType" minOccurs="0" />
+            <xs:element name="TransactionErrorText" type="TextType" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ==================================================================== -->
+    <!-- TransactionDataType -->
+    <!-- ==================================================================== -->
+    <xs:complexType name="TransactionDataType">
+        <xs:sequence>
+            <!-- SP additional elements -->
+            <xs:element name="ObjectlessServiceApplication" type="ObjectlessServicesApplicationType"	minOccurs="0" />
+            <xs:element name="PaymentDetails" type="PaymentDetailsType" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+
+
+    <!-- ==================================================================== -->
+    <!-- PatentServicesApplicationType -->
+    <!-- ==================================================================== -->
+    <xs:complexType name="ObjectlessServicesApplicationType">
+        <xs:sequence>
+            <!-- Standard Application fields -->
+            <xs:element name="RequestSoftware" type="RequestSoftwareType" minOccurs="0"/>
+            <xs:element name="ApplicationFormName" type="xs:string" minOccurs="0"/>
+
+            <xs:element name="RequestExamination" type="RequestExaminationType" minOccurs="0"/>
+            <xs:element name="DocumentIncludedDetails" type="DocumentIncludedDetailsType" minOccurs="0"/>
+            <xs:element name="PaymentDetails" type="PaymentDetailsType" minOccurs="0"/>
+            <xs:element name="ReimbursementDetails" type="ReimbursementDetailsType" minOccurs="0"/>
+            <xs:element name="SignatoryDetails" type="SignatoryDetailsType" minOccurs="0"/>
+            <!-- Generic Filing information -->
+            <xs:element name="ApplicationFilingNumber" type="xs:string" minOccurs="0" />
+            <xs:element name="ApplicationFilingDate" type="xs:date" minOccurs="0" />
+            <xs:element name="ApplicationFilingDateTime" type="xs:dateTime" minOccurs="0" />
+            <xs:element name="WarningMessages" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="Comment" type="xs:string" minOccurs="0" />
+            <!-- Generic Application information -->
+            <xs:element name="ReceivingOfficeCode" type="WIPOST3CodeType" minOccurs="0" />
+            <xs:element name="ReceivingOfficeDate" type="xs:date" minOccurs="0" />
+            <xs:element name="ApplicationLanguageCode" type="ExtendedISOLanguageCodeType" minOccurs="0"/>
+            <xs:element name="ApplicationSecondLanguageCode" type="ExtendedISOLanguageCodeType" minOccurs="0" />
+            <xs:element name="CorrespondenceLanguageCode" type="ExtendedISOLanguageCodeType" minOccurs="0"/>
+            <xs:element name="ApplicationNumber" type="xs:string" minOccurs="0" />
+            <xs:element name="ApplicationDate" type="xs:date" minOccurs="0" />
+            <xs:element name="ExpirationDate" type="xs:date" minOccurs="0" />
+            <xs:element name="ApplicationDateTime" type="xs:dateTime" minOccurs="0" />
+            <xs:element name="ApplicationReference" type="xs:string" minOccurs="0" />
+            <xs:element name="CorrespondenceAddress" type="CorrespondenceAddressType" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="ApplicationRequestType" type="xs:string" minOccurs="0" />
+            <!-- Application persons -->
+            <xs:element name="ApplicantDetails" type="ApplicantDetailsType" />
+            <xs:element name="RepresentativeDetails" type="RepresentativeDetailsType" minOccurs="0" />
+
+            <xs:element name="EsignDocDeclarationIndicator" type="xs:boolean" minOccurs="0"/>
+            <xs:element name="ProcessInitiatedBeforePublicationIndicator" type="xs:boolean" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ==================================================================== -->
+    <!-- ApplicantDetailsType -->
+    <!-- ==================================================================== -->
+    <xs:complexType name="ApplicantDetailsType">
+        <xs:sequence>
+            <xs:element name="ApplicantKey" type="KeyType" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="Applicant" type="ApplicantType" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ==================================================================== -->
+    <!-- ApplicantType -->
+    <!-- ==================================================================== -->
+    <xs:complexType name="ApplicantType">
+        <xs:sequence>
+            <xs:element name="ApplicantIdentifier" type="IdentifierType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="ApplicantURI" type="URIType" minOccurs="0"/>
+            <xs:element name="ApplicantReference" type="xs:string" minOccurs="0"/>
+            <xs:element name="ApplicantSequenceNumber" type="xs:integer" minOccurs="0"/>
+            <xs:element name="ApplicantNationalityCode" type="NationalityCodeType" minOccurs="0"/>
+            <xs:element name="ApplicantLegalEntity" type="xs:string" minOccurs="0"/>
+            <xs:element name="ApplicantIncorporationCountryCode" type="ISOCountryCodeType" minOccurs="0"/>
+            <xs:element name="ApplicantIncorporationState" type="xs:string" minOccurs="0"/>
+            <xs:element name="Comment" type="TextType" minOccurs="0"/>
+            <xs:element name="PreferredCorrespondenceKind" type="PreferredCorrespondenceKindType" minOccurs="0"/>
+            <xs:element name="ApplicantDomicileLocality" type="xs:token" minOccurs="0"/>
+            <xs:element name="ApplicantAddressBook" type="AddressBookType" minOccurs="0"/>
+            <xs:element name="ApplicantEntitlement" type="EntitlementType" minOccurs="0"/>
+            <xs:element name="ApplicantVersion" type="VersionType" minOccurs="0"/>
+            <!-- SP additional elements -->
+            <xs:element name="ApplicantCorrespondenceAddressBook" type="AddressBookType" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="ApplicantDomicileCountry" type="ISOCountryCodeType" minOccurs="0" />
+            <xs:element name="ApplicantIsOwner" type="xs:boolean" minOccurs="0" />
+            <xs:element name="EntitlementToApply" type="xs:boolean" minOccurs="0" />
+            <xs:element name="ApplicantIsInventor" type="xs:boolean" minOccurs="0" />
+        </xs:sequence>
+        <xs:attribute name="operationCode" type="OperationCodeType" use="optional"/>
+    </xs:complexType>
+
+    <!-- ==================================================================== -->
+    <!-- RepresentativeDetailsType -->
+    <!-- ==================================================================== -->
+    <xs:complexType name="RepresentativeDetailsType">
+        <xs:sequence>
+            <xs:element name="RepresentativeKey" type="KeyType"	minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="Representative" type="RepresentativeType"	minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ==================================================================== -->
+    <!-- RepresentativeRelationshipDetailsType -->
+    <!-- ==================================================================== -->
+    <xs:complexType name="RepresentativeRelationshipDetailsType">
+        <xs:sequence>
+            <xs:element name="RepresentativeRelationship" type="PartyRelationshipType" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ==================================================================== -->
+    <!-- RepresentativeType -->
+    <!-- ==================================================================== -->
+    <xs:complexType name="RepresentativeType">
+        <xs:sequence>
+            <xs:element name="RepresentativeIdentifier" type="IdentifierType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="RepresentativeURI" type="URIType" minOccurs="0"/>
+            <xs:element name="RepresentativeReference" type="xs:string" minOccurs="0"/>
+            <xs:element name="RepresentativeSequenceNumber" type="xs:integer" minOccurs="0"/>
+            <xs:element name="RepresentativeKindCode" type="RepresentativeKindCodeType" minOccurs="0"/>
+            <xs:element name="RepresentativeNationalityCode" type="NationalityCodeType" minOccurs="0"/>
+            <xs:element name="ExclusiveForAct" type="xs:boolean" minOccurs="0"/>
+            <xs:element name="RepresentativeLegalEntity" type="xs:string" minOccurs="0"/>
+            <xs:element name="RepresentativeIncorporationCountryCode" type="ISOCountryCodeType" minOccurs="0"/>
+            <xs:element name="RepresentativeIncorporationState" type="xs:string" minOccurs="0"/>
+            <xs:element name="Comment" type="TextType" minOccurs="0"/>
+            <xs:element name="PreferredCorrespondenceKind" type="PreferredCorrespondenceKindType" minOccurs="0"/>
+            <xs:element name="RepresentativeAddressBook" type="AddressBookType" minOccurs="0"/>
+            <xs:element name="RepresentativeRelationshipDetails" type="RepresentativeRelationshipDetailsType" minOccurs="0"/>
+            <xs:element name="RepresentativeVersion" type="VersionType" minOccurs="0"/>
+            <!-- SP additional elements -->
+            <xs:element name="RepresentativeCorrespondenceAddressBook" type="AddressBookType" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="RepresentativeDomicileLocality" type="xs:token" minOccurs="0" />
+            <xs:element name="RepresentativeDomicileCountry" type="ISOCountryCodeType" minOccurs="0" />
+            <xs:element name="RepresentativeEconomicConnection" type="xs:string" minOccurs="0" />
+            <xs:element name="RepresentativeDocumentDetails" type="DocumentIncludedDetailsType" minOccurs="0"/>
+            <xs:element name="RepresentedPartyKindCode" type="RepresentedPartyKindCodeType" minOccurs="0" />
+            <xs:element name="RepresentedPartyKindText" type="TextType" minOccurs="0" />
+            <xs:element name="PowValidityEndDate" type="xs:date" minOccurs="0" />
+            <xs:element name="PowReauthorizationIndicator" type="xs:boolean" minOccurs="0" />
+            <xs:element name="PowValidityIndefiniteIndicator" type="xs:boolean" minOccurs="0" />
+            <xs:element name="PowRevokesPreviousIndicator" type="xs:boolean" minOccurs="0" />
+            <xs:element name="PowNote" type="xs:string" minOccurs="0" />
+        </xs:sequence>
+        <xs:attribute name="operationCode" type="OperationCodeType" use="optional"/>
+    </xs:complexType>
+
+    <!-- ====================================================================== -->
+    <!-- Filename    : RepresentedPartyKindCodeType.xsd                                     -->
+    <!-- ====================================================================== -->
+    <xs:simpleType name="RepresentedPartyKindCodeType">
+        <xs:union memberTypes="xs:token">
+            <xs:simpleType>
+                <xs:restriction base="xs:token">
+                    <xs:enumeration value="Applicant"/>
+                    <xs:enumeration value="Owner"/>
+                    <xs:enumeration value="Assignee"/>
+                    <xs:enumeration value="Other"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:union>
+    </xs:simpleType>
+
+    <!-- ==================================================================== -->
+    <!-- DocumentIncludedDetailsType -->
+    <!-- ==================================================================== -->
+    <xs:complexType name="DocumentIncludedDetailsType">
+        <xs:sequence>
+            <xs:element name="DocumentIncluded" type="DocumentType"	maxOccurs="unbounded" />
+
+            <xs:element name="TrueDocumentsIndicator" type="xs:boolean" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ====================================================================== -->
+    <!-- Filename    : DocumentType.xsd                                         -->
+    <!-- Last Update : Mon Oct 24 09:49:41 +0200 2011                           -->
+    <!-- ====================================================================== -->
+    <xs:complexType name="DocumentType">
+        <xs:sequence>
+            <xs:element name="DocumentName" type="xs:string" minOccurs="0"/>
+            <xs:element name="DocumentURI" type="URIType" minOccurs="0"/>
+            <xs:element name="DocumentFilename" type="xs:string" minOccurs="0"/>
+            <xs:element name="DocumentFileFormat" type="FileFormatType" minOccurs="0"/>
+            <xs:element name="DocumentDate" type="xs:date" minOccurs="0"/>
+            <xs:element name="DocumentLanguageCode" type="ISOLanguageCodeType" minOccurs="0"/>
+            <xs:element name="DocumentMedia" type="DocumentMediaType" minOccurs="0"/>
+            <xs:element name="DocumentLocation" type="xs:string" minOccurs="0"/>
+            <xs:element name="DocumentVersion" type="xs:string" minOccurs="0"/>
+            <xs:element name="DocumentSizeInByte" type="xs:integer" minOccurs="0"/>
+            <xs:element name="Comment" type="TextType" minOccurs="0"/>
+            <xs:element name="DocumentBinary" type="xs:base64Binary" minOccurs="0"/>
+            <!-- SP additional fields -->
+            <xs:element name="DocumentKind" type="DocumentKindType"	minOccurs="0" />
+            <xs:element name="DocumentStatus" type="DocumentStatusCodeType"	minOccurs="0" />
+            <xs:element name="DocumentIdentifier" type="xs:string" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ==================================================================== -->
+    <!-- DocumentKindType -->
+    <!-- ==================================================================== -->
+    <xs:simpleType name="DocumentKindType">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="Priority Certificate" />
+            <xs:enumeration value="Priority Certificate Translation" />
+            <xs:enumeration value="Application Receipt" />
+            <xs:enumeration value="Proof of Payment" />
+            <xs:enumeration value="Signed Declaration" />
+            <xs:enumeration value="Power Of Attorney" />
+            <xs:enumeration value="PCT Copy" />
+            <xs:enumeration value="Exhibition Priority Certificate" />
+            <xs:enumeration value="Small Company Declaration" />
+            <xs:enumeration value="Declaration For University" />
+            <xs:enumeration value="Request For Examination Document" />
+            <xs:enumeration value="EPO Bulletin Publication Excerpt" />
+            <xs:enumeration value="EPO Decision Copy" />
+            <xs:enumeration value="EPO Decision Translation" />
+            <xs:enumeration value="EPO Transfer Change Form Copy" />
+            <xs:enumeration value="EPO Transfer Change Form Translation" />
+            <xs:enumeration value="Other Document" />
+            <xs:enumeration value="Parallel Application Declaration" />
+            <xs:enumeration value="Explanation Of Grounds" />
+
+            <xs:enumeration value="Commercial Register Excerpt"/>
+            <xs:enumeration value="Commercial Register Excerpt Translation"/>
+            <xs:enumeration value="Current Status Certificate"/>
+            <xs:enumeration value="Transfer Proof"/>
+            <xs:enumeration value="Licence Proof"/>
+            <xs:enumeration value="Licence Contract Annex"/>
+            <xs:enumeration value="Rem Proof"/>
+            <xs:enumeration value="Previous Creditor Consent"/>
+            <xs:enumeration value="Pledgor Consent"/>
+            <xs:enumeration value="Declaration ZOZ"/>
+            <xs:enumeration value="Declaration DOPK"/>
+            <xs:enumeration value="Confirmation Registration CROZ"/>
+            <xs:enumeration value="Security Proof"/>
+            <xs:enumeration value="Bankruptcy Proof"/>
+            <xs:enumeration value="Request"/>
+            <xs:enumeration value="Objection"/>
+            <xs:enumeration value="Official Position"/>
+            <xs:enumeration value="Response"/>
+            <xs:enumeration value="Correction Letter"/>
+            <xs:enumeration value="Translation Correction"/>
+            <xs:enumeration value="Action Correction"/>
+            <xs:enumeration value="EUIPO Communication Copy"/>
+            <xs:enumeration value="Surrender Declaration"/>
+            <xs:enumeration value="Request Change Legal Status"/>
+            <xs:enumeration value="Evidence"/>
+            <xs:enumeration value="Mark Registration Certificate"/>
+            <xs:enumeration value="Inquiry"/>
+            <xs:enumeration value="Description"/>
+            <xs:enumeration value="Claim"/>
+            <xs:enumeration value="Drawing"/>
+
+            <xs:enumeration value="Permit Market BG"/>
+            <xs:enumeration value="Permit Market EU"/>
+            <xs:enumeration value="Authorization Market EU"/>
+
+            <xs:enumeration value="First Usage Declaration"/>
+            <xs:enumeration value="Trading Secret Guides"/>
+            <xs:enumeration value="Entitlement To Apply Declaration"/>
+            <xs:enumeration value="Integral Schema Sample"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!-- ==================================================================== -->
+    <!-- DocumentStatusCodeType -->
+    <!-- ==================================================================== -->
+    <xs:simpleType name="DocumentStatusCodeType">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="Attached" />
+            <xs:enumeration value="To Follow" />
+            <xs:enumeration value="Provided" />
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <!-- ====================================================================== -->
+    <!-- Filename    : DocumentMediaType.xsd                                    -->
+    <!-- Last Update : Mon Oct 24 09:49:41 +0200 2011                           -->
+    <!-- ====================================================================== -->
+    <xs:simpleType name="DocumentMediaType">
+        <xs:union memberTypes="xs:token">
+            <xs:simpleType>
+                <xs:restriction base="xs:token">
+                    <xs:enumeration value="Paper"/>
+                    <xs:enumeration value="Fax"/>
+                    <xs:enumeration value="File"/>
+                    <xs:enumeration value="Other"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:union>
+    </xs:simpleType>
+
+    <!-- ==================================================================== -->
+    <!-- PaymentDetailsType -->
+    <!-- ==================================================================== -->
+    <xs:complexType name="PaymentDetailsType">
+        <xs:sequence>
+            <xs:element name="Payment" type="PaymentType" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ==================================================================== -->
+    <!-- PaymentFeeDetailsType -->
+    <!-- ==================================================================== -->
+    <xs:complexType name="PaymentFeeDetailsType">
+        <xs:sequence>
+            <xs:element name="PaymentFee" type="PaymentFeeType"	maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ==================================================================== -->
+    <!-- PaymentFeeType -->
+    <!-- ==================================================================== -->
+    <xs:complexType name="PaymentFeeType">
+        <xs:sequence>
+            <xs:element name="FeeIdentifier" type="xs:string" minOccurs="0" />
+            <xs:element name="FeeReference" type="xs:string" minOccurs="0" />
+            <xs:element name="FeeAmount" type="AmountType" />
+            <xs:element name="FeeUnitQuantity" type="xs:decimal" minOccurs="0" />
+            <xs:element name="FeeUnitAmount" type="AmountType" minOccurs="0" />
+            <xs:element name="Comment" type="TextType" minOccurs="0" />
+            <!--     These fields are for UM_RENEWAL       -->
+            <xs:element name="ExpirationExtentYearsFromEntitlement" type="xs:string" minOccurs="0" />
+            <xs:element name="ExpirationExtentNewDate" type="xs:date" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ==================================================================== -->
+    <!-- PaymentMethodType -->
+    <!-- ==================================================================== -->
+    <xs:complexType name="PaymentMethodType">
+        <xs:sequence>
+            <xs:element name="Account" type="AccountType" minOccurs="0" />
+            <xs:element name="CardAccount" type="CardAccountType" minOccurs="0" />
+            <xs:element name="BankTransfer" type="BankTransferType"	minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ==================================================================== -->
+    <!-- BankTransferType -->
+    <!-- ==================================================================== -->
+    <xs:complexType name="BankTransferType">
+        <xs:sequence>
+            <xs:element name="BankTransferIdentifier" type="xs:string" />
+            <xs:element name="BankTransferDate" type="xs:date" />
+            <xs:element name="OriginBankName" type="xs:string" minOccurs="0" />
+            <xs:element name="BankDestinationAccount" type="xs:string" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ==================================================================== -->
+    <!-- CardAccountType -->
+    <!-- ==================================================================== -->
+    <xs:complexType name="CardAccountType">
+        <xs:sequence>
+            <xs:element name="CardPrimaryAccountNumber" type="xs:string" />
+            <xs:element name="CardNetworkIdentifier" type="xs:string" />
+            <xs:element name="CardKindCode" type="CardKindCodeType"	minOccurs="0" />
+            <xs:element name="CardCustomerIdentifier" type="xs:string" minOccurs="0" />
+            <xs:element name="CardValidityStartDate" type="xs:date"	minOccurs="0" />
+            <xs:element name="CardExpiryDate" type="xs:date" minOccurs="0" />
+            <xs:element name="CardIssuerIdentifier" type="xs:string" minOccurs="0" />
+            <xs:element name="CardIssueNumber" type="xs:string"	minOccurs="0" />
+            <xs:element name="CardCV2Identifier" type="xs:string" minOccurs="0" />
+            <xs:element name="CardChipCode" type="ChipCodeType"	minOccurs="0" />
+            <xs:element name="CardChipApplicationIdentifier" type="xs:string" minOccurs="0" />
+            <xs:element name="CardHolderName" type="TextType" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ====================================================================== -->
+    <!-- Filename : ChipCodeType.xsd -->
+    <!-- ====================================================================== -->
+    <xs:simpleType name="ChipCodeType">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="Chip" />
+            <xs:enumeration value="Magnetic Stripe" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!-- ====================================================================== -->
+    <!-- Filename : CardKindCodeType.xsd -->
+    <!-- ====================================================================== -->
+    <xs:simpleType name="CardKindCodeType">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="Credit Card" />
+            <xs:enumeration value="Debit Card" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!-- ==================================================================== -->
+    <!-- AccountType -->
+    <!-- ==================================================================== -->
+    <xs:complexType name="AccountType">
+        <xs:sequence>
+            <xs:element name="AccountBank" type="xs:string" />
+            <xs:element name="AccountIdentifier" type="xs:string" />
+            <xs:element name="AccountKind" type="xs:string" minOccurs="0" />
+            <xs:element name="AccountHolderName" type="TextType" minOccurs="0" />
+            <xs:element name="AccountDebitKind" type="AccountDebitKindType" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ==================================================================== -->
+    <!-- AccountDebitKindType -->
+    <!-- ==================================================================== -->
+    <xs:simpleType name="AccountDebitKindType">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="Basic Fee Immediate" />
+            <xs:enumeration value="Basic Fee End of Period" />
+            <xs:enumeration value="Basic and Class Fee Immediate" />
+            <xs:enumeration value="Basic and Class Fee End of Period"/>
+            <xs:enumeration value="Do not use Current Account"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!-- ==================================================================== -->
+    <!-- PaymentType -->
+    <!-- ==================================================================== -->
+    <xs:complexType name="PaymentType">
+        <xs:sequence>
+            <xs:element name="PaymentIdentifier" type="xs:string" minOccurs="0" /> <!-- SP addition: minOccurs="0" -->
+            <xs:element name="PaymentURI" type="URIType" minOccurs="0" />
+            <xs:element name="PaymentReference" type="xs:string" minOccurs="0" />
+            <xs:element name="PayerName" type="NameType" minOccurs="0" />
+            <xs:element name="PaymentStatus" type="PaymentStatusCodeType" />
+            <xs:element name="Comment" type="TextType" minOccurs="0" />
+            <xs:element name="PaymentDate" type="xs:date" minOccurs="0" />
+            <xs:element name="PaymentMethod" type="PaymentMethodType" minOccurs="0" />
+            <xs:element name="PaymentFeeDetails" type="PaymentFeeDetailsType" minOccurs="0" />
+            <!-- SP additional fields -->
+            <xs:element name="PayerIdentifier" type="RoleType" minOccurs="0" />
+            <xs:element name="PayerAddressBook" type="AddressBookType" minOccurs="0" />
+            <xs:element name="PaymentKind" type="PaymentKindType" minOccurs="0" />
+            <xs:element name="PaymentDueDate" type="xs:date" minOccurs="0" />
+            <xs:element name="PaymentDocument" type="DocumentType" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ==================================================================== -->
+    <!-- PaymentExternalKindType -->
+    <!-- ==================================================================== -->
+    <xs:simpleType name="PaymentKindType">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="Credit Card" />
+            <xs:enumeration value="Bank Transfer" />
+            <xs:enumeration value="Debit Card" />
+            <xs:enumeration value="Online Payment" />
+            <xs:enumeration value="Postal Order" />
+            <xs:enumeration value="Current Account" />
+            <xs:enumeration value="Other" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!-- ==================================================================== -->
+    <!-- PaymentStatusCodeType -->
+    <!-- ==================================================================== -->
+    <xs:simpleType name="PaymentStatusCodeType">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="Done" />
+            <xs:enumeration value="Attached" />
+            <xs:enumeration value="To follow" />
+            <xs:enumeration value="Bank transfer to follow" />
+            <xs:enumeration value="Period of Grace Requested" />
+            <xs:enumeration value="Undefined" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!-- ==================================================================== -->
+    <!-- AmountType -->
+    <!-- ==================================================================== -->
+    <xs:complexType name="AmountType">
+        <xs:simpleContent>
+            <xs:extension base="xs:decimal">
+                <xs:attribute name="currencyCode" type="ISOCurrencyCodeType" use="optional" />
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <!-- ==================================================================== -->
+    <!-- SignatoryDetailsType -->
+    <!-- ==================================================================== -->
+    <xs:complexType name="SignatoryDetailsType">
+        <xs:sequence>
+            <xs:element name="Signatory" type="SignatoryType" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ==================================================================== -->
+    <!-- SignatoryType -->
+    <!-- ==================================================================== -->
+    <xs:complexType name="SignatoryType">
+        <xs:sequence>
+            <xs:element name="SignatoryName" type="NameType"/>
+            <xs:element name="SignatoryAddress" type="AddressType" minOccurs="0"/>
+            <xs:element name="SignatureDate" type="xs:date" minOccurs="0"/>
+            <xs:element name="SignaturePlace" type="xs:string" minOccurs="0"/>
+            <xs:element name="SignatureManner" type="SignatureMannerType" minOccurs="0"/>
+            <xs:element name="SignatureAssociatedText" type="xs:string" minOccurs="0"/>
+            <xs:element name="SignatoryCapacityCode" type="RoleType" minOccurs="0"/>
+            <!-- SP additional fields -->
+            <xs:element name="SignatoryCapacityText" type="xs:string" minOccurs="0"/>
+            <xs:element name="SignatoryConfirmation" type="xs:boolean" minOccurs="0" />
+            <xs:element name="SignatoryUserId" type="xs:string" minOccurs="0" />
+            <xs:element name="SignatoryEmail" type="xs:string" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ====================================================================== -->
+    <!-- Filename    : SignatureMannerType.xsd                                  -->
+    <!-- Last Update : Mon Oct 24 09:27:21 +0200 2011                           -->
+    <!-- ====================================================================== -->
+    <xs:simpleType name="SignatureMannerType">
+        <xs:union memberTypes="xs:token">
+            <xs:simpleType>
+                <xs:restriction base="xs:token">
+                    <xs:enumeration value="Fax Image"/>
+                    <xs:enumeration value="Text"/>
+                    <xs:enumeration value="Click Wrap"/>
+                    <xs:enumeration value="PKCS7"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:union>
+    </xs:simpleType>
+
+    <!-- ====================================================================== -->
+    <!-- Filename : TransactionErrorCodeType.xsd -->
+    <!-- ====================================================================== -->
+    <xs:simpleType name="TransactionErrorCodeType">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="Error" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!-- ====================================================================== -->
+    <!-- Filename : SenderDetailsType.xsd -->
+    <!-- ====================================================================== -->
+    <xs:complexType name="SenderDetailsType">
+        <xs:sequence>
+            <xs:element name="RequestIdentifier" type="xs:string" minOccurs="0" />
+            <xs:element name="RequestLanguageCode" type="ISOLanguageCodeType" minOccurs="0" />
+            <xs:element name="RequestXSDVersion" type="xs:string" minOccurs="0" />
+            <xs:element name="RequestFilename" type="xs:string" minOccurs="0" />
+            <xs:element name="RequestStatus" type="xs:string" minOccurs="0" />
+            <xs:element name="RequestProducer" type="xs:string"	minOccurs="0" />
+            <xs:element name="RequestProducerDate" type="xs:date" minOccurs="0" />
+            <xs:element name="RequestProducerDateTime" type="xs:dateTime" minOccurs="0" />
+            <xs:element name="RequestReceivingOfficeCode" type="WIPOST3CodeType" minOccurs="0" />
+            <xs:element name="LoginInformation" type="LoginInformationType" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ====================================================================== -->
+    <!-- Filename : LoginInformationType.xsd -->
+    <!-- ====================================================================== -->
+    <xs:complexType name="LoginInformationType">
+        <xs:sequence>
+            <xs:element name="Login" type="xs:string" minOccurs="0" />
+            <xs:element name="LoginEmail" type="xs:string" minOccurs="0" />
+            <xs:element name="Password" type="xs:anySimpleType"	minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ====================================================================== -->
+    <!-- Filename : ReceiverDetailsType.xsd -->
+    <!-- ====================================================================== -->
+    <xs:complexType name="ReceiverDetailsType">
+        <xs:sequence>
+            <xs:element name="ReceiverDateTime" type="xs:dateTime" minOccurs="0" />
+            <xs:element name="Comment" type="TextType" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ==================================================================== -->
+    <!-- TransactionContentDetailsType -->
+    <!-- ==================================================================== -->
+    <xs:complexType name="TransactionContentDetailsType">
+        <xs:sequence>
+            <xs:element name="TransactionIdentifier" type="xs:string" minOccurs="0"/>
+            <xs:element name="TransactionCode" type="TransactionCodeType" /> <!-- SP edit: removed fixed="Patent E-Filing" -->
+            <xs:element name="TransactionSubCode" type="TransactionSubCodeType" minOccurs="0" />
+            <xs:element name="TransactionData" type="TransactionDataType" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ====================================================================== -->
+    <!-- Filename    : TransactionCodeType.xsd                                  -->
+    <!-- Last Update : Mon Oct 24 09:27:21 +0200 2011                           -->
+    <!-- ====================================================================== -->
+    <xs:simpleType name="TransactionCodeType">
+        <xs:union memberTypes="xs:token">
+            <xs:simpleType>
+                <xs:restriction base="xs:token">
+                    <!-- TODO define more when necessary-->
+                    <xs:enumeration value="OL E-Service"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:union>
+    </xs:simpleType>
+
+    <!-- ======================================================================	-->
+    <!-- Filename : TransactionSubCodeType.xsd -->
+    <!-- Last Update : Mon Oct 24 09:49:41 +0200 2011 -->
+    <!-- ======================================================================	-->
+    <xs:simpleType name="TransactionSubCodeType">
+        <xs:union memberTypes="xs:token">
+            <xs:simpleType>
+                <xs:restriction base="xs:token">
+                    <xs:enumeration value="Normal"/>
+                    <xs:enumeration value="Accelerated Registration"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:union>
+    </xs:simpleType>
+
+    <!-- ==================================================================== -->
+    <!-- TextType -->
+    <!-- ==================================================================== -->
+    <xs:complexType name="TextType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="languageCode" type="xs:language" use="optional" />
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <!-- ====================================================================== -->
+    <!-- Filename    : OperationCodeType.xsd                                    -->
+    <!-- Last Update : Mon Oct 24 09:27:21 +0200 2011                           -->
+    <!-- ====================================================================== -->
+    <xs:simpleType name="OperationCodeType">
+        <xs:union memberTypes="xs:token">
+            <xs:simpleType>
+                <xs:restriction base="xs:NMTOKEN">
+                    <xs:enumeration value="Insert"/>
+                    <xs:enumeration value="Update"/>
+                    <xs:enumeration value="Delete"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:union>
+    </xs:simpleType>
+
+    <!-- ====================================================================== -->
+    <!-- Filename    : FileFormatType.xsd                                       -->
+    <!-- Last Update : Mon Oct 24 09:49:41 +0200 2011                           -->
+    <!-- ====================================================================== -->
+    <xs:simpleType name="FileFormatType">
+        <xs:union memberTypes="xs:token">
+            <xs:simpleType>
+                <xs:restriction base="xs:token">
+                    <xs:enumeration value="JPEG"/>
+                    <xs:enumeration value="TIFF"/>
+                    <xs:enumeration value="PNG"/>
+                    <xs:enumeration value="GIF"/>
+                    <xs:enumeration value="PDF"/>
+                    <xs:enumeration value="Other"/>
+                    <!-- SP additional values -->
+                    <xs:enumeration value="BMP" />
+                    <xs:enumeration value="DOC" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:union>
+    </xs:simpleType>
+
+    <!-- ==================================================================== -->
+    <!-- URIType -->
+    <!-- ==================================================================== -->
+    <xs:complexType name="URIType">
+        <xs:simpleContent>
+            <xs:extension base="xs:anyURI" />
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <!-- ====================================================================== -->
+    <!-- Filename : ExtendedWIPOST3CodeType.xsd -->
+    <!-- ====================================================================== -->
+    <xs:simpleType name="ExtendedWIPOST3CodeType">
+        <xs:union memberTypes="WIPOST3CodeType">
+            <xs:simpleType>
+                <xs:restriction base="xs:token">
+                    <xs:enumeration value="--" />
+                    <xs:enumeration value="ASBU" />
+                    <xs:enumeration value="UPOV" />
+                    <xs:enumeration value="ICPIP" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:union>
+    </xs:simpleType>
+
+    <!-- ==================================================================== -->
+    <!-- KeyType -->
+    <!-- ==================================================================== -->
+    <xs:complexType name="KeyType">
+        <xs:sequence>
+            <xs:element name="Identifier" type="IdentifierType"	minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="URI" type="URIType" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ==================================================================== -->
+    <!-- IdentifierType -->
+    <!-- ==================================================================== -->
+    <xs:complexType name="IdentifierType">
+        <xs:simpleContent>
+            <xs:extension base="xs:token">
+                <xs:attribute name="identifierKindCode" type="IdentifierKindType" use="optional" />
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <!-- ==================================================================== -->
+    <!-- NEW: IdentifierKindType -->
+    <!-- ==================================================================== -->
+    <xs:simpleType name="IdentifierKindType">
+        <xs:union memberTypes="WIPOST3CodeType">
+            <xs:simpleType>
+                <xs:restriction base="xs:token">
+                    <!-- Person Identifiers -->
+                    <xs:enumeration value="VAT Number" />
+                    <xs:enumeration value="Company Number" />
+                    <xs:enumeration value="National Individual Identifier" />
+                    <xs:enumeration value="Enterprise Identifier"/>
+                    <xs:enumeration value="Social Security Number"/>
+                    <xs:enumeration value="Tax Office"/>
+                    <xs:enumeration value="Application Number" />
+                    <xs:enumeration value="Registration Number" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:union>
+    </xs:simpleType>
+
+    <!-- ==================================================================== -->
+    <!-- NationalityCodeType -->
+    <!-- ==================================================================== -->
+    <xs:simpleType name="NationalityCodeType">
+        <xs:union memberTypes="ISOCountryCodeType">
+            <xs:simpleType>
+                <xs:restriction base="xs:token">
+                    <xs:enumeration value="Stateless" />
+                    <xs:enumeration value="Unidentified" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:union>
+    </xs:simpleType>
+
+    <!-- ====================================================================== -->
+    <!-- Filename : PreferredCorrespondenceKindType.xsd -->
+    <!-- ====================================================================== -->
+    <xs:simpleType name="PreferredCorrespondenceKindType">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="Fax" />
+            <xs:enumeration value="Post" />
+            <xs:enumeration value="Email" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!-- ==================================================================== -->
+    <!-- AddressBookType -->
+    <!-- ==================================================================== -->
+    <xs:complexType name="AddressBookType">
+        <xs:sequence>
+            <xs:element name="AddressLanguageCode" type="ISOLanguageCodeType" minOccurs="0" />
+            <xs:element name="FreeFormatAddressDetails" type="FreeFormatAddressDetailsType" minOccurs="0"/>
+            <xs:element name="FormattedNameAddress" type="FormattedNameAddressType"	minOccurs="0" />
+            <xs:element name="ContactInformationDetails" type="ContactInformationDetailsType" minOccurs="0" />
+            <xs:element name="PostalAddress" type="xs:string" minOccurs="0"/>
+            <!-- SP additional elements -->
+            <xs:element name="DataPrivacyWaiver" type="xs:boolean" minOccurs="0" />
+            <xs:element name="OtherIndicator" type="xs:boolean" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ==================================================================== -->
+    <!-- ContactInformationDetailsType -->
+    <!-- ==================================================================== -->
+    <xs:complexType name="ContactInformationDetailsType">
+        <xs:sequence>
+            <xs:element name="Phone" type="PhoneType" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="Fax" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="Email" type="xs:string" minOccurs="0"	maxOccurs="unbounded" />
+            <xs:element name="URL" type="xs:anyURI" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="OtherElectronicAddress" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ==================================================================== -->
+    <!-- PhoneType -->
+    <!-- ==================================================================== -->
+    <xs:complexType name="PhoneType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="phoneKind" type="PhoneKindType"	use="optional" />
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <!-- ==================================================================== -->
+    <!-- PhoneKindType -->
+    <!-- ==================================================================== -->
+    <xs:simpleType name="PhoneKindType">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="Fixed" />
+            <xs:enumeration value="Mobile Phone" />
+            <xs:enumeration value="Other" />
+            <xs:enumeration value="Undefined" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!-- ====================================================================== -->
+    <!-- Filename    : FreeFormatAddressDetailsType.xsd                         -->
+    <!-- ====================================================================== -->
+    <xs:complexType name="FreeFormatAddressDetailsType">
+        <xs:sequence>
+            <xs:element name="FreeFormatNameAddressLine" type="TextType" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <!-- ==================================================================== -->
+    <!-- AddressType -->
+    <!-- ==================================================================== -->
+    <xs:complexType name="AddressType">
+        <xs:sequence>
+            <xs:element name="AddressCountryCode" type="ISOCountryCodeType"	minOccurs="0" />
+            <xs:element name="FreeFormatAddress" type="FreeFormatAddressType" minOccurs="0"/>
+            <xs:element name="FormattedAddress" type="FormattedAddressType"	minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ====================================================================== -->
+    <!-- Filename    : FreeFormatAddressType.xsd                                -->
+    <!-- Last Update : Mon Oct 24 09:49:41 +0200 2011                           -->
+    <!-- ====================================================================== -->
+    <xs:complexType name="FreeFormatAddressType">
+        <xs:sequence>
+            <xs:element name="FreeFormatAddressLine" type="TextType" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ==================================================================== -->
+    <!-- FormattedNameAddressType -->
+    <!-- ==================================================================== -->
+    <xs:complexType name="FormattedNameAddressType">
+        <xs:sequence>
+            <xs:element name="Name" type="NameType" minOccurs="0" />
+            <xs:element name="Address" type="AddressType" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ==================================================================== -->
+    <!-- FormattedNameType -->
+    <!-- ==================================================================== -->
+    <xs:complexType name="FormattedNameType">
+        <xs:sequence>
+            <xs:element name="NamePrefix" type="xs:string" minOccurs="0"/>
+            <xs:element name="FirstName" type="xs:string" minOccurs="0"/>
+            <xs:element name="MiddleName" type="xs:string" minOccurs="0"/>
+            <xs:element name="LastName" type="xs:string" minOccurs="0"/>
+            <xs:element name="SecondLastName" type="xs:string" minOccurs="0"/>
+            <xs:element name="NameSuffix" type="xs:string" minOccurs="0"/>
+            <xs:element name="Gender" type="GenderType" minOccurs="0"/>
+            <xs:element name="IndividualIdentifier" type="IndividualIdentifierType" minOccurs="0"/>
+            <xs:element name="PersonRole" type="xs:string" minOccurs="0"/>
+            <xs:element name="OrganizationName" type="xs:string" minOccurs="0"/>
+            <xs:element name="OrganizationDepartment" type="xs:string" minOccurs="0"/>
+            <xs:element name="NameSynonym" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+            <!-- SP additional elements -->
+            <xs:element name="NameKind" type="NameKindType" minOccurs="0" />
+            <xs:element name="BirthDate" type="xs:date" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ==================================================================== -->
+    <!-- FormattedAddressType -->
+    <!-- ==================================================================== -->
+    <xs:complexType name="FormattedAddressType">
+        <xs:sequence>
+            <xs:element name="AddressLine" type="TextType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="AddressMailCode" type="xs:string" minOccurs="0"/>
+            <xs:element name="AddressPostOfficeBox" type="xs:string" minOccurs="0"/>
+            <xs:element name="AddressRoom" type="xs:string" minOccurs="0"/>
+            <xs:element name="AddressFloor" type="xs:string" minOccurs="0"/>
+            <xs:element name="AddressBuilding" type="xs:string" minOccurs="0"/>
+            <xs:element name="AddressStreet" type="xs:string" minOccurs="0"/>
+            <xs:element name="AddressCity" type="xs:string" minOccurs="0"/>
+            <xs:element name="AddressCounty" type="xs:string" minOccurs="0"/>
+            <xs:element name="AddressState" type="xs:string" minOccurs="0"/>
+            <xs:element name="AddressPostcode" type="xs:string" minOccurs="0"/>
+            <xs:element name="FormattedAddressCountryCode" type="ISOCountryCodeType" minOccurs="0"/>
+            <!-- SP additional elements -->
+            <xs:element name="AddressStreetNumber" type="xs:string" minOccurs="0" />
+            <xs:element name="AddressStreetType" type="xs:string" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ==================================================================== -->
+    <!-- NameType -->
+    <!-- ==================================================================== -->
+    <xs:complexType name="NameType">
+        <xs:sequence>
+            <xs:element name="FreeFormatName" type="FreeFormatNameType" minOccurs="0" />
+            <xs:element name="FormattedName" type="FormattedNameType" minOccurs="0" />
+            <!-- SP additional elements -->
+            <xs:element name="NameKind" type="NameKindType" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ======================================================================	-->
+    <!-- Filename : FreeFormatNameType.xsd -->
+    <!-- Last Update : Mon Oct 24 09:49:41 +0200 2011 -->
+    <!-- ====================================================================== -->
+    <xs:complexType name="FreeFormatNameType">
+        <xs:sequence>
+            <xs:element name="NameKind" type="NameKindType" minOccurs="0"/>
+            <xs:element name="FreeFormatNameDetails" type="FreeFormatNameDetailsType" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ======================================================================	-->
+    <!-- Filename : FreeFormatNameDetailsType.xsd -->
+    <!-- Last Update : Mon Oct 24 09:49:41 +0200 2011 -->
+    <!-- ======================================================================	-->
+    <xs:complexType name="FreeFormatNameDetailsType">
+        <xs:sequence>
+            <xs:element name="FreeFormatNameLine" type="TextType" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ==================================================================== -->
+    <!-- NameKindType -->
+    <!-- ==================================================================== -->
+    <xs:simpleType name="NameKindType">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="Natural Person" />
+            <xs:enumeration value="Natural Person Special case" />
+            <xs:enumeration value="Legal Entity" />
+            <xs:enumeration value="Corporation by Civil Law" />
+            <xs:enumeration value="Other" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!-- ====================================================================== -->
+    <!-- Filename    : GenderType.xsd                                           -->
+    <!-- Last Update : Mon Oct 24 09:49:41 +0200 2011                           -->
+    <!-- ====================================================================== -->
+    <xs:simpleType name="GenderType">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="Male"/>
+            <xs:enumeration value="Female"/>
+            <xs:enumeration value="Unknown"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!-- ====================================================================== -->
+    <!-- Filename    : IndividualIdentifierType.xsd                             -->
+    <!-- Last Update : Mon Oct 24 09:49:41 +0200 2011                           -->
+    <!-- ====================================================================== -->
+    <xs:simpleType name="IndividualIdentifierType">
+        <xs:union memberTypes="xs:token">
+            <xs:simpleType>
+                <xs:restriction base="xs:token">
+                    <xs:enumeration value="National Individual Identifier"/>
+                    <xs:enumeration value="Enterprise Identifier"/>
+                    <xs:enumeration value="Social Security Number"/>
+                    <xs:enumeration value="Other"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:union>
+    </xs:simpleType>
+
+    <!-- ====================================================================== -->
+    <!-- Filename    : EntitlementType.xsd                                      -->
+    <!-- Last Update : Mon Oct 24 09:27:21 +0200 2011                           -->
+    <!-- ====================================================================== -->
+    <xs:complexType name="EntitlementType">
+        <xs:sequence>
+            <xs:element name="EntitlementNationalityCode" type="NationalityCodeType" minOccurs="0"/>
+            <xs:element name="HabitualResidence" type="HabitualResidenceType" minOccurs="0"/>
+            <xs:element name="EntitlementEstablishment" type="EntitlementEstablishmentType" minOccurs="0"/>
+            <xs:element name="EntitlementDomiciled" type="EntitlementDomiciledType" minOccurs="0"/>
+
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ====================================================================== -->
+    <!-- Filename    : HabitualResidenceType.xsd                                -->
+    <!-- Last Update : Mon Oct 24 09:27:21 +0200 2011                           -->
+    <!-- ====================================================================== -->
+    <xs:complexType name="HabitualResidenceType">
+        <xs:sequence>
+            <xs:element name="HabitualResidenceCode" type="NationalityCodeType" minOccurs="0"/>
+            <xs:element name="HabitualResidenceAddressBook" type="AddressBookType" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ====================================================================== -->
+    <!-- Filename    : EntitlementEstablishmentType.xsd                         -->
+    <!-- Last Update : Mon Oct 24 09:27:21 +0200 2011                           -->
+    <!-- ====================================================================== -->
+    <xs:complexType name="EntitlementEstablishmentType">
+        <xs:sequence>
+            <xs:element name="EntitlementEstablishmentCode" type="NationalityCodeType" minOccurs="0"/>
+            <xs:element name="EntitlementEstablishmentAddressBook" type="AddressBookType" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ====================================================================== -->
+    <!-- Filename    : EntitlementDomiciledType.xsd                             -->
+    <!-- Last Update : Mon Oct 24 09:27:21 +0200 2011                           -->
+    <!-- ====================================================================== -->
+    <xs:complexType name="EntitlementDomiciledType">
+        <xs:sequence>
+            <xs:element name="EntitlementDomiciledCode" type="NationalityCodeType" minOccurs="0"/>
+            <xs:element name="EntitlementDomiciledAddressBook" type="AddressBookType" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ====================================================================== -->
+    <!-- Filename    : VersionType.xsd                                          -->
+    <!-- Last Update : Mon Oct 24 09:49:42 +0200 2011                           -->
+    <!-- ====================================================================== -->
+    <xs:complexType name="VersionType">
+        <xs:sequence>
+            <xs:element name="VersionNumber" type="xs:string" minOccurs="0"/>
+            <xs:element name="VersionDate" type="xs:date" minOccurs="0"/>
+            <xs:element name="VersionDateTime" type="xs:dateTime" minOccurs="0"/>
+            <xs:element name="Comment" type="TextType" minOccurs="0"/>
+
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ==================================================================== -->
+    <!-- PartyRelationshipType -->
+    <!-- ==================================================================== -->
+    <xs:complexType name="PartyRelationshipType">
+        <xs:sequence>
+            <xs:element name="PartyRelationshipKind" type="PartyRelationshipKindType" />
+            <xs:element name="PartyIdentifier" type="PartyIdentifierType" minOccurs="0" />
+            <xs:element name="PartyName" type="NameType" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ==================================================================== -->
+    <!-- PartyRelationshipKindType -->
+    <!-- ==================================================================== -->
+    <xs:simpleType name="PartyRelationshipKindType">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="Representation" />
+            <!-- SP additional values -->
+            <xs:enumeration value="Association" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!-- ==================================================================== -->
+    <!-- PartyIdentifierType -->
+    <!-- ==================================================================== -->
+    <xs:complexType name="PartyIdentifierType">
+        <xs:simpleContent>
+            <xs:extension base="xs:token">
+                <xs:attribute name="partyKind" type="PartyKindType" />
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <!-- ==================================================================== -->
+    <!-- PartyKindType -->
+    <!-- ==================================================================== -->
+    <xs:simpleType name="PartyKindType">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="Representative" />
+            <xs:enumeration value="Member Of" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!-- ==================================================================== -->
+    <!-- RepresentativeKindCodeType -->
+    <!-- ==================================================================== -->
+    <xs:simpleType name="RepresentativeKindCodeType">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="Professional Representative" />
+            <xs:enumeration value="Lawyer" />
+            <xs:enumeration value="Association" />
+            <xs:enumeration value="Employee" />
+            <xs:enumeration value="Employee with Economic Connections" />
+            <xs:enumeration value="Other" />
+            <xs:enumeration value="Undefined" />
+            <xs:enumeration value="Lawyer Association" />
+            <xs:enumeration value="Lawyer Company" />
+            <xs:enumeration value="Temporary Representative" />
+            <xs:enumeration value="Intellectual Property Representative" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!-- ==================================================================== -->
+    <!-- RoleType -->
+    <!-- ==================================================================== -->
+    <xs:simpleType name="RoleType">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="Applicant" />
+            <xs:enumeration value="Employee" />
+            <xs:enumeration value="Legal practitioner" />
+            <xs:enumeration value="Representative" />
+            <xs:enumeration value="OHIM Professional Representative" /> <!-- Office-registered Rep -->
+            <xs:enumeration value="Other" /> <!-- Office-registered Rep -->
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!-- ======================================================================	-->
+    <!-- Filename : RequestSoftwareType.xsd -->
+    <!-- Last Update : Mon Oct 24 09:49:42 +0200 2011 -->
+    <!-- ======================================================================	-->
+    <xs:complexType name="RequestSoftwareType">
+        <xs:sequence>
+            <xs:element name="RequestSoftwareName" type="xs:string" />
+            <xs:element name="RequestSoftwareVersion" type="xs:string" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ==================================================================== -->
+    <!-- ExtendedISOLanguageCodeType -->
+    <!-- ==================================================================== -->
+    <xs:simpleType name="ExtendedISOLanguageCodeType">
+        <xs:union memberTypes="ISOLanguageCodeType">
+            <xs:simpleType>
+                <xs:restriction base="xs:token">
+                    <xs:enumeration value="Undefined" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:union>
+    </xs:simpleType>
+
+    <!-- ======================================================================	-->
+    <!-- Filename : RequestExaminationType.xsd -->
+    <!-- Last Update : Mon Oct 24 09:49:42 +0200 2011 -->
+    <!-- ======================================================================	-->
+    <xs:complexType name="RequestExaminationType">
+        <xs:sequence>
+            <xs:element name="RequestExaminationAuthority" type="xs:string" minOccurs="0" />
+            <xs:element name="RequestExaminationKindCode" type="RequestExaminationKindCodeType"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ======================================================================	-->
+    <!-- Filename : RequestExaminationKindCodeType.xsd -->
+    <!-- Last Update : Mon Oct 24 09:49:41 +0200 2011 -->
+    <!-- ======================================================================	-->
+    <xs:simpleType name="RequestExaminationKindCodeType">
+        <xs:union memberTypes="xs:token">
+            <xs:simpleType>
+                <xs:restriction base="xs:token">
+                    <xs:enumeration value="Normal"/>
+                    <xs:enumeration value="Accelerated"/>
+                    <xs:enumeration value="Undefined"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:union>
+    </xs:simpleType>
+
+    <!-- ====================================================================== -->
+    <!-- Filename    : ReimbursementDetailsType.xsd                             -->
+    <!-- Last Update : Mon Oct 24 09:27:21 +0200 2011                           -->
+    <!-- ====================================================================== -->
+    <xs:complexType name="ReimbursementDetailsType">
+        <xs:sequence>
+            <xs:element name="Reimbursement" type="ReimbursementType" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ====================================================================== -->
+    <!-- Filename    : ReimbursementType.xsd                                    -->
+    <!-- Last Update : Mon Oct 24 09:27:21 +0200 2011                           -->
+    <!-- ====================================================================== -->
+    <xs:complexType name="ReimbursementType">
+        <xs:sequence>
+            <xs:element name="ReimbursementIdentifier" type="xs:string" minOccurs="0"/>
+            <xs:element name="ReimbursementReference" type="xs:string" minOccurs="0"/>
+            <xs:element name="PayeeName" type="NameType" minOccurs="0"/>
+            <xs:element name="ReimbursementStatus" type="ReimbursementStatusCodeType" minOccurs="0"/>
+            <xs:element name="Comment" type="TextType" minOccurs="0"/>
+            <xs:element name="ReimbursementDate" type="xs:date" minOccurs="0"/>
+            <xs:element name="ReimbursementMethod" type="PaymentMethodType" minOccurs="0"/>
+            <xs:element name="ReimbursementFeeDetails" type="ReimbursementFeeDetailsType" minOccurs="0"/>
+
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ====================================================================== -->
+    <!-- Filename    : ReimbursementStatusCodeType.xsd                          -->
+    <!-- Last Update : Mon Oct 24 09:27:21 +0200 2011                           -->
+    <!-- ====================================================================== -->
+    <xs:simpleType name="ReimbursementStatusCodeType">
+        <xs:union memberTypes="xs:token">
+            <xs:simpleType>
+                <xs:restriction base="xs:token">
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:union>
+    </xs:simpleType>
+
+    <!-- ====================================================================== -->
+    <!-- Filename    : ReimbursementFeeDetailsType.xsd                          -->
+    <!-- Last Update : Mon Oct 24 09:27:21 +0200 2011                           -->
+    <!-- ====================================================================== -->
+    <xs:complexType name="ReimbursementFeeDetailsType">
+        <xs:sequence>
+            <xs:element name="ReimbursementFee" type="ReimbursementFeeType" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ====================================================================== -->
+    <!-- Filename    : ReimbursementFeeType.xsd                                 -->
+    <!-- Last Update : Mon Oct 24 09:27:21 +0200 2011                           -->
+    <!-- ====================================================================== -->
+    <xs:complexType name="ReimbursementFeeType">
+        <xs:sequence>
+            <xs:element name="FeeIdentifier" type="xs:string" minOccurs="0"/>
+            <xs:element name="FeeReference" type="xs:string" minOccurs="0"/>
+            <xs:element name="FeeAmount" type="AmountType"/>
+            <xs:element name="Comment" type="TextType" minOccurs="0"/>
+
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ====================================================================== -->
+    <!-- Filename : CorrespondenceAddressKeyType.xsd -->
+    <!-- ====================================================================== -->
+    <xs:complexType name="CorrespondenceAddressKeyType">
+        <xs:sequence>
+            <xs:element name="CorrespondenceAddressIdentifier" type="IdentifierType" />
+            <xs:element name="CorrespondenceAddressURI" type="URIType" minOccurs="0" />
+            <xs:element name="CorrespondenceAddressParty" type="CorrespondenceAddressPartyType"	minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ====================================================================== -->
+    <!-- Filename : CorrespondenceAddressType.xsd -->
+    <!-- ====================================================================== -->
+    <xs:complexType name="CorrespondenceAddressType">
+        <xs:sequence>
+            <xs:element name="PreferredCorrespondenceKind" type="PreferredCorrespondenceKindType" minOccurs="0" />
+            <xs:element name="CorrespondenceAddressIdentifier" type="IdentifierType" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="CorrespondenceAddressParty" type="CorrespondenceAddressPartyType"	minOccurs="0" />
+            <xs:element name="CorrespondenceAddressBook" type="AddressBookType"	minOccurs="0" />
+            <xs:element name="ElectronicCorrespondenceIndicator" type="xs:boolean"	minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ====================================================================== -->
+    <!-- Filename : CorrespondenceAddressPartyType.xsd -->
+    <!-- ====================================================================== -->
+    <xs:simpleType name="CorrespondenceAddressPartyType">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="Applicant" />
+            <xs:enumeration value="Representative" />
+            <xs:enumeration value="Correspondence address" />
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

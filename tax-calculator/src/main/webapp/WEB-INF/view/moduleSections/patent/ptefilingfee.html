@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<div th:fragment="ptefiling-fragment">
+
+    <div id="small-company-frag" class="mb20px">
+        <div th:replace="fragments/smallCompany :: smallCompany-fragment"></div>
+    </div>
+    <div id="licence-availability-frag" class="mb20px">
+        <div th:replace="fragments/licenceAvailability :: licenceAvailability-fragment"></div>
+    </div>
+    <div id="feesArePayedInPCT-frag" class="mb20px">
+        <div th:replace="fragments/feesArePayedInPCT :: feesArePayedInPCT-fragment"></div>
+    </div>
+    <div id="claims-count-frag" class="mb20px">
+        <div th:replace="fragments/claimsCount :: claimsCount-fragment"></div>
+    </div>
+    <div id="independent-claims-count-frag" class="mb20px">
+        <div th:replace="fragments/independentClaimsCount :: independentClaimsCount-fragment"></div>
+    </div>
+    <div id="number-priorities-frag" class="mb20px">
+        <div th:replace="fragments/prioritiesCount :: prioritiesCount-fragment"></div>
+    </div>
+    <div id="examination-required-frag" class="mb20px" hidden>
+        <div th:replace="fragments/examinationRequired :: examinationRequired-fragment"></div>
+    </div>
+    <div id="anticipation-of-publication-frag" class="mb20px" style="display:block;">
+        <div th:replace="fragments/anticipationOfPublication :: anticipationOfPublication-fragment"></div>
+    </div>
+
+</div>
+</html>

@@ -1,0 +1,27 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>eu.ohim.sp.external</groupId>
+		<artifactId>Utils</artifactId>
+		<version>2.0.0-RELEASE</version>
+	</parent>
+
+	<artifactId>SPWSException</artifactId>
+	<name>SPWSException</name>
+	<packaging>jar</packaging>
+
+	<dependencies>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+		</dependency>
+        <dependency>
+            <groupId>eu.ohim.sp.domains</groupId>
+            <artifactId>ExternalDomain</artifactId>
+        </dependency>     				
+	</dependencies>
+	<build>
+	</build>
+</project>

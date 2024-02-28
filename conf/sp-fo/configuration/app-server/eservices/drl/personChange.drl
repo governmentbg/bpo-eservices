@@ -1,0 +1,258 @@
+package org.domain.rules;
+dialect "mvel"
+
+import eu.ohim.sp.core.domain.person.PersonChange;
+import eu.ohim.sp.core.domain.person.PersonChangeKind;
+import eu.ohim.sp.core.domain.validation.ErrorCore;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+
+import eu.ohim.sp.core.configuration.domain.xsd.Section;
+import eu.ohim.sp.core.configuration.domain.xsd.Field;
+
+import java.util.Map;
+import java.util.ArrayList;
+
+import java.util.ArrayList;
+
+import eu.ohim.sp.core.domain.validation.ErrorCore;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.domain.person.Representative;
+import eu.ohim.sp.core.configuration.domain.xsd.Section;
+import eu.ohim.sp.core.configuration.domain.xsd.Field;
+import eu.ohim.sp.core.domain.contact.Email;
+import org.apache.commons.lang.*;
+
+global eu.ohim.sp.core.domain.validation.ErrorList errorList;
+
+
+rule "BR1100 (type mandatory)"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "changeType", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	PersonChange(personChangeKind ==null)
+then
+	addError("changeType", "BRMandatory", "This field is mandatory", null, $errorList);
+end
+
+
+rule "BR1101 (previous name mandatory)"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "previousPersonName", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	PersonChange((PersonChangeKind.REPLACE_REPRESENTATIVE.equals(personChangeKind) || PersonChangeKind.REMOVE_REPRESENTATIVE.equals(personChangeKind) || PersonChangeKind.REPLACE_CORRESPONDENT.equals(personChangeKind) || PersonChangeKind.REMOVE_CORRESPONDENT.equals(personChangeKind) || PersonChangeKind.CHANGE_REPRESENTATIVE_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_REPRESENTATIVE_CORRESPONDENCE_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_CORRESPONDENT_ADDRESS.equals(personChangeKind)), $currentPerson : currentPerson)
+	eval($currentPerson == null || $currentPerson.getName() == null || StringUtils.isEmpty($currentPerson.getName().getFirstName()))
+then
+	addError("previousPersonName", "BRMandatory", "This field is mandatory", null, $errorList);
+end
+
+rule "BR1102 (previous address mandatory)"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "previousPersonAddress", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	PersonChange((PersonChangeKind.REPLACE_REPRESENTATIVE.equals(personChangeKind) || PersonChangeKind.REMOVE_REPRESENTATIVE.equals(personChangeKind) || PersonChangeKind.REPLACE_CORRESPONDENT.equals(personChangeKind) || PersonChangeKind.REMOVE_CORRESPONDENT.equals(personChangeKind) || PersonChangeKind.CHANGE_REPRESENTATIVE_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_REPRESENTATIVE_CORRESPONDENCE_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_CORRESPONDENT_ADDRESS.equals(personChangeKind)), $currentPerson : currentPerson)
+	eval($currentPerson == null || $currentPerson.getAddresses() == null || $currentPerson.getAddresses().size() == 0 || $currentPerson.getAddresses().get(0) == null || StringUtils.isEmpty($currentPerson.getAddresses().get(0).getStreet()))
+then
+	addError("previousPersonAddress", "BRMandatory", "This field is mandatory", null, $errorList);
+end
+
+
+rule "BR818 (city mandatory)"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "address.city", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	PersonChange((PersonChangeKind.CHANGE_REPRESENTATIVE_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_CORRESPONDENT_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_REPRESENTATIVE_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_REPRESENTATIVE_CORRESPONDENCE_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_CORRESPONDENT_ADDRESS.equals(personChangeKind)), $updatedPerson : updatedPerson, $updatedPerson != null)
+	Representative(addresses == null || (addresses != null && addresses.get(0) != null && StringUtils.isEmpty(addresses.get(0).city) == true)) from $updatedPerson
+then
+	addError("address.city", "BRMandatory", "This field is mandatory", null, $errorList);
+end
+
+rule "BR820 (country mandatory)"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "address.country", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	PersonChange((PersonChangeKind.CHANGE_REPRESENTATIVE_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_CORRESPONDENT_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_REPRESENTATIVE_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_REPRESENTATIVE_CORRESPONDENCE_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_CORRESPONDENT_ADDRESS.equals(personChangeKind)), $updatedPerson : updatedPerson, $updatedPerson != null)
+	Representative(addresses == null || (addresses != null && addresses.get(0) != null && StringUtils.isEmpty(addresses.get(0).country) == true)) from $updatedPerson
+then
+	addError("address.country", "BRMandatory", "This field is mandatory", null, $errorList);
+end
+
+rule "BR817 (postal code mandatory)"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "address.postalCode", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	PersonChange((PersonChangeKind.CHANGE_REPRESENTATIVE_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_CORRESPONDENT_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_REPRESENTATIVE_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_REPRESENTATIVE_CORRESPONDENCE_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_CORRESPONDENT_ADDRESS.equals(personChangeKind)), $updatedPerson : updatedPerson, $updatedPerson != null)
+	Representative(addresses == null || (addresses != null && addresses.get(0) != null && StringUtils.isEmpty(addresses.get(0).postCode) == true)) from $updatedPerson
+then
+	addError("address.postalCode", "BRMandatory", "This field is mandatory", null, $errorList);
+end
+
+rule "BR816a (street mandatory)"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "address.street", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	PersonChange((PersonChangeKind.CHANGE_REPRESENTATIVE_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_CORRESPONDENT_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_REPRESENTATIVE_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_REPRESENTATIVE_CORRESPONDENCE_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_CORRESPONDENT_ADDRESS.equals(personChangeKind)), $updatedPerson : updatedPerson, $updatedPerson != null)
+	Representative(addresses == null || (addresses != null && addresses.size()>0 && addresses.get(0) != null && StringUtils.isEmpty(addresses.get(0).street) == true)) from $updatedPerson
+then
+	addError("address.street", "BRMandatory", "This field is mandatory", null, $errorList);
+end
+
+rule "BR816b (house number mandatory)"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "address.houseNumber", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	PersonChange((PersonChangeKind.CHANGE_REPRESENTATIVE_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_CORRESPONDENT_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_REPRESENTATIVE_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_REPRESENTATIVE_CORRESPONDENCE_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_CORRESPONDENT_ADDRESS.equals(personChangeKind)), $updatedPerson : updatedPerson, $updatedPerson != null)
+	Representative(addresses == null || (addresses != null && addresses.size()>0 && addresses.get(0) != null &&  StringUtils.isEmpty(addresses.get(0).streetNumber) == true)) from $updatedPerson
+then
+	addError("address.houseNumber", "BRMandatory", "This field is mandatory", null, $errorList);
+end
+
+rule "BR816c (mail content)"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "email", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport, $regex : format) from $fields
+	eval($fieldUsable == true)
+	PersonChange((PersonChangeKind.CHANGE_REPRESENTATIVE_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_CORRESPONDENT_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_REPRESENTATIVE_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_REPRESENTATIVE_CORRESPONDENCE_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_CORRESPONDENT_ADDRESS.equals(personChangeKind)), $updatedPerson : updatedPerson, $updatedPerson != null)
+	Representative($emails : emails, $emails != null) from $updatedPerson
+	$email : Email(!StringUtils.isEmpty(emailAddress) && !StringUtils.isEmpty($regex) && emailAddress not matches $regex) from $emails
+then
+	addError("email", "BR816c.email.format", "The format is wrong", null, $errorList);
+end
+
+
+rule "BR845 Correspondence Mail - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "correspondenceAddresses.correspondenceEmail", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	PersonChange((PersonChangeKind.CHANGE_REPRESENTATIVE_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_CORRESPONDENT_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_REPRESENTATIVE_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_REPRESENTATIVE_CORRESPONDENCE_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_CORRESPONDENT_ADDRESS.equals(personChangeKind)), $updatedPerson : updatedPerson, $updatedPerson != null)
+	Representative($cemails : correspondenceEmails, $cemails != null) from $updatedPerson
+	$cemail : Email(emailAddress == null || emailAddress == "") from $cemails
+	eval($fieldUsable == true && $fieldRequired == true)
+then
+	addError("correspondenceAddresses[0].correspondenceEmail", "BR8924.email.empty", "This field is mandatory", null, $errorList);
+end
+
+rule "BR845 Correspondence Mail - Content"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "correspondenceAddresses.correspondenceEmail", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport, $regex : format) from $fields
+	PersonChange((PersonChangeKind.CHANGE_REPRESENTATIVE_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_CORRESPONDENT_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_REPRESENTATIVE_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_REPRESENTATIVE_CORRESPONDENCE_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_CORRESPONDENT_ADDRESS.equals(personChangeKind)), $updatedPerson : updatedPerson, $updatedPerson != null)
+	Representative($cemails : correspondenceEmails, $cemails != null) from $updatedPerson
+	$cemail : Email(!StringUtils.isEmpty(emailAddress) && !StringUtils.isEmpty($regex) && emailAddress not matches $regex) from $cemails
+	eval($fieldUsable == true)
+then
+	addError("correspondenceAddresses[0].correspondenceEmail", "BR8924.email.format", "The format is wrong", null, $errorList);
+end
+
+rule "BR846 Correspondence Name - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "correspondenceAddresses.correspondenceName", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	PersonChange((PersonChangeKind.CHANGE_REPRESENTATIVE_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_CORRESPONDENT_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_REPRESENTATIVE_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_REPRESENTATIVE_CORRESPONDENCE_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_CORRESPONDENT_ADDRESS.equals(personChangeKind)), $updatedPerson : updatedPerson, $updatedPerson != null)
+	Representative($addresses : correspondenceAddresses, $addresses != null) from $updatedPerson
+    $address : Address(postalName == null || postalName == "") from $addresses
+    eval($fieldUsable == true && $fieldRequired == true)
+then
+	addError("correspondenceAddresses[0].correspondenceName","BRMandatory","This field is mandatory", null, $errorList);
+end
+
+rule "BR847 Correspondence Street - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "correspondenceAddresses.addressForm.street", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	PersonChange((PersonChangeKind.CHANGE_REPRESENTATIVE_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_CORRESPONDENT_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_REPRESENTATIVE_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_REPRESENTATIVE_CORRESPONDENCE_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_CORRESPONDENT_ADDRESS.equals(personChangeKind)), $updatedPerson : updatedPerson, $updatedPerson != null)
+	Representative($addresses : correspondenceAddresses, $addresses != null) from $updatedPerson
+	$address : Address(street == null || street == "") from $addresses
+	eval($fieldUsable == true && $fieldRequired == true)
+then
+	addError("correspondenceAddresses[0].addressForm.street", "BRMandatory", "This field is mandatory", null, $errorList);
+end
+
+rule "BR818 Correspondence House Number - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "correspondenceAddresses.addressForm.houseNumber", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	PersonChange((PersonChangeKind.CHANGE_REPRESENTATIVE_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_CORRESPONDENT_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_REPRESENTATIVE_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_REPRESENTATIVE_CORRESPONDENCE_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_CORRESPONDENT_ADDRESS.equals(personChangeKind)), $updatedPerson : updatedPerson, $updatedPerson != null)
+	Representative($addresses : correspondenceAddresses, $addresses != null) from $updatedPerson
+	$address : Address(streetNumber == null || streetNumber == "") from $addresses
+	eval($fieldUsable == true && $fieldRequired == true)
+then
+	addError("correspondenceAddresses[0].addressForm.houseNumber", "BRMandatory", "This field is mandatory", null, $errorList);
+end
+
+rule "BR452 Correspondence City - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "correspondenceAddresses.addressForm.city", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	PersonChange((PersonChangeKind.CHANGE_REPRESENTATIVE_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_CORRESPONDENT_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_REPRESENTATIVE_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_REPRESENTATIVE_CORRESPONDENCE_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_CORRESPONDENT_ADDRESS.equals(personChangeKind)), $updatedPerson : updatedPerson, $updatedPerson != null)
+	Representative($addresses : correspondenceAddresses, $addresses != null) from $updatedPerson
+	$address : Address(city == null || city == "") from $addresses
+	eval($fieldUsable == true && $fieldRequired == true)
+then
+	addError("correspondenceAddresses[0].addressForm.city", "BRMandatory", "This field is mandatory", null, $errorList);
+end
+
+rule "Correspondence Postalcode - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "correspondenceAddresses.addressForm.postalCode", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	PersonChange((PersonChangeKind.CHANGE_REPRESENTATIVE_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_CORRESPONDENT_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_REPRESENTATIVE_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_REPRESENTATIVE_CORRESPONDENCE_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_CORRESPONDENT_ADDRESS.equals(personChangeKind)), $updatedPerson : updatedPerson, $updatedPerson != null)
+	Representative($addresses : correspondenceAddresses, $addresses != null) from $updatedPerson
+	$address : Address(postCode == null || postCode == "") from $addresses
+	eval($fieldUsable == true && $fieldRequired == true)
+then
+	addError("correspondenceAddresses[0].addressForm.postalCode", "BRMandatory", "This field is mandatory", null, $errorList);
+end
+
+rule "BR807 Correspondence Country - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "correspondenceAddresses.addressForm.country", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	PersonChange((PersonChangeKind.CHANGE_REPRESENTATIVE_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_CORRESPONDENT_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_REPRESENTATIVE_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_REPRESENTATIVE_CORRESPONDENCE_ADDRESS.equals(personChangeKind) || PersonChangeKind.CHANGE_CORRESPONDENT_ADDRESS.equals(personChangeKind)), $updatedPerson : updatedPerson, $updatedPerson != null)
+	Representative($addresses : correspondenceAddresses, $addresses != null) from $updatedPerson
+	$address : Address(country == null || country == "") from $addresses
+	eval($fieldUsable == true && $fieldRequired == true)
+then
+	addError("correspondenceAddresses[0].addressForm.country", "BRMandatory", "This field is mandatory", null, $errorList);
+end

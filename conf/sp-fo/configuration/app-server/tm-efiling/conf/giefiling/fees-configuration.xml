@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<feeList>
+    <feeTypeList>
+        <code>001</code>
+        <nameKey>basicFeeGI</nameKey>
+        <description>basic fee GI</description>
+        <defaultValue>220</defaultValue>
+    </feeTypeList>
+    <feeTypeList>
+        <code>002</code>
+        <nameKey>registrationFeeGI</nameKey>
+        <description>registration fee GI</description>
+        <defaultValue>30</defaultValue>
+    </feeTypeList>
+    <feeTypeList>
+        <code>003</code>
+        <nameKey>certificateRequestedFeeGI</nameKey>
+        <description>certificate request fee GI</description>
+        <defaultValue>50</defaultValue>
+    </feeTypeList>
+</feeList>
+

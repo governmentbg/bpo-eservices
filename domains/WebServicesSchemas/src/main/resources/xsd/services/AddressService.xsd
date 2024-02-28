@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="unqualified"
+	version="3.2"
+	targetNamespace="http://ohim.eu/sp/services/address/v3"
+	xmlns:tns="http://ohim.eu/sp/services/address/v3"
+	xmlns:common="http://ohim.eu/sp/domain/common/v3"
+	xmlns:contact="http://ohim.eu/sp/domain/contact/v3"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	
+	<xs:import namespace="http://ohim.eu/sp/domain/common/v3" schemaLocation="../domain/CommonDomain.xsd" />		
+	<xs:import namespace="http://ohim.eu/sp/domain/contact/v3" schemaLocation="../domain/ContactDomain.xsd" />
+
+	<xs:element name="getAddressAutocomplete" type="tns:GetAddressAutocomplete" />
+	<xs:element name="getAddressAutocompleteResponse" type="tns:GetAddressAutocompleteResponse" />
+	<xs:element name="matchAddress" type="tns:MatchAddress" />
+	<xs:element name="matchAddressResponse" type="tns:MatchAddressResponse" />
+	<xs:element name="addressFault" type="tns:AddressFault" />
+
+	<xs:complexType name="GetAddressAutocomplete">
+		<xs:sequence>
+            <xs:element name="module" type="xs:string" minOccurs="0" />
+            <xs:element name="text" type="xs:string" />
+            <xs:element name="address" type="contact:Address" />
+			<xs:element name="numberOfRows" type="xs:int" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="GetAddressAutocompleteResponse">
+		<xs:sequence>
+			<xs:element name="address" type="contact:Address" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="MatchAddress">
+		<xs:sequence>
+            <xs:element name="module" type="xs:string" minOccurs="0" />
+            <xs:element name="address" type="contact:Address" />
+			<xs:element name="numberOfResults" type="xs:int" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="MatchAddressResponse">
+		<xs:sequence>
+			<xs:element name="address" type="contact:Address" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="AddressFault">
+		<xs:sequence>
+			<xs:element name="fault" type="common:Fault" />
+		</xs:sequence>
+	</xs:complexType>	
+
+</xs:schema>

@@ -1,0 +1,100 @@
+package org.domain.rules;
+dialect "mvel"
+
+import java.util.Map;
+import java.util.List;
+import java.util.HashMap;
+import java.util.ArrayList;
+import org.apache.commons.lang.StringUtils;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.configuration.domain.xsd.Field;
+import eu.ohim.sp.core.configuration.domain.xsd.Section;
+import eu.ohim.sp.core.domain.validation.RulesInformation;
+import eu.ohim.sp.core.domain.trademark.ForeignRegistration
+import java.util.Calendar;
+
+rule "BR FR Number Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	$rulesInformation : RulesInformation($customObjects : customObjects, $stateId: customObjects.get("stateId"))
+    Section( $fields : field, viewStateId == $stateId)
+	Field( id == "registrationNumber", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	ForeignRegistration(registrationNumber == null || registrationNumber.isEmpty())
+then
+	HashMap co = $customObjects;
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+	if (isSectionValidation == false){
+		addError("registrationNumber", "BRMandatory", "This field is mandatory", null, $errorList);
+	} else {
+		addError(null, "BR.foreign.registration.registrationNumber.Emtpy", "The registration number field is mandatory", "mainForm.foreignRegistrationDataSection", $errorList);
+	}
+end
+
+rule "BR FR Date Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	$rulesInformation : RulesInformation($customObjects : customObjects, $stateId: customObjects.get("stateId"))
+    Section( $fields : field, viewStateId == $stateId)
+	Field( id == "registrationDate", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	ForeignRegistration(registrationDate == null)
+then
+	HashMap co = $customObjects;
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+	if (isSectionValidation == false){
+		addError("registrationDate", "BRMandatory", "This field is mandatory", null, $errorList);
+	} else {
+		addError(null, "BR.foreign.registration.registrationDate.Emtpy", "The registration date field is mandatory", "mainForm.foreignRegistrationDataSection", $errorList);
+	}
+end
+
+rule "BR FR - Date - Content"
+salience 1000
+when
+	$errorList : ErrorList()
+	$rulesInformation : RulesInformation($customObjects : customObjects, $stateId: customObjects.get("stateId"))
+    Section( $fields : field, viewStateId == $stateId)
+    Field( id == "registrationDate", $fieldUsable : usable, $fieldRequired : required) from $fields
+    eval($fieldUsable == true)
+	ForeignRegistration($regDate: registrationDate, registrationDate != null)
+
+then
+    HashMap co = $customObjects;
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+	Calendar c1 = Calendar.getInstance();
+
+    if($regDate.compareTo(c1.getTime())>0) {
+        if (isSectionValidation == false){
+		    addError("registrationDate", "BRFutureDate", "Date should not be in future", null, $errorList);
+	    } else {
+            addError(null, "BR.foreign.registration.registrationDate.Future", "The registration date can not be in the future", "mainForm.foreignRegistrationDataSection", $errorList);
+	    }
+    }
+end
+
+
+rule "BR FR Country Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	$rulesInformation : RulesInformation($customObjects : customObjects, $stateId: customObjects.get("stateId"))
+    Section( $fields : field, viewStateId == $stateId)
+	Field( id == "registrationCountry", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	ForeignRegistration(registrationCountry == null || registrationCountry.isEmpty())
+then
+	HashMap co = $customObjects;
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+	if (isSectionValidation == false){
+		addError("registrationCountry", "BRMandatory", "This field is mandatory", null, $errorList);
+	} else {
+		addError(null, "BR.foreign.registration.registrationCountry.Emtpy", "The registration country field is mandatory", "mainForm.foreignRegistrationDataSection", $errorList);
+	}
+end

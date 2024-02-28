@@ -1,0 +1,83 @@
+package org.domain.rules;
+dialect "mvel"
+
+import org.apache.commons.lang.StringUtils;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.configuration.domain.xsd.Section;
+import eu.ohim.sp.core.configuration.domain.xsd.Field;
+import eu.ohim.sp.core.domain.design.ProductIndication;
+import eu.ohim.sp.core.domain.design.ProductIndicationClass;
+import eu.ohim.sp.core.domain.design.ProductIndicationTerm;
+
+
+
+rule "BR0 Product Indication - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "locarnoClassification.indication", $fieldUsable : usable, $fieldRequired : required ) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	ProductIndication($classes : classes)	
+	ProductIndicationClass($terms : terms)	from $classes	
+	ProductIndicationTerm (text == null || StringUtils.isEmpty(text) ) from $terms		
+then
+	addError("locarnoClassification.indication", "BRMandatory", "This field is mandatory", null, $errorList);	     
+end
+
+rule "BR0 Product Indication complex - classes - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "classes", $fieldUsable : usable, $fieldRequired : required ) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	ProductIndication($classes : classes, classes.size()==0)	
+then
+	addError("classes", "BRMandatory", "This field is mandatory", null, $errorList);	     
+end
+
+rule "BR0 Product Indication complex - type - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "type", $fieldUsable : usable, $fieldRequired : required ) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	ProductIndication($kind : kind, kind==null)			
+then
+	
+	addError("type", "BRMandatory", "This field is mandatory", null, $errorList);	     
+end
+
+rule "BR0 Product Indication complex - indication - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "indication", $fieldUsable : usable, $fieldRequired : required ) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	ProductIndication($classes : classes, classes.size()>0)
+	ProductIndicationClass($terms : terms)	from $classes	
+	ProductIndicationTerm (text == null || StringUtils.isEmpty(text) ) from $terms
+then	
+	addError("indication", "BRMandatory", "This field is mandatory", null, $errorList);	     
+end
+
+
+rule "BR0 Search: Classification term OR Search Class - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "searchData.indication", $fieldUsable : usable) from $fields
+	eval($fieldUsable == true)
+	ProductIndication($classes : classes)		
+	ProductIndicationClass($terms : terms, StringUtils.isEmpty(mainClass) && StringUtils.isEmpty(subClass) )	from $classes	
+	ProductIndicationTerm (text == null || StringUtils.isEmpty(text)) from $terms				
+then
+	 addError(null, "BR010.design.locarnoSearch.empty", "You must choose the Classification term or the Locarno classification field",  "formMessages", $errorList);     			
+end
+
+
+

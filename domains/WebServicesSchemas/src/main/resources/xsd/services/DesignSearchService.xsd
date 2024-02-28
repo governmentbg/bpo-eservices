@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="unqualified"
+	version="3.2" 
+	targetNamespace="http://ohim.eu/sp/services/design-search/v3"
+	xmlns:tns="http://ohim.eu/sp/services/design-search/v3"
+	xmlns:design="http://ohim.eu/sp/domain/design/v3"
+	xmlns:common="http://ohim.eu/sp/domain/common/v3"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	
+    <xs:import namespace="http://ohim.eu/sp/domain/design/v3" schemaLocation="../domain/DesignDomain.xsd" />
+    <xs:import namespace="http://ohim.eu/sp/domain/common/v3" schemaLocation="../domain/CommonDomain.xsd"/>
+
+	
+	<xs:element name="getDesign" type="tns:GetDesign" />
+    <xs:element name="getDesignResponse" type="tns:GetDesignResponse" />
+    
+    <xs:element name="getDesignApplication" type="tns:GetDesignApplication" />
+    <xs:element name="getDesignApplicationResponse" type="tns:GetDesignApplicationResponse" />
+    
+    <xs:element name="getDesignAutocomplete" type="tns:GetDesignAutocomplete" />
+	<xs:element name="getDesignAutocompleteResponse" type="tns:GetDesignAutocompleteResponse" />
+
+	<xs:element name="designFault" type="tns:DesignFault" />
+
+	<xs:complexType name="GetDesign">
+		<xs:sequence>
+			<xs:element name="office" type="xs:string" minOccurs="0" />
+			<xs:element name="designId" type="xs:string" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="GetDesignResponse">
+		<xs:sequence>
+			<xs:element name="return" type="design:Design" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+    <xs:complexType name="GetDesignApplication">
+        <xs:sequence>
+            <xs:element name="office" type="xs:string" minOccurs="0" />
+            <xs:element name="designId" type="xs:string" minOccurs="0" />
+            <xs:element name="extraImport" type="xs:boolean" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="GetDesignApplicationResponse">
+        <xs:sequence>
+            <xs:element name="return" type="design:DesignApplication" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+	<xs:complexType name="GetDesignAutocomplete">
+        <xs:complexContent>
+            <xs:extension base="common:GenericAutocompleteRequest"/>
+        </xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="GetDesignAutocompleteResponse">
+		<xs:sequence>
+			<xs:element name="return" type="xs:string" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+    <xs:complexType name="DesignFault">
+        <xs:sequence>
+            <xs:element name="fault" type="common:Fault" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema>

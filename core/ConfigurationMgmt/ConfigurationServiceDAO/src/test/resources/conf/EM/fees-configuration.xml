@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ * SystemConfigurationServiceDao:: fees-configuration.xml 07/10/13 21:16 karalch $
+  ~  * . * .
+  ~  * * RRRR * Copyright © 2013 OHIM: Office for Harmonization
+  ~  * . RR R . in the Internal Market (trade marks and designs)
+  ~  * * RRR *
+  ~  * . RR RR . ALL RIGHTS RESERVED
+  ~  * * . _ . *
+  -->
+
+<tns:feeValues xmlns:tns="http://www.example.org/test/"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.example.org/test/ ../../../../../../../../../../../../configuration-xsd/src/main/xsd/fees/fees.xsd ">
+
+	<basicFee>1050</basicFee>
+	<collectiveFee>1800</collectiveFee>
+	<onlineAppDiscount>150</onlineAppDiscount>
+	<nationalSearchFee>120</nationalSearchFee>
+	<extraClassFeeBasic>150</extraClassFeeBasic>
+	<extraClassFeeCollective>300</extraClassFeeCollective>
+	<maxClasses>3</maxClasses>
+	<correspondenceAddress></correspondenceAddress>
+	<priorityClaim></priorityClaim>
+	
+</tns:feeValues>

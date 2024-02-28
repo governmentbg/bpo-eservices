@@ -1,0 +1,192 @@
+package org.domain.rules;
+dialect "mvel"
+
+import eu.ohim.sp.core.domain.validation.ErrorCore;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.configuration.domain.xsd.Section;
+import eu.ohim.sp.core.configuration.domain.xsd.Field;
+import eu.ohim.sp.core.configuration.domain.xsd.Sections;
+import eu.ohim.sp.core.configuration.domain.xsd.AvailableSection;
+import java.util.Map;
+import java.util.ArrayList;
+import org.apache.commons.lang.*;
+import eu.ohim.sp.core.domain.trademark.TMeServiceApplication;
+import eu.ohim.sp.core.domain.validation.RulesInformation;
+import java.util.Map;
+import java.util.HashMap;
+import java.lang.*;
+import eu.ohim.sp.core.domain.person.Applicant;
+import eu.ohim.sp.core.domain.person.Representative;
+import eu.ohim.sp.core.domain.user.FOUser;
+import eu.ohim.sp.core.domain.application.Signatory;
+
+global eu.ohim.sp.core.domain.validation.ErrorList errorList;
+
+
+
+rule "BR1800 Signature Name - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	RulesInformation($customObjects : customObjects)
+	Section( $fields : field )
+	Field( id == "fullName", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Signatory(StringUtils.isEmpty(name))	
+then	
+	HashMap co = $customObjects;
+	Boolean imported = co.get("imported");
+	    
+
+	addError("fullName", "BR1800.signatory.name.empty", "This field is mandatory", null, $errorList);
+
+end
+
+rule "BR1800 Signature Capacity - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	RulesInformation($customObjects : customObjects)
+	Section( $fields : field )
+	Field( id == "personCapacity", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Signatory(capacity == null)
+then
+	HashMap co = $customObjects;
+	Boolean imported = co.get("imported");
+
+
+	addError("personCapacity", "BR1800.signatory.capacity.empty", "This field is mandatory", null, $errorList);
+
+end
+
+rule "BR1800 Signature assoc text - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	RulesInformation($customObjects : customObjects)
+	Section( $fields : field )
+	Field( id == "signatureAssociatedText", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Signatory($cap: capacity, $assoc: associatedText)
+	eval($cap != null && $cap.value() == "Other" && (StringUtils.isEmpty($assoc)))
+then
+	HashMap co = $customObjects;
+	Boolean imported = co.get("imported");
+
+
+	addError("signatureAssociatedText", "BR1800.signatory.signatureAssociatedText.empty", "This field is mandatory", null, $errorList);
+
+end
+
+rule "BR1801 Signature email - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	RulesInformation($customObjects : customObjects)
+	Section( $fields : field )
+	Field( id == "email", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Signatory(StringUtils.isEmpty(email))	
+then
+	HashMap co = $customObjects;
+	Boolean imported = co.get("imported");
+	    
+
+	addError("email", "BR1801.signatory.email.empty", "This field is mandatory", null, $errorList);
+
+end
+
+
+rule "BR1805 Signatory UserID - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	RulesInformation($customObjects : customObjects)
+	Section( $fields : field )
+	Field( id == "userId", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Signatory(StringUtils.isEmpty(userId))	
+then
+	HashMap co = $customObjects;
+	Boolean imported = co.get("imported");
+	    
+
+	addError("userId", "BR1805.signatory.userid.empty", "This field is mandatory", null, $errorList);
+
+end
+
+
+rule "BR1807 Signature email - Format"
+salience 1000
+when
+	$errorList : ErrorList()
+	RulesInformation($customObjects : customObjects)
+	Section( $fields : field )
+	Field( id == "email", $fieldUsable : usable, $fieldRequired : required, $regex : format) from $fields	
+	eval($fieldUsable == true && $regex != null)
+	Signatory($email:email,$email not matches $regex ) 
+	eval(!StringUtils.isEmpty($email))
+then
+	HashMap co = $customObjects;
+	Boolean imported = co.get("imported");
+	    
+
+	addError("email", "BR1807.signatory.email.format", "The format is wrong", null, $errorList);
+
+end
+
+
+rule "BR1806 Signatory equals User"
+salience 1000
+when
+	$errorList : ErrorList()
+	RulesInformation($customObjects : customObjects)
+	Section( $fields : field )
+	Signatory($userId : userId)
+	Signatory($name: name)
+    eval(!StringUtils.isEmpty($userId))	
+	FOUser($userName : userName)
+	FOUser($fullName : fullName)	
+	//eval($userName != $userId || !($fullName.equalsIgnoreCase($name)))
+then
+	HashMap co = $customObjects;
+	Boolean imported = co.get("imported");
+	 
+	String nameUser=$name.replaceAll("\\s+", " ");
+	String nameSystem=$fullName;
+	String nameInv="";
+	
+	String[] temp = nameUser.split(" ");
+	nameInv=temp[temp.length-1];
+		
+	if(temp.length>1){
+		for(int i=0;i<temp.length-1;i++){
+			nameInv+=" "+temp[i];	
+		}
+	} 
+
+	//System.out.println("TESTING: "+nameSystem+" "+" "+nameUser+" "+nameInv);
+	    
+	if(($userName != $userId) || ( !(nameUser.equalsIgnoreCase(nameSystem)) && !(nameInv.equalsIgnoreCase(nameSystem)) ) ){
+
+		addError("userId", "BR1806.signatory.user.equals", "User is wrong", null, $errorList);
+
+	}
+end
+
+rule "BR1808 Signatory imported null"
+salience 1000
+when
+	$errorList : ErrorList()
+	RulesInformation($customObjects : customObjects)
+	Section( $fields : field )
+then
+	HashMap co = $customObjects;
+	if(co.containsKey("fOUser")){
+		FOUser fOUser = co.get("fOUser");
+		if (fOUser==null){
+			addError("userId", "BR1808.signatory.user.equals", "User is wrong", null, $errorList);
+		}
+	}
+end

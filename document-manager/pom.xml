@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.4.2</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>bg.duosoft</groupId>
+	<artifactId>document-manager</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>document-manager</name>
+	<description>Management app for documents in content repo</description>
+
+	<properties>
+		<java.version>1.8</java.version>
+		<jackrabbit.version>2.13.0</jackrabbit.version>
+
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<jcr.version>2.0</jcr.version>
+		<cfo.version>2.0.0-RELEASE</cfo.version>
+		<jboss.client.bom.version>7.2.0.Final</jboss.client.bom.version>
+		<jquery.version>3.2.1</jquery.version>
+		<bootstrap.version>3.3.7</bootstrap.version>
+		<bouncy.castle.version>1.59</bouncy.castle.version>
+		<xml.security.version>1.3.0</xml.security.version>
+	</properties>
+
+	<profiles>
+		<profile>
+			<id>local</id>
+			<properties>
+				<remote.connection.master.host>localhost</remote.connection.master.host>
+				<remote.connection.master.port>4447</remote.connection.master.port>
+				<remote.connection.master.username>sp</remote.connection.master.username>
+				<remote.connection.master.password>sp</remote.connection.master.password>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+		<profile>
+			<id>test</id>
+			<properties>
+				<remote.connection.master.host>172.16.1.55</remote.connection.master.host>
+				<remote.connection.master.port>4447</remote.connection.master.port>
+				<remote.connection.master.username>sp</remote.connection.master.username>
+				<remote.connection.master.password>sp</remote.connection.master.password>
+			</properties>
+		</profile>
+		<profile>
+			<id>production</id>
+			<properties>
+				<remote.connection.master.host>172.18.1.10</remote.connection.master.host>
+				<remote.connection.master.port>4447</remote.connection.master.port>
+				<remote.connection.master.username>sp</remote.connection.master.username>
+				<remote.connection.master.password>sp</remote.connection.master.password>
+			</properties>
+		</profile>
+	</profiles>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.as</groupId>
+			<artifactId>jboss-as-ejb-client-bom</artifactId>
+			<version>${jboss.client.bom.version}</version>
+			<type>pom</type>
+		</dependency>
+
+		<dependency>
+			<groupId>eu.ohim.sp.domains</groupId>
+			<artifactId>CoreServices</artifactId>
+			<version>${cfo.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>eu.ohim.sp.domains</groupId>
+			<artifactId>CoreDomain</artifactId>
+			<version>${cfo.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>eu.ohim.sp.common</groupId>
+			<artifactId>CommonUtils</artifactId>
+			<version>${cfo.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>log4j-over-slf4j</artifactId>
+			<version>1.7.25</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>bootstrap</artifactId>
+			<version>${bootstrap.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>jquery</artifactId>
+			<version>${jquery.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>jquery-ui</artifactId>
+			<version>1.12.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.bouncycastle</groupId>
+			<artifactId>bcprov-jdk15on</artifactId>
+			<version>${bouncy.castle.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>xml-security</groupId>
+			<artifactId>xmlsec</artifactId>
+			<version>${xml.security.version}</version>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<finalName>document-manager</finalName>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

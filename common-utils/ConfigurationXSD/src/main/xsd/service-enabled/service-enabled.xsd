@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  * $Id::                                                                  $
+  *       . * .
+  *     * RRRR  *    Copyright © 2012 OHIM: Office for Harmonization
+  *   .   RR  R   .  in the Internal Market (trade marks and designs)
+  *   *   RRR     *
+  *    .  RR RR  .   ALL RIGHTS RESERVED
+  *     * . _ . *
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/service-enabled" xmlns="http://www.example.org/service-enabled" elementFormDefault="qualified">
+
+	<xs:element name="services">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="service" type="serviceType" maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType name="serviceType">
+		<xs:attribute name="name" use="required" type="available-services" />
+		<xs:attribute name="enabled" use="required" type="xs:boolean" />
+	</xs:complexType>
+
+	<xs:simpleType name="available-services">
+		<xs:annotation>
+			<xs:documentation>Available External Services</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:NMTOKEN">
+			<xs:enumeration value="Import_Previous"/>
+			<xs:enumeration value="Import_Previous_Autocomplete"/>
+			<xs:enumeration value="Get_User_Person"/>
+			<xs:enumeration value="Priority_Import"/>
+			<xs:enumeration value="Priority_Manual"/>
+			<xs:enumeration value="Priority_Autocomplete"/>
+			<xs:enumeration value="Seniority_Import"/>
+			<xs:enumeration value="Seniority_Manual"/>
+			<xs:enumeration value="Seniority_Autocomplete"/>
+			<xs:enumeration value="Transformation_Import"/>
+			<xs:enumeration value="Transformation_Manual"/>
+			<xs:enumeration value="Transformation_Autocomplete"/>
+			<xs:enumeration value="CTM_Transformation_Import"/>
+			<xs:enumeration value="CTM_Transformation_Manual"/>
+			<xs:enumeration value="CTM_Transformation_Autocomplete"/>
+			<xs:enumeration value="Conversion_Import"/>
+			<xs:enumeration value="Conversion_Manual"/>
+			<xs:enumeration value="Conversion_Autocomplete"/>
+			<xs:enumeration value="Applicant_Import"/>
+			<xs:enumeration value="Applicant_Autocomplete"/>
+			<xs:enumeration value="Applicant_Save"/>
+			<xs:enumeration value="Applicant_Match"/>
+			<xs:enumeration value="Representative_Import"/>
+			<xs:enumeration value="Representative_Autocomplete"/>
+			<xs:enumeration value="Representative_Manual"/>
+			<xs:enumeration value="Representative_Save"/>
+			<xs:enumeration value="Representative_Match"/>
+            <xs:enumeration value="Representative_Association_Autocomplete" />            
+            <xs:enumeration value="Assignee_Import"/>
+			<xs:enumeration value="Assignee_Autocomplete"/>
+			<xs:enumeration value="Assignee_Save"/>
+			<xs:enumeration value="Assignee_Match"/>
+            <xs:enumeration value="Assignee_Association_Autocomplete" />            
+            <xs:enumeration value="Person_Search"/>
+            <xs:enumeration value="Claim_Search"/>
+			<xs:enumeration value="Validate_Term" />
+			<xs:enumeration value="Import_Nice_Class_Heading" />
+			<xs:enumeration value="Search_Term" />
+			<xs:enumeration value="Search_Taxonomy" />
+			<xs:enumeration value="Save_Load_Service"/>
+			<xs:enumeration value="Save_Load_Locally_Service"/>
+            <xs:enumeration value="SimilarTM_Service"/>
+            <xs:enumeration value="SimilarTM_FindMoreDetails_Service"/>
+			<xs:enumeration value="Retrieve_Application_Number" />
+            <xs:enumeration value="FeedBack"/>
+            <xs:enumeration value="Communication_Inbox"/>
+            <xs:enumeration value="Misleading_Information"/>
+            <xs:enumeration value="HelpMessage_Service"/>
+            <xs:enumeration value="HelpMessage_Service_UsesFiles"/>
+			<xs:enumeration value="Payment_Enabled"/>
+			<xs:enumeration value="Payment_Popup"/>
+            <xs:enumeration value="Payment_Now"/>
+            <xs:enumeration value="Payment_Later"/>
+            <xs:enumeration value="Designer_Import"/>
+			<xs:enumeration value="Designer_Autocomplete"/>
+			<xs:enumeration value="Designer_Save"/>
+			<xs:enumeration value="Designer_Match"/>
+			<xs:enumeration value="Submit_Portal"/>
+			<xs:enumeration value="Retrieve_Payment_Number"/>
+			<xs:enumeration value="Address_Autocomplete"/>
+			<xs:enumeration value="CheckExistInPortal_tm-renewal"/>
+			<xs:enumeration value="CheckExistInPortal_tm-change"/>
+			<xs:enumeration value="CheckExistInPortal_tm-transfer"/>
+			<xs:enumeration value="CheckExistInPortal_tm-opposition"/>
+			<xs:enumeration value="CheckExistInPortal_tm-revocation"/>
+			<xs:enumeration value="CheckExistInPortal_tm-invlidity"/>
+			<xs:enumeration value="CheckExistInPortal_ds-renewal"/>
+			<xs:enumeration value="CheckExistInPortal_ds-change"/>
+			<xs:enumeration value="CheckExistInPortal_ds-transfer"/>
+			<xs:enumeration value="CheckExistInPortal_ds-opposition"/>
+			<xs:enumeration value="CheckExistInPortal_ds-revocation"/>
+			<xs:enumeration value="CheckExistInPortal_ds-invlidity"/>
+			<xs:enumeration value="Validate_External_User"/>
+			<xs:enumeration value="Holder_Import"/>
+			<xs:enumeration value="Holder_Manual"/>
+			<xs:enumeration value="PersonChange_Manual"/>
+			<xs:enumeration value="Import_Divisional"/>
+            <xs:enumeration value="Import_Divisional_Autocomplete"/>
+            <xs:enumeration value="Divisional_Manual"/>
+
+			<xs:enumeration value="Inventor_Import"/>
+			<xs:enumeration value="Inventor_Autocomplete"/>
+			<xs:enumeration value="Inventor_Save"/>
+			<xs:enumeration value="Inventor_Search"/>
+			<xs:enumeration value="Inventor_Match"/>
+
+			<xs:enumeration value="ParallelApplication_Import"/>
+			<xs:enumeration value="ParallelApplication_Manual"/>
+			<xs:enumeration value="ParallelApplication_Autocomplete"/>
+			<xs:enumeration value="Import_Patent_Template"/>
+			<xs:enumeration value="Import_Patent_Template_Autocomplete"/>
+
+			<xs:enumeration value="Patent_Autocomplete"/>
+			<xs:enumeration value="Patent_Import"/>
+
+			<xs:enumeration value="Design_Autocomplete"/>
+
+            <xs:enumeration value="Locarno_Autocomplete"/>
+			<xs:enumeration value="FastTrack_wizard"/>
+			<xs:enumeration value="FastTrack_gi-efiling"/>
+		</xs:restriction>
+	</xs:simpleType>	
+
+</xs:schema>

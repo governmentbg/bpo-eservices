@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
+                      xmlns:calc="http://www.milyn.org/xsd/smooks/calc-1.1.xsd"
+                      xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.4.xsd"
+                      xmlns:g="http://www.milyn.org/xsd/smooks/groovy-1.1.xsd"
+                      xmlns:core="http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd">
+
+    <core:filterSettings type="DOM" />
+    <jb:bean beanId="filteredUserdocs" class="eu.ohim.sp.external.domain.userdoc.FilteredUserdocs" retain="true"
+        createOnElement="//Transaction/TransactionBody/TransactionContentDetails/TransactionData">
+        <jb:wiring beanIdRef="collectionUserdocs" property="userdoc"/>
+        <jb:value data="//Transaction/TransactionBody/TransactionContentDetails/TransactionData/MainObject" property="mainObject" />
+        <jb:value data="//Transaction/TransactionBody/TransactionContentDetails/TransactionData/UserdocRelationRestriction" decoder="SPEnum" property="userdocRelationRestriction">
+            <jb:decodeParam name="enumType">eu.ohim.sp.external.domain.userdoc.UserdocRelationRestrictionType</jb:decodeParam>
+            <jb:decodeParam name="OBJECT_ONLY">OBJECT_ONLY</jb:decodeParam>
+            <jb:decodeParam name="USERDOC_RELATION_OPTIONAL">USERDOC_RELATION_OPTIONAL</jb:decodeParam>
+            <jb:decodeParam name="USERDOC_RELATION_MANDATORY">USERDOC_RELATION_MANDATORY</jb:decodeParam>
+        </jb:value>
+    </jb:bean>
+
+    <jb:bean beanId="collectionUserdocs" class="java.util.ArrayList"
+             createOnElement="//Transaction/TransactionBody/TransactionContentDetails/TransactionData">
+        <jb:wiring beanIdRef="userdoc" />
+    </jb:bean>
+
+    <jb:bean beanId="userdoc" class="eu.ohim.sp.external.domain.userdoc.Userdoc"
+             createOnElement="//Transaction/TransactionBody/TransactionContentDetails/TransactionData/UserdocDetails">
+        <jb:value data="//UserdocType" property="userdocType" />
+        <jb:value data="//UserdocTypeName" property="userdocTypeName" />
+        <jb:value data="//ExternalSystemId" property="externalSystemId" />
+        <jb:value data="//FilingDate" property="filingDate" decoder="Date">
+            <jb:decodeParam name="format">yyyy-MM-dd</jb:decodeParam>
+        </jb:value>
+        <jb:value data="//DocOrigin" property="docOrigin"/>
+        <jb:value data="//DocLog" property="docLog"/>
+        <jb:value data="//DocSeries" property="docSeries"/>
+        <jb:value data="//DocNbr" property="docNbr"/>
+        <jb:value data="//DocSeqNbr" property="docSeqNbr"/>
+        <jb:value data="//DocSeqSeries" property="docSeqSeries"/>
+        <jb:value data="//ParentProcessNbr" property="parentProcessNbr"/>
+        <jb:value data="//ParentProcessType" property="parentProcessType"/>
+        <jb:value data="//ProcessNbr" property="processNbr"/>
+        <jb:value data="//ProcessType" property="processType"/>
+    </jb:bean>
+
+</smooks-resource-list>

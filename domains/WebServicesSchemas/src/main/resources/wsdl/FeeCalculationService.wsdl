@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions name="FeeCalculationService"
+	targetNamespace="http://ohim.eu/sp/services/fee-calculation/v3"
+	xmlns:tns="http://ohim.eu/sp/services/fee-calculation/v3" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap12/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+
+	<wsdl:types>
+		<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+			<xsd:import namespace="http://ohim.eu/sp/services/fee-calculation/v3"
+				schemaLocation="../xsd/services/FeeCalculationService.xsd" />
+		</xsd:schema>
+	</wsdl:types>
+
+	<wsdl:message name="calculateApplicationFees">
+		<wsdl:part name="parameters" element="tns:calculateApplicationFees" />
+	</wsdl:message>
+	<wsdl:message name="calculateApplicationFeesResponse">
+		<wsdl:part name="parameters" element="tns:calculateApplicationFeesResponse" />
+	</wsdl:message>
+
+	<wsdl:message name="feeFault">
+		<wsdl:part name="parameters" element="tns:feeFault" />
+	</wsdl:message>
+
+	<wsdl:portType name="FeeCalculationServicePortType">
+		<wsdl:operation name="calculateApplicationFees">
+			<wsdl:input name="calculateApplicationFees" message="tns:calculateApplicationFees" />
+			<wsdl:output name="calculateApplicationFeesResponse"
+				message="tns:calculateApplicationFeesResponse" />
+			<wsdl:fault name="feeFault" message="tns:feeFault" />
+		</wsdl:operation>
+	</wsdl:portType>
+
+	<wsdl:binding name="FeeCalculationServiceBinding" type="tns:FeeCalculationServicePortType">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="calculateApplicationFees">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="calculateApplicationFees">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="calculateApplicationFeesResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="feeFault">
+				<soap:fault use="literal" name="feeFault" />
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+
+	<wsdl:service name="FeeCalculationService">
+		<wsdl:port name="FeeCalculationServicePort" binding="tns:FeeCalculationServiceBinding">
+			<soap:address
+				location="http://${fsp.ws.host}/${fsp.ws.context.root}${fsp.ws.fee.path}${fsp.ws.wsdl.services.path}" />
+		</wsdl:port>
+	</wsdl:service>
+
+</wsdl:definitions>

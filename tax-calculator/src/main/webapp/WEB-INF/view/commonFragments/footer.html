@@ -1,0 +1,28 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+<footer th:fragment="footer">
+    <div>
+        <span th:text="#{footer.gototop}" class="gototop" style="display: none;"></span>
+
+        <a th:href="@{${@environment.getProperty('portal.home.url')}}"
+           th:class="|logo logo-${#locale}|"></a>
+        <div th:text="#{footer.info}" class="info"></div>
+
+        <a th:href="@{${@environment.getProperty('tmdn.url')}}"
+           th:class="|logo logo-${#locale}|"></a>
+        <a th:href="@{${@environment.getProperty('tmdn.url')}}" >
+            <img class="tmdn" th:src="|${@environment.getProperty('portal.url')}${@environment.getProperty('theme.name')}/images/european_tmdn.png|" alt="">
+        </a>
+
+        <span class="address" th:text="#{footer.address}"></span>
+        <span class="tel">+359 (2) 9701 321</span>
+        <a href="mailto:services@bpo.bg" class="mail" title="mailto:services@bpo.bg">services@bpo.bg</a>
+        <a href="http://www.bpo.bg" target="_blank" class="web" title="www.bpo.bg">www.bpo.bg</a>
+
+        <div th:text="#{footer.copyright('2014')}" class="copyright"></div>
+    </div>
+</footer>
+
+</body>
+</html>

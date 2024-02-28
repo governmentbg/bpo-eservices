@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<languages xmlns="http://www.example.org/language-configuration"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.example.org/language-configuration language-configuration.xsd ">
+	<language code="" value="selectBox.SELECT" />
+	<language code="bg" value="language.Bulgarian" />
+	<language code="cs" value="language.Czech" />
+	<language code="da" value="language.Danish" />
+	<language code="nl" value="language.Dutch" />
+	<language code="en" value="language.English" />
+	<language code="et" value="language.Estonian" />
+	<language code="fi" value="language.Finish" />
+	<language code="fr" value="language.French" />
+	<language code="de" value="language.German" />
+	<language code="el" value="language.Greek" />
+    <language code="hr" value="language.Croatian" />
+	<language code="hu" value="language.Hungarian" />
+	<language code="it" value="language.Italian" />
+	<language code="lt" value="language.Lithuanian" />
+	<language code="lv" value="language.Latvian" />
+	<language code="mt" value="language.Maltese" />
+	<language code="pl" value="language.Polish" />
+	<language code="pt" value="language.Portuguese" />
+	<language code="ro" value="language.Romanian" />
+	<language code="sk" value="language.Slovakian" />
+	<language code="sl" value="language.Slovenian" />
+	<language code="es" value="language.Spanish" />
+	<language code="sv" value="language.Swedish" />
+</languages>

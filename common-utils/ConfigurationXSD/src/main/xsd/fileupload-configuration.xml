@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<p:fileUploadConfiguration xmlns:p="http://www.example.org/fileupload-configuration" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/fileupload-configuration fileupload-configuration.xsd ">
+  <p:fileUpload fieldName="">
+    <p:fileUploadInfo>
+      <p:description>true</p:description>
+      <p:maximumFiles>1</p:maximumFiles>
+      <p:labelCode>p:labelCode</p:labelCode>
+      <p:allowedTypes>
+        <p:allowedFileType allowedSize="0" value="">
+          <p:imageValidationParameters>
+            <p:minSizePixels height="" width=""/>
+            <p:maxSizePixels height="" width=""/>
+            <p:minSizeCentimeters height="" width=""/>
+            <p:maxSizeCentimeters height="" width=""/>
+            <p:exifInfo>
+              <p:validResolutionUnits>
+                <p:validByte>0</p:validByte>
+              </p:validResolutionUnits>
+              <p:minXDensity>0</p:minXDensity>
+              <p:minYDensity>0</p:minYDensity>
+            </p:exifInfo>
+            <p:acceptedColorModels>
+              <p:colorModel>RGB 8bit</p:colorModel>
+            </p:acceptedColorModels>
+          </p:imageValidationParameters>
+            <p:soundValidationParameters>
+                <p:minSampleRate>8000</p:minSampleRate>
+                <p:allowedSampleRates>
+                    <p:sampleRate>8000</p:sampleRate>
+                    <p:sampleRate>11025</p:sampleRate>
+                    <p:sampleRate>22050</p:sampleRate>
+                    <p:sampleRate>44100</p:sampleRate>
+                </p:allowedSampleRates>
+                <p:channels>
+                    <p:channel>1</p:channel>
+                    <p:channel>2</p:channel>
+                </p:channels>
+            </p:soundValidationParameters>
+        </p:allowedFileType>
+      </p:allowedTypes>
+    </p:fileUploadInfo>
+  </p:fileUpload>
+</p:fileUploadConfiguration>

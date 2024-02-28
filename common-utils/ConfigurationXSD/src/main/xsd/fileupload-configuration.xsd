@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  * $Id::                                                                       $
+  *       . * .
+  *     * RRRR  *    Copyright © 2012 OHIM: Office for Harmonization
+  *   .   RR  R   .  in the Internal Market (trade marks and designs)
+  *   *   RRR     *
+  *    .  RR RR  .   ALL RIGHTS RESERVED
+  *     * . _ . *
+-->
+<xsi:schema xmlns:xsi="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://www.example.org/fileupload-configuration"
+            xmlns="http://www.example.org/fileupload-configuration"
+            elementFormDefault="qualified">
+
+    <xsi:element name="fileUploadConfiguration">
+        <xsi:complexType>
+            <xsi:sequence>
+                <xsi:element name="fileUpload" type="fileUploadType" maxOccurs="unbounded"/>
+            </xsi:sequence>
+        </xsi:complexType>
+    </xsi:element>
+
+    <xsi:complexType name="fileUploadType">
+        <xsi:sequence>
+            <xsi:element name="fileUploadInfo" type="fileUploadInfoType"/>
+        </xsi:sequence>
+        <xsi:attribute name="fieldName" use="required" type="xsi:string"/>
+        <xsi:attribute name="availableAllContentTypes" use="optional" default="false" type="xsi:boolean"/>
+    </xsi:complexType>
+
+    <xsi:complexType name="fileUploadInfoType">
+        <xsi:sequence>
+            <xsi:element name="maximumFiles" type="xsi:positiveInteger"/>
+            <xsi:element name="allowedTypes" type="allowedFileTypes"/>
+        </xsi:sequence>
+    </xsi:complexType>
+
+    <xsi:complexType name="allowedFileTypes">
+        <xsi:sequence>
+            <xsi:element name="allowedFileType" type="allowedFileType" maxOccurs="unbounded"/>
+        </xsi:sequence>
+    </xsi:complexType>
+
+    <xsi:complexType name="allowedFileType">
+        <xsi:sequence>
+            <xsi:element name="imageValidationParameters" type="imageValidationParametersType" minOccurs="0"/>
+            <xsi:element name="soundValidationParameters" type="soundValidationParametersType" minOccurs="0"/>
+        </xsi:sequence>
+        <xsi:attribute name="allowedSize" type="xsi:int" use="required"/>
+        <xsi:attribute name="value" type="xsi:string" use="required"/>
+        <xsi:attribute name="description" type="xsi:string" use="optional"/>
+        <xsi:attribute name="image" type="xsi:boolean" use="optional"/>
+        <xsi:attribute name="sound" type="xsi:boolean" use="optional"/>
+    </xsi:complexType>
+
+    <xsi:complexType name="imageValidationParametersType">
+        <xsi:sequence>
+            <xsi:element name="minSizePixels" type="sizeType" minOccurs="0"/>
+            <xsi:element name="maxSizePixels" type="sizeType" minOccurs="0"/>
+            <xsi:element name="minSizeCentimeters" type="sizeType" minOccurs="0"/>
+            <xsi:element name="maxSizeCentimeters" type="sizeType" minOccurs="0"/>
+            <xsi:element name="exifInfo" type="exifInfoType" minOccurs="0"/>
+            <xsi:element name="acceptedColorModels" type="colorModelsType" minOccurs="0"/>
+        </xsi:sequence>
+    </xsi:complexType>
+
+    <xsi:complexType name="sizeType">
+        <xsi:attribute name="height" type="xsi:unsignedInt" use="required"/>
+        <xsi:attribute name="width" type="xsi:unsignedInt" use="required"/>
+    </xsi:complexType>
+
+    <xsi:complexType name="exifValidResolutionUnitsType">
+        <xsi:sequence>
+            <xsi:element name="validByte" type="xsi:unsignedShort" minOccurs="1" maxOccurs="unbounded"/>
+        </xsi:sequence>
+    </xsi:complexType>
+
+    <xsi:complexType name="colorModelsType">
+        <xsi:sequence>
+            <xsi:element name="colorModel" type="colorModelType" minOccurs="1" maxOccurs="unbounded"/>
+        </xsi:sequence>
+    </xsi:complexType>
+
+
+    <xsi:simpleType name="colorModelType">
+        <xsi:restriction base="xsi:token">
+            <xsi:enumeration value="RGB"/>
+            <xsi:enumeration value="CMYK"/>
+            <xsi:enumeration value="Grayscale"/>
+            <xsi:enumeration value="BW"/>
+        </xsi:restriction>
+    </xsi:simpleType>
+
+    <xsi:complexType name="exifInfoType">
+        <xsi:sequence>
+            <xsi:element name="validResolutionUnits" type="exifValidResolutionUnitsType" minOccurs="0"/>
+            <xsi:element name="minXDensity" type="xsi:int" minOccurs="0"/>
+            <xsi:element name="minYDensity" type="xsi:int" minOccurs="0"/>
+        </xsi:sequence>
+    </xsi:complexType>
+
+    <xsi:complexType name="soundValidationParametersType">
+        <xsi:sequence>
+            <xsi:element name="minSampleRate" type="xsi:int" minOccurs="0"/>
+            <xsi:element name="allowedSampleRates" type="sampleRatesType" minOccurs="0"/>
+            <xsi:element name="channels" type="channelsType" minOccurs="0"/>
+        </xsi:sequence>
+    </xsi:complexType>
+
+    <xsi:complexType name="sampleRatesType">
+        <xsi:sequence>
+            <xsi:element name="sampleRates" type="sampleRateType" minOccurs="1" maxOccurs="unbounded"/>
+        </xsi:sequence>
+    </xsi:complexType>
+
+    <xsi:simpleType name="sampleRateType">
+        <xsi:restriction base="xsi:int">
+            <xsi:enumeration value="8000"/>
+            <xsi:enumeration value="11025"/>
+            <xsi:enumeration value="22050"/>
+            <xsi:enumeration value="44100"/>
+        </xsi:restriction>
+    </xsi:simpleType>
+
+
+    <xsi:complexType name="channelsType">
+        <xsi:sequence>
+            <xsi:element name="channel" type="channelType" minOccurs="1" maxOccurs="unbounded"/>
+        </xsi:sequence>
+    </xsi:complexType>
+
+    <xsi:simpleType name="channelType">
+        <xsi:restriction base="xsi:int">
+            <xsi:enumeration value="1"/>
+            <xsi:enumeration value="2"/>
+        </xsi:restriction>
+    </xsi:simpleType>
+</xsi:schema>

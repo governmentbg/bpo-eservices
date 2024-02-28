@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<div th:fragment="applicationExtent-fragment" class="inlBlW100">
+
+    <div th:text="#{tm.applicationExtentTitle}"></div>
+    <div class="mT10 rb-grid">
+        <div>
+            <input name="applicationExtent" class="radio-btn vertical-rb" type="radio" value="partialGoodsAndServices" th:attr="data-rel-field='applicationExtent-field'" checked>
+            <div th:text="#{tm.applicationExtentTitle.partial}" class="rb-text"></div>
+        </div>
+        <div>
+            <input name="applicationExtent" class="radio-btn vertical-rb" type="radio" value="allGoodsAndServices" th:attr="data-rel-field='applicationExtent-field'">
+            <div th:text="#{tm.applicationExtentTitle.all}" class="rb-text"></div>
+        </div>
+    </div>
+
+    <input type="hidden" class="input-param" id="applicationExtent-field" value="partialGoodsAndServices" th:attr="data-name='applicationExtent'">
+
+</div>
+</html>

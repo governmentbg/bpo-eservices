@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<relativeGrounds xmlns="http://www.example.org/relativeGrounds-configuration"
+				 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				 xsi:schemaLocation="http://www.example.org/relativeGrounds-configuration relativeGrounds-configuration.xsd ">
+
+	<relativeGround applicationType="tm-opposition"
+					language="BG" legalActVersion="2019"
+					code="12.1.1" earlierEntitlementRightType="earlierTradeMark"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">relativeGround.12.1.1</relativeGround>
+	<relativeGround applicationType="tm-opposition"
+					language="BG" legalActVersion="2019"
+					code="12.1.2" earlierEntitlementRightType="earlierTradeMark"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">relativeGround.12.1.2</relativeGround>
+	<relativeGround applicationType="tm-opposition"
+					language="BG" legalActVersion="2019"
+					code="12.2.1" earlierEntitlementRightType="earlierTradeMark" reputationClaim="true"
+					exclusivity="false" excludedLawArticleReference="" enabled="true">relativeGround.12.2.1</relativeGround>
+	<relativeGround applicationType="tm-opposition"
+					language="BG" legalActVersion="2019"
+					code="12.2.2" earlierEntitlementRightType="earlierTradeMark"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">relativeGround.12.2.2</relativeGround>
+	<relativeGround applicationType="tm-opposition"
+					language="BG" legalActVersion="2019"
+					code="12.2.3" earlierEntitlementRightType="earlierTradeMark"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">relativeGround.12.2.3</relativeGround>
+	<relativeGround applicationType="tm-opposition"
+					language="BG" legalActVersion="2019"
+					code="12.2.4" earlierEntitlementRightType="earlierTradeMark"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">relativeGround.12.2.4</relativeGround>
+	<relativeGround applicationType="tm-opposition"
+					language="BG" legalActVersion="2019"
+					code="12.2.5" earlierEntitlementRightType="earlierTradeMark"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">relativeGround.12.2.5</relativeGround>
+	<relativeGround applicationType="tm-opposition"
+					language="BG" legalActVersion="2019"
+					code="12.2.6" earlierEntitlementRightType="earlierTradeMark"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">relativeGround.12.2.6</relativeGround>
+	<relativeGround applicationType="tm-opposition"
+					language="BG" legalActVersion="2019"
+					code="12.2.7" earlierEntitlementRightType="earlierTradeMark"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">relativeGround.12.2.7</relativeGround>
+	<relativeGround applicationType="tm-opposition"
+					language="BG" legalActVersion="2019"
+					code="12.2.8" earlierEntitlementRightType="earlierTradeMark"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">relativeGround.12.2.8</relativeGround>
+	<relativeGround applicationType="tm-opposition"
+					language="BG" legalActVersion="2019"
+					code="12.2.9" earlierEntitlementRightType="earlierTradeMark"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">relativeGround.12.2.9</relativeGround>
+
+
+	<relativeGround applicationType="tm-opposition"
+					language="BG" legalActVersion="2019"
+					code="12.1.1_12.2.7" earlierEntitlementRightType="wellKnow"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">relativeGround.12.1.1</relativeGround>
+	<relativeGround applicationType="tm-opposition"
+					language="BG" legalActVersion="2019"
+					code="12.1.2_12.2.7" earlierEntitlementRightType="wellKnow"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">relativeGround.12.1.2</relativeGround>
+
+	<relativeGround applicationType="tm-opposition"
+					language="BG" legalActVersion="2019"
+					code="12.4" earlierEntitlementRightType="nonRegistered"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">relativeGround.12.4</relativeGround>
+
+	<relativeGround applicationType="tm-opposition"
+					language="BG" legalActVersion="2019"
+					code="12.6" earlierEntitlementRightType="agentApplied"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">relativeGround.12.6</relativeGround>
+
+	<relativeGround applicationType="tm-opposition"
+					language="BG" legalActVersion="2019"
+					code="12.3" earlierEntitlementRightType="reputation"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">relativeGround.12.3</relativeGround>
+
+	<relativeGround applicationType="tm-opposition"
+					language="BG" legalActVersion="2019"
+					code="12.7" earlierEntitlementRightType="businessName"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">relativeGround.12.7</relativeGround>
+
+	<relativeGround applicationType="tm-opposition"
+					language="BG" legalActVersion="2019"
+					code="12.5" earlierEntitlementRightType="badFaith"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">relativeGround.12.5</relativeGround>
+
+	<relativeGround applicationType="tm-opposition"
+					language="BG" legalActVersion="2019"
+					code="12.8" earlierEntitlementRightType="earlierGI"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">relativeGround.12.8</relativeGround>
+
+
+
+
+	<relativeGround applicationType="tm-invalidity"
+					language="BG" legalActVersion="2019"
+					code="plain_text" earlierEntitlementRightType="earlierTradeMark"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">invalidityGround.plain.36.3.1</relativeGround>
+	<relativeGround applicationType="tm-invalidity"
+					language="BG" legalActVersion="2019"
+					code="plain_text" earlierEntitlementRightType="earlierTradeMark"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">invalidityGround.plain.12.1</relativeGround>
+	<relativeGround applicationType="tm-invalidity"
+					language="BG" legalActVersion="2019"
+					code="12.1.1" earlierEntitlementRightType="earlierTradeMark"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">invalidityGround.12.1.1</relativeGround>
+	<relativeGround applicationType="tm-invalidity"
+					language="BG" legalActVersion="2019"
+					code="12.1.2" earlierEntitlementRightType="earlierTradeMark"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">invalidityGround.12.1.2</relativeGround>
+	<relativeGround applicationType="tm-invalidity"
+					language="BG" legalActVersion="2019"
+					code="plain_text" earlierEntitlementRightType="earlierTradeMark"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">invalidityGround.plain.12.2</relativeGround>
+	<relativeGround applicationType="tm-invalidity"
+					language="BG" legalActVersion="2019"
+					code="12.2.1" earlierEntitlementRightType="earlierTradeMark"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">invalidityGround.12.2.1</relativeGround>
+	<relativeGround applicationType="tm-invalidity"
+					language="BG" legalActVersion="2019"
+					code="12.2.2" earlierEntitlementRightType="earlierTradeMark"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">invalidityGround.12.2.2</relativeGround>
+	<relativeGround applicationType="tm-invalidity"
+					language="BG" legalActVersion="2019"
+					code="12.2.3" earlierEntitlementRightType="earlierTradeMark"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">invalidityGround.12.2.3</relativeGround>
+	<relativeGround applicationType="tm-invalidity"
+					language="BG" legalActVersion="2019"
+					code="12.2.4" earlierEntitlementRightType="earlierTradeMark"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">invalidityGround.12.2.4</relativeGround>
+	<relativeGround applicationType="tm-invalidity"
+					language="BG" legalActVersion="2019"
+					code="12.2.5" earlierEntitlementRightType="earlierTradeMark"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">invalidityGround.12.2.5</relativeGround>
+	<relativeGround applicationType="tm-invalidity"
+					language="BG" legalActVersion="2019"
+					code="12.2.6" earlierEntitlementRightType="earlierTradeMark"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">invalidityGround.12.2.6</relativeGround>
+	<relativeGround applicationType="tm-invalidity"
+					language="BG" legalActVersion="2019"
+					code="12.2.7" earlierEntitlementRightType="earlierTradeMark"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">invalidityGround.12.2.7</relativeGround>
+	<relativeGround applicationType="tm-invalidity"
+					language="BG" legalActVersion="2019"
+					code="12.2.8" earlierEntitlementRightType="earlierTradeMark"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">invalidityGround.12.2.8</relativeGround>
+	<relativeGround applicationType="tm-invalidity"
+					language="BG" legalActVersion="2019"
+					code="12.2.9" earlierEntitlementRightType="earlierTradeMark"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">invalidityGround.12.2.9</relativeGround>
+
+
+
+	<relativeGround applicationType="tm-invalidity"
+					language="BG" legalActVersion="2019"
+					code="plain_text" earlierEntitlementRightType="reputation"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">invalidityGround.plain.36.3.1</relativeGround>
+	<relativeGround applicationType="tm-invalidity"
+					language="BG" legalActVersion="2019"
+					code="12.3" earlierEntitlementRightType="reputation" reputationClaim="true"
+					exclusivity="false" excludedLawArticleReference="" enabled="true">invalidityGround.12.3</relativeGround>
+
+
+
+	<relativeGround applicationType="tm-invalidity"
+					language="BG" legalActVersion="2019"
+					code="plain_text" earlierEntitlementRightType="nonRegistered"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">invalidityGround.plain.36.3.1</relativeGround>
+	<relativeGround applicationType="tm-invalidity"
+					language="BG" legalActVersion="2019"
+					code="12.4" earlierEntitlementRightType="nonRegistered"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">invalidityGround.12.4</relativeGround>
+
+
+
+	<relativeGround applicationType="tm-invalidity"
+					language="BG" legalActVersion="2019"
+					code="plain_text" earlierEntitlementRightType="badFaith"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">invalidityGround.plain.36.3.1</relativeGround>
+	<relativeGround applicationType="tm-invalidity"
+					language="BG" legalActVersion="2019"
+					code="12.5" earlierEntitlementRightType="badFaith"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">invalidityGround.12.5</relativeGround>
+
+	<relativeGround applicationType="tm-invalidity"
+					language="BG" legalActVersion="2019"
+					code="plain_text" earlierEntitlementRightType="agentApplied"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">invalidityGround.plain.36.3.1</relativeGround>
+	<relativeGround applicationType="tm-invalidity"
+					language="BG" legalActVersion="2019"
+					code="12.6" earlierEntitlementRightType="agentApplied"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">invalidityGround.12.6</relativeGround>
+
+	<relativeGround applicationType="tm-invalidity"
+					language="BG" legalActVersion="2019"
+					code="plain_text" earlierEntitlementRightType="businessName"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">invalidityGround.plain.36.3.1</relativeGround>
+	<relativeGround applicationType="tm-invalidity"
+					language="BG" legalActVersion="2019"
+					code="12.7" earlierEntitlementRightType="businessName"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">invalidityGround.12.7</relativeGround>
+
+	<relativeGround applicationType="tm-invalidity"
+					language="BG" legalActVersion="2019"
+					code="plain_text" earlierEntitlementRightType="earlierGI"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">invalidityGround.plain.36.3.1</relativeGround>
+	<relativeGround applicationType="tm-invalidity"
+					language="BG" legalActVersion="2019"
+					code="12.8" earlierEntitlementRightType="earlierGI"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">invalidityGround.12.8</relativeGround>
+
+	<relativeGround applicationType="tm-invalidity"
+					language="BG" legalActVersion="2019"
+					code="plain_text" earlierEntitlementRightType="rightsPortraitName"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">invalidityGround.plain.36.3.2</relativeGround>
+	<relativeGround applicationType="tm-invalidity"
+					language="BG" legalActVersion="2019"
+					code="36.3.2a" earlierEntitlementRightType="rightsPortraitName"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">invalidityGround.36.3.2a</relativeGround>
+
+	<relativeGround applicationType="tm-invalidity"
+					language="BG" legalActVersion="2019"
+					code="plain_text" earlierEntitlementRightType="rightsAuthor"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">invalidityGround.plain.36.3.2</relativeGround>
+	<relativeGround applicationType="tm-invalidity"
+					language="BG" legalActVersion="2019"
+					code="36.3.2b" earlierEntitlementRightType="rightsAuthor"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">invalidityGround.36.3.2b</relativeGround>
+
+
+	<relativeGround applicationType="tm-invalidity"
+					language="BG" legalActVersion="2019"
+					code="plain_text" earlierEntitlementRightType="rightsPlantVariation"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">invalidityGround.plain.36.3.2</relativeGround>
+	<relativeGround applicationType="tm-invalidity"
+					language="BG" legalActVersion="2019"
+					code="36.3.2v" earlierEntitlementRightType="rightsPlantVariation"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">invalidityGround.36.3.2v</relativeGround>
+
+	<relativeGround applicationType="tm-invalidity"
+					language="BG" legalActVersion="2019"
+					code="plain_text" earlierEntitlementRightType="industrialPropertyRight"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">invalidityGround.plain.36.3.2</relativeGround>
+	<relativeGround applicationType="tm-invalidity"
+					language="BG" legalActVersion="2019"
+					code="36.3.2g" earlierEntitlementRightType="industrialPropertyRight"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">invalidityGround.36.3.2g</relativeGround>
+
+
+
+
+	<relativeGround applicationType="ds-invalidity"
+					language="BG" legalActVersion="2019"
+					code="plain_text" earlierEntitlementRightType="everyPerson"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">ds.invalidityGround.29.1</relativeGround>
+	<relativeGround applicationType="ds-invalidity"
+					language="BG" legalActVersion="2019"
+					code="plain_text" earlierEntitlementRightType="everyPerson"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">ds.invalidityGround.29.1.1.3</relativeGround>
+	<relativeGround applicationType="ds-invalidity"
+					language="BG" legalActVersion="2019"
+					code="29.1.1.3a" earlierEntitlementRightType="everyPerson"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">ds.invalidityGround.29.1.1.3a</relativeGround>
+	<relativeGround applicationType="ds-invalidity"
+					language="BG" legalActVersion="2019"
+					code="29.1.1.3b" earlierEntitlementRightType="everyPerson"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">ds.invalidityGround.29.1.1.3b</relativeGround>
+	<relativeGround applicationType="ds-invalidity"
+					language="BG" legalActVersion="2019"
+					code="plain_text" earlierEntitlementRightType="everyPerson"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">ds.invalidityGround.29.1.1.11</relativeGround>
+	<relativeGround applicationType="ds-invalidity"
+					language="BG" legalActVersion="2019"
+					code="29.1.1.12" earlierEntitlementRightType="everyPerson"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">ds.invalidityGround.29.1.1.12</relativeGround>
+	<relativeGround applicationType="ds-invalidity"
+					language="BG" legalActVersion="2019"
+					code="29.1.1.13" earlierEntitlementRightType="everyPerson"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">ds.invalidityGround.29.1.1.13</relativeGround>
+	<relativeGround applicationType="ds-invalidity"
+					language="BG" legalActVersion="2019"
+					code="29.1.1.13a" earlierEntitlementRightType="everyPerson"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">ds.invalidityGround.29.1.1.13a</relativeGround>
+	<relativeGround applicationType="ds-invalidity"
+					language="BG" legalActVersion="2019"
+					code="plain_text" earlierEntitlementRightType="everyPerson"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">ds.invalidityGround.29.1.2</relativeGround>
+	<relativeGround applicationType="ds-invalidity"
+					language="BG" legalActVersion="2019"
+					code="29.1.2.1" earlierEntitlementRightType="everyPerson"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">ds.invalidityGround.29.1.2.1</relativeGround>
+	<relativeGround applicationType="ds-invalidity"
+					language="BG" legalActVersion="2019"
+					code="29.1.2.2" earlierEntitlementRightType="everyPerson"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">ds.invalidityGround.29.1.2.2</relativeGround>
+	<relativeGround applicationType="ds-invalidity"
+					language="BG" legalActVersion="2019"
+					code="29.1.2.3" earlierEntitlementRightType="everyPerson"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">ds.invalidityGround.29.1.2.3</relativeGround>
+	<relativeGround applicationType="ds-invalidity"
+					language="BG" legalActVersion="2019"
+					code="plain_text" earlierEntitlementRightType="everyPerson"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">ds.invalidityGround.29.1.3</relativeGround>
+	<relativeGround applicationType="ds-invalidity"
+					language="BG" legalActVersion="2019"
+					code="29.1.3a" earlierEntitlementRightType="everyPerson"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">ds.invalidityGround.29.1.3a</relativeGround>
+	<relativeGround applicationType="ds-invalidity"
+					language="BG" legalActVersion="2019"
+					code="29.1.3b" earlierEntitlementRightType="everyPerson"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">ds.invalidityGround.29.1.3b</relativeGround>
+	<relativeGround applicationType="ds-invalidity"
+					language="BG" legalActVersion="2019"
+					code="29.1.5" earlierEntitlementRightType="everyPerson"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">ds.invalidityGround.29.1.5</relativeGround>
+
+	<relativeGround applicationType="ds-invalidity"
+					language="BG" legalActVersion="2019"
+					code="plain_text" earlierEntitlementRightType="personLegalInterest"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">ds.invalidityGround.29.2</relativeGround>
+	<relativeGround applicationType="ds-invalidity"
+					language="BG" legalActVersion="2019"
+					code="29.2.1" earlierEntitlementRightType="personLegalInterest"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">ds.invalidityGround.29.2.1</relativeGround>
+	<relativeGround applicationType="ds-invalidity"
+					language="BG" legalActVersion="2019"
+					code="plain_text" earlierEntitlementRightType="personLegalInterest"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">ds.invalidityGround.29.2.2</relativeGround>
+	<relativeGround applicationType="ds-invalidity"
+					language="BG" legalActVersion="2019"
+					code="29.2.2a" earlierEntitlementRightType="personLegalInterest"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">ds.invalidityGround.29.2.2a</relativeGround>
+	<relativeGround applicationType="ds-invalidity"
+					language="BG" legalActVersion="2019"
+					code="29.2.2v" earlierEntitlementRightType="personLegalInterest"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="false">ds.invalidityGround.29.2.2v</relativeGround>
+	<relativeGround applicationType="ds-invalidity"
+					language="BG" legalActVersion="2019"
+					code="29.2.2g" earlierEntitlementRightType="personLegalInterest"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">ds.invalidityGround.29.2.2g</relativeGround>
+
+
+	<relativeGround applicationType="ds-invalidity"
+					language="BG" legalActVersion="2019"
+					code="29.4" earlierEntitlementRightType="courtAdmittedOwner"
+					reputationClaim="false" exclusivity="false"
+					excludedLawArticleReference="" enabled="true">ds.invalidityGround.29.4</relativeGround>
+
+
+</relativeGrounds>

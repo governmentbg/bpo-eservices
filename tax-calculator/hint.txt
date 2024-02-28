@@ -1,0 +1,2 @@
+test: http://172.16.1.55:8081/tax-calculator/ -> http://172.16.1.49:8080/jenkins/job/tax-calculator/
+prod: https://portal.bpo.bg/tax-calculator/ -> http://172.18.1.9/jenkins/job/tax-calculator/ ???

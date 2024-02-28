@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<div th:fragment="epefiling-fragment">
+
+    <div id="examination-required-frag" class="mb20px">
+        <div th:replace="fragments/epApplicationKind :: epApplicationKind-fragment"></div>
+    </div>
+    <div id="number-priorities-frag" class="mb20px">
+        <div th:replace="fragments/pagesCount :: pagesCount-fragment"></div>
+    </div>
+
+</div>
+</html>

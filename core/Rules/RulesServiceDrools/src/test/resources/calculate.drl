@@ -1,0 +1,38 @@
+package org.domain.rules;
+
+dialect "mvel"
+
+import eu.ohim.sp.core.domain.validation.ErrorCore;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.domain.trademark.TradeMark;
+import eu.ohim.sp.core.domain.trademark.MarkKind;
+import eu.ohim.sp.core.domain.validation.RulesInformation;
+import eu.ohim.sp.core.domain.payment.FeeList;
+import eu.ohim.sp.core.domain.payment.FeeType;
+import eu.ohim.sp.core.domain.payment.Fee;
+import eu.ohim.sp.core.domain.resources.DocumentKind;
+import eu.ohim.sp.core.domain.resources.Document;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.TreeMap;
+import java.util.List;
+import java.text.DecimalFormat;
+import org.apache.log4j.Logger;
+
+rule "Testing rule for calculation"
+no-loop
+    when
+        $results : HashMap()
+    then
+        $results.put("testResult", "ok");
+end
+
+rule "Testing rule for calculation with errors"
+no-loop
+    when
+        Fee()
+        $errorList : ErrorList()
+    then
+        ErrorCore errorCore = new ErrorCore();
+        $errorList.getErrorList().add(errorCore);
+end

@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>pt-efiling</artifactId>
+        <groupId>eu.ohim.sp.ui</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>eu.ohim.sp.ui</groupId>
+    <artifactId>pt-efiling-ui</artifactId>
+    <name>sp-ui-ptefiling</name>
+    <packaging>war</packaging>
+
+    <properties>
+        <sonar.exclusions>
+            **/webapp/resources/scripts/vendor/*,
+            **/webapp/resources/scripts/uploader/*,
+            **/webapp/resources/scripts/additional-methods.js,
+            **/webapp/resources/scripts/bootstrap.js,
+            **/webapp/resources/scripts/bootstrap.paginate.js,
+            **/webapp/resources/scripts/bootstrap3-typeahead.js,
+            **/webapp/resources/scripts/bootstrap-datepicker-gh.js,
+            **/webapp/resources/scripts/colorpicker.js,
+            **/webapp/resources/scripts/dateFunctions.js,
+            **/webapp/resources/scripts/datepicker.js,
+            **/webapp/resources/scripts/excanvas.js,
+            **/webapp/resources/scripts/html5.js,
+            **/webapp/resources/scripts/jquery.cookie.js,
+            **/webapp/resources/scripts/jquery.dataTables.js,
+            **/webapp/resources/scripts/jquery.fileupload.js,
+            **/webapp/resources/scripts/jquery.fileupload-ip.js,
+            **/webapp/resources/scripts/jquery.fileupload-ui.js,
+            **/webapp/resources/scripts/jquery.i18n.properties.js,
+            **/webapp/resources/scripts/jquery.iframe-transport.js,
+            **/webapp/resources/scripts/jquery.knob.js,
+            **/webapp/resources/scripts/jquery.pajinate.js,
+            **/webapp/resources/scripts/jquery.position.js,
+            **/webapp/resources/scripts/jquery.smooth-scroll.min.js,
+            **/webapp/resources/scripts/jquery.treeview.js,
+            **/webapp/resources/scripts/jquery.ui.mouse.js,
+            **/webapp/resources/scripts/jquery.ui.sortable.js,
+            **/webapp/resources/scripts/jquery.validate.internationalization.js,
+            **/webapp/resources/scripts/jquery.validate.js,
+            **/webapp/resources/scripts/jquery-1.11.3.js,
+            **/webapp/resources/scripts/jquery-migrate-1.4.1.js,
+            **/webapp/resources/scripts/jquery-ui-1.8.23.js,
+            **/webapp/resources/scripts/load-image.min.js,
+            **/webapp/resources/scripts/locale.js,
+            **/webapp/resources/scripts/moment.min.js,
+            **/webapp/resources/scripts/plugins.js,
+            **/webapp/resources/scripts/tmpl.min.js
+        </sonar.exclusions>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>eu.ohim.sp.common</groupId>
+            <artifactId>UIComponent</artifactId>
+        </dependency>
+
+        <!-- Test dependencies -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+        </dependency>
+
+
+        <dependency>
+            <groupId>eu.ohim.sp.common</groupId>
+            <artifactId>UIServiceImpl</artifactId>
+        </dependency>
+        <!-- JBoss client dependencies -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+        </dependency>
+
+        <!--SECURITY -->
+
+        <dependency>
+            <groupId>eu.ohim.sp.common</groupId>
+            <artifactId>WebSecurityClient</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>eu.ohim.sp.core</groupId>
+            <artifactId>MockTicketAdapter</artifactId>
+        </dependency>
+
+        <!-- PAYMENT -->
+        <dependency>
+            <groupId>eu.ohim.sp.core</groupId>
+            <artifactId>MockPaymentAdapterUI</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <finalName>${war.final.name}</finalName>
+        <plugins>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <!-- here the phase you need -->
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/target/sp-ui-ptefiling/WEB-INF/views</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${basedir}/../../common-ui/component/UIComponent/src/main/resources/META-INF/resources/jsp</directory>
+
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-scripts</id>
+                        <!-- here the phase you need -->
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/target/sp-ui-ptefiling/resources/scripts/developers</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${basedir}/../../common-ui/component/UIComponent/src/main/resources/META-INF/resources/scripts</directory>
+
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+
+            <plugin>
+                <groupId>org.lesscss</groupId>
+                <artifactId>lesscss-maven-plugin</artifactId>
+                <version>1.7.0.1.1</version>
+                <configuration>
+                    <sourceDirectory>${basedir}/src/main/resources/less</sourceDirectory>
+                    <outputDirectory>${basedir}/src/main/webapp/resources</outputDirectory>
+                    <force>true</force>
+                    <compress>false</compress>
+                    <includes>
+                        <include>css/sp.less</include>
+                        <include>css/nav.less</include>
+                    </includes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

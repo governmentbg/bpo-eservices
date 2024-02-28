@@ -1,0 +1,29 @@
+<!--
+  ~ * PaymentRequestMgmt:: pom.xml 09/09/13 15:01 karalch $
+  ~  * . * .
+  ~  * * RRRR * Copyright © 2013 OHIM: Office for Harmonization
+  ~  * . RR R . in the Internal Market (trade marks and designs)
+  ~  * * RRR *
+  ~  * . RR RR . ALL RIGHTS RESERVED
+  ~  * * . _ . *
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+        <groupId>eu.ohim.sp.core</groupId>
+		<artifactId>core</artifactId>
+		<version>2.0.0-RELEASE</version>
+	</parent>
+	
+	<artifactId>EPayment</artifactId>
+	<packaging>pom</packaging>
+	<name>e-Payment</name>
+
+	<modules>
+		<module>EPaymentServiceBean</module>
+		<module>EPaymentServiceEAR</module>
+		<module>MockPaymentAdapterUI</module>
+	</modules>
+</project>

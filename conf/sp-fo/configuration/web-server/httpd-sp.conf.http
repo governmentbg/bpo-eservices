@@ -1,0 +1,56 @@
+# Loads the module
+LoadModule jk_module ${APACHE_CONF_LOCATION}/mod_jk-1.2.31-httpd-2.2.x.so
+
+# Specify the path to worker configuration files
+JkWorkersFile ${APACHE_CONF_LOCATION}/workers.properties
+
+# Configure logging and memory
+JkShmFile /etc/httpd/logs/mod_jk.shm
+JkLogFile ${APACHE_LOG_LOCATION}/mod_jk.log
+JkLogLevel info
+
+# configure monitoring
+JkMountCopy On
+
+#increase timeout
+Timeout 600
+
+<VirtualHost *:${APACHE_HTTP_PORT}>
+
+        ServerName ${APACHE_SERVER_NAME}:${APACHE_HTTP_PORT}
+
+        DocumentRoot ""${APACHE_STATIC_CONTENT_PATH}"
+        
+        # Contents GZIPing
+        AddOutputFilterByType DEFLATE text/plain text/html text/css text/javascript application/x-javascript
+
+     
+        # Static files in all Tomcat webapp context directories
+        
+        JkStripSession On
+        
+
+        # pass all dynamic content to Tomcat
+        JkMount /sp-ui-*/* ${SP_LB_NAME}
+       
+        # unmount all static content to Tomcat
+        #css
+        JkUnMount /sp-ui-*/resources*/*.css ${SP_LB_NAME}
+        # fonts
+        JkUnMount /sp-ui-*/resources*/*.eot ${SP_LB_NAME}
+        JkUnMount /sp-ui-*/resources*/*.woff ${SP_LB_NAME}
+        JkUnMount /sp-ui-*/resources*/*.ttf ${SP_LB_NAME}
+        #img
+        JkUnMount /sp-ui-*/resources*/*.gif ${SP_LB_NAME}
+        JkUnMount /sp-ui-*/resources*/*.png ${SP_LB_NAME}
+        JkUnMount /sp-ui-*/resources*/*.jpg ${SP_LB_NAME}
+        JkUnMount /sp-ui-*/resources*/*.jpeg ${SP_LB_NAME}
+        #scripts
+        JkUnMount /sp-ui-*/resources*/*.js ${SP_LB_NAME}
+
+        ErrorLog ${APACHE_LOG_LOCATION}/spconsolidationError.log
+
+        # Security - limit TRACE
+        TraceEnable off
+
+</VirtualHost>

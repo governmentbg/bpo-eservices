@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
+					xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.2.xsd" 
+					xmlns:core="http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd">
+
+	<core:filterSettings type="DOM" />
+	<jb:bean beanId="CollectionTerms" class="java.util.ArrayList"
+		createOnElement="//Transaction/TradeMarkTransactionBody/TransactionContentDetails/TransactionData/GoodsServicesDetails/GoodServices/ClassDescriptionDetails">
+		<jb:wiring beanIdRef="classScope" />
+	</jb:bean>
+	<jb:bean beanId="classScope"
+		class="eu.ohim.sp.external.domain.classification.wrapper.ClassScope"
+		createOnElement="//Transaction/TradeMarkTransactionBody/TransactionContentDetails/TransactionData/GoodsServicesDetails/GoodServices/ClassDescriptionDetails/ClassDescription">
+		<jb:value
+			data="//ClassDescription/ClassNumber"
+			property="classNumber" />
+		<jb:value
+			data="//ClassDescription/GoodsServicesDescription "
+			property="description" />
+		<jb:value
+			data="//ClassDescription/GoodsServicesDescription/@languageCode "
+			property="language" />
+	</jb:bean>
+</smooks-resource-list>

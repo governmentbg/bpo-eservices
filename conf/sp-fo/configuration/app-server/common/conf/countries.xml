@@ -1,0 +1,807 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<countries xmlns="http://www.example.org/country-configuration"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://www.example.org/country-configuration country-configuration.xsd ">
+    <country isEU="true" partOfEEA="true" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="false" code="" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="true" isApplicant="true" isDesigner="true">selectBox.SELECT</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="true" code="AU" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.AUSTRALIA</country>
+    <country isEU="true" partOfEEA="true" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="false" code="AT" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="true"
+             isRepresentative="true" isApplicant="true" isDesigner="true">country.AUSTRIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="AZ" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.AZERBAIJAN</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="AL" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.ALBANIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="DZ" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.ALGERIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="true" hasStateInc="false" code="AS" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.AMERICAN_SAMOA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="AO" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.ANGOLA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="AD" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.ANDORRA</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="AI" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.ANGUILLA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="AQ" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.ANTARCTICA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="AG" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.ANTIGUA_AND_BARBUDA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="AR" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.ARGENTINA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="AP" enabled="false" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="false">country.ARIPO</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="AM" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.ARMENIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="AW" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.ARUBA</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="AF" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.AFGHANISTAN</country>
+
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="BD" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.BANGLADESH</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="BB" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.BARBADOS</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="BS" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.BAHAMAS</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="BH" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.BAHRAIN</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="BY" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.BELARUS</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="BZ" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.BELIZE</country>
+    <country isEU="true" partOfEEA="true" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="BE" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="true" isApplicant="true" isDesigner="true">country.BELGIUM</country>
+    <country isEU="true" partOfEEA="true" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="false" code="BX" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="true"
+             isRepresentative="false" isApplicant="false">country.BENELUX</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="BJ" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.BENIN</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="BM" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.BERMUDA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="BO" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.BOLIVIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="BA" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.BOSNIA_HERZEGOVINA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="BW" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.BOTSWANA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="true" code="BR" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.BRAZIL</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="IO" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.BRITISH_INDIAN_OCEAN</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="BN" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.BRUNEI</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="BF" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.BURKINA_FASO</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="BI" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.BURUNDI</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="BT" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.BHUTAN</country>
+    <country isEU="true" partOfEEA="true" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="false" code="BG" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="true"
+             isRepresentative="true" isApplicant="true" isDesigner="true">country.BULGARIA</country>
+
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="VU" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.VANUATU</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="VA" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.VATICAN_CITY_STATE</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="VE" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.VENEZUELA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="VN" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.VIETNAM</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="VG" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.VIRGIN_ISL_(BRITISH)</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="true" hasStateInc="false" code="VI" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.VIRGIN_ISLANDS_(U.S.)</country>
+
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="GA" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.GABON</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="GM" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.GAMBIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="GH" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.GHANA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="GT" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.GUATEMALA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="GY" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.GUYANA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="GN" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.GUINEA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="GW" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.GUINEA-BISSAU</country>
+    <country isEU="true" partOfEEA="true" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="false" code="DE" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="true"
+             isRepresentative="true" isApplicant="true" isDesigner="true">country.GERMANY</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="GI" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="true" isApplicant="true" isDesigner="true">country.GIBRALTAR</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="GD" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.GRENADA</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="GL" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.GREENLAND</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="GE" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.GEORGIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="GP" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="false">country.GUADELOUPE</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="true" hasStateInc="false" code="GU" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.GUAM</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="GG" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.GUERNSEY</country>
+    <country isEU="true" partOfEEA="true" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="false" code="GR" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="true"
+             isRepresentative="true" isApplicant="true" isDesigner="true">country.GREECE</country>
+
+    <country isEU="true" partOfEEA="true" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="false" code="DK" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="true"
+             isRepresentative="true" isApplicant="true" isDesigner="true">country.DENMARK</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="DJ" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.DJIBOUTI</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="JE" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.JERSEY</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="DM" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.DOMINICA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="DO" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.DOMINICAN_REPUBLIC</country>
+
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="EG" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.EGYPT</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="EC" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.ECUADOR</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="GQ" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.EQUATORIAL_GUINEA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="SV" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.EL_SALVADOR</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="ER" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.ERITREA</country>
+    <country isEU="true" partOfEEA="true" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="false" code="EE" enabled="true" isNonRegisteredTM="true" isParisConvention="true" isEarlierWellKnow="false" isForeignTMView="false"
+             isRepresentative="true" isApplicant="true" isDesigner="true">country.ESTONIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="ET" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.ETHIOPIA</country>
+
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="ZM" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.ZAMBIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="EH" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.WESTERN_SAHARA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="ZW" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.ZIMBABWE</country>
+
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="IL" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.ISRAEL</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="TL" enabled="false" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.EAST_TIMOR</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="true" code="IN" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.INDIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="ID" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.INDONESIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="IR" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.IRAN</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="IQ" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.IRAQ</country>
+    <country isEU="true" partOfEEA="true" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="true" code="IE" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="true"
+             isRepresentative="true" isApplicant="true" isDesigner="true">country.IRELAND</country>
+    <country isEU="false" partOfEEA="true" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="IS" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.ICELAND</country>
+    <country isEU="true" partOfEEA="true" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="false" code="ES" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="true"
+             isRepresentative="true" isApplicant="true" isDesigner="true">country.SPAIN</country>
+    <country isEU="true" partOfEEA="true" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="false" code="IT" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="true"
+             isRepresentative="true" isApplicant="true" isDesigner="true">country.ITALY</country>
+
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="YE" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.YEMEN</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="JO" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.JORDAN</country>
+
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="CV" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.CAPE_VERDE</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="KZ" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.KAZAKHSTAN</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="KY" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.CAYMAN_ISLANDS</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="KH" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.CAMBODIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="CM" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.CAMEROON</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="true" code="CA" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.CANADA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="BQ" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="false" isForeignTMView="false"
+             isRepresentative="false" isApplicant="false">country.BONAIRE_SINT_EUSTATIUS_SABA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="QA" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.QATAR</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="KE" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.KENYA</country>
+    <country isEU="true" partOfEEA="true" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="false" code="CY" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="true"
+             isRepresentative="true" isApplicant="true" isDesigner="true">country.CYPRUS</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="KG" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.KYRGYZSTAN</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="CN" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.CHINA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="CC" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.COCOS_(KEELING)_ISL</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="CO" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.COLOMBIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="KM" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.COMOROS</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="CD" enabled="false" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.REPUBLIC_OF_THE_CONGO</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="CR" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.COSTA_RICA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="CI" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.IVORY_COAST</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="KI" enabled="false" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.KIRIBATI</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="CU" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.CUBA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="KW" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.KUWAIT</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             code="CW" enabled="false" hasState="false" hasStateInc="false" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="false" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.CURACAO</country>
+
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="LA" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.LAOS</country>
+    <country isEU="true" partOfEEA="true" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="false" code="LV" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="true"
+             isRepresentative="true" isApplicant="true" isDesigner="true">country.LATVIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="LS" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.LESOTHO</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="LR" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.LIBERIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="LY" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.LIBYA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="LB" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.LEBANON</country>
+    <country isEU="true" partOfEEA="true" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="false" code="LT" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="true"
+             isRepresentative="true" isApplicant="true" isDesigner="true">country.LITHUANIA</country>
+    <country isEU="false" partOfEEA="true" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="LI" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.LIECHTENSTEIN</country>
+    <country isEU="true" partOfEEA="true" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="LU" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="true" isApplicant="true" isDesigner="true">country.LUXEMBOURG</country>
+
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="MR" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.MAURITANIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="MU" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.MAURITIUS</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="MG" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.MADAGASCAR</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="YT" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.MAYOTTE</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="MO" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.MACAU</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="MW" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.MALAWI</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="MY" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.MALAYSIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="MV" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.MALDIVES</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="ML" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.MALI</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="UM" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="true" isApplicant="true" isDesigner="true">country.US_MINOR_OUTLYIN_ISL</country>
+    <country isEU="true" partOfEEA="true" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="false" code="MT" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="true"
+             isRepresentative="true" isApplicant="true" isDesigner="true">country.MALTA</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="MQ" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="false">country.MARTINIQUE</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="MA" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="true"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.MOROCCO</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="MH" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.MARSHALL_ISLANDS</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="true" code="MX" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="true"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.MEXICO</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="MM" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.MYANMAR</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="FM" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.MICRONESIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="MZ" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.MOZAMBIQUE</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="MD" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.MOLDOVA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="MC" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.MONACO</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="MN" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.MONGOLIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="MS" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.MONTSERRAT</country>
+
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="NA" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.NAMIBIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="NR" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.NAURU</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="NP" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.NEPAL</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="NE" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.NIGER</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="NG" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.NIGERIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="AN" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.NETHERLANDS_ANTILLES</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="NI" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.NICARAGUA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="NU" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.NIUE</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="NZ" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.NEW_ZEALAND</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="NC" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.NEW_CALEDONIA</country>
+    <country isEU="false" partOfEEA="true" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="NO" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="true"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.NORWAY</country>
+
+
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="AE" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.UNITED_ARAB_EMIRATES</country>
+    <country isEU="true" partOfEEA="true" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="true" code="GB" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="true"
+             isRepresentative="true" isApplicant="true" isDesigner="true">country.UNITED_KINGDOM</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="OM" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.OMAN</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="BV" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.BOUVET_ISLAND</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="IM" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.ISLE_OF_MAN</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="NF" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.NORFOLK_ISLAND</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="CX" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.CHRISTMAS_ISLAND</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="CK" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.COOK_ISLANDS</country>
+
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="PK" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.PAKISTAN</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="PW" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.PALAU</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="PA" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.PANAMA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="PG" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.PAPUA_NEW_GUINEA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="PY" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.PARAGUAY</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="PE" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.PERU</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="PN" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.PITCAIRN</country>
+    <country isEU="true" partOfEEA="true" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="false" code="PL" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="true"
+             isRepresentative="true" isApplicant="true" isDesigner="true">country.POLAND</country>
+    <country isEU="true" partOfEEA="true" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="false" code="PT" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="true"
+             isRepresentative="true" isApplicant="true" isDesigner="true">country.PORTUGAL</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="true" hasStateInc="false" code="PR" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.PUERTO_RICO</country>
+
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="MK" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.FYROM</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="RE" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="false">country.REUNION</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="RW" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.RWANDA</country>
+    <country isEU="true" partOfEEA="true" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="false" code="RO" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="true"
+             isRepresentative="true" isApplicant="true" isDesigner="true">country.ROMANIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="RU" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="true"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.RUSSIA</country>
+
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="WS" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.SAMOA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="SM" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.SAN_MARINO</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="PM" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.SAINT_PIERRE_MIQUELON</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="ST" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.SAO_TOME_AND_PRINCIPE</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="SA" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.SAUDI_ARABIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="SZ" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.SWAZILAND</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="SJ" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.SVAL_N_JAN_MAYEN_ISL</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="SH" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.SAINT_HELENA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="KP" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.NORTH_KOREA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="true" hasStateInc="false" code="MP" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.NORTHERN_MARIANA_ISL</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="VC" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.SNT_VINCENT_AGRENAD</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="KN" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.SAINT_KITTS_AND_NEVIS</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="LC" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.SAINT_LUCIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="SC" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.SEYCHELLES</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="SN" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.SENEGAL</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="SL" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.SIERRA_LEONE</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="SG" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.SINGAPORE</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="SY" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.SYRIA</country>
+    <country isEU="true" partOfEEA="true" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="false" code="SK" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="true"
+             isRepresentative="true" isApplicant="true" isDesigner="true">country.SLOVAKIA</country>
+    <country isEU="true" partOfEEA="true" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="false" code="SI" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="true"
+             isRepresentative="true" isApplicant="true" isDesigner="true">country.SLOVENIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="SB" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.SOLOMON_ISLANDS</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="SO" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.SOMALIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="SD" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.SUDAN</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="SR" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.SURINAME</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="true" hasStateInc="true" code="US" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="true"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.UNITED_STATES</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="RS" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.SERBIA</country>
+
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="TJ" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.TAJIKISTAN</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="TW" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.TAIWAN</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="TH" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.THAILAND</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="TZ" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.TANZANIA,_UN_REP_OF</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="TG" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.TOGO</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="TK" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.TOKELAU</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="TO" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.TONGA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="TT" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.TRINIDAD_AND_TOBAGO</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="TN" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.TUNISIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="TM" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.TURKMENISTAN</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="TR" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="true"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.TURKEY</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="TV" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.TUVALU</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="TC" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.TURKS_AND_CAICOS_ISL</country>
+
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="UG" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.UGANDA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="UZ" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.UZBEKISTAN</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="UA" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.UKRAINE</country>
+    <country isEU="true" partOfEEA="true" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="false" code="HU" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="true"
+             isRepresentative="true" isApplicant="true" isDesigner="true">country.HUNGARY</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="WF" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.WALLIS_AND_FUTUNA_ISL</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="UY" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.URUGUAY</country>
+
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="FO" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.FAEROE_ISLANDS</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="FJ" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.FIJI</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="PH" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.PHILIPPINES</country>
+    <country isEU="true" partOfEEA="true" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="false" code="FI" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="true"
+             isRepresentative="true" isApplicant="true" isDesigner="true">country.FINLAND</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="FK" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.FALKLAND_ISLANDS</country>
+    <country isEU="true" partOfEEA="true" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="false" code="FR" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="true"
+             isRepresentative="true" isApplicant="true" isDesigner="true">country.FRANCE</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="GF" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="false">country.FRENCH_GUIANA</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="PF" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.FRENCH_POLYNESIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="TF" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.FRENCH_SOUTHERN_TERR</country>
+
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="HT" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.HAITI</country>
+    <country isEU="true" partOfEEA="true" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="NL" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="true" isApplicant="true" isDesigner="true">country.NETHERLANDS</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="HK" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.HONG_KONG</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="HN" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.HONDURAS</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="HR" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="true"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.CROATIA_(Hrvatska)</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="HM" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.HEARD_Mc_DONALD_ISL</country>
+
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="CF" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.CENTRAL_AFRICAN_REP</country>
+
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="TD" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.CHAD</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="ME" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.MONTENEGRO</country>
+    <country isEU="true" partOfEEA="true" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="false" code="CZ" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="true"
+             isRepresentative="true" isApplicant="true" isDesigner="true">country.CZECH_REPUBLIC</country>
+    <country isEU="true" partOfEEA="true" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="CS" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="false">country.CZECHOSLOVAKIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="CL" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.CHILE</country>
+
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="CH" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.SWITZERLAND</country>
+    <country isEU="true" partOfEEA="true" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="false" code="SE" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="true"
+             isRepresentative="true" isApplicant="true" isDesigner="true">country.SWEDEN</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="LK" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.SRI_LANKA</country>
+
+    <country isEU="true" partOfEEA="true" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="YU" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="false">country.YUGOSLAVIA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="ZA" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.SOUTH_AFRICA</country>
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="GS" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.STH_GEORGIA_STH_SAND</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="KR" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.SOUTH_KOREA</country>
+
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="JM" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.JAMAICA</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="JP" enabled="true" isNonRegisteredTM="false" isParisConvention="true" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.JAPAN</country>
+
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="false" code="QZ" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="false" isForeignTMView="false"
+             isRepresentative="false" isApplicant="false">country.COMMUNITY_PLANT_VARIETY_OFFICE_CPVO</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="false" code="EP" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="false" isForeignTMView="false"
+             isRepresentative="false" isApplicant="false">country.EUROPEAN_PATENT_OFFICE_EPO</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="EM" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="false">country.EUIPO</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="false" code="EA" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="false" isForeignTMView="false"
+             isRepresentative="false" isApplicant="false">country.EURASIAN_PATENT_ORGANIZATION_EAPO</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="false" code="IB" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="false" isForeignTMView="false"
+             isRepresentative="false" isApplicant="false">country.INTERNATIONAL_BUREAU_IP_WIPO</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="true"
+             hasState="true" hasStateInc="false" code="XN" enabled="false" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="false" isForeignTMView="false"
+             isRepresentative="false" isApplicant="false">country.NORDIC_PATENT_INSTITUTE_NPI</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="OA" enabled="false" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="false">country.OAPI</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="true"
+             hasState="false" hasStateInc="false" code="GC" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="false" isForeignTMView="false"
+             isRepresentative="false" isApplicant="false">country.PATENT_OFFICE_COOP_COUNCIL_ARAB_STATES_GULF_GCC</country>
+    <country isEU="false" partOfEEA="false" isPriority="true" isSeniority="false"
+             hasState="false" hasStateInc="false" code="WO" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="false">country.WIPO</country>
+
+    <country isEU="false" partOfEEA="false" isPriority="false" isSeniority="false"
+             hasState="false" hasStateInc="false" code="XX" enabled="true" isNonRegisteredTM="false" isParisConvention="false" isEarlierWellKnow="true" isForeignTMView="false"
+             isRepresentative="false" isApplicant="true" isDesigner="true">country.COUNTRYLESS</country>
+</countries>

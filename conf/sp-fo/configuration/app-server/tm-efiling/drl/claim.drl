@@ -1,0 +1,305 @@
+package org.domain.rules;
+dialect "mvel"
+
+import java.util.Date;
+import java.util.Calendar;
+import org.apache.commons.lang.StringUtils;
+import eu.ohim.sp.core.domain.claim.Seniority;
+import eu.ohim.sp.core.domain.claim.IPPriority;
+import eu.ohim.sp.core.domain.claim.Priority;
+import eu.ohim.sp.core.domain.claim.Exhibition;
+import eu.ohim.sp.core.configuration.domain.xsd.Field;
+import eu.ohim.sp.core.domain.claim.ExhibitionPriority;
+import eu.ohim.sp.core.configuration.domain.xsd.Sections;
+import eu.ohim.sp.core.configuration.domain.xsd.Section;
+import eu.ohim.sp.core.domain.resources.AttachedDocument;
+import eu.ohim.sp.core.domain.claim.TransformationPriority;
+import eu.ohim.sp.core.rules.naming.PriorityNames;
+import eu.ohim.sp.core.domain.claim.ConversionPriority;
+
+
+// PRIORITY ----------------------------------------------------------------------------------------------
+
+
+rule "BR PRIORITY - Country - Empty "
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "country", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	IPPriority(StringUtils.isEmpty(filingOffice) == true )
+then
+	addError("country",	 "BRMandatory",	"This field is mandatory",	 null, $errorList);
+end
+
+rule "BR PRIORITY - APPLICATION Date - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "date", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	IPPriority(filingDate == null)
+then
+	addError("date", "BRMandatory",	"This field is mandatory",	 null, $errorList);
+end
+
+rule "BR32 PRIORITY - Filling Date - Content"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "date", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport, $format:format) from $fields
+	eval($fieldUsable == true)
+	IPPriority($filingDate: filingDate)
+
+then
+	Calendar c1 = Calendar.getInstance();
+	Calendar c2 = Calendar.getInstance();
+
+	if ($filingDate!=null) {
+
+		c1.add(Calendar.MONTH, -6);
+		//c2.add(Calendar.HOUR, -24);
+		Date date1=c1.getTime();
+		Date date2=c2.getTime();
+
+		if ($filingDate.compareTo(date2)>0) {
+				addError("date", "BRFutureDate", "Date should not be in future", null, $errorList);
+		} else {
+			if ( ($filingDate.compareTo(date1)<0)) {
+				addError("date", "BRPastDate", "Priority date should not be older than 6 month of the current filing.", null, $errorList);
+ 			}
+ 		}
+
+	}
+
+end
+
+rule "BR PRIORITY - APPLICATION Number - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "number", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	IPPriority(filingNumber == null)
+then
+	addError("number", "BRMandatory",	"This field is mandatory",	 null, $errorList);
+end
+
+
+// EXHIBITION ----------------------------------------------------------------------------------------------
+
+rule "BR EXHIBITION - Exhibition Name - Content"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "exhibitionName", $fieldUsable : usable, $editableImportField : editableImport, $format:format) from $fields
+	eval($fieldUsable == true )
+	ExhibitionPriority($exhibition : exhibition)
+	eval($exhibition == null) or (Exhibition (StringUtils.isEmpty(name) == true) from $exhibition)
+then
+	addError("exhibitionName","BRMandatory", "This field is mandatory", null,	 $errorList);
+end
+
+
+
+rule "BR34 EXHIBITION - Date of first disclosure - Empty and Content"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "firstDate", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport, $format:format) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	ExhibitionPriority($firstDisplayDate : firstDisplayDate)
+then
+	Calendar c1 = Calendar.getInstance();
+	Calendar c2 = Calendar.getInstance();
+
+	if ($firstDisplayDate!=null) {
+
+		c1.add(Calendar.MONTH, -6);
+		//c2.add(Calendar.HOUR, -24);
+		Date date1=c1.getTime();
+		Date date2=c2.getTime();
+
+		if ($firstDisplayDate.compareTo(date2)>0) {
+				addError("firstDate", "BRFutureDate", "Date should not be in future", null, $errorList);
+		} else {
+			if ( ($firstDisplayDate.compareTo(date1)<0)) {
+				addError("firstDate", "BRPastDate", "Priority date should not be older than 6 month of the current filing.", null, $errorList);
+ 			}
+ 		}
+
+	} else {
+			addError("firstDate","BRMandatory", "This field is mandatory", null, $errorList);
+ 	}
+
+end
+
+// SENIORITY ----------------------------------------------------------------------------------------------
+
+rule "BR SENIORITY - Member state - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "country", $fieldUsable : usable) from $fields
+	eval($fieldUsable == true )
+	Seniority(StringUtils.isEmpty(office) == true)
+then
+	addError("country","BRMandatory", "This field is mandatory", null,	 $errorList);
+end
+
+rule "BR SENIORITY - Office - Content"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "nature", $fieldUsable : usable, $editableImportField : editableImport, $format:format) from $fields
+	eval($fieldUsable == true )
+	Seniority(kind == null)
+then
+	addError("nature","BRMandatory", "This field is mandatory", null,	 $errorList);
+end
+
+rule "BR SENIORITY - Filing Date - Content"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "filingDate", $fieldUsable : usable, $editableImportField : editableImport, $format:format) from $fields
+	eval($fieldUsable == true )
+	Seniority(filingDate == null)
+then
+	addError("filingDate","BRMandatory", "This field is mandatory", null,	 $errorList);
+end
+
+rule "BR SENIORITY - Registration Number - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "registrationNumber", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Seniority(StringUtils.isEmpty(registrationNumber) == true)
+then
+	addError("registrationNumber", "BRMandatory",	"This field is mandatory",	 null, $errorList);
+end
+
+// TRANSFORMATION-PRIORITY ----------------------------------------------------------------------------------------------
+
+rule "BR TRANSFORMATION-PRIORITY - Registration Number - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "irNumber", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	TransformationPriority(StringUtils.isEmpty(registrationNumber) == true)
+then
+	addError("irNumber", "BRMandatory",	"This field is mandatory",	 null, $errorList);
+end
+
+rule "BR TRANSFORMATION-PRIORITY - Registration Date - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "irDate", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	TransformationPriority(registrationDate == null)
+then
+	addError("irDate", "BRMandatory",	"This field is mandatory",	 null, $errorList);
+end
+
+//-----------------------ConversionPriorities
+rule "BR CONVERSION-PRIORITY - APPLICATION Number - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "conversionApplicationNumber", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	ConversionPriority(StringUtils.isEmpty(conversionApplicationNumber) == true)
+then
+	addError("conversionApplicationNumber", "BRMandatory",	"This field is mandatory",	 null, $errorList);
+end
+
+rule "BR CONVERSION-PRIORITY - PRIORITY Date - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "conversionPriorityDate", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	ConversionPriority(conversionPriorityDate == null)
+then
+	addError("conversionPriorityDate", "BRMandatory",	"This field is mandatory",	 null, $errorList);
+end
+
+rule "BR CONVERSION-PRIORITY - APPLICATION Date - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "conversionApplicationDate", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	ConversionPriority(conversionApplicationDate == null)
+then
+	addError("conversionApplicationDate", "BRMandatory",	"This field is mandatory",	 null, $errorList);
+end
+
+rule "BR34 TRANSFORMATION-PRIORITY - Date Content"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "irDate", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	TransformationPriority($registrationDate : registrationDate, $cancellationDate : cancellationDate, $priorityDate : priorityDate)
+then
+	Calendar c1 = Calendar.getInstance();
+	Calendar c2 = Calendar.getInstance();
+	c1.add(Calendar.MONTH, -6);
+	Date date1=c1.getTime();
+	Date date2=c2.getTime();
+
+	if ($registrationDate!=null) {
+
+		if ($registrationDate.compareTo(date2)>0) {
+				addError("irDate", "BRFutureDate", "Date should not be in future", null, $errorList);
+		} else {
+			if ( ($registrationDate.compareTo(date1)<0)) {
+				addError("irDate", "BRPastDate", "Priority date should not be older than 6 month of the current filing.", null, $errorList);
+ 			}
+ 		}
+
+	}
+
+	if ($cancellationDate!=null) {
+
+		if ($cancellationDate.compareTo(date2)>0) {
+				addError("cancelationDate", "BRFutureDate", "Date should not be in future", null, $errorList);
+		} else {
+			if ( ($cancellationDate.compareTo(date1)<0)) {
+				addError("cancelationDate", "BRPastDate", "Priority date should not be older than 6 month of the current filing.", null, $errorList);
+ 			}
+ 		}
+	}
+
+	if ($priorityDate!=null) {
+
+		if ($priorityDate.compareTo(date2)>0) {
+				addError("priosenioDate", "BRFutureDate", "Date should not be in future", null, $errorList);
+		} else {
+			if ( ($priorityDate.compareTo(date1)<0)) {
+				addError("priosenioDate", "BRPastDate", "Priority date should not be older than 6 month of the current filing.", null, $errorList);
+ 			}
+ 		}
+	}
+end
+

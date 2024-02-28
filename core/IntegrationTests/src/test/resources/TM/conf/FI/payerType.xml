@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<payerTypes xmlns="http://www.example.org/payerType-configuration"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.example.org/payerType-configuration payerType-configuration.xsd ">
+	<payerType code="" value="selectBox.SELECT" active="true" />
+	<payerType code="APPLICANT" value="payer.type.applicant" active="true" />
+	<payerType code="REPRESENTATIVE"	value="payer.type.representative" active="true" />
+	<payerType code="OTHER"	value="payer.type.other" active="true" />	
+</payerTypes>

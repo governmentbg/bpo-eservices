@@ -1,0 +1,60 @@
+package org.domain.rules;
+dialect "mvel"
+
+import org.apache.commons.lang.*;
+
+import eu.ohim.sp.core.domain.trademark.ClassDescription;
+import eu.ohim.sp.core.domain.trademark.ClassificationTerm;
+import eu.ohim.sp.core.domain.validation.RulesInformation;
+
+global eu.ohim.sp.core.domain.validation.ErrorList errorList;
+
+rule "G&S Language - Empty"
+salience 1000
+no-loop
+when
+	$errorList : ErrorList()
+	ClassDescription(language==null || StringUtils.isEmpty(language))
+	$rulesInformation : RulesInformation($customObjects : customObjects ) 	
+then
+	System.out.println("		>>>>>>>>>>>>>>>>>>>>>>>> Inside G&S Language Empty <<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+	addError("langId", "BRMandatory", "This field is mandatory", null, $errorList);
+end
+
+rule "G&S ClassificationTerms - Null"
+salience 1000
+no-loop
+when
+	$errorList : ErrorList()
+	ClassDescription(classificationTerms == null || classificationTerms.isEmpty())
+	$rulesInformation : RulesInformation($customObjects : customObjects ) 	
+then
+	System.out.println("		>>>>>>>>>>>>>>>>>>>>>>>> Inside G&S ClassificationTerms Null <<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+	addError(null, "BRMandatory", "This field is mandatory", "desc", $errorList);
+end
+
+rule "G&S ClassificationTerms - Length"
+salience 1000
+no-loop
+when
+	$errorList : ErrorList()
+	ClassDescription($classificationTerms : classificationTerms)
+	ClassificationTerm(termText != null && StringUtils.isNotEmpty(termText) && termText.length() > 512) from $classificationTerms
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	System.out.println("		>>>>>>>>>>>>>>>>>>>>>>>> Inside G&S ClassificationTerms Length <<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+	addError(null, "BR.ClassificationTerms.Length", "This field exceeds the length", "desc", $errorList);
+end
+
+rule "G&S ClassificationTerms - Syntax"
+salience 1000
+no-loop
+when
+	$errorList : ErrorList()
+	ClassDescription($classificationTerms : classificationTerms)
+	ClassificationTerm(termText != null && !checkValidDescriptionSyntax(termText, true)) from $classificationTerms
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	System.out.println("		>>>>>>>>>>>>>>>>>>>>>>>> Inside G&S ClassificationTerms Syntax <<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+	addError(null, "BR.ClassificationTerms.Syntax", "This field has invalid format", "desc", $errorList);
+end

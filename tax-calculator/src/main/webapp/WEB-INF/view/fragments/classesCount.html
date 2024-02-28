@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<div th:fragment="classesCount-fragment" style="display: inline-block">
+
+    <div th:text="#{tmef.classCount}" style="display: inline-block; margin-right: 5px"></div>
+    <input type="number" class="input-param" min="1" max="45" value="1" style="width: 50px" th:attr="data-name='classesCount'">
+
+</div>
+</html>

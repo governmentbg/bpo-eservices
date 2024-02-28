@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
+                      xmlns:calc="http://www.milyn.org/xsd/smooks/calc-1.1.xsd"
+                      xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.4.xsd"
+                      xmlns:g="http://www.milyn.org/xsd/smooks/groovy-1.1.xsd">
+
+    <import file="smooks-BackOfficeSearchAdapter-applicantPart.xml"></import>
+    <import file="smooks-BackOfficeSearchAdapter-representativePart.xml"></import>
+    <import file="smooks-BackOfficeSearchAdapter-inventorPart.xml"></import>
+
+    <jb:bean beanId="patent" class="eu.ohim.sp.external.domain.patent.Patent" createOnElement="//TransactionData/PatentDetails/Patent" retain="true">
+        <jb:value data="//TransactionData/PatentDetails/Patent/ApplicationNumber" property="applicationNumber"/>
+        <jb:value data="//TransactionData/PatentDetails/Patent/ApplicationDate" decoder="Date" property="applicationDate">
+            <jb:decodeParam name="format">yyyy-MM-dd</jb:decodeParam>
+        </jb:value>
+        <jb:value data="//TransactionData/PatentDetails/Patent/RegistrationNumber" property="registrationNumber"/>
+        <jb:value data="//TransactionData/PatentDetails/Patent/RegistrationDate" decoder="Date" property="registrationDate">
+            <jb:decodeParam name="format">yyyy-MM-dd</jb:decodeParam>
+        </jb:value>
+        <jb:value data="//TransactionData/PatentDetails/Patent/ExpiryDate" decoder="Date" property="expirationDate">
+            <jb:decodeParam name="format">yyyy-MM-dd</jb:decodeParam>
+        </jb:value>
+        <jb:value data="//TransactionData/PatentDetails/Patent/PatentCurrentStatusCode" property="currentStatusCode"/>
+        <jb:value data="//TransactionData/PatentDetails/Patent/PatentGroupStatusCode" property="groupStatusCode"/>
+        <jb:value data="//TransactionData/PatentDetails/Patent/PatentCurrentStatusDate" decoder="Date" property="currentStatusDate">
+            <jb:decodeParam name="format">yyyy-MM-dd</jb:decodeParam>
+        </jb:value>
+        <jb:value data="//TransactionData/PatentDetails/Patent/PatentTitle" property="patentTitle"/>
+        <jb:value data="//TransactionData/PatentDetails/Patent/PatentTitleSecondLanguage" property="patentTitleSecondLang"/>
+
+        <jb:wiring beanIdRef="applicants" property="applicants"/>
+        <jb:wiring beanIdRef="representatives" property="representatives"/>
+        <jb:wiring beanIdRef="inventors" property="inventors"/>
+    </jb:bean>
+
+    <jb:bean beanId="applicants" class="java.util.ArrayList" createOnElement="//TransactionData/PatentDetails/Patent/ApplicantDetails">
+        <jb:wiring beanIdRef="applicant"/>
+    </jb:bean>
+
+    <jb:bean beanId="representatives" class="java.util.ArrayList" createOnElement="//TransactionData/PatentDetails/Patent/RepresentativeDetails">
+        <jb:wiring beanIdRef="representative"/>
+    </jb:bean>
+
+    <jb:bean beanId="inventors" class="java.util.ArrayList" createOnElement="//TransactionData/PatentDetails/Patent/InventorDetails">
+        <jb:wiring beanIdRef="inventor"/>
+    </jb:bean>
+
+    <jb:result retainBeans="patent"/>
+</smooks-resource-list>

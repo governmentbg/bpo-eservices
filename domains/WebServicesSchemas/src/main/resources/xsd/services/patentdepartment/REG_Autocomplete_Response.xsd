@@ -1,0 +1,6 @@
+<xs:schema xmlns="http://egov.bg/RegiX/PatentDepartment" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://egov.bg/RegiX/PatentDepartment">
+    <xs:annotation>
+        <xs:documentation xml:lang="bg">Autocomplete response</xs:documentation>
+    </xs:annotation>
+    <xs:element name="AutocompleteResponse" type="xs:string"/>
+</xs:schema>

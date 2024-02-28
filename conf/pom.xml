@@ -1,0 +1,502 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>eu.ohim.sp</groupId>
+	<artifactId>sp-release</artifactId>
+	<packaging>pom</packaging>
+
+    <name>Software Package Release</name>
+
+	<parent>
+		<groupId>eu.ohim.sp.ui</groupId>
+		<artifactId>CFO</artifactId>
+		<version>2.0.0-RELEASE</version>
+	</parent>
+
+	<properties>
+		<pm.sp.core.current.version>2.0.0-RELEASE</pm.sp.core.current.version>
+		<pm.sp.domains.current.version>2.0.0-RELEASE</pm.sp.domains.current.version>
+		<pm.sp.external.current.version>${pm.sp.core.current.version}</pm.sp.external.current.version>
+		<pm.sp.commonutils.current.version>${pm.sp.core.current.version}</pm.sp.commonutils.current.version>
+        <pm.sp.tmefiling.current.version>${pm.sp.core.current.version}</pm.sp.tmefiling.current.version>
+        <pm.sp.dsefiling.current.version>${pm.sp.core.current.version}</pm.sp.dsefiling.current.version>
+        <pm.sp.eservices.current.version>${pm.sp.core.current.version}</pm.sp.eservices.current.version>
+
+		<servlet.container.conf.root>conf/sp-fo/servlet-container</servlet.container.conf.root>
+		<servlet.container.app.root>app/sp-fo/servlet-container</servlet.container.app.root>
+
+		<app.server.app.root>app/sp-fo/app-server/</app.server.app.root>
+		<app.server.conf.root>conf/sp-fo/app-server/</app.server.conf.root>
+
+		<esb.server.app.root>app/sp-fo/esb/</esb.server.app.root>
+		<esb.server.conf.root>conf/sp-fo/esb/</esb.server.conf.root>
+
+		<db.server.conf.root>conf/sp-fo/db-server/</db.server.conf.root>
+
+        <web.server.conf.root>conf/sp-fo/web-server</web.server.conf.root>
+		<web.server.app.root>app/sp-fo/web-server/</web.server.app.root>
+
+		<installation.root>installation/</installation.root>
+		<docs.root>docs/</docs.root>
+	</properties>
+
+	<build>
+		<finalName>sp</finalName>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-assembly-plugin</artifactId>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
+		<plugins>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>sp</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+						<configuration>
+                            <attach>false</attach>
+							<descriptors>
+								<descriptor>${basedir}/src/main/assembly/sp-assembly.xml</descriptor>
+							</descriptors>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<profiles>
+		<profile>
+			<id>tm-efiling</id>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-assembly-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>tm-efiling</id>
+								<phase>package</phase>
+								<goals>
+									<goal>single</goal>
+								</goals>
+								<configuration>
+                                    <attach>false</attach>
+									<descriptors>
+										<descriptor>${basedir}/src/main/assembly/tm-efiling-assembly.xml</descriptor>
+									</descriptors>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+			<dependencies>
+				<dependency>
+					<groupId>eu.ohim.sp.ui</groupId>
+					<artifactId>tm-efiling-ui</artifactId>
+					<version>${pm.sp.tmefiling.current.version}</version>
+					<type>war</type>
+				</dependency>
+			</dependencies>
+		</profile>
+
+		<profile>
+			<id>ds-efiling</id>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-assembly-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>ds-efiling</id>
+								<phase>package</phase>
+								<goals>
+									<goal>single</goal>
+								</goals>
+								<configuration>
+                                    <attach>false</attach>
+									<descriptors>
+										<descriptor>${basedir}/src/main/assembly/ds-efiling-assembly.xml</descriptor>
+									</descriptors>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+
+			<dependencies>
+                <dependency>
+                    <groupId>eu.ohim.sp.ui</groupId>
+                    <artifactId>ds-efiling-ui</artifactId>
+                    <version>${pm.sp.dsefiling.current.version}</version>
+                    <type>war</type>
+                </dependency>
+			</dependencies>
+		</profile>
+
+		<profile>
+			<id>pt-efiling</id>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-assembly-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>pt-efiling</id>
+								<phase>package</phase>
+								<goals>
+									<goal>single</goal>
+								</goals>
+								<configuration>
+									<attach>false</attach>
+									<descriptors>
+										<descriptor>${basedir}/src/main/assembly/pt-efiling-assembly.xml</descriptor>
+									</descriptors>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+
+			<dependencies>
+				<dependency>
+					<groupId>eu.ohim.sp.ui</groupId>
+					<artifactId>pt-efiling-ui</artifactId>
+					<version>1.0-SNAPSHOT</version>
+					<type>war</type>
+				</dependency>
+			</dependencies>
+		</profile>
+
+
+		<profile>
+			<id>eservices</id>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-assembly-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>eservices</id>
+								<phase>package</phase>
+								<goals>
+									<goal>single</goal>
+								</goals>
+								<configuration>
+                                    <attach>false</attach>
+									<descriptors>
+										<descriptor>${basedir}/src/main/assembly/eservices-assembly.xml</descriptor>
+									</descriptors>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+
+			<dependencies>
+				<dependency>
+					<groupId>eu.ohim.sp.ui</groupId>
+					<artifactId>eservices-ui</artifactId>
+                    <version>${pm.sp.eservices.current.version}</version>
+					<type>war</type>
+				</dependency>
+			</dependencies>
+		</profile>
+		
+		<profile>
+			<id>admin-tool</id>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-assembly-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>admin-tool</id>
+								<phase>package</phase>
+								<goals>
+									<goal>single</goal>
+								</goals>
+								<configuration>
+                                    <attach>false</attach>
+									<descriptors>
+										<descriptor>${basedir}/src/main/assembly/admin-tool-assembly.xml</descriptor>
+									</descriptors>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+			<dependencies>
+				<dependency>
+					<groupId>eu.ohim.sp.ui</groupId>
+					<artifactId>release-fo</artifactId>
+					<version>${pm.sp.tmefiling.current.version}</version>
+					<type>war</type>
+				</dependency>
+				<dependency>
+					<groupId>eu.ohim.sp.ui</groupId>
+					<artifactId>admin-tools-fe</artifactId>
+					<version>${pm.sp.tmefiling.current.version}</version>
+					<type>zip</type>
+				</dependency>
+			</dependencies>
+		</profile>
+
+		<profile>
+			<id>core</id>
+			<activation>
+				<property>
+					<name>!skipCore</name>
+				</property>
+			</activation>
+
+			<dependencies>
+				<!-- SP core -->
+				<dependency>
+					<groupId>eu.ohim.sp.core</groupId>
+					<artifactId>ApplicationServiceEAR</artifactId>
+					<version>${pm.sp.core.current.version}</version>
+					<type>ear</type>
+				</dependency>
+
+				<dependency>
+					<groupId>eu.ohim.sp.core</groupId>
+					<artifactId>ConfigurationServiceEAR</artifactId>
+					<version>${pm.sp.core.current.version}</version>
+					<type>ear</type>
+				</dependency>
+
+				<dependency>
+					<groupId>eu.ohim.sp.core</groupId>
+					<artifactId>RulesServiceEAR</artifactId>
+					<version>${pm.sp.core.current.version}</version>
+					<type>ear</type>
+				</dependency>
+
+				<dependency>
+					<groupId>eu.ohim.sp.core</groupId>
+					<artifactId>LocarnoClassificationServiceEAR</artifactId>
+					<version>${pm.sp.core.current.version}</version>
+					<type>ear</type>
+				</dependency>
+
+				<dependency>
+					<groupId>eu.ohim.sp.core</groupId>
+					<artifactId>BPOClassificationServiceEAR</artifactId>
+					<version>${pm.sp.core.current.version}</version>
+					<type>ear</type>
+				</dependency>
+
+				<dependency>
+					<groupId>eu.ohim.sp.core</groupId>
+					<artifactId>NiceClassificationServiceEAR</artifactId>
+					<version>${pm.sp.core.current.version}</version>
+					<type>ear</type>
+				</dependency>
+				
+				<dependency>
+					<groupId>eu.ohim.sp.core</groupId>
+					<artifactId>ReportServiceEAR</artifactId>
+					<version>${pm.sp.core.current.version}</version>
+					<type>ear</type>
+				</dependency>
+
+				<dependency>
+					<groupId>eu.ohim.sp.domains</groupId>
+					<artifactId>CoreDomain</artifactId>
+					<version>${pm.sp.domains.current.version}</version>
+				</dependency>
+				
+				<dependency>
+					<groupId>eu.ohim.sp.core</groupId>
+					<artifactId>CoreUtils</artifactId>
+					<version>${pm.sp.core.current.version}</version>
+				</dependency>
+
+				<dependency>
+					<groupId>eu.ohim.sp.domains</groupId>
+					<artifactId>CoreServices</artifactId>
+					<version>${pm.sp.domains.current.version}</version>
+				</dependency>
+
+				<dependency>
+					<groupId>eu.ohim.sp.domains</groupId>
+					<artifactId>ExternalServices</artifactId>
+					<version>${pm.sp.domains.current.version}</version>
+				</dependency>
+
+				<dependency>
+					<groupId>eu.ohim.sp.core</groupId>
+					<artifactId>DocumentServiceEAR</artifactId>
+					<version>${pm.sp.core.current.version}</version>
+					<type>ear</type>
+				</dependency>
+
+				<dependency>
+					<groupId>eu.ohim.sp.core</groupId>
+					<artifactId>EPaymentServiceEAR</artifactId>
+					<version>${pm.sp.core.current.version}</version>
+					<type>ear</type>
+				</dependency>
+
+				<dependency>
+					<groupId>eu.ohim.sp.core</groupId>
+					<artifactId>ESignatureServiceEAR</artifactId>
+					<version>${pm.sp.core.current.version}</version>
+					<type>ear</type>
+				</dependency>
+
+				<dependency>
+					<groupId>eu.ohim.sp.core</groupId>
+					<artifactId>FeeCalculationServiceEAR</artifactId>
+					<version>${pm.sp.core.current.version}</version>
+					<type>ear</type>
+				</dependency>
+
+				<dependency>
+					<groupId>eu.ohim.sp.external</groupId>
+					<artifactId>FilingDomain</artifactId>
+					<version>${pm.sp.core.current.version}</version>
+				</dependency>
+
+				<dependency>
+					<groupId>eu.ohim.sp.core</groupId>
+					<artifactId>PersonServiceEAR</artifactId>
+					<version>${pm.sp.core.current.version}</version>
+					<type>ear</type>
+				</dependency>
+
+				<dependency>
+					<groupId>eu.ohim.sp.core</groupId>
+					<artifactId>DesignSearchServiceEAR</artifactId>
+					<version>${pm.sp.core.current.version}</version>
+					<type>ear</type>
+				</dependency>
+
+				<dependency>
+					<groupId>eu.ohim.sp.core</groupId>
+					<artifactId>IPApplicationServiceEAR</artifactId>
+					<version>${pm.sp.core.current.version}</version>
+					<type>ear</type>
+				</dependency>
+
+				<dependency>
+					<groupId>eu.ohim.sp.core</groupId>
+					<artifactId>TradeMarkSearchServiceEAR</artifactId>
+					<version>${pm.sp.core.current.version}</version>
+					<type>ear</type>
+				</dependency>
+
+				<dependency>
+					<groupId>eu.ohim.sp.core</groupId>
+					<artifactId>BPOPatentSearchServiceEAR</artifactId>
+					<version>${pm.sp.core.current.version}</version>
+					<type>ear</type>
+				</dependency>
+
+				<dependency>
+					<groupId>eu.ohim.sp.core</groupId>
+					<artifactId>BPOBackOfficeSearchServiceEAR</artifactId>
+					<version>${pm.sp.core.current.version}</version>
+					<type>ear</type>
+				</dependency>
+
+				<dependency>
+					<groupId>eu.ohim.sp.core</groupId>
+					<artifactId>ResourceServiceEAR</artifactId>
+					<version>${pm.sp.core.current.version}</version>
+					<type>ear</type>
+				</dependency>
+				<!-- SP external -->
+				<dependency>
+					<groupId>eu.ohim.sp.external</groupId>
+					<artifactId>JackrabbitDocumentClientRAR</artifactId>
+					<version>${pm.sp.external.current.version}</version>
+					<type>rar</type>
+				</dependency>
+
+				<dependency>
+					<groupId>eu.ohim.sp.domains</groupId>
+					<artifactId>ExternalDomain</artifactId>
+					<version>${pm.sp.domains.current.version}</version>
+				</dependency>
+
+				<dependency>
+					<groupId>eu.ohim.sp.external</groupId>
+					<artifactId>CommonClientService</artifactId>
+					<version>${pm.sp.external.current.version}</version>
+				</dependency>
+
+				<dependency>
+					<groupId>eu.ohim.sp.external</groupId>
+					<artifactId>SPWSException</artifactId>
+					<version>${pm.sp.external.current.version}</version>
+				</dependency>
+
+				<dependency>
+					<groupId>eu.ohim.sp.domains</groupId>
+					<artifactId>WebServicesSchemas</artifactId>
+					<version>${pm.sp.domains.current.version}</version>
+				</dependency>
+
+				<!-- SP common-utils -->
+				<dependency>
+					<groupId>eu.ohim.sp.common</groupId>
+					<artifactId>CommonUtils</artifactId>
+					<version>${pm.sp.commonutils.current.version}</version>
+				</dependency>
+
+				<dependency>
+					<groupId>eu.ohim.sp.common</groupId>
+					<artifactId>ConfigurationXSD</artifactId>
+					<version>${pm.sp.commonutils.current.version}</version>
+				</dependency>
+
+                <!-- modules -->
+                <dependency>
+                    <groupId>javax.jcr</groupId>
+                    <artifactId>jcr</artifactId>
+                    <version>2.0</version>
+                </dependency>
+
+                <dependency>
+                    <groupId>net.sf.dozer</groupId>
+                    <artifactId>dozer</artifactId>
+                    <version>5.4.0</version>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.apache.velocity</groupId>
+                    <artifactId>velocity</artifactId>
+                    <version>1.7</version>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.jboss</groupId>
+                    <artifactId>jboss-remote-naming</artifactId>
+                    <version>1.0.7.Final</version>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.jboss.remoting3</groupId>
+                    <artifactId>jboss-remoting</artifactId>
+                    <version>3.2.7.GA</version>
+                </dependency>
+
+			</dependencies>
+		</profile>
+	</profiles>
+</project>

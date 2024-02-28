@@ -1,0 +1,44 @@
+package org.domain.rules;
+dialect "mvel"
+
+import eu.ohim.sp.core.domain.trademark.Signatory;
+import org.apache.commons.lang.StringUtils;
+import eu.ohim.sp.core.domain.validation.ErrorCore;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.configuration.domain.xsd.Sections;
+import eu.ohim.sp.core.configuration.domain.xsd.Section;
+import eu.ohim.sp.core.configuration.domain.xsd.Field;
+
+rule "BR50a Signature Name - Empty"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName, $secLang : secondLanguage)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "fullName", $fieldUsable: usable, $fieldRequired : required) from $fields
+	Signatory($fieldUsable == true &&
+			  $fieldRequired == true &&
+			  StringUtils.isEmpty(signatoryName) == true)
+then
+	addError($secLang ? "mainForm.secondSignatoryForm.fullName" : "mainForm.signatoryForm.fullName",
+		"BRMandatory",
+		"This field is mandatory",
+		"mainForm.signatureSection",
+		$rulesInformation);
+end
+
+rule "BR50b Signature Place - Empty"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName, $secLang : secondLanguage)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "signaturePlace", $fieldUsable: usable, $fieldRequired : required) from $fields
+	Signatory($fieldUsable == true &&
+			  $fieldRequired == true &&
+			  StringUtils.isEmpty(signaturePlace) == true)
+then
+	addError($secLang ? "mainForm.secondSignatoryForm.signaturePlace" : "mainForm.signatoryForm.signaturePlace",
+		"BRMandatory",
+		"This field is mandatory",
+		"mainForm.signatureSection",
+		$rulesInformation);
+end

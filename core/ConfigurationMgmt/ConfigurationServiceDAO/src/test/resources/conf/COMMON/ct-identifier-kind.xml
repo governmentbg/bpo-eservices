@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ * SystemConfigurationServiceDao:: ct-identifier-kind.xml 07/10/13 21:16 karalch $
+  ~  * . * .
+  ~  * * RRRR * Copyright © 2013 OHIM: Office for Harmonization
+  ~  * . RR R . in the Internal Market (trade marks and designs)
+  ~  * * RRR *
+  ~  * . RR RR . ALL RIGHTS RESERVED
+  ~  * * . _ . *
+  -->
+
+<cotypes>
+	<cotype code="nif" label="cotypes.identifierkind.nif" />
+	<cotype code="nie" label="cotypes.identifierkind.nie" />
+	<cotype code="passport" label="cotypes.identifierkind.passport" />
+</cotypes>

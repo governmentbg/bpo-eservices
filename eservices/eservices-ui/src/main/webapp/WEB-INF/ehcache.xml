@@ -1,0 +1,115 @@
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:noNamespaceSchemaLocation="ehcache.xsd" updateCheck="true" monitoring="autodetect" dynamicConfig="true">
+
+<defaultCache
+        maxElementsInMemory="4096"
+        eternal="false"
+        timeToIdleSeconds="120"
+        timeToLiveSeconds="120"
+        overflowToDisk="false"
+        memoryStoreEvictionPolicy="LRU"/>
+<cache name="importedNiceClassHeading"         
+		maxElementsInMemory="4096"
+        eternal="false"
+        timeToIdleSeconds="43200"
+        timeToLiveSeconds="43200"
+        overflowToDisk="false"
+        memoryStoreEvictionPolicy="LRU"/>
+<cache name="validatedNiceClassHeading"         
+		maxElementsInMemory="4096"
+        eternal="false"
+        timeToIdleSeconds="43200"
+        timeToLiveSeconds="43200"
+        overflowToDisk="false"
+        memoryStoreEvictionPolicy="LRU"/>
+<cache name="sortedSections" 
+		maxElementsInMemory="4096"
+        eternal="false"
+        timeToIdleSeconds="120"
+        timeToLiveSeconds="120"
+        overflowToDisk="false"
+        memoryStoreEvictionPolicy="LRU"/>
+<cache name="sortedSubsections"
+		maxElementsInMemory="4096"
+        eternal="false"
+        timeToIdleSeconds="43200"
+        timeToLiveSeconds="43200"
+        overflowToDisk="false"
+        memoryStoreEvictionPolicy="LRU"/>
+
+<cache name="displayNavigationPath" eternal="true" memoryStoreEvictionPolicy="FIFO"/>
+<cache name="classScopes" 
+		maxElementsInMemory="4096"
+        eternal="false"
+        timeToIdleSeconds="43200"
+        timeToLiveSeconds="43200"
+        overflowToDisk="false"
+        memoryStoreEvictionPolicy="LRU"/>
+        
+<cache name="getTaxonomy" 
+		maxElementsInMemory="100"
+        eternal="false"
+        timeToIdleSeconds="43200"
+        timeToLiveSeconds="43200"
+        overflowToDisk="false"
+        memoryStoreEvictionPolicy="LRU"/>
+<cache name="searchTerms" 
+		maxElementsInMemory="4096"
+        eternal="false"
+        timeToIdleSeconds="43200"
+        timeToLiveSeconds="43200"
+        overflowToDisk="false"
+        memoryStoreEvictionPolicy="LRU"/>
+		
+<cache name="serviceEnabled" 
+		maxElementsInMemory="200"
+        eternal="false"
+        timeToIdleSeconds="120"
+        timeToLiveSeconds="120"
+        overflowToDisk="false"
+        memoryStoreEvictionPolicy="LRU"/>
+
+<cache name="sortedViewStates" eternal="true" memoryStoreEvictionPolicy="FIFO"/>
+<cache name="renderField" eternal="true" memoryStoreEvictionPolicy="FIFO"/>
+<cache name="requiredField" eternal="true" memoryStoreEvictionPolicy="FIFO"/>
+<cache name="formattedField" eternal="true" memoryStoreEvictionPolicy="FIFO"/>
+<cache name="importableSection" eternal="true" memoryStoreEvictionPolicy="FIFO"/>
+<cache name="importableFields" eternal="true" memoryStoreEvictionPolicy="FIFO"/>
+<cache name="allFields" eternal="true" memoryStoreEvictionPolicy="FIFO"/>
+<cache name="editableField" eternal="true" memoryStoreEvictionPolicy="FIFO"/>
+<cache name="usableField" eternal="true" memoryStoreEvictionPolicy="FIFO"/>
+<cache name="defaultValueField" eternal="true" memoryStoreEvictionPolicy="FIFO"/>
+<cache name="firstLanguages" eternal="true" memoryStoreEvictionPolicy="FIFO"/>
+<cache name="personDetails" eternal="true" memoryStoreEvictionPolicy="FIFO"/>
+<cache name="secondLanguages" eternal="true" memoryStoreEvictionPolicy="FIFO"/>
+<cache name="countries" eternal="true" memoryStoreEvictionPolicy="FIFO"/>
+<cache name="tradeMarkKinds" eternal="true" memoryStoreEvictionPolicy="FIFO"/>
+<cache name="tradeMarkStatusList" eternal="true" memoryStoreEvictionPolicy="FIFO"/>
+<cache name="designStatusList" eternal="true" memoryStoreEvictionPolicy="FIFO"/>
+<cache name="legalActVersions" eternal="true" memoryStoreEvictionPolicy="FIFO"/>
+<cache name="absoluteGrounds" eternal="true" memoryStoreEvictionPolicy="FIFO"/>
+<cache name="relativeGrounds" eternal="true" memoryStoreEvictionPolicy="FIFO"/>
+<cache name="revocationGrounds" eternal="true" memoryStoreEvictionPolicy="FIFO"/>
+<cache name="earlierEntitlementRightTypes" eternal="true" memoryStoreEvictionPolicy="FIFO"/>
+<cache name="typeRightEarlierTradeMarks" eternal="true" memoryStoreEvictionPolicy="FIFO"/>
+<cache name="categoriesTradeMark" eternal="true" memoryStoreEvictionPolicy="FIFO"/>
+<cache name="entitlementsOpponent" eternal="true" memoryStoreEvictionPolicy="FIFO"/>
+<cache name="nationalities" eternal="true" memoryStoreEvictionPolicy="FIFO"/>
+<cache name="states" eternal="true" memoryStoreEvictionPolicy="FIFO"/>
+<cache name="seniorityNatures" eternal="true" memoryStoreEvictionPolicy="FIFO"/>
+<cache name="exhibitions" eternal="true" memoryStoreEvictionPolicy="FIFO"/>
+<cache name="paymentMethods" eternal="true" memoryStoreEvictionPolicy="FIFO"/>
+<cache name="payerTypes" eternal="true" memoryStoreEvictionPolicy="FIFO"/>
+<cache name="helpMessages" eternal="true" memoryStoreEvictionPolicy="FIFO"/>
+<cache name="languageOffice" eternal="true" memoryStoreEvictionPolicy="FIFO"/>
+<cache name="fullClassification" eternal="true" memoryStoreEvictionPolicy="FIFO"/>
+<cache name="searchProductIndication" eternal="true" memoryStoreEvictionPolicy="FIFO"/>
+<cache name="locarnoClasses" eternal="true" memoryStoreEvictionPolicy="FIFO"/>
+<cache name="locarnoSubclasses" eternal="true" memoryStoreEvictionPolicy="FIFO"/>
+<cache name="locarnoClassifications" eternal="true" memoryStoreEvictionPolicy="FIFO"/>
+<cache name="tradeMarkTypes" eternal="true" memoryStoreEvictionPolicy="FIFO"/>
+<cache name="giTypes" eternal="true" memoryStoreEvictionPolicy="FIFO"/>
+<cache name="dossierChangeTypes" eternal="true" memoryStoreEvictionPolicy="FIFO"/>
+<cache name="selectableField" eternal="true" memoryStoreEvictionPolicy="FIFO"/>
+
+</ehcache>

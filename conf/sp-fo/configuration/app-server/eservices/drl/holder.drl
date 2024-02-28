@@ -1,0 +1,368 @@
+package org.domain.rules;
+dialect "mvel"
+
+import eu.ohim.sp.core.domain.validation.RulesInformation;
+import eu.ohim.sp.core.domain.person.Holder;
+import eu.ohim.sp.core.domain.person.PersonIdentifier;
+import eu.ohim.sp.core.domain.validation.ErrorCore;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.domain.contact.Address;
+import eu.ohim.sp.core.configuration.domain.xsd.Section;
+import eu.ohim.sp.core.configuration.domain.xsd.Field;
+import eu.ohim.sp.core.domain.contact.Email;
+
+import java.util.Map;
+import java.util.ArrayList;
+
+import eu.ohim.sp.core.domain.validation.ErrorCore;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.domain.person.Holder;
+import eu.ohim.sp.core.configuration.domain.xsd.Section;
+import eu.ohim.sp.core.configuration.domain.xsd.Field;
+import org.apache.commons.lang.*
+import java.util.HashMap;
+
+global eu.ohim.sp.core.domain.validation.ErrorList errorList;
+
+rule "BR801 (type mandatory)"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "type", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Holder(kind==null)
+then
+	addError("type",
+		 "BRMandatory",
+		 "This field is mandatory",
+		 null,
+		 $errorList);		 
+end
+
+rule "BR1000 Fill at least one field"
+salience 1000
+when
+	$errorList : ErrorList()
+	//Section( $fields : field )
+	//Field( id == "type", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	//eval($fieldUsable == true && $fieldRequired == true)
+	Holder(
+	(StringUtils.isEmpty(name.organizationName) == true) &&
+	(StringUtils.isEmpty(legalForm) == true) &&
+	((identifiers==null) || (StringUtils.isEmpty(identifiers.get(0).value) == true)) &&
+
+	(StringUtils.isEmpty(name.firstName) == true) &&
+	(StringUtils.isEmpty(name.lastName) == true) &&
+	(addresses.size()>0)&&
+	(addresses.get(0)!=null)&&
+	(StringUtils.isEmpty(addresses.get(0).city) == true) &&
+	(StringUtils.isEmpty(addresses.get(0).country) == true) &&
+	(StringUtils.isEmpty(addresses.get(0).postCode) == true) &&
+	(StringUtils.isEmpty(addresses.get(0).street) == true) &&
+	(StringUtils.isEmpty(addresses.get(0).streetNumber) == true) &&
+	(emails==null) &&
+	(phones.size()==0) &&
+	(urls == null)
+	)
+then
+	addError("holderHasChanged", "BR333.noFieldChanged", "You must fill at least one field", null, $errorList);
+end
+
+rule "BR832 (firstName mandatory (natural person))"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "firstName", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Holder((name != null && StringUtils.isEmpty(name.firstName) == true) || (name==null))
+then
+	addError("firstName", "BRMandatory", "This field is mandatory", null, $errorList);
+end
+
+rule "BR832 (middleName mandatory (natural person))"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "middleName", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Holder((name != null && StringUtils.isEmpty(name.middleName) == true) || (name==null))
+then
+	addError("middleName", "BRMandatory", "This field is mandatory", null, $errorList);
+end
+
+rule "BR833 (surname mandatory (natural person))"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "surname", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Holder((name != null && StringUtils.isEmpty(name.lastName) == true)  || (name==null))
+then
+	addError("surname", "BRMandatory", "This field is mandatory", null, $errorList);
+end
+
+rule "BR835 (organization name mandatory (legal entity))"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "name", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Holder((name==null) ||(name != null && StringUtils.isEmpty(name.organizationName) == true))
+then
+	addError("name", "BRMandatory", "This field is mandatory", null, $errorList);
+end
+
+rule "BR839 (city mandatory)"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "address.city", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Holder(addresses == null || (addresses != null && StringUtils.isEmpty(addresses.get(0).city) == true))
+then
+	addError("address.city", "BR839.city.empty", "This field is mandatory", null, $errorList);
+end
+
+rule "BR841 (country mandatory)"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "address.country", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Holder(addresses == null || (addresses != null && StringUtils.isEmpty(addresses.get(0).country) == true))
+then
+	addError("address.country", "BRMandatory", "This field is mandatory", null, $errorList);
+end
+
+rule "BR838 (postal code mandatory)"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "address.postalCode", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Holder(addresses == null || (addresses != null && StringUtils.isEmpty(addresses.get(0).postCode) == true))
+then
+	addError("address.postalCode", "BRMandatory", "This field is mandatory", null, $errorList);
+end
+
+rule "BR (postal code format)"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "address.postalCode", $fieldUsable : usable, $fieldRequired : required, $regex: ".{1,15}") from $fields
+	eval($fieldUsable == true)
+	Holder(addresses != null && addresses.size() >0 && StringUtils.isNotEmpty(addresses.get(0).postCode) && addresses.get(0).postCode not matches $regex)
+then
+	addError("address.postalCode", "BRFormat", "This field has bad format", null, $errorList);
+end
+
+rule "BR837 (street mandatory)"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "address.street", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Holder(addresses == null || (addresses != null && addresses.size()>0 && addresses.get(0)!=null && StringUtils.isEmpty(addresses.get(0).street) == true))
+then
+	addError("address.street", "BRMandatory", "This field is mandatory", null, $errorList);
+end
+
+rule "BR853 Correspondence Name - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "correspondenceAddresses.correspondenceName", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	Holder($addresses : correspondenceAddresses, $addresses != null)
+    $address : Address(postalName == null || postalName == "") from $addresses
+    eval($fieldUsable == true && $fieldRequired == true)
+then
+	addError("correspondenceAddresses[0].correspondenceName","BRMandatory","This field is mandatory", null, $errorList);
+end
+
+rule "BR854 Correspondence Street - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "correspondenceAddresses.addressForm.street", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	Holder($addresses : correspondenceAddresses, $addresses != null)
+	$address : Address(street == null || street == "") from $addresses
+	eval($fieldUsable == true && $fieldRequired == true)
+then
+	addError("correspondenceAddresses[0].addressForm.street", "BRMandatory", "This field is mandatory", null, $errorList);
+end
+
+rule "BR857 Correspondence House Number - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "correspondenceAddresses.addressForm.houseNumber", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	Holder($addresses : correspondenceAddresses, $addresses != null)
+	$address : Address(streetNumber == null || streetNumber == "") from $addresses
+	eval($fieldUsable == true && $fieldRequired == true)
+then
+	addError("correspondenceAddresses[0].addressForm.houseNumber", "BRMandatory", "This field is mandatory", null, $errorList);
+end
+
+rule "BR858 Correspondence City - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "correspondenceAddresses.addressForm.city", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	Holder($addresses : correspondenceAddresses, $addresses != null)
+	$address : Address(city == null || city == "") from $addresses
+	eval($fieldUsable == true && $fieldRequired == true)
+then
+	addError("correspondenceAddresses[0].addressForm.city", "BRMandatory", "This field is mandatory", null, $errorList);
+end
+
+rule "Correspondence Postalcode - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "correspondenceAddresses.addressForm.postalCode", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	Holder($addresses : correspondenceAddresses, $addresses != null)
+	$address : Address(postCode == null || postCode == "") from $addresses
+	eval($fieldUsable == true && $fieldRequired == true)
+then
+	addError("correspondenceAddresses[0].addressForm.postalCode", "BRMandatory", "This field is mandatory", null, $errorList);
+end
+
+rule "BR807 Correspondence Country - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "correspondenceAddresses.addressForm.country", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	Holder($addresses : correspondenceAddresses, $addresses != null)
+	$address : Address(country == null || country == "") from $addresses
+	eval($fieldUsable == true && $fieldRequired == true)
+then
+	addError("correspondenceAddresses[0].addressForm.country", "BRMandatory", "This field is mandatory", null, $errorList);
+end
+
+rule "BR Nationality mandatory"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "nationality", $fieldUsableNationality : usable, $fieldRequiredNationality : required) from $fields
+	Holder(nationality == null || StringUtils.isEmpty(nationality) || nationality == "Unidentified")
+	eval($fieldRequiredNationality && $fieldUsableNationality)
+then
+	addError("nationality", "BRMandatory", "This field is mandatory", null, $errorList);
+end
+
+rule "BR832 (firstName format (BG nationality))"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "firstName", $fieldUsable : usable, $editableImportField : editableImport, $regex: format) from $fields
+	Field( id == "nationality", $fieldUsableNationality : usable) from $fields
+	eval($fieldUsable && $fieldUsableNationality && StringUtils.isNotEmpty($regex))
+	Holder(name != null && StringUtils.isEmpty(name.firstName) == false && nationality != null && nationality == "BG" && name.firstName not matches $regex)
+then
+	addError("firstName", "BRFormat.firstName", "Bad format of first name", null, $errorList);
+end
+
+rule "BR832 (middleName required (BG nationality))"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "middleName", $fieldUsable : usable, $editableImportField : editableImport, $regex: format) from $fields
+	Field( id == "nationality", $fieldUsableNationality : usable) from $fields
+	eval($fieldUsable && $fieldUsableNationality)
+	Holder(((name != null && StringUtils.isEmpty(name.middleName) == true) || name.middleName == null) && nationality != null && nationality == "BG")
+then
+	addError("middleName", "BRMandatory", "This field is mandatory", null, $errorList);
+end
+
+rule "BR832 (middleName format (BG nationality))"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "middleName", $fieldUsable : usable, $editableImportField : editableImport, $regex: format) from $fields
+	Field( id == "nationality", $fieldUsableNationality : usable) from $fields
+	eval($fieldUsable && $fieldUsableNationality && StringUtils.isNotEmpty($regex))
+	Holder(name != null && StringUtils.isEmpty(name.middleName) == false && nationality != null && nationality == "BG" && name.middleName not matches $regex)
+then
+	addError("middleName", "BRFormat.middleName", "Bad format of middle name", null, $errorList);
+end
+
+rule "BR832 (lastName format (BG nationality))"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "surname", $fieldUsable : usable, $editableImportField : editableImport, $regex: format) from $fields
+	Field( id == "nationality", $fieldUsableNationality : usable) from $fields
+	eval($fieldUsable && $fieldUsableNationality && StringUtils.isNotEmpty($regex))
+	Holder(name != null && StringUtils.isEmpty(name.lastName) == false && nationality != null && nationality == "BG" && name.lastName not matches $regex)
+then
+	addError("surname", "BRFormat.lastName", "Bad format of last name", null, $errorList);
+end
+
+rule "BR Hoder Email format"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "email", $fieldUsable : usable, $regex: format) from $fields
+	eval($fieldUsable && StringUtils.isNotEmpty($regex))
+	Holder(emails != null && emails.size() >0, $emails: emails )
+	Email(emailAddress != null && emailAddress not matches $regex) from $emails
+then
+	addError("email", "BRFormat", "This field has bad format", null, $errorList);
+end
+
+rule "BR (Company  number depending on country)"
+salience 1000
+when
+    $errorList : ErrorList()
+    Section( $fields : field, $validateImport : validateImport)
+    Field( id == "nationalOfficialBusinessRegister", $fieldUsable : usable, $editableImportField : editableImport) from $fields
+    Field( id == "address.country", $fieldUsableCountry : usable) from $fields
+    eval($fieldUsable && $fieldUsableCountry)
+    Holder(identifiers != null && addresses != null && addresses.size() >0 && addresses.get(0).country != null && addresses.get(0).country != "BG", $ids: identifiers)
+    PersonIdentifier($idKind: identifierKindCode, identifierKindCode != null && identifierKindCode == "Company Number" &&
+        value != null && !value.isEmpty()) from $ids
+then
+    addError("nationalOfficialBusinessRegister", "BR.nationalOfficialBusinessRegister.onlyForBG", "This field should be filled only for BG companies", null, $errorList);
+end
+
+rule "BR (Company  number not valid)"
+salience 1000
+when
+    $errorList : ErrorList()
+    Section( $fields : field, $validateImport : validateImport)
+    $rulesInformation : RulesInformation($customObjects : customObjects )
+    Field( id == "nationalOfficialBusinessRegister", $fieldUsable : usable, $editableImportField : editableImport) from $fields
+    eval($fieldUsable)
+    Holder(identifiers != null, $ids: identifiers)
+    PersonIdentifier($idKind: identifierKindCode, identifierKindCode != null && identifierKindCode == "Company Number" &&
+        value != null && !value.isEmpty()) from $ids
+then
+    HashMap co = $customObjects;
+    Boolean companyIdIsValid = co.get("companyIdIsValid");
+
+    if(!companyIdIsValid){
+        addError("nationalOfficialBusinessRegister", "BR.nationalOfficialBusinessRegister.invalid", "Invalid company id", null, $errorList);
+    }
+end

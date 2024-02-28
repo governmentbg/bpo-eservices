@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<div th:fragment="ptrefusalcomplaint-fragment">
+
+    <div id="single-or-group-invention-frag" class="mb20px">
+        <div th:replace="fragments/singleOrGroupInvention :: singleOrGroupInvention-fragment"></div>
+    </div>
+    <div id="small-company-frag" class="mb20px">
+        <div th:replace="fragments/smallCompany :: smallCompany-fragment"></div>
+    </div>
+    <div id="licence-availability-frag" class="mb20px">
+        <div th:replace="fragments/licenceAvailability :: licenceAvailability-fragment"></div>
+    </div>
+
+</div>
+</html>

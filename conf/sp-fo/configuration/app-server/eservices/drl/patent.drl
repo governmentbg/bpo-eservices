@@ -1,0 +1,146 @@
+package org.domain.rules;
+dialect "mvel"
+
+import eu.ohim.sp.core.domain.validation.ErrorCore;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.configuration.domain.xsd.Section;
+import eu.ohim.sp.core.configuration.domain.xsd.Field;
+import eu.ohim.sp.core.configuration.domain.xsd.Sections;
+import eu.ohim.sp.core.configuration.domain.xsd.AvailableSection;
+import java.util.Map;
+import java.util.ArrayList;
+import org.apache.commons.lang.*;
+import eu.ohim.sp.core.domain.application.EServiceApplication;
+import eu.ohim.sp.core.domain.design.DSeServiceApplication;
+import eu.ohim.sp.core.domain.design.Design;
+import eu.ohim.sp.core.domain.design.DesignApplication;
+import eu.ohim.sp.core.domain.trademark.TMeServiceApplication;
+import eu.ohim.sp.core.domain.patent.PTeServiceApplication;
+import eu.ohim.sp.core.domain.validation.RulesInformation;
+import java.util.Map;
+import java.util.HashMap;
+import java.lang.*;
+import eu.ohim.sp.core.domain.person.Applicant;
+import eu.ohim.sp.core.domain.person.Representative;
+import eu.ohim.sp.core.domain.person.PersonIdentifier;
+import eu.ohim.sp.core.domain.person.PersonKind;
+import java.util.List;
+import java.util.ArrayList;
+import eu.ohim.sp.core.domain.opposition.OppositionGround;
+import eu.ohim.sp.core.domain.opposition.OppositionRelativeGrounds;
+import eu.ohim.sp.core.domain.opposition.GroundCategoryKind;
+import eu.ohim.sp.core.domain.trademark.TradeMark;
+import eu.ohim.sp.core.domain.trademark.LimitedTradeMark;
+global eu.ohim.sp.core.domain.validation.ErrorList errorList;
+import java.util.Calendar;
+import java.util.Date;
+import eu.ohim.sp.core.domain.application.Signatory;
+import eu.ohim.sp.core.domain.design.DesignApplication;
+import eu.ohim.sp.core.domain.licence.Licence;
+import eu.ohim.sp.core.domain.trademark.GSHelperDetails;
+import eu.ohim.sp.core.domain.trademark.ApplicationExtent;
+import java.lang.System;
+import java.util.Date;
+import java.util.Calendar;
+import eu.ohim.sp.core.domain.person.Holder;
+import eu.ohim.sp.core.domain.resources.AttachedDocument;
+import eu.ohim.sp.core.configuration.domain.xsd.AvailableSection
+import eu.ohim.sp.core.domain.patent.Patent;
+
+rule "Patent status"
+salience 1000
+when
+	$errorList : ErrorList()
+    $pt : Patent()
+	$stateId : RulesInformation($customObjects : customObjects)
+then
+	HashMap co = $customObjects;
+    String eservice = co.get("eservice");
+        if (eservice.equals("um-renewal")) {
+        if(!$pt.getGroupStatusCode().equals("Registered")){
+		addError("formWarnings", "Patent.All.UMs.MustBe.Registered", "The utility model must have the status registered",
+		null, $errorList);
+		}
+	}
+end
+
+rule "UM must not have expired for more than 6m"
+salience 1000
+when
+	$errorList : ErrorList()
+    $pt : Patent()
+	$stateId : RulesInformation($customObjects : customObjects)
+then
+	HashMap co = $customObjects;
+    String eservice = co.get("eservice");
+    if (eservice.equals("um-renewal")) {
+
+        if(!ptRenewableValidEntitlementDate($pt)){
+            addError(null,  "Patent.No.Entitlement.Date", "The utility model has no entitlement date",
+            "formWarnings", $errorList);
+        }
+
+        if(!ptRenewableValidExpirationDate($pt)){
+            addError(null,  "Patent.No.Expiration.Date", "The utility model has no expiration date",
+            "formWarnings", $errorList);
+        }
+
+        if(ptRenewableValidExpirationDate($pt) && ptRenewableValidEntitlementDate($pt)){
+            if(!ptRenewableCheckAvailability($pt)){
+                addError(null, "Patent.Not.In.Renewal.Period", "The utility model is not in renewal period",
+                "formWarnings", $errorList);
+            }
+        }
+	}
+end
+
+rule "UM 10 years term"
+salience 1000
+when
+	$errorList : ErrorList()
+    $pt : Patent()
+	$stateId : RulesInformation($customObjects : customObjects)
+then
+	HashMap co = $customObjects;
+    String eservice = co.get("eservice");
+    if (eservice.equals("um-renewal")) {
+        if(ptRenewableValidEntitlementDate($pt)){
+            if(ptAfterSecondRenewal($pt)){
+               addError(null, "Patent.Renewal.Overdue", "The utility model renewal period is overdue",
+               "formWarnings", $errorList);
+             }
+        }
+	}
+end
+
+    function boolean ptRenewableValidEntitlementDate(Patent p) {
+        return p.getEntitlementDate() != null;
+    }
+
+    function boolean ptRenewableValidExpirationDate(Patent p) {
+        return p.getExpirationDate() != null;
+    }
+
+    function boolean ptRenewableCheckAvailability(Patent p) {
+        Calendar today = Calendar.getInstance();
+
+        Calendar renewalStart = Calendar.getInstance();
+        renewalStart.setTime(p.getExpirationDate());
+        renewalStart.add(Calendar.YEAR, -1);
+
+        Calendar renewalEnd = Calendar.getInstance();
+        renewalEnd.setTime(p.getExpirationDate());
+        renewalEnd.add(Calendar.MONTH, 6);
+
+        return today.after(renewalStart) && today.before(renewalEnd);
+    }
+
+    function boolean ptAfterSecondRenewal(Patent p) {
+        Calendar today = Calendar.getInstance();
+        Calendar maxPeriod = Calendar.getInstance();
+        maxPeriod.setTime(p.getEntitlementDate());
+        maxPeriod.add(Calendar.YEAR, 7);
+        maxPeriod.add(Calendar.MONTH, 6);
+
+        return maxPeriod.before(today);
+    }

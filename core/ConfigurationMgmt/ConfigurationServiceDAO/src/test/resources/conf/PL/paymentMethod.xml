@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ * SystemConfigurationServiceDao:: paymentMethod.xml 07/10/13 21:16 karalch $
+  ~  * . * .
+  ~  * * RRRR * Copyright © 2013 OHIM: Office for Harmonization
+  ~  * . RR R . in the Internal Market (trade marks and designs)
+  ~  * * RRR *
+  ~  * . RR RR . ALL RIGHTS RESERVED
+  ~  * * . _ . *
+  -->
+
+<paymentMethods xmlns="http://www.example.org/paymentMethod-configuration"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.example.org/paymentMethod-configuration paymentMethod-configuration.xsd ">
+	<paymentMethod code="" value="selectBox.SELECT" active="true" payerDetails="false"/>
+	<paymentMethod code="CREDIT_CARD" value="payment.method.type.creditcard" active="true" payerDetails="true"/>
+	<paymentMethod code="BANK_TRANSFER"	value="payment.method.type.banktransfer" active="true" payerDetails="false"/>
+	<paymentMethod code="DEBIT_CARD"	value="payment.method.type.debitcard" active="false" payerDetails="false"/>
+	<paymentMethod code="ONLINE_PAYMENT"	value="payment.method.type.onlinepayment" active="false" payerDetails="false"/>
+	<paymentMethod code="POSTAL_ORDER"	value="payment.method.type.postalorder" active="false" payerDetails="false"/>
+	<paymentMethod code="CURRENT_ACCOUNT"	value="payment.method.type.currentaccount" active="false" payerDetails="false"/>
+	<paymentMethod code="OTHER"	value="payment.method.type.other" active="false" payerDetails="false"/>
+</paymentMethods>

@@ -1,0 +1,83 @@
+package org.domain.rules;
+
+dialect "mvel"
+
+import eu.ohim.sp.core.domain.validation.ErrorCore;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.domain.payment.FeeList;
+import eu.ohim.sp.core.domain.payment.FeeType;
+import eu.ohim.sp.core.domain.payment.Fee;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.TreeMap;
+import java.util.List;
+import java.util.Date;
+
+import eu.ohim.sp.core.domain.opposition.OppositionRelativeGrounds;
+import eu.ohim.sp.core.domain.opposition.OppositionGround;
+import eu.ohim.sp.core.domain.opposition.OppositionAbsoluteGrounds;
+import eu.ohim.sp.core.domain.opposition.EarlierEntitlementRightKind;
+import eu.ohim.sp.core.domain.opposition.LawArticle;
+import eu.ohim.sp.core.domain.trademark.TMeServiceApplication;
+
+rule "Fees reader"
+salience 1000
+no-loop
+    when
+		FeeList($feeTypeList : feeTypeList)
+        $bF : FeeType("basicFee".equals(nameKey)) from $feeTypeList
+        $badFaith : FeeType("badFaithFee".equals(nameKey)) from $feeTypeList
+    then
+    	TreeMap map = new TreeMap();
+        map.put("basicFee", $bF);
+        map.put("badFaithFee", $badFaith);
+        insert(map);
+end
+
+rule "Init oppo basis objects"
+salience 1000
+no-loop
+when
+    $esApp: TMeServiceApplication(oppositionGrounds != null && oppositionGrounds.size()>0)
+then
+    for(OppositionGround oppo: $esApp.getOppositionGrounds()) {
+        insert(oppo);
+    }
+end
+
+
+rule "Basic Fee"
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        exists (OppositionRelativeGrounds(earlierEntitlementRightType!= EarlierEntitlementRightKind.BAD_FAITH) or OppositionAbsoluteGrounds())
+    then
+        # Creates the base fee.
+        Fee fee = new Fee();
+        fee.setFeeType((FeeType) $map.get("basicFee"));
+        fee.setQuantity(1);
+        fee.setUnitAmount(((FeeType) $map.get("basicFee")).getDefaultValue());
+        fee.setAmount(fee.quantity * fee.unitAmount);
+        # Adds the base fee to the result list
+        $results.put("basicFee", fee);
+end
+
+
+rule "Bad faith Fee"
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        exists (OppositionRelativeGrounds(earlierEntitlementRightType == EarlierEntitlementRightKind.BAD_FAITH))
+        not (exists (OppositionRelativeGrounds(earlierEntitlementRightType != EarlierEntitlementRightKind.BAD_FAITH)))
+        not (exists (OppositionAbsoluteGrounds()))
+    then
+	    Fee fee = new Fee();
+	    fee.setFeeType((FeeType) $map.get("badFaithFee"));
+	    fee.setQuantity(1);
+	    fee.setUnitAmount(((FeeType) $map.get("badFaithFee")).getDefaultValue());
+	    fee.setAmount(fee.quantity * fee.unitAmount);
+	    # Adds the base fee to the result list
+	    $results.put("badFaithFee", fee);
+end

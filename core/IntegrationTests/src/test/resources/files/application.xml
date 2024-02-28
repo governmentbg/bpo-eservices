@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:Transaction xmlns:ns2="http://ohim.eu/sp/filing/trademark/v2">
+    <TradeMarkTransactionBody>
+        <TransactionContentDetails>
+            <TransactionData>
+                <TradeMarkApplication>
+                    <RequestSearch>
+                        <RequestSearchKindCode>Normal</RequestSearchKindCode>
+                    </RequestSearch>
+                    <DocumentIncludedDetails>
+                        <DocumentIncluded>
+                            <DocumentName>arbol.jpg</DocumentName>
+                            <DocumentURI>ATTACHMENTS/Att006.jpg</DocumentURI>
+                            <DocumentFilename>arbol.jpg</DocumentFilename>
+                            <DocumentFileFormat>JPEG</DocumentFileFormat>
+                            <Comment>dfadfsadf</Comment>
+                            <DocumentKind>Other</DocumentKind>
+                        </DocumentIncluded>
+                        <DocumentIncluded>
+                            <DocumentName>receipt.pdf</DocumentName>
+                            <DocumentURI>receipt.pdf</DocumentURI>
+                            <DocumentFilename>receipt.pdf</DocumentFilename>
+                            <DocumentFileFormat>PDF</DocumentFileFormat>
+                            <DocumentKind>Application Receipt</DocumentKind>
+                        </DocumentIncluded>
+                    </DocumentIncludedDetails>
+                    <TradeMarkDetails>
+                        <TradeMark>
+                            <RegistrationOfficeCode>EM</RegistrationOfficeCode>
+                            <ReceivingOfficeCode>EM</ReceivingOfficeCode>
+                            <ReceivingOfficeDate>2013-03-25+01:00</ReceivingOfficeDate>
+                            <ApplicationReference>1234342234</ApplicationReference>
+                            <ApplicationLanguageCode>en</ApplicationLanguageCode>
+                            <SecondLanguageCode>fr</SecondLanguageCode>
+                            <CorrespondenceLanguageCode>fr</CorrespondenceLanguageCode>
+                            <KindMark>Collective</KindMark>
+                            <MarkFeature>Figurative</MarkFeature>
+                            <MarkDescriptionDetails>
+<MarkDescription languageCode="en">dfasdfsasdfa</MarkDescription>
+<MarkDescription languageCode="fr">sdfasdfa</MarkDescription>
+                            </MarkDescriptionDetails>
+                            <MarkDisclaimerDetails>
+<MarkDisclaimer languageCode="en">dfassdfasdfa</MarkDisclaimer>
+<MarkDisclaimer languageCode="fr">sdfasdfasdfaasdf</MarkDisclaimer>
+                            </MarkDisclaimerDetails>
+                            <MarkImageDetails>
+<MarkImage>
+    <MarkImageIdentifier></MarkImageIdentifier>
+    <MarkImageURI>ATTACHMENTS/Att007.jpg</MarkImageURI>
+    <MarkImageFilename>arbol.jpg</MarkImageFilename>
+    <MarkImageFileFormat>JPEG</MarkImageFileFormat>
+    <MarkImageColourDetails>
+        <Colour>
+            <ColourClaimedText languageCode="en">dfsdfsadfsa</ColourClaimedText>
+        </Colour>
+        <Colour>
+            <ColourCode colourCodeFormat="PANTONE">dfasdfasdf</ColourCode>
+        </Colour>
+        <Colour>
+            <ColourCode colourCodeFormat="RGB">123123123</ColourCode>
+        </Colour>
+    </MarkImageColourDetails>
+</MarkImage>
+                            </MarkImageDetails>
+                            <GoodsServicesDetails>
+<GoodsServices>
+    <ClassDescriptionDetails>
+        <ClassDescription>
+            <ClassNumber>11</ClassNumber>
+            <ClassificationTermDetails>
+                <ClassificationTerm>
+                    <ClassificationTermText>arsdfaasdfsdfasdf</ClassificationTermText>
+                    <ClassificationTermAssessment>Term not found</ClassificationTermAssessment>
+                </ClassificationTerm>
+                <ClassificationTermLanguageCode>en</ClassificationTermLanguageCode>
+            </ClassificationTermDetails>
+            <FullClassCoverageIndicator>false</FullClassCoverageIndicator>
+        </ClassDescription>
+        <ClassDescription>
+            <ClassNumber>13</ClassNumber>
+            <ClassificationTermDetails>
+                <ClassificationTerm>
+                    <ClassificationTermText>ddddd</ClassificationTermText>
+                    <ClassificationTermAssessment>Term not found</ClassificationTermAssessment>
+                </ClassificationTerm>
+                <ClassificationTermLanguageCode>en</ClassificationTermLanguageCode>
+            </ClassificationTermDetails>
+            <FullClassCoverageIndicator>false</FullClassCoverageIndicator>
+        </ClassDescription>
+        <ClassDescription>
+            <ClassNumber>20</ClassNumber>
+            <ClassificationTermDetails>
+                <ClassificationTerm>
+                    <ClassificationTermText>asdfdfsasdfasdfaasdf</ClassificationTermText>
+                    <ClassificationTermAssessment>Term not found</ClassificationTermAssessment>
+                </ClassificationTerm>
+                <ClassificationTermLanguageCode>en</ClassificationTermLanguageCode>
+            </ClassificationTermDetails>
+            <FullClassCoverageIndicator>false</FullClassCoverageIndicator>
+        </ClassDescription>
+        <ClassDescription>
+            <ClassNumber>44</ClassNumber>
+            <ClassificationTermDetails>
+                <ClassificationTerm>
+                    <ClassificationTermText>asdfasdfasdf</ClassificationTermText>
+                    <ClassificationTermAssessment>Term not found</ClassificationTermAssessment>
+                </ClassificationTerm>
+                <ClassificationTermLanguageCode>en</ClassificationTermLanguageCode>
+            </ClassificationTermDetails>
+            <FullClassCoverageIndicator>false</FullClassCoverageIndicator>
+        </ClassDescription>
+    </ClassDescriptionDetails>
+</GoodsServices>
+                            </GoodsServicesDetails>
+                            <PriorityClaimLaterIndicator>false</PriorityClaimLaterIndicator>
+                            <PriorityDetails>
+<Priority>
+    <PriorityCountryCode>FI</PriorityCountryCode>
+    <PriorityNumber>12323</PriorityNumber>
+    <PriorityDate>2013-03-05+01:00</PriorityDate>
+    <PriorityDocument>
+        <DocumentName>arbol.jpg</DocumentName>
+        <DocumentURI>ATTACHMENTS/Att001.jpg</DocumentURI>
+        <DocumentFilename>arbol.jpg</DocumentFilename>
+        <DocumentFileFormat>JPEG</DocumentFileFormat>
+        <DocumentKind>Priority Certificate</DocumentKind>
+    </PriorityDocument>
+    <PriorityDocument>
+        <DocumentName>arbol.jpg</DocumentName>
+        <DocumentURI>ATTACHMENTS/Att002.jpg</DocumentURI>
+        <DocumentFilename>arbol.jpg</DocumentFilename>
+        <DocumentFileFormat>JPEG</DocumentFileFormat>
+        <DocumentKind>Priority Certificate Translation</DocumentKind>
+    </PriorityDocument>
+</Priority>
+<Priority>
+    <PriorityCountryCode>FR</PriorityCountryCode>
+    <PriorityNumber>423234</PriorityNumber>
+    <PriorityDate>2013-03-06+01:00</PriorityDate>
+</Priority>
+                            </PriorityDetails>
+                            <ExhibitionPriorityClaimLaterIndicator>false</ExhibitionPriorityClaimLaterIndicator>
+                            <ExhibitionPriorityDetails>
+<ExhibitionPriority>
+    <ExhibitionName>Expo 2010 Shanghai China, 01/05/20</ExhibitionName>
+    <ExhibitionFirstDisplayDate>2013-03-06+01:00</ExhibitionFirstDisplayDate>
+    <ExhibitionDocument>
+        <DocumentName>arbol.jpg</DocumentName>
+        <DocumentURI>ATTACHMENTS/Att005.jpg</DocumentURI>
+        <DocumentFilename>arbol.jpg</DocumentFilename>
+        <DocumentFileFormat>JPEG</DocumentFileFormat>
+        <DocumentKind>Exhibition Priority Certificate</DocumentKind>
+    </ExhibitionDocument>
+</ExhibitionPriority>
+<ExhibitionPriority>
+    <ExhibitionName>EXPO Athens 2008, 10/05/2008-13/06/2008</ExhibitionName>
+    <ExhibitionFirstDisplayDate>2013-03-05+01:00</ExhibitionFirstDisplayDate>
+</ExhibitionPriority>
+                            </ExhibitionPriorityDetails>
+                            <TransformationPriorityDetails>
+<TransformationPriority>
+    <RegistrationNumber>234234234</RegistrationNumber>
+    <RegistrationDate>2013-02-26+01:00</RegistrationDate>
+    <CancellationDate>2013-03-05+01:00</CancellationDate>
+    <PriorityDate>2013-02-26+01:00</PriorityDate>
+</TransformationPriority>
+<TransformationPriority>
+    <RegistrationNumber>234342234</RegistrationNumber>
+    <RegistrationDate>2013-03-06+01:00</RegistrationDate>
+    <CancellationDate>2013-02-26+01:00</CancellationDate>
+    <PriorityDate>2013-02-27+01:00</PriorityDate>
+</TransformationPriority>
+                            </TransformationPriorityDetails>
+                            <SeniorityDetails>
+<Seniority>
+    <SeniorityCountryCode>FI</SeniorityCountryCode>
+    <SeniorityApplicationNumber>234234</SeniorityApplicationNumber>
+    <SeniorityKind>International trade mark</SeniorityKind>
+    <SeniorityFilingDate>2013-03-06+01:00</SeniorityFilingDate>
+    <SeniorityRegistrationNumber>232323</SeniorityRegistrationNumber>
+    <SeniorityRegistrationDate>2013-03-06+01:00</SeniorityRegistrationDate>
+    <SeniorityDocument>
+        <DocumentName>arbol.jpg</DocumentName>
+        <DocumentURI>ATTACHMENTS/Att004.jpg</DocumentURI>
+        <DocumentFilename>arbol.jpg</DocumentFilename>
+        <DocumentFileFormat>JPEG</DocumentFileFormat>
+        <DocumentKind>Seniority Certificate</DocumentKind>
+    </SeniorityDocument>
+</Seniority>
+<Seniority>
+    <SeniorityCountryCode>IT</SeniorityCountryCode>
+    <SeniorityApplicationNumber>2423234234</SeniorityApplicationNumber>
+    <SeniorityKind>National or regional trade mark</SeniorityKind>
+    <SeniorityFilingDate>2013-03-05+01:00</SeniorityFilingDate>
+    <SeniorityRegistrationNumber>234342234</SeniorityRegistrationNumber>
+    <SeniorityRegistrationDate>2013-03-05+01:00</SeniorityRegistrationDate>
+</Seniority>
+                            </SeniorityDetails>
+                            <ApplicantDetails>
+<Applicant>
+    <ApplicantIdentifier identifierKindCode="Company number">234234234</ApplicantIdentifier>
+    <ApplicantLegalEntity>sdfadfaasdf</ApplicantLegalEntity>
+    <ApplicantIncorporationCountryCode>FI</ApplicantIncorporationCountryCode>
+    <ApplicantAddressBook>
+        <FormattedNameAddress>
+            <Name>
+                <FormattedName>
+                    <OrganizationName>dfsadfsadfsa</OrganizationName>
+                </FormattedName>
+                <NameKind>Legal Entity</NameKind>
+            </Name>
+            <Address>
+                <FormattedAddress>
+                    <AddressStreet>fsdadfassdfa</AddressStreet>
+                    <AddressCity>dfassdfasdfa</AddressCity>
+                    <AddressPostcode>23324</AddressPostcode>
+                    <FormattedAddressCountryCode>FR</FormattedAddressCountryCode>
+                    <AddressStreetNumber>23</AddressStreetNumber>
+                </FormattedAddress>
+            </Address>
+        </FormattedNameAddress>
+        <ContactInformationDetails>
+            <Phone phoneKind="Undefined">234234234</Phone>
+            <Fax>234234234</Fax>
+            <Email>dfsasdfsdf@sdfsdfsdf.com</Email>
+            <URL>fdsasdfsdf.com</URL>
+        </ContactInformationDetails>
+        <DataPrivacyWaiver>false</DataPrivacyWaiver>
+    </ApplicantAddressBook>
+    <ApplicantCorrespondenceAddressBook>
+        <FormattedNameAddress>
+            <Name>
+                <FormattedName>
+                    <LastName>sdfadfsasdfa</LastName>
+                </FormattedName>
+            </Name>
+            <Address>
+                <FormattedAddress>
+                    <AddressStreet>dfsadfsasdfa</AddressStreet>
+                    <AddressCity>sdfadfasdfsdf</AddressCity>
+                    <AddressPostcode>23233</AddressPostcode>
+                    <FormattedAddressCountryCode>GR</FormattedAddressCountryCode>
+                    <AddressStreetNumber>23</AddressStreetNumber>
+                </FormattedAddress>
+            </Address>
+        </FormattedNameAddress>
+        <ContactInformationDetails>
+            <Phone phoneKind="Undefined">dfasdfsasdf.com</Phone>
+            <Email>dfasdfsadfsa@dfsasdfadf.com</Email>
+        </ContactInformationDetails>
+    </ApplicantCorrespondenceAddressBook>
+</Applicant>
+                            </ApplicantDetails>
+                            <RepresentativeDetails>
+<Representative>
+    <RepresentativeIdentifier>20207</RepresentativeIdentifier>
+</Representative>
+                            </RepresentativeDetails>
+                            <TradeMarkDocumentDetails>
+<TradeMarkDocument>
+    <DocumentName>arbol.jpg</DocumentName>
+    <DocumentURI>ATTACHMENTS/Att008.jpg</DocumentURI>
+    <DocumentFilename>arbol.jpg</DocumentFilename>
+    <DocumentFileFormat>JPEG</DocumentFileFormat>
+    <DocumentKind>Collective Trade Mark Regulation</DocumentKind>
+</TradeMarkDocument>
+                            </TradeMarkDocumentDetails>
+                        </TradeMark>
+                    </TradeMarkDetails>
+                    <PaymentDetails>
+                        <Payment>
+                            <PaymentIdentifier>1339CG0</PaymentIdentifier>
+                            <PayerName>
+<FormattedName/>
+                            </PayerName>
+                            <PaymentStatus>Done</PaymentStatus>
+                            <PayerAddressBook>
+<FormattedNameAddress>
+    <Address>
+        <FormattedAddress/>
+    </Address>
+</FormattedNameAddress>
+<ContactInformationDetails/>
+                            </PayerAddressBook>
+                            <PaymentKind>Bank Transfer</PaymentKind>
+                        </Payment>
+                    </PaymentDetails>
+                    <SignatoryDetails>
+                        <Signatory>
+                            <SignatoryName>
+<FormattedName>
+    <LastName>dfsasdfasdfa</LastName>
+</FormattedName>
+                            </SignatoryName>
+                            <SignatoryCapacityCode>Applicant</SignatoryCapacityCode>
+                        </Signatory>
+                        <Signatory>
+                            <SignatoryName>
+<FormattedName>
+    <LastName>dfassdfadfsadfsa</LastName>
+</FormattedName>
+                            </SignatoryName>
+                            <SignatoryCapacityCode>Employee</SignatoryCapacityCode>
+                        </Signatory>
+                    </SignatoryDetails>
+                    <ApplicationFilingNumber>EFEM201300000001381</ApplicationFilingNumber>
+                    <ApplicationFilingDate>2013-03-25+01:00</ApplicationFilingDate>
+                </TradeMarkApplication>
+            </TransactionData>
+        </TransactionContentDetails>
+    </TradeMarkTransactionBody>
+</ns2:Transaction>

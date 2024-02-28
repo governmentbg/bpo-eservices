@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<p:fileUploadConfiguration
+        xmlns:p="http://www.example.org/fileupload-configuration" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.example.org/fileupload-configuration fileupload-configuration.xsd">
+
+    <p:fileUpload fieldName="fileDocumentAttachment">
+        <p:fileUploadInfo>
+            <p:description>true</p:description>
+            <p:maximumFiles>10</p:maximumFiles>
+            <p:labelCode>p:labelCode</p:labelCode>
+            <p:allowedTypes>
+                <p:allowedFileType allowedSize="2097152" value="image/jpeg" description="JPEG"/>
+                <p:allowedFileType allowedSize="2097152" value="image/pjpeg"/>
+                <p:allowedFileType allowedSize="2097152" value="application/pdf" description="PDF"/>
+                <p:allowedFileType allowedSize="2097152" value="audio/mp3" description="MP3"/>
+                <p:allowedFileType allowedSize="2097152" value="audio/mpeg"/>
+            </p:allowedTypes>
+        </p:fileUploadInfo>
+    </p:fileUpload>
+    <p:fileUpload fieldName="filePriorityCertificate">
+        <p:fileUploadInfo>
+            <p:description>true</p:description>
+            <p:maximumFiles>5</p:maximumFiles>
+            <p:labelCode>p:labelCode</p:labelCode>
+            <p:allowedTypes>
+                <p:allowedFileType allowedSize="2097152" value="image/jpeg" description="JPEG"/>
+                <p:allowedFileType allowedSize="2097152" value="image/pjpeg" description="PJPEG"/>
+                <p:allowedFileType allowedSize="2097152" value="application/pdf" description="PDF"/>
+            </p:allowedTypes>
+        </p:fileUploadInfo>
+    </p:fileUpload>
+    <p:fileUpload fieldName="view">
+        <p:fileUploadInfo>
+            <p:description>false</p:description>
+            <p:maximumFiles>1</p:maximumFiles>
+            <p:labelCode>p:labelCode</p:labelCode>
+            <p:allowedTypes>
+                <p:allowedFileType allowedSize="2097152" value="image/jpeg" description="JPEG" image="true">
+                    <p:imageValidationParameters>
+                        <p:minSizePixels height="300" width="300"/>
+                        <p:maxSizePixels height="2830" width="2830"/>
+                        <p:maxSizeCentimeters height="24" width="24"/>
+                        <p:exifInfo>
+                            <p:validResolutionUnits>
+                                <p:validByte>0</p:validByte>
+                                <p:validByte>1</p:validByte>
+                                <p:validByte>2</p:validByte>
+                            </p:validResolutionUnits>
+                            <p:minXDensity>
+                                300
+                            </p:minXDensity>
+                            <p:minYDensity>
+                                300
+                            </p:minYDensity>
+                        </p:exifInfo>
+                        <p:acceptedColorModels>
+                            <p:colorModel>RGB</p:colorModel>
+                            <p:colorModel>Grayscale</p:colorModel>
+                            <p:colorModel>BW</p:colorModel>
+                        </p:acceptedColorModels>
+                    </p:imageValidationParameters>
+                </p:allowedFileType>
+                <p:allowedFileType allowedSize="2097152" value="image/png" description="PNG" image="true">
+                    <p:imageValidationParameters>
+                        <p:minSizePixels height="300" width="300"/>
+                        <p:maxSizePixels height="2830" width="2830"/>
+                        <p:maxSizeCentimeters height="24" width="24"/>
+                        <p:exifInfo>
+                            <p:validResolutionUnits>
+                                <p:validByte>0</p:validByte>
+                                <p:validByte>1</p:validByte>
+                                <p:validByte>2</p:validByte>
+                            </p:validResolutionUnits>
+                            <p:minXDensity>
+                                300
+                            </p:minXDensity>
+                            <p:minYDensity>
+                                300
+                            </p:minYDensity>
+                        </p:exifInfo>
+                        <p:acceptedColorModels>
+                            <p:colorModel>RGB</p:colorModel>
+                            <p:colorModel>Grayscale</p:colorModel>
+                            <p:colorModel>BW</p:colorModel>
+                        </p:acceptedColorModels>
+                    </p:imageValidationParameters>
+                </p:allowedFileType>
+
+            </p:allowedTypes>
+        </p:fileUploadInfo>
+    </p:fileUpload>
+    <p:fileUpload fieldName="patentDescriptions">
+        <p:fileUploadInfo>
+            <p:description>false</p:description>
+            <p:maximumFiles>1</p:maximumFiles>
+            <p:labelCode>p:labelCode</p:labelCode>
+            <p:allowedTypes>
+                <p:allowedFileType allowedSize="52428800" value="application/pdf" description="PDF"/>
+            </p:allowedTypes>
+        </p:fileUploadInfo>
+    </p:fileUpload>
+    <p:fileUpload fieldName="patentClaims">
+        <p:fileUploadInfo>
+            <p:description>false</p:description>
+            <p:maximumFiles>1</p:maximumFiles>
+            <p:labelCode>p:labelCode</p:labelCode>
+            <p:allowedTypes>
+                <p:allowedFileType allowedSize="52428800" value="application/pdf" description="PDF"/>
+            </p:allowedTypes>
+        </p:fileUploadInfo>
+    </p:fileUpload>
+    <p:fileUpload fieldName="patentDrawings">
+        <p:fileUploadInfo>
+            <p:description>false</p:description>
+            <p:maximumFiles>1</p:maximumFiles>
+            <p:labelCode>p:labelCode</p:labelCode>
+            <p:allowedTypes>
+                <p:allowedFileType allowedSize="52428800" value="application/pdf" description="PDF"/>
+            </p:allowedTypes>
+        </p:fileUploadInfo>
+    </p:fileUpload>
+    <p:fileUpload fieldName="sequencesListing">
+        <p:fileUploadInfo>
+            <p:description>false</p:description>
+            <p:maximumFiles>1</p:maximumFiles>
+            <p:labelCode>p:labelCode</p:labelCode>
+            <p:allowedTypes>
+                <p:allowedFileType allowedSize="10485760" value="text/xml" description="XML (text/xml)"/>
+                <p:allowedFileType allowedSize="10485760" value="application/xml" description="XML (application/xml)"/>
+            </p:allowedTypes>
+        </p:fileUploadInfo>
+    </p:fileUpload>
+    <p:fileUpload fieldName="patentOfficiaryFiles">
+        <p:fileUploadInfo>
+            <p:description>false</p:description>
+            <p:maximumFiles>1</p:maximumFiles>
+            <p:labelCode>p:labelCode</p:labelCode>
+            <p:allowedTypes>
+                <p:allowedFileType allowedSize="10485760" value="application/pdf" description="PDF"/>
+            </p:allowedTypes>
+        </p:fileUploadInfo>
+    </p:fileUpload>
+    <p:fileUpload fieldName="patentNotOfficiaryFiles">
+        <p:fileUploadInfo>
+            <p:description>false</p:description>
+            <p:maximumFiles>1</p:maximumFiles>
+            <p:labelCode>p:labelCode</p:labelCode>
+            <p:allowedTypes>
+                <p:allowedFileType allowedSize="10485760" value="application/pdf" description="PDF"/>
+            </p:allowedTypes>
+        </p:fileUploadInfo>
+    </p:fileUpload>
+    <p:fileUpload fieldName="transferContractFiles">
+        <p:fileUploadInfo>
+            <p:description>false</p:description>
+            <p:maximumFiles>1</p:maximumFiles>
+            <p:labelCode>p:labelCode</p:labelCode>
+            <p:allowedTypes>
+                <p:allowedFileType allowedSize="10485760" value="application/pdf" description="PDF"/>
+            </p:allowedTypes>
+        </p:fileUploadInfo>
+    </p:fileUpload>
+    <p:fileUpload fieldName="smallCompanyFiles">
+        <p:fileUploadInfo>
+            <p:description>false</p:description>
+            <p:maximumFiles>1</p:maximumFiles>
+            <p:labelCode>p:labelCode</p:labelCode>
+            <p:allowedTypes>
+                <p:allowedFileType allowedSize="10485760" value="application/pdf" description="PDF"/>
+            </p:allowedTypes>
+        </p:fileUploadInfo>
+    </p:fileUpload>
+    <p:fileUpload fieldName="postponementOfPublicationFiles">
+        <p:fileUploadInfo>
+            <p:description>false</p:description>
+            <p:maximumFiles>1</p:maximumFiles>
+            <p:labelCode>p:labelCode</p:labelCode>
+            <p:allowedTypes>
+                <p:allowedFileType allowedSize="10485760" value="application/pdf" description="PDF"/>
+            </p:allowedTypes>
+        </p:fileUploadInfo>
+    </p:fileUpload>
+    <p:fileUpload fieldName="inventorsAreRealFiles">
+        <p:fileUploadInfo>
+            <p:description>false</p:description>
+            <p:maximumFiles>1</p:maximumFiles>
+            <p:labelCode>p:labelCode</p:labelCode>
+            <p:allowedTypes>
+                <p:allowedFileType allowedSize="10485760" value="application/pdf" description="PDF"/>
+            </p:allowedTypes>
+        </p:fileUploadInfo>
+    </p:fileUpload>
+    <p:fileUpload fieldName="otherAttachments">
+        <p:fileUploadInfo>
+            <p:description>true</p:description>
+            <p:maximumFiles>15</p:maximumFiles>
+            <p:labelCode>p:labelCode</p:labelCode>
+            <p:allowedTypes>
+                <p:allowedFileType allowedSize="10485760" value="application/pdf" description="PDF" />
+                <p:allowedFileType allowedSize="10485760" value="application/msword" description="DOC" />
+                <p:allowedFileType allowedSize="10485760" value="application/vnd.openxmlformats-officedocument.wordprocessingml.document" description="DOCX" />
+                <p:allowedFileType allowedSize="10485760" value="application/vnd.ms-excel" description="XLS" />
+                <p:allowedFileType allowedSize="10485760" value="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" description="XLSX" />
+                <p:allowedFileType allowedSize="10485760" value="application/vnd.ms-powerpoint" description="PPT" />
+                <p:allowedFileType allowedSize="10485760" value="application/vnd.openxmlformats-officedocument.presentationml.presentation" description="PPTX" />
+                <p:allowedFileType allowedSize="10485760" value="audio/mp3" description="MP3"/>
+                <p:allowedFileType allowedSize="10485760" value="audio/mpeg"/>
+                <p:allowedFileType allowedSize="10485760" value="video/mp4" description="MP4"/>
+            </p:allowedTypes>
+        </p:fileUploadInfo>
+    </p:fileUpload>
+    <p:fileUpload fieldName="representativeAttachment">
+        <p:fileUploadInfo>
+            <p:description>true</p:description>
+            <p:maximumFiles>1</p:maximumFiles>
+            <p:labelCode>p:labelCode</p:labelCode>
+            <p:allowedTypes>
+                <p:allowedFileType allowedSize="3145728" value="image/jpeg" description="JPEG" />
+                <p:allowedFileType allowedSize="3145728" value="image/pjpeg" />
+                <p:allowedFileType allowedSize="3145728" value="image/tiff"  description="TIFF" />
+                <p:allowedFileType allowedSize="3145728" value="application/pdf" description="PDF" />
+            </p:allowedTypes>
+        </p:fileUploadInfo>
+    </p:fileUpload>
+    <p:fileUpload fieldName="inventorAttachment">
+        <p:fileUploadInfo>
+            <p:description>true</p:description>
+            <p:maximumFiles>15</p:maximumFiles>
+            <p:labelCode>p:labelCode</p:labelCode>
+            <p:allowedTypes>
+                <p:allowedFileType allowedSize="2097152" value="application/pdf" description="PDF" />
+                <p:allowedFileType allowedSize="2097152" value="application/msword" description="DOC" />
+                <p:allowedFileType allowedSize="2097152" value="application/vnd.openxmlformats-officedocument.wordprocessingml.document" description="DOCX" />
+                <p:allowedFileType allowedSize="2097152" value="application/vnd.ms-excel" description="XLS" />
+                <p:allowedFileType allowedSize="2097152" value="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" description="XLSX" />
+                <p:allowedFileType allowedSize="2097152" value="application/vnd.ms-powerpoint" description="PPT" />
+                <p:allowedFileType allowedSize="2097152" value="application/vnd.openxmlformats-officedocument.presentationml.presentation" description="PPTX" />
+            </p:allowedTypes>
+        </p:fileUploadInfo>
+    </p:fileUpload>
+    <p:fileUpload fieldName="loadApplicationXML">
+        <p:fileUploadInfo>
+            <p:description>true</p:description>
+            <p:maximumFiles>1</p:maximumFiles>
+            <p:labelCode>p:labelCode</p:labelCode>
+            <p:allowedTypes>
+                <p:allowedFileType allowedSize="2097152" value="text/xml" description="XML"/>
+                <p:allowedFileType allowedSize="2097152" value="application/epub"/>
+            </p:allowedTypes>
+        </p:fileUploadInfo>
+    </p:fileUpload>
+</p:fileUploadConfiguration>

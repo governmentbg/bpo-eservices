@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions name="InventorService"
+	targetNamespace="http://ohim.eu/sp/services/inventor/v3"
+	xmlns:tns="http://ohim.eu/sp/services/inventor/v3"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap12/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	
+	<wsdl:types>
+		<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+			<xsd:import namespace="http://ohim.eu/sp/services/inventor/v3" schemaLocation="../xsd/services/InventorService.xsd" />
+		</xsd:schema>
+	</wsdl:types>
+	
+	<wsdl:message name="searchInventor">
+		<wsdl:part name="parameters" element="tns:searchInventor" />
+	</wsdl:message>
+	<wsdl:message name="searchInventorResponse">
+		<wsdl:part name="parameters" element="tns:searchInventorResponse" />
+	</wsdl:message>
+
+	<wsdl:message name="getInventor">
+		<wsdl:part name="parameters" element="tns:getInventor" />
+	</wsdl:message>
+	<wsdl:message name="getInventorResponse">
+		<wsdl:part name="parameters" element="tns:getInventorResponse" />
+	</wsdl:message>
+
+	<wsdl:message name="getInventorAutocomplete">
+		<wsdl:part name="parameters" element="tns:getInventorAutocomplete" />
+	</wsdl:message>
+	<wsdl:message name="getInventorAutocompleteResponse">
+		<wsdl:part name="parameters" element="tns:getInventorAutocompleteResponse" />
+	</wsdl:message>
+
+	<wsdl:message name="matchInventor">
+		<wsdl:part name="parameters" element="tns:matchInventor" />
+	</wsdl:message>
+	<wsdl:message name="matchInventorResponse">
+		<wsdl:part  name="parameters" element="tns:matchInventorResponse" />
+	</wsdl:message>
+	
+	<wsdl:message name="saveInventor">
+		<wsdl:part name="parameters" element="tns:saveInventor" />
+	</wsdl:message>
+	<wsdl:message name="saveInventorResponse">
+		<wsdl:part name="parameters" element="tns:saveInventorResponse" />
+	</wsdl:message>
+	
+	<wsdl:message name="inventorFault">
+		<wsdl:part name="parameters" element="tns:inventorFault" />
+	</wsdl:message>
+
+	<wsdl:portType name="InventorServicePortType">
+		<wsdl:operation name="saveInventor">
+			<wsdl:input name="saveInventor" message="tns:saveInventor" />
+			<wsdl:output name="saveInventorResponse" message="tns:saveInventorResponse" />
+			<wsdl:fault name="inventorFault" message="tns:inventorFault" />
+		</wsdl:operation>
+		<wsdl:operation name="matchInventor">
+			<wsdl:input name="matchInventor" message="tns:matchInventor" />
+			<wsdl:output name="matchInventorResponse" message="tns:matchInventorResponse" />
+			<wsdl:fault name="inventorFault" message="tns:inventorFault" />
+		</wsdl:operation>
+		<wsdl:operation name="getInventor">
+			<wsdl:input name="getInventor" message="tns:getInventor" />
+			<wsdl:output name="getInventorResponse" message="tns:getInventorResponse" />
+			<wsdl:fault name="inventorFault" message="tns:inventorFault" />
+		</wsdl:operation>
+		<wsdl:operation name="searchInventor">
+			<wsdl:input name="searchInventor" message="tns:searchInventor" />
+			<wsdl:output name="searchInventorResponse" message="tns:searchInventorResponse" />
+			<wsdl:fault name="inventorFault" message="tns:inventorFault" />
+		</wsdl:operation>
+		<wsdl:operation name="getInventorAutocomplete">
+			<wsdl:input name="getInventorAutocomplete" message="tns:getInventorAutocomplete" />
+			<wsdl:output name="getInventorAutocompleteResponse" message="tns:getInventorAutocompleteResponse" />
+			<wsdl:fault name="inventorFault" message="tns:inventorFault" />
+		</wsdl:operation>
+	</wsdl:portType>
+	
+	<wsdl:binding name="InventorServiceBinding" type="tns:InventorServicePortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="matchInventor">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="matchInventor">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="matchInventorResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="inventorFault">
+				<soap:fault use="literal" name="inventorFault" />
+			</wsdl:fault>	
+		</wsdl:operation>
+		<wsdl:operation name="saveInventor">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="saveInventor">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="saveInventorResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="inventorFault">
+				<soap:fault use="literal" name="inventorFault" />
+			</wsdl:fault>			
+		</wsdl:operation>
+		<wsdl:operation name="getInventor">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="getInventor">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="getInventorResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="inventorFault">
+				<soap:fault use="literal" name="inventorFault" />
+			</wsdl:fault>			
+		</wsdl:operation>
+		<wsdl:operation name="searchInventor">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="searchInventor">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="searchInventorResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="inventorFault">
+				<soap:fault use="literal" name="inventorFault" />
+			</wsdl:fault>			
+		</wsdl:operation>
+		<wsdl:operation name="getInventorAutocomplete">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="getInventorAutocomplete">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="getInventorAutocompleteResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="inventorFault">
+				<soap:fault use="literal" name="inventorFault" />
+			</wsdl:fault>			
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="InventorService">
+		<wsdl:port name="InventorServicePort" binding="tns:InventorServiceBinding">
+			<soap:address location="http://${fsp.ws.host}/${fsp.ws.context.root}${fsp.ws.inventor.path}${fsp.ws.wsdl.services.path}" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,8 @@
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+
+# Clients
+192.168.250.10 master.example.com
+192.168.250.21 slave1.example.com
+192.168.250.22 slave2.example.com
+192.168.250.5 mysql.example.com

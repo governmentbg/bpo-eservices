@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<feeList>
+	<feeTypeList>
+		<code>001</code>
+		<nameKey>basicFee</nameKey>
+		<description>basic fee</description>
+		<defaultValue>40.0</defaultValue>
+	</feeTypeList>
+
+	<feeTypeList>
+		<code>002</code>
+		<nameKey>claimFee</nameKey>
+		<description>fee for every claim after the 10th</description>
+		<defaultValue>20.0</defaultValue>
+	</feeTypeList>
+
+	<feeTypeList>
+		<code>003</code>
+		<nameKey>priorityFee</nameKey>
+		<description>fee for every priority</description>
+		<defaultValue>20.0</defaultValue>
+	</feeTypeList>
+
+	<feeTypeList>
+		<code>004</code>
+		<nameKey>formalExaminationFee</nameKey>
+		<description>fee for formal examination</description>
+		<defaultValue>40.0</defaultValue>
+	</feeTypeList>
+
+	<feeTypeList>
+		<code>005</code>
+		<nameKey>expertiseAndCheckOneInventionFee</nameKey>
+		<description>fee for expertise and check for 1 invention</description>
+		<defaultValue>150.0</defaultValue>
+	</feeTypeList>
+
+	<feeTypeList>
+		<code>006</code>
+		<nameKey>expertiseAndCheckMultipleInventionsFee</nameKey>
+		<description>fee for expertise and check for multiple inventions</description>
+		<defaultValue>180.0</defaultValue>
+	</feeTypeList>
+
+	<feeTypeList>
+		<code>007</code>
+		<nameKey>examinationRequestedOneInventionFee</nameKey>
+		<description>if examinationRequested is selected and is one invention</description>
+		<defaultValue>180.0</defaultValue>
+	</feeTypeList>
+
+	<feeTypeList>
+		<code>008</code>
+		<nameKey>examinationRequestedMultipleInventionsFee</nameKey>
+		<description>if examinationRequested is selected and there are multiple inventions</description>
+		<defaultValue>180.0</defaultValue>
+	</feeTypeList>
+
+	<feeTypeList>
+		<code>009</code>
+		<nameKey>publicationFee</nameKey>
+		<description>publicationFee</description>
+		<defaultValue>70.0</defaultValue>
+	</feeTypeList>
+
+	<feeTypeList>
+		<code>010</code>
+		<nameKey>anticipationOfPublicationFee</nameKey>
+		<description>anticipationOfPublicationFee</description>
+		<defaultValue>30.0</defaultValue>
+	</feeTypeList>
+
+	<feeTypeList>
+		<code>011</code>
+		<nameKey>smallCompanyDiscount</nameKey>
+		<description>discount when small company</description>
+		<defaultValue>0.5</defaultValue>
+		<configFee>true</configFee>
+	</feeTypeList>
+
+	<feeTypeList>
+		<code>012</code>
+		<nameKey>licenceAvailabilityDiscount</nameKey>
+		<description>discount when licence availability</description>
+		<defaultValue>0.5</defaultValue>
+		<configFee>true</configFee>
+	</feeTypeList>
+
+</feeList>

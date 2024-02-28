@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ * FspDomain:: globalConfigurationMapping.xml 02/09/13 18:15 karalch $
+  ~  * . * .
+  ~  * * RRRR * Copyright © 2013 OHIM: Office for Harmonization
+  ~  * . RR R . in the Internal Market (trade marks and designs)
+  ~  * * RRR *
+  ~  * . RR RR . ALL RIGHTS RESERVED
+  ~  * * . _ . *
+  -->
+
+<mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://dozer.sourceforge.net http://dozer.sourceforge.net/schema/beanmapping.xsd">
+	<configuration>
+		<custom-converters>
+			<converter type="eu.ohim.sp.core.domain.converter.EmailConverter">
+				<class-a>java.lang.String</class-a>
+				<class-b>eu.ohim.sp.core.domain.contact.Email</class-b>
+			</converter>
+			<converter type="eu.ohim.sp.core.domain.converter.FSPEnumConverter" >
+				<class-a>java.lang.Enum</class-a>
+				<class-b>java.lang.Enum</class-b>
+			</converter>
+			<converter type="eu.ohim.sp.core.domain.converter.FSPEnumConverter">
+				<class-a>java.lang.Enum</class-a>
+				<class-b>java.lang.String</class-b>
+			</converter>
+            <converter type="eu.ohim.sp.core.domain.converter.FSPEnumConverter">
+                <class-a>eu.ohim.sp.filing.domain.ol.ExtendedISOLanguageCode</class-a>
+                <class-b>java.lang.String</class-b>
+            </converter>
+            <converter type="eu.ohim.sp.core.domain.converter.FSPEnumConverter">
+                <class-a>eu.ohim.sp.filing.domain.ol.ISOLanguageCode</class-a>
+                <class-b>java.lang.String</class-b>
+            </converter>
+			<converter type="eu.ohim.sp.core.domain.converter.FSPEnumConverter">
+				<class-a>eu.ohim.sp.filing.domain.ol.ExtendedWIPOST3Code</class-a>
+				<class-b>java.lang.String</class-b>
+			</converter>
+			<converter type="eu.ohim.sp.core.domain.converter.FSPEnumConverter">
+				<class-a>eu.ohim.sp.filing.domain.ol.FileFormat</class-a>
+				<class-b>java.lang.String</class-b>
+			</converter>
+			<converter type="eu.ohim.sp.core.domain.converter.TextConverter">
+				<class-a>java.lang.String</class-a>
+				<class-b>eu.ohim.sp.filing.domain.ol.Text</class-b>
+			</converter>
+			<converter type="eu.ohim.sp.core.domain.converter.FSPEnumConverter">
+				<class-a>eu.ohim.sp.filing.domain.ol.WIPOST3Code</class-a>
+				<class-b>java.lang.String</class-b>
+			</converter>
+            <converter type="eu.ohim.sp.core.domain.converter.PhoneConverter">
+                <class-a>eu.ohim.sp.core.domain.contact.Phone</class-a>
+                <class-b>eu.ohim.sp.filing.domain.ol.Phone</class-b>
+            </converter>
+            <converter type="eu.ohim.sp.core.domain.converter.PhoneConverter">
+                <class-a>eu.ohim.sp.core.domain.contact.Phone</class-a>
+                <class-b>java.lang.String</class-b>
+            </converter>
+
+            <converter type="eu.ohim.sp.core.domain.converter.ol.ObjectlessEservicesTransactionConverter">
+                <class-a>eu.ohim.sp.core.domain.other.OLeServiceApplication</class-a>
+                <class-b>eu.ohim.sp.filing.domain.ol.Transaction</class-b>
+            </converter>
+        </custom-converters>
+	</configuration>
+
+    <mapping map-null="false">
+        <class-a>eu.ohim.sp.core.domain.resources.AttachedDocument</class-a>
+        <class-b>eu.ohim.sp.filing.domain.ol.Document</class-b>
+        <field>
+            <a>document</a>
+            <b>this</b>
+        </field>
+        <field>
+            <a>document.comment</a>
+            <b>comment.value</b>
+        </field>
+        <field>
+            <a>document.uri</a>
+            <b>uri.value</b>
+        </field>
+        <field>
+            <a get-method="getDocumentId" set-method="setDocumentId">document.documentId</a>
+            <b>documentIdentifier</b>
+        </field>
+        <field>
+            <a>document.fileSize</a>
+            <b>documentSizeInByte</b>
+        </field>
+        <field custom-converter="eu.ohim.sp.core.domain.converter.FSPEnumConverter">
+            <a>documentKind</a>
+            <b>kind</b>
+            <a-hint>java.lang.String</a-hint>
+            <b-hint>java.lang.Enum</b-hint>
+        </field>
+        <field>
+            <a>document.fileFormat</a>
+            <b>fileFormat.value</b>
+        </field>
+        <field custom-converter="eu.ohim.sp.core.domain.converter.FSPEnumConverter">
+            <a get-method="getStatus" set-method="setStatus">document.status</a>
+            <b>status</b>
+            <a-hint>java.lang.String</a-hint>
+            <b-hint>java.lang.Enum</b-hint>
+        </field>
+    </mapping>
+
+</mappings>

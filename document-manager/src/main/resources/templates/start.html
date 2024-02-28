@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="head :: head-declaration"></head>
+<body>
+
+<div id="header">
+    <div class="bg-primary">
+        <div th:replace="head:: title"/>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">Choose an option</a>
+                </div>
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav opts-nav">
+                        <li class="active"><a class="active" href="#" data-target="print-details">Print doc details</a></li>
+                        <li><a href="#" data-target="replace-doc">Replace XML document</a></li>
+                        <li><a href="#" data-target="regenerate-receipt">Regenerate receipt</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+</div>
+<div id="main" style="padding:20px">
+    <div id="messages" class="well well-lg" th:if="${messages != null}">
+        <p class="bg-danger" th:each="msg : ${messages}">
+            <span th:text="${msg}"></span>
+        </p>
+    </div>
+    <div id="print-details" class="well well-lg nav-hide">
+        <form th:action="@{/printDocumentDetails}" method="get" class="form-inline">
+            <h3>Print details</h3>
+            <div class="form-group">
+                <label for="appId">Application filing number (for XML)</label>
+                <input type="text" class="form-control" name="appId" id="appId" placeholder="enter application id">
+            </div>
+            <div class="form-group">
+                <span class="label label-default">OR</span>
+            </div>
+            <div class="form-group">
+                <label for="docId">Document ID</label>
+                <input type="text" class="form-control" name="docId" id="docId" placeholder="enter jackrabbit doc id">
+            </div>
+
+            <button type="submit" class="btn btn-info">View document details</button>
+        </form>
+    </div>
+    <div id="replace-doc" style="display: none" class="well well-lg nav-hide">
+        <form th:action="@{/replaceDocument}" method="post" class="form-inline" enctype="multipart/form-data">
+            <h3>Replace XML document</h3>
+            <div class="form-group">
+                <label for="appIdReplace">Application filing number</label>
+                <input type="text" class="form-control" name="appId" id="appIdReplace" placeholder="enter application id">
+            </div>
+            <div class="form-group">
+                <input type="file" name="file">
+            </div>
+
+            <button type="submit" class="btn btn-danger">Replace document in Jackrabbit repo</button>
+        </form>
+    </div>
+    <div id="regenerate-receipt" style="display: none" class="well well-lg nav-hide">
+        <form id="receipt-form" method="post" class="form-inline">
+            <h3>Regenerate receipt</h3>
+            <div class="form-group">
+                <label for="appIdReceipt">Application filing number</label>
+                <input type="text" class="form-control" name="appId" id="appIdReceipt" placeholder="enter application id">
+            </div>
+            <div class="form-group">
+                <label for="module">Type of app</label>
+                <select name="module" id="module">
+                    <option value="tmefiling">TM</option>
+                    <option value="dsefiling">DS</option>
+                    <option value="ptefiling">PT/UM/EP</option>
+                    <option value="eservices">ES</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="receiptType">Type of receipt</label>
+                <select name="receiptType" id="receiptType">
+                    <option value="submitted">Submitted</option>
+                    <option value="accepted">Accepted</option>
+                </select>
+            </div>
+
+            <a href="#" class="receipt-form-btn btn btn-info" th:attr="data-action=@{/regenerateReceipt}" >Regenerate</a>
+            <a href="#" class="receipt-form-btn btn btn-danger" th:attr="data-action=@{/regenerateAndReplaceReceipt}" >Regenerate and replace</a>
+        </form>
+    </div>
+</div>
+
+<footer th:replace="footer:: footer"></footer>
+</body>
+</html>

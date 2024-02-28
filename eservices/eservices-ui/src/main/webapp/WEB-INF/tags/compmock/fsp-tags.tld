@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib version="2.0" xmlns="http://java.sun.com/xml/j2ee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2 _0.xsd">
+
+	<description>Custom Tag Library</description>
+	<tlib-version>1.0</tlib-version>
+	<short-name>eu</short-name>
+	<uri>/tags/sp-tags</uri>
+
+	<tag>
+		<description>Returns whether the field has to be rendered or not</description>
+		<name>render</name>
+		<tag-class>eu.ohim.sp.common.ui.servlet.tags.RenderTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<description>Active Flow Mode Id</description>
+			<name>flowModeId</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>Parent Form Name</description>
+			<name>sectionId</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>Field Name</description>
+			<name>field</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>Variable where the result can be stored to the page scope</description>
+			<name>var</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>		
+		<attribute>
+			<description>Boolean to indicate whether the render of the field has to be check</description>
+			<name>checkRender</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>		
+	</tag>
+
+	<tag>
+		<description>Returns whether the field is required</description>
+		<name>required</name>
+		<tag-class>eu.ohim.sp.common.ui.servlet.tags.RequiredTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<description>Active Flow Mode Id</description>
+			<name>flowModeId</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>Parent Form Name</description>
+			<name>sectionId</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>Field Name</description>
+			<name>field</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>		
+	</tag>
+	
+	<tag>
+		<description>Returns whether the field is editable when it is imported</description>
+		<name>editableImport</name>
+		<tag-class>eu.ohim.sp.common.ui.servlet.tags.EditableImportTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<description>Active Flow Mode Id</description>
+			<name>flowModeId</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>Parent Form Name</description>
+			<name>sectionId</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>Field Name</description>
+			<name>field</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>		
+	</tag>
+	
+	<tag>
+		<description>Returns whether the field needs an specific format</description>
+		<name>formatted</name>
+		<tag-class>eu.ohim.sp.common.ui.servlet.tags.FormattedTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<description>Active Flow Mode Id</description>
+			<name>flowModeId</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>Parent Form Name</description>
+			<name>sectionId</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>Field Name</description>
+			<name>field</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>		
+	</tag>
+
+    <tag>
+        <description>Returns a help message associated with the attributes of this tag</description>
+        <name>helpMessage</name>
+        <tag-class>eu.ohim.sp.common.ui.servlet.tags.HelpMessageTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <description>Label text code</description>
+            <name>textKey</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+</taglib>

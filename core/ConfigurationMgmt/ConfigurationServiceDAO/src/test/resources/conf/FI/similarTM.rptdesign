@@ -1,0 +1,516 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 4.2.0.v20120611 Build &lt;4.2.0.v20120613-1143></property>
+    <property name="units">in</property>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <data-sources>
+        <script-data-source name="DataSource" id="696"/>
+    </data-sources>
+    <data-sets>
+        <script-data-set name="SimilarTM" id="697">
+            <list-property name="resultSetHints">
+                <structure>
+                    <property name="position">0</property>
+                    <property name="name">markNumber</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">markDescription</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">markType</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">office</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">ownerName</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">inputTerm</property>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">markNumber</property>
+                </structure>
+                <structure>
+                    <property name="columnName">markDescription</property>
+                </structure>
+                <structure>
+                    <property name="columnName">markType</property>
+                </structure>
+                <structure>
+                    <property name="columnName">office</property>
+                </structure>
+                <structure>
+                    <property name="columnName">ownerName</property>
+                </structure>
+                <structure>
+                    <property name="columnName">inputTerm</property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">markNumber</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">markDescription</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">markType</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">office</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">ownerName</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">inputTerm</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">DataSource</property>
+            <method name="open"><![CDATA[similarTMList = reportContext.getAppContext().get("args")[0];
+totalrows = similarTMList.size();
+currentrow = 0;]]></method>
+            <method name="fetch"><![CDATA[if( currentrow >= totalrows ){
+	return( false );
+}
+tradeMark = similarTMList.get(currentrow);
+
+row["markNumber"]=tradeMark.getApplicationNumber();
+row["markDescription"]=tradeMark.getMark().getDescription();
+row["markType"]=tradeMark.getMark().getMarkType();
+row["office"]=tradeMark.getRegistrationOfficeCode();
+row["ownerName"]=tradeMark.getApplicantDetails().get(0).getAddressBook().getName().getFirstName();
+
+terms = "";
+aux = 0;
+termsList = tradeMark.getGoodsServicesDetails();
+for(aux = 0 ; aux < termsList.size() ; aux++) {
+	term = termsList.get(aux).getClassNumber();
+	terms = terms + term + (aux == termsList.size() - 1 ? "" :" ; ");
+}
+termsList = null;
+row["inputTerm"]=terms;
+
+currentrow = currentrow + 1;
+return ( true );]]></method>
+            <method name="close"><![CDATA[similarTMList = null;]]></method>
+        </script-data-set>
+    </data-sets>
+    <styles>
+        <style name="report" id="4">
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">10pt</property>
+        </style>
+        <style name="crosstab-cell" id="5">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab" id="6">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <property name="type">a4</property>
+            <property name="orientation">auto</property>
+            <property name="showHeaderOnFirst">true</property>
+            <property name="headerHeight">1in</property>
+            <page-header>
+                <grid id="638">
+                    <property name="borderBottomColor">#000000</property>
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderBottomWidth">thin</property>
+                    <property name="marginBottom">10pt</property>
+                    <column id="639">
+                        <property name="width">2.1cm</property>
+                    </column>
+                    <column id="640"/>
+                    <row id="641">
+                        <cell id="642">
+                            <property name="colSpan">1</property>
+                            <property name="rowSpan">2</property>
+                            <image id="643">
+                                <property name="height">0.625in</property>
+                                <property name="width">0.6354166666666666in</property>
+                                <property name="source">embed</property>
+                                <property name="imageName">fi_logo.PNG</property>
+                            </image>
+                        </cell>
+                        <cell id="644">
+                            <property name="fontSize">12pt</property>
+                            <property name="fontWeight">bold</property>
+                            <property name="fontStyle">normal</property>
+                            <property name="paddingBottom">0pt</property>
+                            <text id="645">
+                                <property name="fontWeight">normal</property>
+                                <property name="paddingBottom">0pt</property>
+                                <property name="textAlign">center</property>
+                                <property name="contentType">auto</property>
+                                <text-property name="content"><![CDATA[PATENTTI- JA REKISTERIHALLITUS]]></text-property>
+                            </text>
+                        </cell>
+                    </row>
+                    <row id="649">
+                        <cell id="650">
+                            <property name="verticalAlign">bottom</property>
+                        </cell>
+                    </row>
+                </grid>
+            </page-header>
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <grid id="652">
+            <column id="653"/>
+            <row id="654">
+                <cell id="655">
+                    <text id="660">
+                        <property name="fontSize">12pt</property>
+                        <property name="fontWeight">bold</property>
+                        <property name="marginBottom">10pt</property>
+                        <property name="contentType">auto</property>
+                        <text-property name="content"><![CDATA[Similar trade marks (search powered by TMview)]]></text-property>
+                    </text>
+                </cell>
+            </row>
+            <row id="656">
+                <cell id="657">
+                    <table id="662">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <property name="dataSet">SimilarTM</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">markNumber</property>
+                                <text-property name="displayName">markNumber</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["markNumber"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">markDescription</property>
+                                <text-property name="displayName">markDescription</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["markDescription"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">markType</property>
+                                <text-property name="displayName">markType</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["markType"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">office</property>
+                                <text-property name="displayName">office</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["office"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">ownerName</property>
+                                <text-property name="displayName">ownerName</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["ownerName"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">inputTerm</property>
+                                <text-property name="displayName">inputTerm</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["inputTerm"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                        </list-property>
+                        <column id="684"/>
+                        <column id="685"/>
+                        <column id="686"/>
+                        <column id="687"/>
+                        <column id="688"/>
+                        <column id="689"/>
+                        <header>
+                            <row id="663">
+                                <property name="borderBottomColor">#000000</property>
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">thin</property>
+                                <cell id="664">
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <text id="690">
+                                        <property name="fontWeight">bold</property>
+                                        <property name="marginTop">3pt</property>
+                                        <property name="marginBottom">3pt</property>
+                                        <property name="contentType">auto</property>
+                                        <text-property name="content"><![CDATA[Mark Number]]></text-property>
+                                    </text>
+                                </cell>
+                                <cell id="665">
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <text id="691">
+                                        <property name="fontWeight">bold</property>
+                                        <property name="marginTop">3pt</property>
+                                        <property name="marginBottom">3pt</property>
+                                        <property name="contentType">auto</property>
+                                        <text-property name="content"><![CDATA[Mark Description]]></text-property>
+                                    </text>
+                                </cell>
+                                <cell id="666">
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <text id="692">
+                                        <property name="fontWeight">bold</property>
+                                        <property name="marginTop">3pt</property>
+                                        <property name="marginBottom">3pt</property>
+                                        <property name="contentType">auto</property>
+                                        <text-property name="content"><![CDATA[Mark Type]]></text-property>
+                                    </text>
+                                </cell>
+                                <cell id="667">
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <text id="693">
+                                        <property name="fontWeight">bold</property>
+                                        <property name="marginTop">3pt</property>
+                                        <property name="marginBottom">3pt</property>
+                                        <property name="contentType">auto</property>
+                                        <text-property name="content"><![CDATA[Office]]></text-property>
+                                    </text>
+                                </cell>
+                                <cell id="668">
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <text id="694">
+                                        <property name="fontWeight">bold</property>
+                                        <property name="marginTop">3pt</property>
+                                        <property name="marginBottom">3pt</property>
+                                        <property name="contentType">auto</property>
+                                        <text-property name="content"><![CDATA[Owner Name]]></text-property>
+                                    </text>
+                                </cell>
+                                <cell id="669">
+                                    <text id="695">
+                                        <property name="fontWeight">bold</property>
+                                        <property name="marginTop">3pt</property>
+                                        <property name="marginBottom">3pt</property>
+                                        <property name="contentType">auto</property>
+                                        <text-property name="content"><![CDATA[Input term]]></text-property>
+                                    </text>
+                                </cell>
+                            </row>
+                        </header>
+                        <detail>
+                            <row id="670">
+                                <property name="borderBottomColor">#000000</property>
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">thin</property>
+                                <cell id="671">
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <data id="698">
+                                        <property name="resultSetColumn">markNumber</property>
+                                    </data>
+                                </cell>
+                                <cell id="672">
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <data id="699">
+                                        <property name="resultSetColumn">markDescription</property>
+                                    </data>
+                                </cell>
+                                <cell id="673">
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <data id="700">
+                                        <property name="resultSetColumn">markType</property>
+                                    </data>
+                                </cell>
+                                <cell id="674">
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <data id="701">
+                                        <property name="resultSetColumn">office</property>
+                                    </data>
+                                </cell>
+                                <cell id="675">
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <data id="702">
+                                        <property name="resultSetColumn">ownerName</property>
+                                    </data>
+                                </cell>
+                                <cell id="676">
+                                    <data id="703">
+                                        <property name="resultSetColumn">inputTerm</property>
+                                    </data>
+                                </cell>
+                            </row>
+                        </detail>
+                    </table>
+                </cell>
+            </row>
+            <row id="658">
+                <cell id="659">
+                    <text id="661">
+                        <property name="marginTop">10pt</property>
+                        <property name="contentType">auto</property>
+                        <text-property name="content"><![CDATA[Please note that one trade mark application out of five is opposed. If you want to assess further the risks that can incurred please try to obtain legal advice and/or contact one of the relays.]]></text-property>
+                    </text>
+                </cell>
+            </row>
+        </grid>
+    </body>
+    <list-property name="images">
+        <structure>
+            <property name="name">fi_logo.PNG</property>
+            <property name="type">image/png</property>
+            <property name="data">
+                iVBORw0KGgoAAAANSUhEUgAAAD0AAAA8CAIAAABaXCUbAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+                YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAEG9JREFUaEPtmnlw
+                V9UVx386ttNadaqtnXFva6uiFqsI4oaKK6DWKqgoq4AsIiCy7/u+Q8hCgAQIkBBIgITse0L2hOxkIxuE
+                bBCykoQE+rnv/PL4JfllE/5xpncyb+7vvfvuO/fcc77ne87NHTdu3DD8Ghty/xqb4bYIXXK5xuZYwpjl
+                nt+v9P5umbpOWuMzcY0PV/rfr1I3Ry31sHFJKCytui1fvCW5z124MmLxqQ8mH5m9PTgmtahTgZKzSxdY
+                hr470emruSfTcy93Or6DAb9QbpeAzF7D98/dEXy17po++zH/DPpD57ulnCuTm9sOx/3p3R2FpdWxaUXz
+                LEJM5WABLwy1dw3M/GXSd1vumLSiHkP2YBVtv3fXKxu52XOoPVYhT1fbRz7Qf0dpee3opR4LLUO58+D7
+                FlM2+Ovv2romMltI/PnuSt89uT+Y7Dxtk/GrO53jW32s/wQn7tz9xlbDc6vlEbo3PK/6j39snZxdZueW
+                bHh8MT8XWIbYuCRerTfu1UKr0H7fH+6W6F2V+2zupUcHWdXWNTC7xZH4HU7x6/ZF4Wdr7aPW2EXKJ+97
+                axvXU2Hn8osq5M6Vqrq8ixVNTde/WeDmE5n78vD9D31kyf07+2xQ194bkVhG1jU0PvaxddzZ4i5K3yW5
+                dx9PHDj1KDM2XGtKyiodvsj963lu/DS8tK7tZ2rrrkWlXHQLyebPI+zc6YQL2Ik+DJNIzCwZtVQZ0j39
+                tnJdsTvizj7KwGiDZ5/YsD+qK6J3LveMrYG6Sxn+sXyhpXKvpz63Tc255Hk6p76hkZ8V1XVLd50eu9xr
+                +uaALYdi/aPzWV5CZgnX4PgCS+czTDJxtc+c7cGXKq6KWN8udBdd/PbVzTeu3wCOdrkk8pPdm7zOt1PR
+                O5H75y2BS2xOM0tgbP52xzj5zMWy6pqrDSnZCjQCYwvQPUI3Nl3v9GMMYBKM/rD3WRm8yCrMUvMTwxNL
+                Vu6JkJv73FPGr/LpeLaO5LZ1TZq3M5j3PU+f+9unuww91wTHFdTVX9vkEMNNIggKc/RO0z+AYYBr7qHZ
+                3hG5Bz3TUnOMaNhWAv/ovA8nO2NO8gh7W2wdRoevLLVRnU0O0aual2F2Ae3KzVcHTVP7yC5znbbR/7kv
+                9z48wEpmmWcRPH+nEY8z8i87eKQidKsP7DmR1LHOdjjFjVh0ijHEo4qquqc+3/3n9yz6T3CUt76ceyI8
+                qbC9GdqV+7GB1kZl9Fo/aNox+jiN3Ok37hCy0sFYMcr0PGPkq6qpPx6UBZ54hecExOSz75naMLONwdzH
+                id8Ye4hOY1NT7xEH1u5TTtljyN7M/HJN/Tbdk/v9SU6AK7EQZ+LN57/a+5u+m2SKXsP2Swf5TgZnSR9B
+                jwVkhJ5pET6cfI1G3OrbCRklR/0yeH3/qRR59OpoB9yj7EptXX2j4eUNQXH5LAMAlUdmRTej76jkQtyf
+                0YTiv3ywU+A5q0ApoOfXdjLL5oMx5ZUKGRBit2si+Cj30SL2Dc7gqWa/V9/QNHaFV9GlGnmqG3HfUUq+
+                sIQLRWXVxIf7++8gOHCHr3uGn2s7lRm5CbwikIzGsgWh3v/hiNzBLqVjfTQhPfeS9LEQJ9/0sASjyn2j
+                cuU+dg/+mH4YrnImo/iwl9GhCWHy9JWRB7geC8icaxFs6LHyk59c5P4/P7c1fV36reU+4pu++7jypx/X
+                +xkenEd8xuf4udw2HDymI2BCYzekA0izMB0HiayofKfmzaIzVMAAdCnjtx2O5YodbtOAlSZmzQZCY+gM
+                mXPyfLGiu0zFFYvS16YvoLXc//7GXn/Gft39xhaZ8adNAXQOeKRe00xiw4FoGXbIKy05q1T6oLKj91lh
+                2B6n1eaiAp2EuAQqthidWsQy2Ch5xfKoWt61xiZmpkPMijur+HDPoXZ/gOfcN+tCiZqtj7YVpq2F3Hix
+                oBvkkz86wqqHaEiSlnNJENfBM1UMms/AQOiEJ16A2cm8KAmWi9ngqfx09DlLTAXOBSgXWRt3idjJz4aG
+                Rjs3tb34InSXzkc/OnPFxQkXuqBr7SMjk4xgLzdbyE0kY+ncHb/K2/DMyuW7w+ln5F3e7hhPZ5erUlJO
+                4RXZ8RPBWRK097knM4YO2If6dWvm25gHceBkiBF2QPTzJVU7j6jZaKJseCIWr82vVu4XlecamAGUEZJ/
+                XOdneGm9gOl/fnbRl9Fa7rdakkniLSOGa6HhaECGUBF792SulTX1QXEFdFBneaVSOc4qCCMLMw377JKA
+                ppjH9evXxczyiyrDk5QKbI8ric8XV4qRyBfvf2e7s1+6LuuAKWof9HZT30VlNbO3BcmDCyZZ4LSNAdwp
+                Ka85GZLNtw97p/lF51kfS0BuqCnRFL3COnwjcwnvmGlOYQWSuYee843KM/2S9CWIskIxG/mJz/AunYOe
+                ysrBvrLyqw3XGomjwMN9byt6vNYukp9m5GabZLmOXmkGwwTJtZAjszkcthWi4zsuzTkYxBWXxdyvQ/w0
+                asVVj0ooQkmswaKkbSx7wU7lBoa/L9NTPsLQ6mairx7p3/5O48TSQBLpSLzsVmMfUNKqvRHRqcqTQI/4
+                5mwASAVtcGVJzIQVijGcTrxQXauSklNhah+mbvDjmltYAQ+dsNpHtkVP/1rITcGgrXxTTXLBrkifc+EK
+                4rJvIWfOCxTiANnny/doMYEmvig6FomTs8qKyhTYyf64hSq54fFc2RkSIll/u3LLanhh0lpf9J2n5Vpz
+                NbTqekMxmDteyCvCXiKTC518zgIsOj3c756yfl8UsEO0T89TkUVGQnK4ErO4bnaIgXLRwcWd/TL++uku
+                +qaavWkn+l1ywbv6brI6doa8cOshY3TsiujuYdmJmaV6cukdkSMLEL4l+KM3cAkT8opQsorEplefiFwK
+                BzgGUfmof8YXs44zAHTWX78pN+Ul7paWK8YDr+eaVXDliI95Tmd2GcAwCCOPUCfm4RpkLI9gyqBQq7cw
+                dAuneLBfluSpSS/AgqVBzujgGwQ1CX+SW0gzkVtzwU+nu9zz5tYnP7NlrQXFVWBLq4/hUu9McBy3wot8
+                XuKF3tAuYUWoOVFJv9JB5TrlajUhK9zooOBcpE/KLK2sqUPcwJh8GNGTn+2CnFA14NE67dpGbk3fr489
+                RH4gHpN9voW+L1depcoxbJE7nAk57E4mP/3FblMhKLuBAMKWUHxEcqGEKnANgBObaa8B51sPxzIS9VfW
+                1isT0tQ/cokHfwRy+nqG1ULfqFAmvVxxdZFVKDUa+hub+RP9KRv8Zm5RvFwqTzSy14cHWFZUq8xF2g4N
+                QOGiuKPYDBZv65II+nalNoIHwxR4yy0kC9GhOpXVdcJDaRPM2rf45cQ1vgDLrO1BAuHTmnEQ/BfGU1hS
+                RaGM2Umr+ImBWmnQJg0MhuZTnsWK2FzqJ8WXaiC6UjrsepN8wt49xdBrff+Jjg9oJM88fuv6ZgRGTCpF
+                R+irNDI0wrsU02hIxpVcSyBZb6SVIID8xAFggoB61yWWkYLfemPx9Mc0lx3pm+KgshN7t2TKZY8MsBo4
+                RSXzk9YYSzAEaG5yBzYLf2DT3x7veO58OYqRBdBKymtZGB2MBFo7Z8fNKo+pEPiA2G4HzTR468OoWev9
+                m3LDTzAp0F64NRJU1dafCM7WqxzQtOmblBqW2ISd0bI4qjZUkyFA9BkMA7lSWbf3RBJiLdB4vLWW7+iN
+                zUGRfUc7ENoArhmat7RtkE3RBdoxPLWCjJM+NNM8P9H54EdTnH/32mZqAJJi6vaDb0E85luECM+Ey0MV
+                7U4aA7j48UEvRehILqMpEYZmSxyQhtDDF7pDKsXz8P5vF7izvW3lxu+v1ild8EUgSzImNlnSNmkt8gbh
+                3yC34aEFvUce8I/J5yfptz6aYh/y/bDW9+kv9qzfH4Vq9UeIKGZNTUvAW9IF78gcrgAiq5XCw2czXMlI
+                4tOLwTV0HxDTOh6xnraL0bNyM3IDk01NTeC0PHviE5ug2Hxqx8t2qcSn40ZYQWLGYCTCMUh/5CdXqPN7
+                k5RDA1MSkiX3Q9+SNOiNDDUkXs1DxRkyqN/naMV0WAt94zHTN6uyPOZF/YWsVvaR/e1MbBWfKSMqcWPz
+                pePsn36xtDop24i+T3xsQ+T77wxXmUqQbuuhWL3GKfcFDzDIZ7/ca+i59uURqsy0ck94bFqL0njrfP6l
+                YfsYJ4mj6WGIFLw7aIRYML68qo4crLHxOt5cfLlG12VNXQPHV/I68Xj13kiOfpbZho9e6mlqbFgO2I8d
+                IwCRAdiWzTetMsgkreXm81I/oU1Zr8i7NIpSbSuXpssoKK6ESFFmIZFhJFsHEdCr3YykiM5RIB0cWl4E
+                lySrl0b+y0EXnVdGOTwzeI+k9zRSPr1uoQ82V68arOpVbRvWr5u+2QG4LOiJcVPpA7+FQJs2oAnNUebF
+                ymdtC+JAUIqA0ggIXDdqdSUSC8PDC2He9M1WN83IDYc0DZOvjTn4+9e3CNOidlpde5ONmMqEFxIdQQko
+                jTio2QZzYh9IZKSgpTe98kjUg2/qsQzuajZImZGbufB9OZRhc9HN1/NOemhsmMYmSuHBtMGkUTMeNmTO
+                CVPa3Z70re5T7+UOUZZcgQ7bZXhRnRyBntSszU5iXm6GPj5I1b9xEY65KD6RaN7Re4NUMQfPPt5KB1B+
+                0JpKDSdYfJ6zqC5KTGgTf4V249b39ttGHDiTboQOqpPtzdOu3JkF5TrUUzvF8ZmCLRZMBSiGmYAjywC/
+                KeKgsIikwk7ph0jD+ZOcitDufnOLpGGPDLQShAExRf3d0zejCW8ztUJ4QHTe5HUKWwxPryCYcVwmcwGO
+                y2yNdW7gj4ozlUHKaPoJRHtftXCKo24mRw5jlntJ8dvwrzWf/KQONmiLrUMpPrb3uhrcwTMe8Q8Delb3
+                x3e2D1t46kONhdNStcIQtTJK9KDHN/PdOKaiDJ1Z0O7ZCKbPAR0BX+qJ5N2ECGAKXxSQpdTI1d4tBbTp
+                WLBO5NZED5q51TgLpEWm48DS8Owq2Q29UcaeuS2INGfTwRgUD13hSlZBTg4NxEOkcknDAUiZOXsRBVOt
+                Zmap+0Cq2uOJpt/qXG5GYzDvNR82yMvvjHeECAB8HJ/2Gal2GXfU50WRmEpBUSWnKzir6fembvSnfmno
+                sUpsSY6N9ANljIcss2NNy9Muyc04AsSjA60I3fLaqCUer313UL3/yCLiy4vf2pMykxeDg9yEXnPFZnIL
+                r+xzS+FsFp+DQVAdJu/iUVl5LXhKhxqDoAfK5vAysfkIoFPRuyq3TMS26sUX2P0hr7OPDVJJ0IvD9r09
+                XnFgzr9PBGUNnKp2n3oG+uZUEoADOuS/PEg48D86sFldOOyN/7ToVFbTAd2TmzfJrp//ym7LQeNuyv/N
+                PDtkz5vjDpMFCt27V/uHAdmQd384Aj10C84yvLCW4x50b/oPNPACjsG68r9CrVbVbbnlfepjnLmgRVMS
+                Qr2PjJPypBylyoEY4Xa4lheSjujHhawWCkWOp9eau6VsBv9CueUzZH4YOqSA9Jlw0+m3yRd/3hz41nhV
+                PMIZOh3fwYBbkluflwhChiH/zGbm/9lWeo9b6Y1jMIa08lbE1d+9PXLfFlG6Ncn/5e6Wum558P8AFxYo
+                5X6TkzIAAAAASUVORK5CYII=
+            </property>
+        </structure>
+    </list-property>
+</report>

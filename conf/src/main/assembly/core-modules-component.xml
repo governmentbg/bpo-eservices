@@ -1,0 +1,110 @@
+<component xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/component/1.1.2"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/component/1.1.2 http://maven.apache.org/xsd/component-1.1.2.xsd">
+
+    <dependencySets>
+
+        <!-- Creates the module components deployed on jboss 7 -->
+        <dependencySet>
+            <useProjectArtifact>false</useProjectArtifact>
+            <includes>
+                <include>eu.ohim.sp.common:CommonUtils:jar</include>
+            </includes>
+            <outputDirectory>${app.server.app.root}/modules/eu/ohim/sp/main</outputDirectory>
+            <unpack>false</unpack>
+            <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
+        </dependencySet>
+
+		<dependencySet>
+            <useProjectArtifact>false</useProjectArtifact>
+            <includes>
+                <include>eu.ohim.sp.core:CoreUtils:jar</include>
+            </includes>
+            <outputDirectory>${app.server.app.root}/modules/eu/ohim/sp/main</outputDirectory>
+            <unpack>false</unpack>
+            <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
+        </dependencySet>
+
+        <dependencySet>
+            <useProjectArtifact>false</useProjectArtifact>
+            <includes>
+                <include>eu.ohim.sp.common:ConfigurationXSD:jar</include>
+            </includes>
+            <outputDirectory>${app.server.app.root}/modules/eu/ohim/sp/main</outputDirectory>
+            <unpack>false</unpack>
+            <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
+        </dependencySet>
+
+        <dependencySet>
+            <useProjectArtifact>false</useProjectArtifact>
+            <includes>
+                <include>eu.ohim.sp.domains:CoreDomain:jar</include>
+            </includes>
+            <outputDirectory>${app.server.app.root}/modules/eu/ohim/sp/main</outputDirectory>
+            <unpack>false</unpack>
+            <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
+        </dependencySet>
+
+        <dependencySet>
+            <useProjectArtifact>false</useProjectArtifact>
+            <includes>
+                <include>eu.ohim.sp.external:FilingDomain:jar</include>
+            </includes>
+            <outputDirectory>${app.server.app.root}/modules/eu/ohim/sp/main</outputDirectory>
+            <unpack>false</unpack>
+            <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
+        </dependencySet>
+
+        <dependencySet>
+            <useProjectArtifact>false</useProjectArtifact>
+            <includes>
+                <include>eu.ohim.sp.domains:ExternalServices:jar</include>
+            </includes>
+            <outputDirectory>${app.server.app.root}/modules/eu/ohim/sp/main</outputDirectory>
+            <unpack>false</unpack>
+            <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
+        </dependencySet>
+
+        <dependencySet>
+            <useProjectArtifact>false</useProjectArtifact>
+            <includes>
+                <include>eu.ohim.sp.domains:CoreServices:jar</include>
+            </includes>
+            <outputDirectory>${app.server.app.root}/modules/eu/ohim/sp/main</outputDirectory>
+            <unpack>false</unpack>
+            <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
+        </dependencySet>
+
+        <dependencySet>
+            <useProjectArtifact>false</useProjectArtifact>
+            <includes>
+                <include>eu.ohim.sp.domains:ExternalDomain:jar</include>
+            </includes>
+            <outputDirectory>${app.server.app.root}/modules/eu/ohim/sp/main</outputDirectory>
+            <unpack>false</unpack>
+            <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
+        </dependencySet>
+
+        <dependencySet>
+            <useProjectArtifact>false</useProjectArtifact>
+            <includes>
+                <include>eu.ohim.sp.domains:WebServicesSchemas:jar</include>
+            </includes>
+            <outputDirectory>${app.server.app.root}/modules/eu/ohim/sp/main</outputDirectory>
+            <unpack>false</unpack>
+            <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
+        </dependencySet>
+
+        <dependencySet>
+            <useProjectArtifact>false</useProjectArtifact>
+            <includes>
+                <include>eu.ohim.sp.external:SPWSException:jar</include>
+            </includes>
+            <outputDirectory>${app.server.app.root}/modules/eu/ohim/sp/main</outputDirectory>
+            <unpack>false</unpack>
+            <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
+        </dependencySet>
+
+    </dependencySets>
+
+</component>

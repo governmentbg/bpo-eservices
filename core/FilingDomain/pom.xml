@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ * FspDomain:: pom.xml 15/11/13 15:36 karalch $
+  ~  * . * .
+  ~  * * RRRR * Copyright © 2013 OHIM: Office for Harmonization
+  ~  * . RR R . in the Internal Market (trade marks and designs)
+  ~  * * RRR *
+  ~  * . RR RR . ALL RIGHTS RESERVED
+  ~  * * . _ . *
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+        <groupId>eu.ohim.sp.core</groupId>
+		<artifactId>core</artifactId>
+		<version>2.0.0-RELEASE</version>
+	</parent>
+
+	<groupId>eu.ohim.sp.external</groupId>
+	<artifactId>FilingDomain</artifactId>
+	<name>TM-XML Schemas</name>
+	<packaging>jar</packaging>
+
+	<dependencies>
+		<dependency>
+            <groupId>eu.ohim.sp.domains</groupId>
+            <artifactId>CoreDomain</artifactId>
+		</dependency>
+        <dependency>
+            <groupId>eu.ohim.sp.common</groupId>
+            <artifactId>CommonUtils</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>eu.ohim.sp.core</groupId>
+            <artifactId>ApplicationServiceQualifiers</artifactId>
+        </dependency>
+
+        <dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+
+        <dependency>
+            <groupId>org.jboss.spec</groupId>
+            <artifactId>jboss-javaee-6.0</artifactId>
+            <type>pom</type>
+        </dependency>
+
+		<dependency>
+			<groupId>net.sf.dozer</groupId>
+			<artifactId>dozer</artifactId>
+		</dependency>
+
+        <dependency>
+            <groupId>uk.co.jemos.podam</groupId>
+            <artifactId>podam</artifactId>
+            <version>3.0.5.RELEASE</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>de.odysseus.juel</groupId>
+            <artifactId>juel-spi</artifactId>
+            <version>2.2.6</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>de.odysseus.juel</groupId>
+            <artifactId>juel-api</artifactId>
+            <version>2.2.6</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>de.odysseus.juel</groupId>
+            <artifactId>juel-impl</artifactId>
+            <version>2.2.6</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+	<build>
+		<finalName>tm-xml</finalName>
+
+		<pluginManagement>
+			<plugins>
+                <!-- Wraps the JAXB XJC compiler and provides the capability to generate
+                    java sources from schemas -->
+                <plugin>
+                    <groupId>org.jvnet.jaxb2.maven2</groupId>
+                    <artifactId>maven-jaxb2-plugin</artifactId>
+                    <dependencies>
+                        <dependency>
+                            <groupId>eu.ohim.sp.common</groupId>
+                            <artifactId>SPMavenPlugin</artifactId>
+                            <version>${pm.sp.common.current.version}</version>
+                        </dependency>
+                    </dependencies>
+                    <configuration>
+                        <args>
+                            <arg>-Xvalue-constructor</arg>
+                            <arg>-Xannotate</arg>
+                            <arg>-Xsetters</arg>
+                            <arg>-Xsetters-mode=direct</arg>
+                            <arg>-Xprivate</arg>
+                            <arg>-Xdate-clone</arg>
+                            <arg>-Xbyte-array-copy</arg>
+                            <arg>-Xconstructor-accessor-clone</arg>
+                        </args>
+                        <plugins>
+                            <plugin>
+                                <groupId>org.jvnet.jaxb2_commons</groupId>
+                                <artifactId>jaxb2-value-constructor</artifactId>
+                                <version>3.0</version>
+                            </plugin>
+                            <plugin>
+                                <groupId>org.jvnet.jaxb2_commons</groupId>
+                                <artifactId>jaxb2-basics</artifactId>
+                                <version>0.6.0</version>
+                            </plugin>
+                            <plugin>
+                                <groupId>org.jvnet.jaxb2_commons</groupId>
+                                <artifactId>jaxb2-basics-annotate</artifactId>
+                                <version>0.6.0</version>
+                            </plugin>
+                            <plugin>
+                                <groupId>eu.ohim.sp.common</groupId>
+                                <artifactId>SPMavenPlugin</artifactId>
+                                <version>${pm.sp.common.current.version}</version>
+                            </plugin>
+                        </plugins>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>generate</goal>
+                            </goals>
+                            <configuration>
+                                <extension>true</extension>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+			</plugins>
+		</pluginManagement>
+
+		<plugins>
+			<!-- Wraps the JAXB XJC compiler and provides the capability to generate 
+				java sources from schemas -->
+			<plugin>
+				<groupId>org.jvnet.jaxb2.maven2</groupId>
+				<artifactId>maven-jaxb2-plugin</artifactId>
+				<executions>
+					<execution>
+                        <id>generate-ds</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+                        <configuration>
+                            <forceRegenerate>true</forceRegenerate>
+                            <generatePackage>eu.ohim.sp.filing.domain.ds</generatePackage>
+                            <schemaDirectory>src/main/xsd</schemaDirectory>
+                            <schemaIncludes>
+                                <schemaInclude>SP-DS-eFiling-V2-00.xsd</schemaInclude>
+                            </schemaIncludes>
+                            <bindingDirectory>src/main/xsd</bindingDirectory>
+                            <bindingIncludes>
+                                <bindingInclude>bindings-DS.xjb</bindingInclude>
+                            </bindingIncludes>
+                            <extension>true</extension>
+                        </configuration>
+					</execution>
+                    <execution>
+                        <id>generate-tm</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <forceRegenerate>true</forceRegenerate>
+                            <generatePackage>eu.ohim.sp.filing.domain.tm</generatePackage>
+                            <schemaDirectory>src/main/xsd</schemaDirectory>
+                            <schemaIncludes>
+                                <schemaInclude>SP-TM-eFiling-V2-00.xsd</schemaInclude>
+                            </schemaIncludes>
+                            <bindingDirectory>src/main/xsd</bindingDirectory>
+                            <bindingIncludes>
+                                <bindingInclude>bindings-TM.xjb</bindingInclude>
+                            </bindingIncludes>
+                            <extension>true</extension>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-pt</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <forceRegenerate>true</forceRegenerate>
+                            <generatePackage>eu.ohim.sp.filing.domain.pt</generatePackage>
+                            <schemaDirectory>src/main/xsd</schemaDirectory>
+                            <schemaIncludes>
+                                <schemaInclude>SP-PT-eFiling-V0-01.xsd</schemaInclude>
+                            </schemaIncludes>
+                            <bindingDirectory>src/main/xsd</bindingDirectory>
+                            <bindingIncludes>
+                                <bindingInclude>bindings-PT.xjb</bindingInclude>
+                            </bindingIncludes>
+                            <extension>true</extension>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-ol</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <forceRegenerate>true</forceRegenerate>
+                            <generatePackage>eu.ohim.sp.filing.domain.ol</generatePackage>
+                            <schemaDirectory>src/main/xsd</schemaDirectory>
+                            <schemaIncludes>
+                                <schemaInclude>SP-OL-eFiling-V0-01.xsd</schemaInclude>
+                            </schemaIncludes>
+                            <bindingDirectory>src/main/xsd</bindingDirectory>
+                            <bindingIncludes>
+                                <bindingInclude>bindings-OL.xjb</bindingInclude>
+                            </bindingIncludes>
+                            <extension>true</extension>
+                        </configuration>
+                    </execution>
+                </executions>
+			</plugin>
+
+
+            <!-- Clean up the generated code -->
+            <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>src/main/java/eu/ohim/fsp/ext</directory>
+                        </fileset>
+                    </filesets>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>default-clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+	</build>
+
+</project>

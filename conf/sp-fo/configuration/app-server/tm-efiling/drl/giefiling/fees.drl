@@ -1,0 +1,102 @@
+package org.domain.rules;
+
+dialect "mvel"
+
+import eu.ohim.sp.core.domain.validation.ErrorCore;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.domain.trademark.TradeMark;
+import eu.ohim.sp.core.domain.trademark.MarkKind;
+import eu.ohim.sp.core.domain.validation.RulesInformation;
+import eu.ohim.sp.core.domain.payment.FeeList;
+import eu.ohim.sp.core.domain.payment.FeeType;
+import eu.ohim.sp.core.domain.payment.Fee;
+import eu.ohim.sp.core.domain.resources.DocumentKind;
+import eu.ohim.sp.core.domain.resources.Document;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.TreeMap;
+import java.util.List;
+import java.util.AbstractMap.SimpleEntry;
+import java.text.DecimalFormat;
+import org.apache.log4j.Logger;
+
+rule "Map creator"
+salience 1100
+no-loop
+    when
+        # This rule has no WHEN. Is always triggered
+    then
+		# Inserts a new TreeMap in the session
+        insert(new TreeMap());
+end
+
+rule "Fees reader"
+salience 1000
+no-loop
+    when
+		FeeList($feeTypeList : feeTypeList)
+        $map : TreeMap()
+        $bFGI : FeeType("basicFeeGI".equals(nameKey)) from $feeTypeList
+        $regFeeGI : FeeType("registrationFeeGI".equals(nameKey)) from $feeTypeList
+        $certFeeGI : FeeType("certificateRequestedFeeGI".equals(nameKey)) from $feeTypeList
+    then
+		# Fills the map with all the fees
+        $map.put("basicFeeGI", $bFGI);
+        $map.put("registrationFeeGI", $regFeeGI);
+        $map.put("certificateRequestedFeeGI", $certFeeGI);
+		# Updates the information in the session
+        update($map);
+end
+
+rule "Basic Fee GI"
+salience 100
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+    then
+        # Creates the base fee.
+        Fee fee = new Fee();
+        fee.setFeeType((FeeType) $map.get("basicFeeGI"));
+        fee.setAmount(((FeeType) $map.get("basicFeeGI")).getDefaultValue());
+        fee.setQuantity(1);
+        fee.setUnitAmount(((FeeType) $map.get("basicFeeGI")).getDefaultValue());
+        # Adds the base fee to the result list
+        $results.put("basicFeeGI", fee);
+end
+
+rule "Registration Fee GI"
+salience 90
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+    then
+        # Creates the base fee.
+        Fee fee = new Fee();
+        fee.setFeeType((FeeType) $map.get("registrationFeeGI"));
+        fee.setAmount(((FeeType) $map.get("registrationFeeGI")).getDefaultValue());
+        fee.setQuantity(1);
+        fee.setUnitAmount(((FeeType) $map.get("registrationFeeGI")).getDefaultValue());
+        # Adds the base fee to the result list
+        $results.put("registrationFeeGI", fee);
+end
+
+rule "Certificate Requested Fee GI"
+salience 50
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        SimpleEntry(key == "certificateRequestedIndicator" && value != null && value == true)
+    then
+		//System.out.println("				>>>>>> Inside basic fee rule <<<<<<");
+        # Creates the base fee.
+        Fee fee = new Fee();
+        fee.setFeeType((FeeType) $map.get("certificateRequestedFeeGI"));
+        fee.setAmount(((FeeType) $map.get("certificateRequestedFeeGI")).getDefaultValue());
+        fee.setQuantity(1);
+        fee.setUnitAmount(((FeeType) $map.get("certificateRequestedFeeGI")).getDefaultValue());
+        # Adds the base fee to the result list
+        $results.put("certificateRequestedFeeGI", fee);
+end

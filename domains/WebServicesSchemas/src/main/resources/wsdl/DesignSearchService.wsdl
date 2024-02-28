@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions name="DesignSearchService"
+    targetNamespace="http://ohim.eu/sp/services/design-search/v3"
+    xmlns:tns="http://ohim.eu/sp/services/design-search/v3"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap12/"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+                  
+    <wsdl:types>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+        	<xsd:import namespace="http://ohim.eu/sp/services/design-search/v3" schemaLocation="../xsd/services/DesignSearchService.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+
+    <wsdl:message name="getDesign">
+        <wsdl:part element="tns:getDesign" name="parameters"/>
+    </wsdl:message>
+    <wsdl:message name="getDesignResponse">
+        <wsdl:part element="tns:getDesignResponse" name="parameters"/>
+    </wsdl:message>
+    
+    <wsdl:message name="getDesignApplication">
+        <wsdl:part element="tns:getDesignApplication" name="parameters"/>
+    </wsdl:message>
+    <wsdl:message name="getDesignApplicationResponse">
+        <wsdl:part element="tns:getDesignApplicationResponse" name="parameters"/>
+    
+    </wsdl:message>
+    <wsdl:message name="getDesignAutocomplete">
+        <wsdl:part element="tns:getDesignAutocomplete" name="parameters"/>
+    </wsdl:message>
+    <wsdl:message name="getDesignAutocompleteResponse">
+        <wsdl:part element="tns:getDesignAutocompleteResponse" name="parameters"/>
+    </wsdl:message>
+    
+    <wsdl:message name="designFault">
+        <wsdl:part name="parameters" element="tns:designFault"/>
+    </wsdl:message>
+    
+    <wsdl:portType name="DesignSearchServicePortType">
+        <wsdl:operation name="getDesign">
+            <wsdl:input name="getDesign" message="tns:getDesign" />
+            <wsdl:output name="getDesignResponse" message="tns:getDesignResponse" />
+            <wsdl:fault name="designFault" message="tns:designFault" />
+        </wsdl:operation>
+        <wsdl:operation name="getDesignApplication">
+            <wsdl:input name="getDesignApplication" message="tns:getDesignApplication" />
+            <wsdl:output name="getDesignApplicationResponse" message="tns:getDesignApplicationResponse" />
+            <wsdl:fault name="designFault" message="tns:designFault" />
+        </wsdl:operation>
+        <wsdl:operation name="getDesignAutocomplete">
+            <wsdl:input name="getDesignAutocomplete" message="tns:getDesignAutocomplete" />
+            <wsdl:output name="getDesignAutocompleteResponse" message="tns:getDesignAutocompleteResponse" />
+            <wsdl:fault name="designFault" message="tns:designFault" />
+        </wsdl:operation>
+    </wsdl:portType>
+    
+    <wsdl:binding name="DesignSearchServiceBinding" type="tns:DesignSearchServicePortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        
+        <wsdl:operation name="getDesign">
+            <soap:operation soapAction="" style="document"/>
+            <wsdl:input name="getDesign">
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="getDesignResponse">
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="designFault">
+                <soap:fault use="literal" name="designFault"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        
+        <wsdl:operation name="getDesignApplication">
+            <soap:operation soapAction="" style="document"/>
+            <wsdl:input name="getDesignApplication">
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="getDesignApplicationResponse">
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="designFault">
+                <soap:fault use="literal" name="designFault"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        
+        <wsdl:operation name="getDesignAutocomplete">
+            <soap:operation soapAction="" style="document"/>
+            <wsdl:input name="getDesignAutocomplete">
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="getDesignAutocompleteResponse">
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="designFault">
+                <soap:fault use="literal" name="designFault"/>
+            </wsdl:fault>
+        </wsdl:operation>
+    </wsdl:binding>
+
+    <wsdl:service name="DesignSearchService">
+        <wsdl:port name="DesignSearchServicePort" binding="tns:DesignSearchServiceBinding" >
+            <soap:address location="http://${fsp.ws.host}/${fsp.ws.context.root}${fsp.ws.design.path}${fsp.ws.wsdl.services.path}"/>
+        </wsdl:port>
+    </wsdl:service>
+
+
+</wsdl:definitions>

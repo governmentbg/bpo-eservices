@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:Transaction xmlns:ns2="http://ohim.eu/sp/filing/trademark/v2">
+    <TradeMarkTransactionBody>
+        <TransactionContentDetails>
+            <TransactionData>
+                <TradeMarkApplication>
+                    <TradeMarkDetails>
+                        <TradeMark>
+                            <ApplicationReference></ApplicationReference>
+                            <ApplicationLanguageCode>en</ApplicationLanguageCode>
+                            <SecondLanguageCode>it</SecondLanguageCode>
+                            <MarkFeature>Other</MarkFeature>
+                            <MarkImageDetails/>
+                            <MarkSoundDetails/>
+                            <GoodsServicesDetails>
+<GoodsServices>
+    <ClassDescriptionDetails>
+        <ClassDescription>
+            <ClassNumber>3</ClassNumber>
+            <ClassificationTermDetails>
+                <ClassificationTerm>
+                    <ClassificationTermText>Boot cream</ClassificationTermText>
+                </ClassificationTerm>
+                <ClassificationTermLanguageCode>en</ClassificationTermLanguageCode>
+            </ClassificationTermDetails>
+        </ClassDescription>
+        <ClassDescription>
+            <ClassNumber>25</ClassNumber>
+            <ClassificationTermDetails>
+                <ClassificationTerm>
+                    <ClassificationTermText>Football boots</ClassificationTermText>
+                </ClassificationTerm>
+                <ClassificationTermLanguageCode>en</ClassificationTermLanguageCode>
+            </ClassificationTermDetails>
+        </ClassDescription>
+        <ClassDescription>
+            <ClassNumber>28</ClassNumber>
+            <ClassificationTermDetails>
+                <ClassificationTerm>
+                    <ClassificationTermText>Skating boots with skates attached</ClassificationTermText>
+                </ClassificationTerm>
+                <ClassificationTermLanguageCode>en</ClassificationTermLanguageCode>
+            </ClassificationTermDetails>
+        </ClassDescription>
+    </ClassDescriptionDetails>
+</GoodsServices>
+                            </GoodsServicesDetails>
+                            <PriorityClaimLaterIndicator>false</PriorityClaimLaterIndicator>
+                            <PriorityDetails>
+<Priority>
+    <PriorityCountryCode>BG</PriorityCountryCode>
+    <PriorityNumber>111324234</PriorityNumber>
+    <PriorityDate>2012-08-06+02:00</PriorityDate>
+</Priority>
+                            </PriorityDetails>
+                            <SeniorityDetails>
+<Seniority>
+    <SeniorityCountryCode>BE</SeniorityCountryCode>
+    <SeniorityApplicationNumber></SeniorityApplicationNumber>
+    <SeniorityKind>International trade mark</SeniorityKind>
+    <SeniorityFilingDate>2012-08-07+02:00</SeniorityFilingDate>
+    <SeniorityRegistrationNumber>234234234</SeniorityRegistrationNumber>
+</Seniority>
+                            </SeniorityDetails>
+                            <ApplicantDetails>
+<Applicant>
+    <ApplicantNationalityCode>CZ</ApplicantNationalityCode>
+    <ApplicantAddressBook>
+        <FormattedNameAddress>
+            <Name>
+                <FormattedName>
+                    <FirstName>wfwefwef</FirstName>
+                    <LastName>wefwfw</LastName>
+                </FormattedName>
+                <NameKind>Natural Person</NameKind>
+            </Name>
+            <Address>
+                <FormattedAddress>
+                    <AddressStreet>wfwef 34</AddressStreet>
+                    <AddressCity>werwer</AddressCity>
+                    <FormattedAddressCountryCode>CY</FormattedAddressCountryCode>
+                </FormattedAddress>
+            </Address>
+        </FormattedNameAddress>
+        <ContactInformationDetails>
+            <Email>wef</Email>
+        </ContactInformationDetails>
+        <DataPrivacyWaiver>false</DataPrivacyWaiver>
+    </ApplicantAddressBook>
+</Applicant>
+                            </ApplicantDetails>
+                            <RepresentativeDetails>
+<Representative>
+    <RepresentativeNationalityCode>CZ</RepresentativeNationalityCode>
+    <RepresentativeAddressBook>
+        <FormattedNameAddress>
+            <Name>
+                <FormattedName>
+                    <OrganizationName>wfwef</OrganizationName>
+                </FormattedName>
+            </Name>
+            <Address>
+                <FormattedAddress>
+                    <AddressStreet>wefwef 34</AddressStreet>
+                    <AddressCity>234frwe</AddressCity>
+                    <FormattedAddressCountryCode>CZ</FormattedAddressCountryCode>
+                </FormattedAddress>
+            </Address>
+        </FormattedNameAddress>
+        <ContactInformationDetails>
+            <Email>wef</Email>
+        </ContactInformationDetails>
+    </RepresentativeAddressBook>
+    <RepresentativeRelationshipDetails/>
+</Representative>
+                            </RepresentativeDetails>
+                            <CorrespondenceAddress>
+<CorrespondenceAddressParty>Applicant</CorrespondenceAddressParty>
+<CorrespondenceAddressBook>
+    <FormattedNameAddress>
+        <Name>
+            <FormattedName>
+                <FirstName>wfwefwef</FirstName>
+                <LastName>wefwfw</LastName>
+            </FormattedName>
+        </Name>
+        <Address>
+            <FormattedAddress>
+                <AddressStreet>wfwef 34</AddressStreet>
+                <AddressCity>werwer</AddressCity>
+                <FormattedAddressCountryCode>CY</FormattedAddressCountryCode>
+            </FormattedAddress>
+        </Address>
+    </FormattedNameAddress>
+    <ContactInformationDetails>
+        <Email>wef</Email>
+    </ContactInformationDetails>
+</CorrespondenceAddressBook>
+                            </CorrespondenceAddress>
+                            <CorrespondenceAddress>
+<CorrespondenceAddressParty>Representative</CorrespondenceAddressParty>
+<CorrespondenceAddressBook>
+    <FormattedNameAddress>
+        <Name>
+            <FormattedName>
+                <OrganizationName>wfwef</OrganizationName>
+            </FormattedName>
+        </Name>
+        <Address>
+            <FormattedAddress>
+                <AddressStreet>wefwef 34</AddressStreet>
+                <AddressCity>234frwe</AddressCity>
+                <FormattedAddressCountryCode>CZ</FormattedAddressCountryCode>
+            </FormattedAddress>
+        </Address>
+    </FormattedNameAddress>
+    <ContactInformationDetails>
+        <Email>wef</Email>
+    </ContactInformationDetails>
+</CorrespondenceAddressBook>
+                            </CorrespondenceAddress>
+                            <TradeMarkDocumentDetails/>
+                        </TradeMark>
+                    </TradeMarkDetails>
+                    <SignatoryDetails>
+                        <Signatory>
+                            <SignatoryName>
+<FormattedName>
+    <LastName>435</LastName>
+</FormattedName>
+                            </SignatoryName>
+                            <SignatoryCapacityCode>Applicant</SignatoryCapacityCode>
+                        </Signatory>
+                        <Signatory>
+                            <SignatoryName>
+<FormattedName>
+    <LastName>trhtrhrth</LastName>
+</FormattedName>
+                            </SignatoryName>
+                            <SignatoryCapacityCode>Employee</SignatoryCapacityCode>
+                        </Signatory>
+                    </SignatoryDetails>
+                </TradeMarkApplication>
+            </TransactionData>
+        </TransactionContentDetails>
+    </TradeMarkTransactionBody>
+</ns2:Transaction>

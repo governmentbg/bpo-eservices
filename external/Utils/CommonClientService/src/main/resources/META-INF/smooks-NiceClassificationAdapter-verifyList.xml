@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
+				xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.2.xsd" 
+				xmlns:core="http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd">
+	<!-- 
+	<params>
+		<param name="inputType">input.xml</param>
+		<param name="input.xml" type="input.type.actived">Workspace://EuroclassAdapter/src/main/resources/xml/verifyList.xml
+		</param>
+	</params>
+	 -->
+	<core:filterSettings type="DOM" />
+	<jb:bean beanId="collectionTerms" class="java.util.ArrayList"
+		createOnElement="//TransactionData">
+		<jb:wiring beanIdRef="termsValidated" />
+	</jb:bean>
+	
+	<jb:bean beanId="termsValidated"
+		class="eu.ohim.sp.external.domain.classification.wrapper.TermsValidated"
+		createOnElement="//TransactionData/VerifyList/VerifyListResponse/GoodsServicesDetails/ClassDescriptionDetails">
+		<jb:value 	data="//TransactionData/VerifyList/VerifyListResponse/GoodsServicesDetails/ClassDescriptionDetails/LanguageCode"
+			property="language" />
+		<jb:value 	data="//TransactionData/VerifyList/VerifyListResponse/GoodsServicesDetails/ClassDescriptionDetails/ClassNumber"
+			property="niceClass" />
+		
+		 <jb:wiring beanIdRef="terms" property="terms" /> 
+		
+	</jb:bean>
+	
+	<jb:bean beanId="terms" class="java.util.ArrayList"
+		createOnElement="//TransactionData/VerifyList/VerifyListResponse/GoodsServicesDetails/ClassDescriptionDetails/VerifiedTermsDetails">
+		<jb:wiring beanIdRef="term" />
+	</jb:bean>
+	
+	<jb:bean beanId="term"
+		class="eu.ohim.sp.external.domain.classification.wrapper.Term"
+		createOnElement="//TransactionData/VerifyList/VerifyListResponse/GoodsServicesDetails/ClassDescriptionDetails/VerifiedTermsDetails/VerifiedTerm">
+		
+		<jb:value
+data="//TransactionData/VerifyList/VerifyListResponse/GoodsServicesDetails/ClassDescriptionDetails/VerifiedTermsDetails/VerifiedTerm/Text"
+			property="text" />
+		<jb:value
+			data="//TransactionData/VerifyList/VerifyListResponse/GoodsServicesDetails/ClassDescriptionDetails/VerifiedTermsDetails/VerifiedTerm/VerificationAssessment"
+			property="verificationAssessment" />
+		<jb:value
+			data="//TransactionData/VerifyList/VerifyListResponse/GoodsServicesDetails/ClassDescriptionDetails/VerifiedTermsDetails/VerifiedTerm/VerificationResult"
+			decoder="SPEnum" property="verificationResult">
+			<jb:decodeParam name="enumType">eu.ohim.sp.external.domain.classification.VerifiedTermResult
+			</jb:decodeParam>
+			<jb:decodeParam name="defaultValue">OTHER</jb:decodeParam>
+			<jb:decodeParam name="OK">OK</jb:decodeParam>
+			<jb:decodeParam name="Hint">HINT</jb:decodeParam>
+			<jb:decodeParam name="Not OK">NOT_OK</jb:decodeParam>
+			<jb:decodeParam name="None">NONE</jb:decodeParam>
+		</jb:value>
+		<jb:wiring beanIdRef="matchedTerms" property="matchedTerms" /> 
+	</jb:bean>
+	
+	<jb:bean beanId="matchedTerms" class="java.util.ArrayList"
+		createOnElement="//TransactionData/VerifyList/VerifyListResponse/GoodsServicesDetails/ClassDescriptionDetails/VerifiedTermsDetails/VerifiedTerm/MatchedTerms">
+		<jb:wiring beanIdRef="matchedTerm" />
+	</jb:bean>
+	
+	<jb:bean beanId="matchedTerm"
+		class="eu.ohim.sp.external.domain.classification.MatchedTerm"
+		createOnElement="//TransactionData/VerifyList/VerifyListResponse/GoodsServicesDetails/ClassDescriptionDetails/VerifiedTermsDetails/VerifiedTerm/MatchedTerms/MatchedTerm">
+		<jb:value
+			data="//TransactionData/VerifyList/VerifyListResponse/GoodsServicesDetails/ClassDescriptionDetails/VerifiedTermsDetails/VerifiedTerm/MatchedTerms/MatchedTerm/MatchedTermText"
+			property="matchedTermText" />		
+		<jb:value
+			data="//TransactionData/VerifyList/VerifyListResponse/GoodsServicesDetails/ClassDescriptionDetails/VerifiedTermsDetails/VerifiedTerm/MatchedTerms/MatchedTerm/MatchedClassNumber"
+			property="matchedClassNumber" />
+		<jb:wiring beanIdRef="terminologySourceList" property="matchedTerminologySourceList"/>
+	</jb:bean>
+
+	<jb:bean beanId="terminologySourceList" class="java.util.ArrayList"
+			 createOnElement="//TransactionData/VerifyList/VerifyListResponse/GoodsServicesDetails/ClassDescriptionDetails/VerifiedTermsDetails/VerifiedTerm/MatchedTerms/MatchedTerm/MatchedTerminologySourceList">
+		<jb:value data="//TransactionData/VerifyList/VerifyListResponse/GoodsServicesDetails/ClassDescriptionDetails/VerifiedTermsDetails/VerifiedTerm/MatchedTerms/MatchedTerm/MatchedTerminologySourceList/TerminologySource"/>
+	</jb:bean>
+
+	<jb:result retainBeans="collectionTerms"/>
+	
+</smooks-resource-list>

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<div th:fragment="umrenewal-fragment">
+
+    <div id="entitlement-date-frag" style="width: 100%" class="mb20px">
+        <div th:replace="fragments/entitlementDate :: entitlementDate-fragment"></div>
+    </div>
+
+    <div id="expiration-date-frag" style="width: 100%" class="mb20px">
+        <div th:replace="fragments/expirationDate :: expirationDate-fragment"></div>
+    </div>
+
+</div>
+</html>

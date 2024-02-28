@@ -1,0 +1,50 @@
+<feeList>
+    <feeTypeList>
+        <code>001</code>
+        <nameKey>basicFee</nameKey>
+        <description>basic fee</description>
+        <defaultValue>1050</defaultValue>
+    </feeTypeList>
+
+    <feeTypeList>
+        <code>002</code>
+        <nameKey>collectiveFee</nameKey>
+        <description>collective fee</description>
+        <defaultValue>1800</defaultValue>
+    </feeTypeList>
+
+    <feeTypeList>
+        <code>003</code>
+        <nameKey>extraClassBasicFee</nameKey>
+        <description>extra class basic fee</description>
+        <defaultValue>150</defaultValue>
+    </feeTypeList>
+
+    <feeTypeList>
+        <code>004</code>
+        <nameKey>extraClassCollectiveFee</nameKey>
+        <description>extra class collective fee</description>
+        <defaultValue>300</defaultValue>
+    </feeTypeList>
+
+    <feeTypeList>
+        <code>005</code>
+        <nameKey>onlineAppDiscount</nameKey>
+        <description>online app discount</description>
+        <defaultValue>150</defaultValue>
+    </feeTypeList>
+
+    <feeTypeList>
+        <code>006</code>
+        <nameKey>nationalSearchFee</nameKey>
+        <description>national search fee</description>
+        <defaultValue>100</defaultValue>
+    </feeTypeList>
+
+    <feeTypeList>
+        <code>007</code>
+        <nameKey>maxClasses</nameKey>
+        <description>maximum amount of classes</description>
+        <defaultValue>3</defaultValue>
+    </feeTypeList>
+</feeList>

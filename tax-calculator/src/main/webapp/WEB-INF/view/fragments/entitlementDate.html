@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<div th:fragment="entitlementDate-fragment" class="inlBlW100">
+
+    <div th:text="#{entitlementDate}" style="display: inline-block"></div>
+    <div class="mT10" style="display: inline-block">
+        <input readonly id="entitlement-date-field" type="text" data-type="datepicker" style="width: 100px" th:attr="data-name='entitlementDate'"
+        class="input-param datepicker txtField ui-inputfield search-filter ui-autocomplete-input">
+    </div>
+    <div id="explanation-message" style="color: red" th:text="#{explanation_message}"></div>
+
+    <script>
+        //Activates datepicker after ajax call
+        $(document).ready(function () {
+            $("#entitlement-date-field").datepicker({
+                maxDate: "-3y"
+            });
+            let date = new Date();
+            date.setFullYear(date.getFullYear()-4);
+            $('#entitlement-date-field').datepicker("setDate", date);
+
+        });
+    </script>
+</div>
+</html>

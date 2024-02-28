@@ -1,0 +1,373 @@
+package org.domain.rules;
+dialect "mvel"
+import eu.ohim.sp.core.domain.validation.ErrorCore;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.domain.contact.AddressBook;
+import eu.ohim.sp.core.domain.contact.Address;
+import eu.ohim.sp.core.domain.validation.RulesInformation;
+import eu.ohim.sp.core.domain.person.Applicant;
+import eu.ohim.sp.core.domain.person.Representative;
+import eu.ohim.sp.core.domain.resources.Colour;
+import eu.ohim.sp.core.configuration.domain.xsd.Sections;
+import eu.ohim.sp.core.configuration.domain.xsd.Section;
+import eu.ohim.sp.core.configuration.domain.xsd.Field;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.Date;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Iterator;
+
+import org.apache.commons.lang.StringUtils;
+
+# Fills and adds an error to the error list (TEMPLATE)
+function void addError(String field, String code, String message, String section, RulesInformation rulesInformation){
+	# Error for the field
+	if(field != null){
+		rulesInformation.getErrorList().addError(createError(field, code, message));
+	}
+
+	# Error for the section
+	if(section != null){
+		rulesInformation.getErrorList().addError(createError(section, code, message));
+	}
+}
+
+# Creates a new error and returns it
+function ErrorCore createError(String info, String code, String message){
+	ErrorCore errorField = new ErrorCore();
+
+	if(info != null){
+		errorField.setField(info);
+		errorField.setErrorCode(code);
+		errorField.setErrorArgs(null);
+		errorField.setDisplayMessage(message);
+		errorField.setStackTrace("");
+		errorField.setServiceName("");
+		errorField.setSection("");
+		errorField.setBusinessRule(code);
+	}
+
+	return errorField;
+}
+
+# Checks if the field has the formatting according to the 6.2 SRS section
+function ErrorList checkDescription(String field, String description, String section, String errorBoxSection, String fieldname){
+	int contadorErrores = 0;
+	ErrorList errors = new ErrorList();
+	ErrorCore errorSection = null;
+	ErrorCore errorField = null;
+	String errorString = null;
+	description = description.trim().replaceAll("\\s+", " ");
+	String[] expressions = description.split("; ");
+
+	String upper_word = "[\\p{Lu}][\\p{Ll}]+";
+	String lower_word = "[\\p{Ll}]+";
+	String upper_complete = "[\\p{Lu}]+";
+	String any_word = "("+lower_word+"|"+upper_word+"|"+upper_complete+")";
+	String normal_sentence = upper_word+"([:,.]?[ ]"+lower_word+")+";
+	String lower_sentence = lower_word+"([:,.]?[ ]("+lower_word+")+";
+	String any_sentence = any_word+"([:,.]?[ ]"+any_word+")*";
+	String sentence_brackets_base =  "[\\(]"+any_sentence+"[\\)]";
+	String sentence_sbrackets_base = "[\\[]"+any_sentence+"[\\]]";
+	String sentence_keys_base =      "[\\{]"+any_sentence+"[\\}]";
+	String sentence_brackets =  "[\\(]"+any_sentence+"(([:,.])?[ ]"+any_sentence+"|([:,.])?[ ]"+sentence_sbrackets_base+"|([:,.])?[ ]"+sentence_keys_base+")*[\\)]";
+	String sentence_sbrackets = "[\\[]"+any_sentence+"(([:,.])?[ ]"+any_sentence+"|([:,.])?[ ]"+sentence_brackets_base+"|([:,.])?[ ]"+sentence_keys_base+")*[\\]]";
+	String sentence_keys =      "[\\{]"+any_sentence+"(([:,.])?[ ]"+any_sentence+"|([:,.])?[ ]"+sentence_sbrackets_base+"|([:,.])?[ ]"+sentence_brackets_base+")*[\\}]";
+	String sentence = any_sentence + "(([:,.])?[ ]"+sentence_brackets+"|([:,.])?[ ]"+sentence_sbrackets+"|([:,.])?[ ]"+sentence_keys+"|([:,.])?[ ]"+any_sentence+")*";
+	//String complete_field = sentence + "([;][ ]" + sentence + ")*";
+
+	Pattern pattern = Pattern.compile(sentence);
+
+	for (int i = 0; i < expressions.length; i++) {
+		Matcher matcher = pattern.matcher(expressions[i]);
+		if(expressions[i].length() > 512){
+			if(contadorErrores == 0){
+				errorString = "Expression number "+ (i+1) +" exceeds the maximum size (512 characters)";
+			}
+			contadorErrores++;
+		} else if (!matcher.matches()) {
+			if(contadorErrores == 0){
+				errorString = "Expression number "+ (i+1) +" is wrong";
+			}
+			contadorErrores++;
+		}
+	}
+	if(contadorErrores > 0){
+		errors.addError(createError(errorBoxSection,
+									null,
+									errorString + (contadorErrores>1 ? (contadorErrores-1) + " more error/s" : "")));
+		errors.addError(createError(field,
+									null,
+									errorString + (contadorErrores>1 ? (contadorErrores-1) + " more error/s" : "")));
+	}
+	return errors;
+}
+
+# Checks if the colour field has the correct format.
+function ErrorList checkColour(String description, String section, String errorBoxSection, String field){
+	String[] expressions = description.split(";");
+	String theRule = "^([\\pLu[\\pLl]+][ ]?)([\\pLl]{2,}[ ]?)*$";
+	ErrorList errors = new ErrorList();
+
+	Pattern pattern = Pattern.compile(theRule);
+
+	for (int i = 0; i < expressions.length; i++) {
+		Matcher matcher = pattern.matcher(expressions[i]);
+		if (!matcher.matches()) {
+			errors.addError(createError(errorBoxSection,
+										section + ".Expression.Failure",
+										"Expression number "+ (i+1) +" in " + field + " field is wrong"));
+		}
+	}
+	return errors;
+}
+
+# Checks if the G&S field has the correct format.
+function ErrorList checkGS(String description, String section, String errorBoxSection, String field){
+	String[] expressions = description.split(";");
+	String theRule = "^([\\pLu[\\pLl]+][ ]?)([\\pLl]{2,}[ ]?)*$";
+	ErrorList errors = new ErrorList();
+
+	Pattern pattern = Pattern.compile(theRule);
+
+	for (int i = 0; i < expressions.length; i++) {
+		Matcher matcher = pattern.matcher(expressions[i]);
+		if(expressions[i].length() > 512){
+			errors.addError(createError(errorBoxSection,
+										section + ".Expression.Failure",
+										"This field exceeds the maximum size (512 characters)"));
+		} else if (!matcher.matches()) {
+			errors.addError(createError(errorBoxSection,
+										section + ".Expression.Failure",
+										"Expression number "+ (i+1) +" in " + field + " field is wrong"));
+		}
+	}
+	return errors;
+}
+
+# Checks if a date is older than 6 months from actual date
+function ErrorList checkOldDate(Date date, String fieldName){
+	Date today = new Date();
+	ErrorList errors = new ErrorList();
+	//Gets the calendar object for the dates
+	Calendar todaysCalendar = Calendar.getInstance();
+	Calendar dateCalendar = Calendar.getInstance();
+	todaysCalendar.setTime(today);
+	dateCalendar.setTime(date);
+	//Substracts 6 months to today's calendar
+	todaysCalendar.add(Calendar.MONTH,-6);
+	//Checks if the date is bigger or smaller
+	if(todaysCalendar.after(dateCalendar)) {
+		errors.addError(createError(fieldName,
+									"BRXXX.Date.6Months",
+									"The date is older than 6 months"));
+	}
+	return errors;
+}
+
+# Gets the object position in the list
+function int indexOfObject(List list, Object object){
+	return list.indexOf(object);
+}
+
+# Checks the list looking for a EEA person
+function boolean checkPersonEEA(List list, boolean isApplicant, Section section){
+	Iterator itr = list.iterator();
+	Applicant applicant = null;
+	Representative representative = null;
+	while(itr.hasNext()){
+		if(isApplicant){
+			applicant = (Applicant) itr.next();
+			if(applicant.getIsEEA() || countryUsable(section, getSectionName(applicant.getApplicantKind().toString(), true)) == false){
+				return true;
+			}
+		} else {
+			representative = (Representative) itr.next();
+			if(representative.getIsEEA() || countryUsable(section, getSectionName(representative.getRepresentativeKind().toString(), false)) == false){
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+# Checks if the country field is usable
+function boolean countryUsable(Section section, String personSection){
+	List<Section> sectionList = section.getSubsection();
+	Section currentSection = null;
+	//Checks if we have the personSection
+	if(personSection == null){
+		return false;
+	}
+	//Finds the correct section of the person
+	Iterator<Section> sectionIterator = sectionList.iterator();
+	while(sectionIterator.hasNext()){
+		Section actualSection = sectionIterator.next();
+		if(personSection.equals(actualSection.getId().value())){
+			currentSection = actualSection;
+		}
+	}
+	//Checks if a section was found and search for the field
+	if(currentSection != null){
+		List<Field> fieldList = currentSection.getField();
+		//Finds the correct section of the person
+		Iterator<Field> fieldIterator = fieldList.iterator();
+		while(fieldIterator.hasNext()){
+			Field actualField = fieldIterator.next();
+			if("address.country".equals(actualField.getId())){
+				return actualField.isUsable();
+			}
+		}
+	}
+	return false;
+}
+
+# Gets the section of the person
+function String getSectionName(String personType, boolean isApplicant){
+	if(isApplicant){
+		if(personType.equals("Natural Person")){
+			return "applicant_naturalperson";
+		} else if(personType.equals("Legal Entity")){
+			return "applicant_legalentity";
+		} else if(personType.equals("Natural Person: Special Case")){
+			return "applicant_naturalpersonspecial";
+		} else {
+			return null;
+		}
+	} else {
+		if(personType.equals("Natural Person")){
+			return "representative_naturalperson";
+		} else if(personType.equals("Legal Entity")){
+			return "representative_legalentity";
+		} else if(personType.equals("Lawyer")){
+			return "representative_legalpractitioner";
+		} else if(personType.equals("Professional Representative")){
+			return "representative_professionalpractitioner";
+		} else if(personType.equals("Employee") || personType.equals("Employee with Economic Connections")){
+			return "representative_employeerepresentative";
+		} else {
+			return null;
+		}
+	}
+}
+
+# Checks the list looking for a Finland Applicant or Representative
+function boolean checkPersonCountry(List list, boolean isApplicant, String country){
+	Iterator itr = list.iterator();
+	Applicant applicant = null;
+	Representative representative = null;
+
+	if(list == null)
+		return false;
+
+	while(itr.hasNext()){
+		if(isApplicant){
+			applicant = (Applicant) itr.next();
+			if(applicant.getAddressBook() != null &&
+				applicant.getAddressBook().getDomicileCountryCode() != null &&
+				applicant.getAddressBook().getDomicileCountryCode().equals(country)){
+				return true;
+			}
+		} else {
+			representative = (Representative) itr.next();
+			if(representative.getAddressBook() != null &&
+				representative.getAddressBook().getDomicileCountryCode() != null &&
+				representative.getAddressBook().getDomicileCountryCode().equals(country)){
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+# Checks for the integrity of representatives with payment
+function int checkRepresentativePayment(Sections sections, String section1, String section2) {
+	int section1Order = -1;
+	int section2Order = -1;
+
+	Iterator<Section> sectionIterator = sections.getSection().iterator();
+	// Loop searching the sections
+	while (sectionIterator.hasNext()) {
+		Section section = sectionIterator.next();
+		if (section.getId().equals(section1)) {
+			section1Order = section.getViewStateOrder();
+		} else if (section.getId().equals(section2)) {
+			section2Order = section.getViewStateOrder();
+		}
+	}
+
+	if(section1Order <= 0){
+		if(section2Order <= 0){
+			return -9999;
+		} else {
+			return -9999;
+		}
+	} else {
+		if(section2Order <= 0){
+			return -9999;
+		} else {
+			return section2Order - section1Order;
+		}
+	}
+}
+
+# Checks the colour list looking for empty fields
+function boolean checkColourList(List list){
+	if(list == null)
+		return false;
+	
+	Iterator itr = list.iterator();
+	Colour colour = null;
+	while(itr.hasNext()){
+		colour = (Colour) itr.next();
+		if(StringUtils.isEmpty(colour.getValue()) == true){
+			return false;
+		}
+	}
+	return true;
+}
+
+# Checks the colour format
+function boolean checkColourFormat(String format, String value){
+	String Regex = "";
+	
+	// Pantone is not checked because is free text (IM)
+	if(format.equals("RAL")){
+		Regex = "[\\d]{4}";
+	} else {
+		if(format.equals("HEX")){
+			Regex = "#[\\dA-Fa-f]{6}";
+		} else {
+			if(format.equals("RGB")){
+				Regex = "[\\d]{9}";
+			} else {
+				Regex = "[\\w ]{3,}";
+			}
+		}
+	}
+	
+	Pattern pattern = Pattern.compile(Regex);
+	
+	Matcher matcher = pattern.matcher(value);
+	if (!matcher.matches()) {
+		return false;
+	}
+	
+	// RGB number check
+	if(format.equals("RGB")){
+		String R = value.substring(0, 3);
+		String G = value.substring(3, 6);
+		String B = value.substring(6, 9);
+		
+		int rInt = Integer.parseInt(R);
+		int gInt = Integer.parseInt(G);
+		int bInt = Integer.parseInt(B);
+		
+		if(rInt > 255 || gInt > 255 || bInt > 255)
+			return false;
+	}
+	
+	return true;
+}

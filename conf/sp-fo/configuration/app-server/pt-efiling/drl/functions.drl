@@ -1,0 +1,193 @@
+package org.domain.rules;
+dialect "mvel"
+
+import java.util.Map;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.Calendar;
+import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import org.apache.commons.lang.StringUtils;
+import eu.ohim.sp.core.domain.contact.Address;
+import eu.ohim.sp.core.domain.person.Applicant;
+import eu.ohim.sp.core.domain.patent.Patent;
+import eu.ohim.sp.core.domain.patent.PatentPriority;
+import eu.ohim.sp.core.domain.person.PersonKind;
+import eu.ohim.sp.core.domain.person.PersonRoleKind;
+import eu.ohim.sp.core.domain.person.Representative;
+import eu.ohim.sp.core.domain.validation.ErrorCore;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.domain.contact.ContactDetails;
+import eu.ohim.sp.core.configuration.domain.xsd.Field;
+import eu.ohim.sp.core.configuration.domain.xsd.Section;
+import eu.ohim.sp.core.configuration.domain.xsd.Sections;
+import eu.ohim.sp.core.configuration.domain.country.xsd.Countries;
+import eu.ohim.sp.core.domain.application.Signatory
+
+
+rule "BR sections"
+salience 2000
+when
+	$sectionList : ArrayList()
+then
+	for (Section section : $sectionList){
+		insert (section);
+	}
+end
+
+# Fills and adds an error to the error list (TEMPLATE)
+function void addError(String field, String code, String message, String section, ErrorList errorList){
+	# Error for the field
+	if(field != null){
+		errorList.addError(createError(field, code, message));
+	}
+
+	# Error for the section
+	if(section != null){
+		errorList.addError(createError(section, code, message));
+	}
+}
+
+function void addErrorWarning(boolean isWarning, String code, String message, String section, ErrorList errorList){
+     if(isWarning){
+        errorList.addError(createErrorWarning(section, code, message,isWarning));
+     }
+}
+
+# Creates a new error and returns it
+function ErrorCore createError(String info, String code, String message){
+	ErrorCore errorField = new ErrorCore();
+
+	if(info != null){
+		errorField.setField(info);
+		errorField.setErrorCode(code);
+		errorField.setErrorArgs(null);
+		errorField.setDisplayMessage(message);
+		errorField.setStackTrace("");
+		errorField.setServiceName("");
+		errorField.setSection("");
+		errorField.setBusinessRule(code);
+	}
+
+	return errorField;
+}
+
+function ErrorCore createErrorWarning(String info, String code, String message, boolean isWarning){
+    ErrorCore errorField = new ErrorCore();
+    List<String> list = new ArrayList(1);
+    list.add((new Boolean(isWarning)).toString());
+	if(info != null){
+		errorField.setField(info);
+		errorField.setErrorCode(code);
+		errorField.setErrorArgs(list);
+		errorField.setDisplayMessage(message);
+		errorField.setStackTrace("");
+		errorField.setServiceName("");
+		errorField.setSection("");
+		errorField.setBusinessRule(code);
+		errorField.setWarning(isWarning);
+	}
+
+	return errorField;
+}
+
+# Gets the object position in the list
+function int indexOfObject(List list, Object object){
+	return list.indexOf(object);
+}
+
+# Checks if the applicant list contains an individual person who has signed, or just a legal entity
+function boolean applicantMatchesSignature(List applicantList, List signatoryList) {
+
+	Iterator itrApp = applicantList.iterator();
+    Applicant applicant = null;
+
+    while(itrApp.hasNext()){
+        applicant = (Applicant) itrApp.next();
+        Iterator itrSig = signatoryList.iterator();
+        if(applicant.getKind() == PersonKind.NATURAL_PERSON){
+            Signatory signatory = null;
+            while(itrSig.hasNext()){
+                signatory = (Signatory) itrSig.next();
+                if(signatory.getCapacity() == PersonRoleKind.APPLICANT
+                    && signatory.getName().contains(applicant.getName().getFirstName())
+                    && (applicant.getName().getMiddleName() == null || signatory.getName().contains(applicant.getName().getMiddleName()))
+                    && signatory.getName().contains(applicant.getName().getLastName())) {
+                    return true;
+                }
+            }
+        } else {
+            return true;
+        }
+    }
+
+	return false;
+}
+
+# Checks if there is any Bulgarian applicant (new requirement in DEVIMPFO-716)
+function boolean hasAnyApplicantFromCountry(Patent patent, String countryId) {
+
+    if (patent == null || patent.getApplicants() == null){
+        return false;
+    }
+
+    for (Applicant applicant : patent.getApplicants()){
+        if(anyAddressFromCountry(applicant.getAddresses(), countryId)){
+            return true;
+        }
+    }
+
+    return false;
+}
+
+function boolean hasAnyCAFromCountry(Patent patent, String countryId) {
+    if (patent == null || patent.getContactDetails() == null){
+        return false;
+    }
+
+    for(ContactDetails cd: patent.getContactDetails()){
+        if(anyAddressFromCountry(cd.getAddress(), countryId)){
+             return true;
+        }
+    }
+    return false;
+}
+
+function boolean anyAddressFromCountry(List addresses, String countryId) {
+
+    if(addresses == null || addresses.size() == 0) {
+        return false;
+    }
+
+	Iterator itrAdd = addresses.iterator();
+
+    while(itrAdd.hasNext()){
+        Address address = (Address) itrAdd.next();
+        if (countryId.equals(address.getCountry())){
+            return true;
+        }
+    }
+
+	return false;
+}
+
+function boolean hasDuplicatePriorities(List prioList){
+    for(int i=0; i< prioList.size()-1; i++){
+        PatentPriority current = (PatentPriority)prioList.get(i);
+        for(int j=i+1; j< prioList.size(); j++){
+            PatentPriority comparable = (PatentPriority)prioList.get(j);
+            if(comparable.getFilingNumber() != null && comparable.getFilingOffice() != null &&
+                comparable.getFilingNumber().equals(current.getFilingNumber()) &&
+                comparable.getFilingOffice().equals(current.getFilingOffice())){
+                return true;
+            }
+        }
+    }
+
+    return false;
+}

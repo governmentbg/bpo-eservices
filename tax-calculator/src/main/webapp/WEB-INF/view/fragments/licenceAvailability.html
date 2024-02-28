@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<div th:fragment="licenceAvailability-fragment" class="inlBlW100">
+
+    <div class="mT10 inlBlW100">
+        <div th:text="#{pt.licenceAvailability}" style="display: inline-block"></div>
+        <div style="display: inline-block; margin-left: 20px">
+            <input name="licenceAvailability" class="radio-btn" type="radio" value="true" th:attr="data-rel-field='licenceAvailability-field'" style="margin: 0">
+            <div th:text="#{common.yes}" style="display: inline-block;"></div>
+        </div>
+        <div style="display: inline-block; margin-left: 20px">
+            <input name="licenceAvailability" class="radio-btn" type="radio" value="false" th:attr="data-rel-field='licenceAvailability-field'" style="margin: 0" checked>
+            <div th:text="#{common.no}" style="display: inline-block;"></div>
+        </div>
+    </div>
+
+    <input type="hidden" class="input-param" id="licenceAvailability-field" value="false" th:attr="data-name='licenceAvailability'">
+
+</div>
+</html>

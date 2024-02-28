@@ -1,0 +1,5 @@
+eu.ohim.sp.common.PrivateMemberPlugin
+eu.ohim.sp.common.ConstructorAccessorsClone
+eu.ohim.sp.common.GetterBooleanPlugin
+eu.ohim.sp.common.ByteArrayCopy
+eu.ohim.sp.common.DateClone

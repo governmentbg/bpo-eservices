@@ -1,0 +1,11 @@
+package org.domain.rules;
+
+dialect "mvel"
+
+rule "Testing rule for error"
+no-loop
+    when
+        $results : HashMap()
+    then
+        $results.put("testResult", "ok");
+end

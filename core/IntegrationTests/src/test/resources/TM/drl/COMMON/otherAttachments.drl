@@ -1,0 +1,80 @@
+package org.domain.rules;
+dialect "mvel"
+
+import eu.ohim.sp.core.domain.resources.Document;
+import org.apache.commons.lang.StringUtils;
+import eu.ohim.sp.core.domain.validation.ErrorCore;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.domain.validation.RulesInformation;
+import eu.ohim.sp.core.configuration.domain.xsd.Sections;
+import eu.ohim.sp.core.configuration.domain.xsd.Section;
+import eu.ohim.sp.core.configuration.domain.xsd.Field;
+
+rule "BR48a Attachment Description - Empty"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "otherAttachments.description", $fieldUsable: usable, $fieldRequired : required) from $fields
+	Document($fieldUsable == true &&
+			 $fieldRequired == true &&
+			 StringUtils.isEmpty(comment) == true)
+then
+	addError("fileWrapper.description",
+		 "BR48a.OtherAttachments.Description.Empty",
+		 "This field is mandatory",
+		 null,
+		 $rulesInformation);
+end
+
+rule "BR48b Attachment Description - Max limit"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "otherAttachments.description", $fieldUsable: usable) from $fields
+	Document($fieldUsable == true &&
+			 StringUtils.isEmpty(comment) == false &&
+			 comment.length() > 200)
+then
+	addError("fileWrapper.description",
+		 "BR48b.OtherAttachments.Description.Limit",
+		 "The maximum number of characters of this field has been exceeded (200 max)",
+		 null,
+		 $rulesInformation);
+end
+
+rule "BR49a Attachment - Empty"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "otherAttachments.attachment", $fieldUsable: usable, $fieldRequired : required) from $fields
+	Document($fieldUsable == true &&
+			 $fieldRequired == true &&
+			 StringUtils.isEmpty(documentName) == true)
+then
+	addError("fileWrapper.description",
+		 "BR49a.OtherAttachments.Attachment.Empty",
+		 "This field is mandatory",
+		 null,
+		 $rulesInformation);
+end
+
+rule "BR49b Attachment - Size"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "otherAttachments.attachment", $fieldUsable: usable, $fieldRequired : required) from $fields
+	Document($fieldUsable == true &&
+			 $fieldRequired == true &&
+			 StringUtils.isEmpty(documentName) == true &&
+			 fileSize > 2097152) // > 2Mb
+then
+	addError("fileWrapper.description",
+		 "BR49b.OtherAttachments.Attachment.MaxSize",
+		 "This field is mandatory",
+		 null,
+		 $rulesInformation);
+end

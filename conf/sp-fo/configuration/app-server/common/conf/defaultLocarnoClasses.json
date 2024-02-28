@@ -1,0 +1,1143 @@
+[
+  {
+    "Language": "EN",
+    "Classification": [
+      {
+        "ClassCode": "01",
+        "ClassDescription": "Foodstuffs",
+        "LocarnoSubClasses": [
+          {
+            "SubClassCode": "01",
+            "SubClassDescription": "Bakers' products, biscuits, pastry, pasta and other cereal products, chocolates, confectionery, ices"
+          },
+          {
+            "SubClassCode": "02",
+            "SubClassDescription": "Fruit and vegetables"
+          },
+          {
+            "SubClassCode": "03",
+            "SubClassDescription": "Cheeses, butter and butter substitutes, other dairy produce"
+          },
+          {
+            "SubClassCode": "04",
+            "SubClassDescription": "Butchers' meat (including pork products), fish"
+          },
+          {
+            "SubClassCode": "05",
+            "SubClassDescription": "Tofu and tofu products"
+          },
+          {
+            "SubClassCode": "06",
+            "SubClassDescription": "Animal foodstuffs"
+          },
+          {
+            "SubClassCode": "99",
+            "SubClassDescription": "Miscellaneous"
+          }
+        ]
+      },
+      {
+        "ClassCode": "02",
+        "ClassDescription": "Articles of Clothing and Haberdashery",
+        "LocarnoSubClasses": [
+          {
+            "SubClassCode": "01",
+            "SubClassDescription": "Undergarments, lingerie, corsets, brassieres, nightwear"
+          },
+          {
+            "SubClassCode": "02",
+            "SubClassDescription": "Garments"
+          },
+          {
+            "SubClassCode": "03",
+            "SubClassDescription": "Headwear"
+          },
+          {
+            "SubClassCode": "04",
+            "SubClassDescription": "Footwear, socks and stockings"
+          },
+          {
+            "SubClassCode": "05",
+            "SubClassDescription": "Neckties, scarves, neckerchiefs and handkerchiefs"
+          },
+          {
+            "SubClassCode": "06",
+            "SubClassDescription": "Gloves"
+          },
+          {
+            "SubClassCode": "07",
+            "SubClassDescription": "Haberdashery and clothing accessories"
+          },
+          {
+            "SubClassCode": "99",
+            "SubClassDescription": "Miscellaneous"
+          }
+        ]
+      },
+      {
+        "ClassCode": "03",
+        "ClassDescription": "Travel goods, cases, parasols and personal belongings, not elsewhere specified",
+        "LocarnoSubClasses": [
+          {
+            "SubClassCode": "01",
+            "SubClassDescription": "Trunks, suitcases, briefcases, handbags, keyholders, cases specially designed for their contents, wallets and similar articles"
+          },
+          {
+            "SubClassCode": "02",
+            "SubClassDescription": "[vacant]"
+          },
+          {
+            "SubClassCode": "03",
+            "SubClassDescription": "Umbrellas, parasols, sunshades and walking sticks"
+          },
+          {
+            "SubClassCode": "04",
+            "SubClassDescription": "Fans"
+          },
+          {
+            "SubClassCode": "05",
+            "SubClassDescription": "Devices for carrying and walking with babies and children"
+          },
+          {
+            "SubClassCode": "99",
+            "SubClassDescription": "Miscellaneous"
+          }
+        ]
+      },
+      {
+        "ClassCode": "04",
+        "ClassDescription": "Brushware",
+        "LocarnoSubClasses": [
+          {
+            "SubClassCode": "01",
+            "SubClassDescription": "Brushes and brooms for cleaning"
+          },
+          {
+            "SubClassCode": "02",
+            "SubClassDescription": "Toilet brushes, clothes brushes and shoe brushes"
+          },
+          {
+            "SubClassCode": "03",
+            "SubClassDescription": "Brushes for machines"
+          },
+          {
+            "SubClassCode": "04",
+            "SubClassDescription": "Paintbrushes, brushes for use in cooking"
+          },
+          {
+            "SubClassCode": "99",
+            "SubClassDescription": "Miscellaneous"
+          }
+        ]
+      },
+      {
+        "ClassCode": "05",
+        "ClassDescription": "Textile piece goods, artificial and natural sheet material",
+        "LocarnoSubClasses": [
+          {
+            "SubClassCode": "01",
+            "SubClassDescription": "Spun articles"
+          },
+          {
+            "SubClassCode": "02",
+            "SubClassDescription": "Lace"
+          },
+          {
+            "SubClassCode": "03",
+            "SubClassDescription": "Embroidery"
+          },
+          {
+            "SubClassCode": "04",
+            "SubClassDescription": "Ribbons, braids and other decorative trimmings"
+          },
+          {
+            "SubClassCode": "05",
+            "SubClassDescription": "Textile fabrics"
+          },
+          {
+            "SubClassCode": "06",
+            "SubClassDescription": "Artificial or natural sheet material"
+          },
+          {
+            "SubClassCode": "99",
+            "SubClassDescription": "Miscellaneous"
+          }
+        ]
+      },
+      {
+        "ClassCode": "06",
+        "ClassDescription": "Furnishing",
+        "LocarnoSubClasses": [
+          {
+            "SubClassCode": "01",
+            "SubClassDescription": "Seats"
+          },
+          {
+            "SubClassCode": "02",
+            "SubClassDescription": "Beds"
+          },
+          {
+            "SubClassCode": "03",
+            "SubClassDescription": "Tables and similar furniture"
+          },
+          {
+            "SubClassCode": "04",
+            "SubClassDescription": "Storage furniture"
+          },
+          {
+            "SubClassCode": "05",
+            "SubClassDescription": "Composite furniture"
+          },
+          {
+            "SubClassCode": "06",
+            "SubClassDescription": "Other furniture and furniture parts"
+          },
+          {
+            "SubClassCode": "07",
+            "SubClassDescription": "Mirrors and frames"
+          },
+          {
+            "SubClassCode": "08",
+            "SubClassDescription": "Clothes hangers"
+          },
+          {
+            "SubClassCode": "09",
+            "SubClassDescription": "Mattresses and cushions"
+          },
+          {
+            "SubClassCode": "10",
+            "SubClassDescription": "Curtains and indoor blinds"
+          },
+          {
+            "SubClassCode": "11",
+            "SubClassDescription": "Carpets, mats and rugs"
+          },
+          {
+            "SubClassCode": "12",
+            "SubClassDescription": "Tapestries"
+          },
+          {
+            "SubClassCode": "13",
+            "SubClassDescription": "Blankets and other covering materials, household linen and napery"
+          },
+          {
+            "SubClassCode": "99",
+            "SubClassDescription": "Miscellaneous"
+          }
+        ]
+      },
+      {
+        "ClassCode": "07",
+        "ClassDescription": "Household goods, not elsewhere specified",
+        "LocarnoSubClasses": [
+          {
+            "SubClassCode": "01",
+            "SubClassDescription": "China, glassware, dishes and other articles of a similar nature"
+          },
+          {
+            "SubClassCode": "02",
+            "SubClassDescription": "Cooking appliances, utensils and containers"
+          },
+          {
+            "SubClassCode": "03",
+            "SubClassDescription": "Table cutlery"
+          },
+          {
+            "SubClassCode": "04",
+            "SubClassDescription": "Appliances and utensils, hand manipulated, for preparing food or drink"
+          },
+          {
+            "SubClassCode": "05",
+            "SubClassDescription": "Flat-irons and washing, cleaning and drying equipment"
+          },
+          {
+            "SubClassCode": "06",
+            "SubClassDescription": "Other table utensils"
+          },
+          {
+            "SubClassCode": "07",
+            "SubClassDescription": "Other household receptacles"
+          },
+          {
+            "SubClassCode": "08",
+            "SubClassDescription": "Fireplace implements"
+          },
+          {
+            "SubClassCode": "09",
+            "SubClassDescription": "Stands and holders for household appliances and utensils"
+          },
+          {
+            "SubClassCode": "10",
+            "SubClassDescription": "Cooling and freezing devices and isothermal containers"
+          },
+          {
+            "SubClassCode": "99",
+            "SubClassDescription": "Miscellaneous"
+          }
+        ]
+      },
+      {
+        "ClassCode": "08",
+        "ClassDescription": "Tools and hardware",
+        "LocarnoSubClasses": [
+          {
+            "SubClassCode": "01",
+            "SubClassDescription": "Tools and implements for drilling, milling or digging"
+          },
+          {
+            "SubClassCode": "02",
+            "SubClassDescription": "Hammers and other similar tools and implements"
+          },
+          {
+            "SubClassCode": "03",
+            "SubClassDescription": "Cutting tools and implements"
+          },
+          {
+            "SubClassCode": "04",
+            "SubClassDescription": "Screwdrivers and other similar tools and implements"
+          },
+          {
+            "SubClassCode": "05",
+            "SubClassDescription": "Other tools and implements"
+          },
+          {
+            "SubClassCode": "06",
+            "SubClassDescription": "Handles, knobs and hinges"
+          },
+          {
+            "SubClassCode": "07",
+            "SubClassDescription": "Locking or closing devices"
+          },
+          {
+            "SubClassCode": "08",
+            "SubClassDescription": "Fastening, supporting or mounting devices not included in other classes"
+          },
+          {
+            "SubClassCode": "09",
+            "SubClassDescription": "Metal fittings and mountings for doors, windows and furniture, and similar articles, not included in other classes or subclasses."
+          },
+          {
+            "SubClassCode": "10",
+            "SubClassDescription": "Bicycle and motorcycle racks"
+          },
+          {
+            "SubClassCode": "11",
+            "SubClassDescription": "Hardware for curtains"
+          },
+          {
+            "SubClassCode": "99",
+            "SubClassDescription": "Miscellaneous"
+          }
+        ]
+      },
+      {
+        "ClassCode": "09",
+        "ClassDescription": "Packaging and containers for the transport or handling of goods",
+        "LocarnoSubClasses": [
+          {
+            "SubClassCode": "01",
+            "SubClassDescription": "Bottles, flasks, pots, carboys, demijohns, and pressurized containers"
+          },
+          {
+            "SubClassCode": "02",
+            "SubClassDescription": "Storage cans, drums and casks"
+          },
+          {
+            "SubClassCode": "03",
+            "SubClassDescription": "Boxes, cases, containers, tin cans"
+          },
+          {
+            "SubClassCode": "04",
+            "SubClassDescription": "Hampers, crates and baskets"
+          },
+          {
+            "SubClassCode": "05",
+            "SubClassDescription": "Bags, sachets, tubes and capsules"
+          },
+          {
+            "SubClassCode": "06",
+            "SubClassDescription": "Ropes and hooping materials"
+          },
+          {
+            "SubClassCode": "07",
+            "SubClassDescription": "Closing means and attachments"
+          },
+          {
+            "SubClassCode": "08",
+            "SubClassDescription": "Pallets and platforms for forklifts"
+          },
+          {
+            "SubClassCode": "09",
+            "SubClassDescription": "Refuse and trash containers and stands therefor"
+          },
+          {
+            "SubClassCode": "10",
+            "SubClassDescription": "Handles and grips for the transport or handling of packages and containers"
+          },
+          {
+            "SubClassCode": "99",
+            "SubClassDescription": "Miscellaneous"
+          }
+        ]
+      },
+      {
+        "ClassCode": "10",
+        "ClassDescription": "Clocks and watches and other measuring instruments, checking and signalling instruments",
+        "LocarnoSubClasses": [
+          {
+            "SubClassCode": "01",
+            "SubClassDescription": "Clocks and alarm clocks"
+          },
+          {
+            "SubClassCode": "02",
+            "SubClassDescription": "Watches and wrist watches"
+          },
+          {
+            "SubClassCode": "03",
+            "SubClassDescription": "Other time-measuring instruments"
+          },
+          {
+            "SubClassCode": "04",
+            "SubClassDescription": "Other measuring instruments, apparatus and devices"
+          },
+          {
+            "SubClassCode": "05",
+            "SubClassDescription": "Instruments, apparatus and devices for checking, security or testing"
+          },
+          {
+            "SubClassCode": "06",
+            "SubClassDescription": "Signalling apparatus and devices"
+          },
+          {
+            "SubClassCode": "07",
+            "SubClassDescription": "Casings, dials, hands and all other parts and accessories of instruments for measuring, checking and signalling"
+          },
+          {
+            "SubClassCode": "99",
+            "SubClassDescription": "Miscellaneous"
+          }
+        ]
+      },
+      {
+        "ClassCode": "11",
+        "ClassDescription": "Articles of adornment",
+        "LocarnoSubClasses": [
+          {
+            "SubClassCode": "01",
+            "SubClassDescription": "Jewellery"
+          },
+          {
+            "SubClassCode": "02",
+            "SubClassDescription": "Trinkets, table, mantel and wall ornaments, flowervases and pots"
+          },
+          {
+            "SubClassCode": "03",
+            "SubClassDescription": "Medals and badges"
+          },
+          {
+            "SubClassCode": "04",
+            "SubClassDescription": "Artificial flowers, fruit and plants"
+          },
+          {
+            "SubClassCode": "05",
+            "SubClassDescription": "Flags, festive decorations"
+          },
+          {
+            "SubClassCode": "99",
+            "SubClassDescription": "Miscellaneous"
+          }
+        ]
+      },
+      {
+        "ClassCode": "12",
+        "ClassDescription": "Means of transport or hoisting",
+        "LocarnoSubClasses": [
+          {
+            "SubClassCode": "01",
+            "SubClassDescription": "Vehicles drawn by animals"
+          },
+          {
+            "SubClassCode": "02",
+            "SubClassDescription": "Handcarts, wheelbarrows"
+          },
+          {
+            "SubClassCode": "03",
+            "SubClassDescription": "Locomotives and rolling stock for railways and all other rail vehicles"
+          },
+          {
+            "SubClassCode": "04",
+            "SubClassDescription": "Telpher carriers, chair lifts and ski lifts"
+          },
+          {
+            "SubClassCode": "05",
+            "SubClassDescription": "Elevators and hoists for loading and conveying"
+          },
+          {
+            "SubClassCode": "06",
+            "SubClassDescription": "Ships and boats"
+          },
+          {
+            "SubClassCode": "07",
+            "SubClassDescription": "Aircraft and space vehicles"
+          },
+          {
+            "SubClassCode": "08",
+            "SubClassDescription": "Motor cars, buses and lorries"
+          },
+          {
+            "SubClassCode": "09",
+            "SubClassDescription": "Tractors"
+          },
+          {
+            "SubClassCode": "10",
+            "SubClassDescription": "Road vehicle trailers"
+          },
+          {
+            "SubClassCode": "11",
+            "SubClassDescription": "Cycles and motorcycles"
+          },
+          {
+            "SubClassCode": "12",
+            "SubClassDescription": "Perambulators, invalid chairs, stretchers"
+          },
+          {
+            "SubClassCode": "13",
+            "SubClassDescription": "Special purpose vehicles"
+          },
+          {
+            "SubClassCode": "14",
+            "SubClassDescription": "Other vehicles"
+          },
+          {
+            "SubClassCode": "15",
+            "SubClassDescription": "Tyres and anti skid chains for vehicles"
+          },
+          {
+            "SubClassCode": "16",
+            "SubClassDescription": "Parts, equipment and accessories for vehicles not included in other classes or subclasses"
+          },
+          {
+            "SubClassCode": "17",
+            "SubClassDescription": "Railway infrastructure components"
+          },
+          {
+            "SubClassCode": "99",
+            "SubClassDescription": "Miscellaneous"
+          }
+        ]
+      },
+      {
+        "ClassCode": "13",
+        "ClassDescription": "Equipment for production, distribution or transformation of electricity",
+        "LocarnoSubClasses": [
+          {
+            "SubClassCode": "01",
+            "SubClassDescription": "Generators and motors"
+          },
+          {
+            "SubClassCode": "02",
+            "SubClassDescription": "Power transformers, rectifiers, batteries and accumulators"
+          },
+          {
+            "SubClassCode": "03",
+            "SubClassDescription": "Equipment for distribution or control of electric power"
+          },
+          {
+            "SubClassCode": "04",
+            "SubClassDescription": "Solar equipment"
+          },
+          {
+            "SubClassCode": "99",
+            "SubClassDescription": "Miscellaneous"
+          }
+        ]
+      },
+      {
+        "ClassCode": "14",
+        "ClassDescription": "Recording, telecommunication or data processing equipment",
+        "LocarnoSubClasses": [
+          {
+            "SubClassCode": "01",
+            "SubClassDescription": "Equipment for the recording or reproduction of sounds or pictures"
+          },
+          {
+            "SubClassCode": "02",
+            "SubClassDescription": "Data processing equipment as well as peripheral apparatus and devices"
+          },
+          {
+            "SubClassCode": "03",
+            "SubClassDescription": "Telecommunications equipment, wireless remote controls and radio amplifiers"
+          },
+          {
+            "SubClassCode": "04",
+            "SubClassDescription": "Screen displays and icons"
+          },
+          {
+            "SubClassCode": "05",
+            "SubClassDescription": "Recording and data storage media"
+          },
+          {
+            "SubClassCode": "06",
+            "SubClassDescription": "Holders, stands and supports for electronic equipment, not included in other classes"
+          },
+          {
+            "SubClassCode": "99",
+            "SubClassDescription": "Miscellaneous"
+          }
+        ]
+      },
+      {
+        "ClassCode": "15",
+        "ClassDescription": "Machines not elsewhere specified",
+        "LocarnoSubClasses": [
+          {
+            "SubClassCode": "01",
+            "SubClassDescription": "Engines"
+          },
+          {
+            "SubClassCode": "02",
+            "SubClassDescription": "Pumps and Compressors"
+          },
+          {
+            "SubClassCode": "03",
+            "SubClassDescription": "Agricultural and forestry machiner."
+          },
+          {
+            "SubClassCode": "04",
+            "SubClassDescription": "Construction and mining machinery"
+          },
+          {
+            "SubClassCode": "05",
+            "SubClassDescription": "Washing, cleaning and drying machines"
+          },
+          {
+            "SubClassCode": "06",
+            "SubClassDescription": "Textile, sewing, knitting and embroidery machines including their integral parts"
+          },
+          {
+            "SubClassCode": "07",
+            "SubClassDescription": "Refrigeration machinery and apparatus"
+          },
+          {
+            "SubClassCode": "08",
+            "SubClassDescription": "[vacant]"
+          },
+          {
+            "SubClassCode": "09",
+            "SubClassDescription": "Machine tools, abrading and founding machinery"
+          },
+          {
+            "SubClassCode": "10",
+            "SubClassDescription": "Machinery for filling, packing or packaging"
+          },
+          {
+            "SubClassCode": "99",
+            "SubClassDescription": "Miscellaneous"
+          }
+        ]
+      },
+      {
+        "ClassCode": "16",
+        "ClassDescription": "Photographic, cinematographic and optical apparatus",
+        "LocarnoSubClasses": [
+          {
+            "SubClassCode": "01",
+            "SubClassDescription": "Photographic cameras and film cameras"
+          },
+          {
+            "SubClassCode": "02",
+            "SubClassDescription": "Projectors and viewers"
+          },
+          {
+            "SubClassCode": "03",
+            "SubClassDescription": "Photocopying apparatus and equipment"
+          },
+          {
+            "SubClassCode": "04",
+            "SubClassDescription": "Developing apparatus and equipment"
+          },
+          {
+            "SubClassCode": "05",
+            "SubClassDescription": "Accessories"
+          },
+          {
+            "SubClassCode": "06",
+            "SubClassDescription": "Optical articles"
+          },
+          {
+            "SubClassCode": "99",
+            "SubClassDescription": "Miscellaneous"
+          }
+        ]
+      },
+      {
+        "ClassCode": "17",
+        "ClassDescription": "Musical instruments",
+        "LocarnoSubClasses": [
+          {
+            "SubClassCode": "01",
+            "SubClassDescription": "Keyboard instruments"
+          },
+          {
+            "SubClassCode": "02",
+            "SubClassDescription": "Wind instruments"
+          },
+          {
+            "SubClassCode": "03",
+            "SubClassDescription": "Stringed instruments"
+          },
+          {
+            "SubClassCode": "04",
+            "SubClassDescription": "Percussion instruments"
+          },
+          {
+            "SubClassCode": "05",
+            "SubClassDescription": "Mechanical instruments"
+          },
+          {
+            "SubClassCode": "99",
+            "SubClassDescription": "Miscellaneous"
+          }
+        ]
+      },
+      {
+        "ClassCode": "18",
+        "ClassDescription": "Printing and Office machinery",
+        "LocarnoSubClasses": [
+          {
+            "SubClassCode": "01",
+            "SubClassDescription": "Typewriters and calculating machines"
+          },
+          {
+            "SubClassCode": "02",
+            "SubClassDescription": "Printing machines"
+          },
+          {
+            "SubClassCode": "03",
+            "SubClassDescription": "Type and type faces"
+          },
+          {
+            "SubClassCode": "04",
+            "SubClassDescription": "Bookbinding machines, printers' stapling machines, guillotines and trimmers (for bookbinding)"
+          },
+          {
+            "SubClassCode": "99",
+            "SubClassDescription": "Miscellaneous"
+          }
+        ]
+      },
+      {
+        "ClassCode": "19",
+        "ClassDescription": "Stationery and office equipment, artists' and teaching materials",
+        "LocarnoSubClasses": [
+          {
+            "SubClassCode": "01",
+            "SubClassDescription": "Writing paper, cards for correspondence and announcements"
+          },
+          {
+            "SubClassCode": "02",
+            "SubClassDescription": "Office equipment"
+          },
+          {
+            "SubClassCode": "03",
+            "SubClassDescription": "Calendars"
+          },
+          {
+            "SubClassCode": "04",
+            "SubClassDescription": "Books and other objects of similar outward appearance"
+          },
+          {
+            "SubClassCode": "05",
+            "SubClassDescription": "[vacant]"
+          },
+          {
+            "SubClassCode": "06",
+            "SubClassDescription": "Materials and instruments for writing by hand, for drawing, for painting, for sculpture, for engraving and for other artistic techniques"
+          },
+          {
+            "SubClassCode": "07",
+            "SubClassDescription": "Teaching materials and apparatus"
+          },
+          {
+            "SubClassCode": "08",
+            "SubClassDescription": "Other printed matter"
+          },
+          {
+            "SubClassCode": "99",
+            "SubClassDescription": "Miscellaneous"
+          }
+        ]
+      },
+      {
+        "ClassCode": "20",
+        "ClassDescription": "Sales and advertising equipment, signs",
+        "LocarnoSubClasses": [
+          {
+            "SubClassCode": "01",
+            "SubClassDescription": "Automatic vending machines"
+          },
+          {
+            "SubClassCode": "02",
+            "SubClassDescription": "Display and sales equipment"
+          },
+          {
+            "SubClassCode": "03",
+            "SubClassDescription": "Signs, signboards and advertising devices"
+          },
+          {
+            "SubClassCode": "99",
+            "SubClassDescription": "Miscellaneous"
+          }
+        ]
+      },
+      {
+        "ClassCode": "21",
+        "ClassDescription": "Games, toys, tents and sports goods",
+        "LocarnoSubClasses": [
+          {
+            "SubClassCode": "01",
+            "SubClassDescription": "Games and toys"
+          },
+          {
+            "SubClassCode": "02",
+            "SubClassDescription": "Gymnastics and sports apparatus and equipment"
+          },
+          {
+            "SubClassCode": "03",
+            "SubClassDescription": "Other amusement and entertainment articles"
+          },
+          {
+            "SubClassCode": "04",
+            "SubClassDescription": "Tents and accessories thereof"
+          },
+          {
+            "SubClassCode": "99",
+            "SubClassDescription": "Miscellaneous"
+          }
+        ]
+      },
+      {
+        "ClassCode": "22",
+        "ClassDescription": "Arms, pyrotechnic articles, articles for hunting, fishing and pest killing",
+        "LocarnoSubClasses": [
+          {
+            "SubClassCode": "01",
+            "SubClassDescription": "Projectile weapons"
+          },
+          {
+            "SubClassCode": "02",
+            "SubClassDescription": "Other weapons"
+          },
+          {
+            "SubClassCode": "03",
+            "SubClassDescription": "Ammunition, rockets and pyrotechnic articles"
+          },
+          {
+            "SubClassCode": "04",
+            "SubClassDescription": "Targets and accessories"
+          },
+          {
+            "SubClassCode": "05",
+            "SubClassDescription": "Hunting and fishing equipment"
+          },
+          {
+            "SubClassCode": "06",
+            "SubClassDescription": "Traps, articles for pest killing"
+          },
+          {
+            "SubClassCode": "99",
+            "SubClassDescription": "Miscellaneous"
+          }
+        ]
+      },
+      {
+        "ClassCode": "23",
+        "ClassDescription": "Fluid distribution equipment, sanitary, heating, ventilation and airconditioning equipment, solid fuel",
+        "LocarnoSubClasses": [
+          {
+            "SubClassCode": "01",
+            "SubClassDescription": "Fluid distribution equipment"
+          },
+          {
+            "SubClassCode": "03",
+            "SubClassDescription": "Heating equipment"
+          },
+          {
+            "SubClassCode": "04",
+            "SubClassDescription": "Ventilation and air conditioning equipment"
+          },
+          {
+            "SubClassCode": "05",
+            "SubClassDescription": "Solid fuel"
+          },
+          {
+            "SubClassCode": "06",
+            "SubClassDescription": "Sanitary appliances for personal hygiene"
+          },
+          {
+            "SubClassCode": "07",
+            "SubClassDescription": "Equipment and accessories for urination and defecation"
+          },
+          {
+            "SubClassCode": "08",
+            "SubClassDescription": "Other sanitary equipment and accessories, not included in other classes or subclasses"
+          },
+          {
+            "SubClassCode": "99",
+            "SubClassDescription": "Miscellaneous"
+          }
+        ]
+      },
+      {
+        "ClassCode": "24",
+        "ClassDescription": "Medical and laboratory equipment",
+        "LocarnoSubClasses": [
+          {
+            "SubClassCode": "01",
+            "SubClassDescription": "Apparatus and equipment for doctors, hospitals and laboratories"
+          },
+          {
+            "SubClassCode": "02",
+            "SubClassDescription": "Medical instruments, instruments and tools for laboratory use"
+          },
+          {
+            "SubClassCode": "03",
+            "SubClassDescription": "Prosthetic articles"
+          },
+          {
+            "SubClassCode": "04",
+            "SubClassDescription": "Materials for dressing wounds, nursing and medical care"
+          },
+          {
+            "SubClassCode": "99",
+            "SubClassDescription": "Miscellaneous"
+          }
+        ]
+      },
+      {
+        "ClassCode": "25",
+        "ClassDescription": "Building units and construction elements",
+        "LocarnoSubClasses": [
+          {
+            "SubClassCode": "01",
+            "SubClassDescription": "Building materials"
+          },
+          {
+            "SubClassCode": "02",
+            "SubClassDescription": "Prefabricated or pre-assembled building parts"
+          },
+          {
+            "SubClassCode": "03",
+            "SubClassDescription": "Houses, garages and other buildings"
+          },
+          {
+            "SubClassCode": "04",
+            "SubClassDescription": "Steps, ladders and scaffolds"
+          },
+          {
+            "SubClassCode": "99",
+            "SubClassDescription": "Miscellaneous"
+          }
+        ]
+      },
+      {
+        "ClassCode": "26",
+        "ClassDescription": "Lighting apparatus",
+        "LocarnoSubClasses": [
+          {
+            "SubClassCode": "01",
+            "SubClassDescription": "Candlesticks and candelabra"
+          },
+          {
+            "SubClassCode": "02",
+            "SubClassDescription": "Torches and hand lamps and lanterns"
+          },
+          {
+            "SubClassCode": "03",
+            "SubClassDescription": "Public lighting fixtures"
+          },
+          {
+            "SubClassCode": "04",
+            "SubClassDescription": "Luminous sources, electrical or not"
+          },
+          {
+            "SubClassCode": "05",
+            "SubClassDescription": "Lamps, standard lamps, chandeliers, wall and ceiling fixtures, lampshades, reflectors, photographic, and cinematographic projector lamps"
+          },
+          {
+            "SubClassCode": "06",
+            "SubClassDescription": "Luminous devices for vehicles"
+          },
+          {
+            "SubClassCode": "99",
+            "SubClassDescription": "Miscellaneous"
+          }
+        ]
+      },
+      {
+        "ClassCode": "27",
+        "ClassDescription": "Tobacco and smokers' supplies",
+        "LocarnoSubClasses": [
+          {
+            "SubClassCode": "01",
+            "SubClassDescription": "Tobacco, cigars and cigarettes"
+          },
+          {
+            "SubClassCode": "02",
+            "SubClassDescription": "Pipes, cigar and cigarette holders"
+          },
+          {
+            "SubClassCode": "03",
+            "SubClassDescription": "Ashtrays"
+          },
+          {
+            "SubClassCode": "04",
+            "SubClassDescription": "Matches"
+          },
+          {
+            "SubClassCode": "05",
+            "SubClassDescription": "Lighters"
+          },
+          {
+            "SubClassCode": "06",
+            "SubClassDescription": "Cigar cases, cigarette cases, tobacco jars and pouches"
+          },
+          {
+            "SubClassCode": "07",
+            "SubClassDescription": "Electronic cigarettes and other electronic smoking supplies"
+          },
+          {
+            "SubClassCode": "99",
+            "SubClassDescription": "Miscellaneous"
+          }
+        ]
+      },
+      {
+        "ClassCode": "28",
+        "ClassDescription": "Pharmaceutical and cosmetic products, toilet articles and apparatus",
+        "LocarnoSubClasses": [
+          {
+            "SubClassCode": "01",
+            "SubClassDescription": "Pharmaceutical products"
+          },
+          {
+            "SubClassCode": "02",
+            "SubClassDescription": "Cosmetic products"
+          },
+          {
+            "SubClassCode": "03",
+            "SubClassDescription": "Toilet articles and beauty parlor equipment"
+          },
+          {
+            "SubClassCode": "04",
+            "SubClassDescription": "Wigs and false beauty articles"
+          },
+          {
+            "SubClassCode": "05",
+            "SubClassDescription": "Air fresheners"
+          },
+          {
+            "SubClassCode": "99",
+            "SubClassDescription": "Miscellaneous"
+          }
+        ]
+      },
+      {
+        "ClassCode": "29",
+        "ClassDescription": "Devices and equipment against fire hazards, for accident prevention and for rescue",
+        "LocarnoSubClasses": [
+          {
+            "SubClassCode": "01",
+            "SubClassDescription": "Devices and equipment against fire hazards"
+          },
+          {
+            "SubClassCode": "02",
+            "SubClassDescription": "Devices and equipment for accident prevention and for rescue, not elsewhere specified"
+          },
+          {
+            "SubClassCode": "99",
+            "SubClassDescription": "Miscellaneous"
+          }
+        ]
+      },
+      {
+        "ClassCode": "30",
+        "ClassDescription": "Articles for the care and handling of animals",
+        "LocarnoSubClasses": [
+          {
+            "SubClassCode": "01",
+            "SubClassDescription": "Animal clothing"
+          },
+          {
+            "SubClassCode": "02",
+            "SubClassDescription": "Pens, cages, kennels and similar shelters"
+          },
+          {
+            "SubClassCode": "03",
+            "SubClassDescription": "Feeders and waterers"
+          },
+          {
+            "SubClassCode": "04",
+            "SubClassDescription": "Saddlery"
+          },
+          {
+            "SubClassCode": "05",
+            "SubClassDescription": "Whips and prods"
+          },
+          {
+            "SubClassCode": "06",
+            "SubClassDescription": "Beds, nests and furniture for animals"
+          },
+          {
+            "SubClassCode": "07",
+            "SubClassDescription": "Perches and other cage attachments"
+          },
+          {
+            "SubClassCode": "08",
+            "SubClassDescription": "Markers, marks and shackles"
+          },
+          {
+            "SubClassCode": "09",
+            "SubClassDescription": "Hitching posts"
+          },
+          {
+            "SubClassCode": "10",
+            "SubClassDescription": "Grooming articles for animals"
+          },
+          {
+            "SubClassCode": "11",
+            "SubClassDescription": "Litter boxes and devices for removing animal excrement"
+          },
+          {
+            "SubClassCode": "12",
+            "SubClassDescription": "Toys for animals"
+          },
+          {
+            "SubClassCode": "99",
+            "SubClassDescription": "Miscellaneous"
+          }
+        ]
+      },
+      {
+        "ClassCode": "31",
+        "ClassDescription": "Machines and appliances for preparing food or drink, not elsewhere specified",
+        "LocarnoSubClasses": [
+          {
+            "SubClassCode": "00",
+            "SubClassDescription": "00"
+          }
+        ]
+      },
+      {
+        "ClassCode": "32",
+        "ClassDescription": "Graphic symbols and logos, surface patterns, ornamentation",
+        "LocarnoSubClasses": [
+          {
+            "SubClassCode": "00",
+            "SubClassDescription": "00"
+          }
+        ]
+      }
+    ]
+  }
+]

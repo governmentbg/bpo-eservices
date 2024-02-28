@@ -1,0 +1,260 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd">
+
+
+    <!-- Enables the use of the @AspectJ style of Spring AOP. See org.springframework.context.annotation.EnableAspectJAutoProxy
+        Javadoc for information on code-based alternatives to this XML element. -->
+    <aop:aspectj-autoproxy expose-proxy="true" proxy-target-class="true"></aop:aspectj-autoproxy>
+    
+	<bean id="tilesConfigurer"
+        class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
+        <property name="useMutableTilesContainer" value="true" />
+        <property name="checkRefresh" value="true" />
+        <property name="definitions">
+            <list>
+                <value>/WEB-INF/tiles-defs.xml</value>
+            </list>
+        </property>
+        <property name="preparerFactoryClass"
+            value="org.springframework.web.servlet.view.tiles2.SpringBeanPreparerFactory" />
+    </bean>
+    
+    <bean id="viewIRResolver"
+        class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="order" value="2" />
+        <property name="viewClass"
+            value="org.springframework.web.servlet.view.JstlView" />
+        <property name="prefix" value="/WEB-INF/views/" />
+        <property name="suffix" value=".jsp" />
+        <property name="exposedContextBeanNames">
+            <list>
+                <value>configurationServiceDelegator</value>
+                <value>flowBean</value>
+                <value>localeComponent</value>
+                <value>flowScopeDetails</value>
+                <value>fileUploadConfigurationFactory</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="tilesViewResolver"
+        class="eu.ohim.sp.common.ui.servlet.view.TilesExposingBeansViewResolver">
+        <property name="order" value="1" />
+        <property name="viewClass"
+            value="eu.ohim.sp.common.ui.servlet.view.TilesExposingBeansView" />
+        <property name="exposedContextBeanNames">
+            <list>
+                <value>configurationServiceDelegator</value>
+                <value>flowBean</value>
+                <value>localeComponent</value>
+                <value>flowScopeDetails</value>
+                <value>fileUploadConfigurationFactory</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- ******************************************************************************* -->
+    <!-- *********************** Request Scoped Bean *********************************** -->
+    <!-- ******************************************************************************* -->
+    <!-- This is a request-scoped bean used to inject the flow-scoped bean defined 
+        in the -->
+    <!-- swf definition files in the controllers called by ajax -->
+    <bean id="flowBean" class="eu.ohim.sp.dsefiling.ui.domain.DSFlowBeanImpl"
+        scope="request">
+        <aop:scoped-proxy />
+    </bean>
+
+    <bean id="flowScopeDetails" class="eu.ohim.sp.common.ui.interceptors.FlowScopeDetails"
+        scope="request">
+        <aop:scoped-proxy />
+    </bean>
+
+    <bean id="flowScopeSession" class="eu.ohim.sp.common.ui.interceptors.FlowScopeDetails"
+          scope="session">
+        <aop:scoped-proxy />
+    </bean>
+
+	<context:component-scan base-package="eu.ohim.sp.common.ui.controller" />        
+    <context:component-scan base-package="eu.ohim.sp.common.ui.service" />       
+    <context:component-scan base-package="eu.ohim.sp.dsefiling.ui.validator" />    
+    <context:component-scan base-package="eu.ohim.sp.dsefiling.ui.adapter" />
+    <context:component-scan base-package="eu.ohim.sp.dsefiling.ui.controller" />
+    <context:component-scan base-package="eu.ohim.sp.dsefiling.ui.service" />
+    <context:component-scan base-package="eu.ohim.sp.dsefiling.ui.filters" />
+    <context:component-scan base-package="eu.ohim.sp.dsefiling.ui.action" />   
+    <context:component-scan base-package="eu.ohim.sp.dsefiling.ui.form.validator" />
+    <context:component-scan base-package="eu.ohim.sp.common.ui.fileupload.validation" />
+    <context:component-scan base-package="eu.ohim.sp.common.ui.adapter" />
+    
+        <context:component-scan base-package="eu.ohim.sp.integration.adapter.mockticket" />    
+    
+    
+ 	<bean id="removeUploadedFilesAspect" class="eu.ohim.sp.dsefiling.ui.aspects.RemoveUploadedFilesAspect" />
+ 	
+    <bean id="statisticalLoggingInfoProvider" class="eu.ohim.sp.dsefiling.ui.util.DSStatisticalLoggingInfoProvider"
+          scope="request">
+        <aop:scoped-proxy />
+    </bean>
+
+    <bean id="statisticalLoggingAspect" class="eu.ohim.sp.common.ui.aspects.StatisticalLoggingAspect" />
+
+    <bean id="logService" class="eu.ohim.sp.common.ui.service.LogService" scope="request" />
+
+    <bean id="statisticalLogger" class="eu.ohim.sp.common.logging.StatisticalLoggerImpl">
+        <constructor-arg ref="statisticalLogWriter" name="logWriter"/>
+    </bean>
+
+    <bean id="statisticalLogWriter" class="eu.ohim.sp.common.logging.StatisticalLogWriterImpl"/>
+
+    <bean id="localeResolver"
+        class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+        <property name="defaultLocale" value="${defaultLanguage}" />
+    </bean>
+    
+    <bean id="log4jInitialization" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+    	<property name="targetClass" value="org.springframework.util.Log4jConfigurer"/>
+    	<property name="targetMethod" value="initLogging"/>
+    	<property name="arguments">
+        	<list>
+        	    <value>classpath:log4j.xml</value>
+        	</list>
+    	</property>
+	</bean>
+    
+
+    <!-- LMT Configuration *************************** -->
+<!--
+    <bean
+        class="org.springframework.context.support.ReloadableResourceBundleMessageSource"
+        id="messageSource">
+        <property name="basename" value="${labels.resource}" />
+        <property name="fallbackToSystemLocale" value="false" />
+        <property name="useCodeAsDefaultMessage" value="true" />
+        <property name="defaultEncoding" value="UTF-8" />
+        <property name="cacheSeconds" value="86400" />
+    </bean>
+-->
+
+    <bean id="messageSource"
+        class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="resourceLoader" ref="fileSystemResourceLoader" />
+        <property name="defaultEncoding" value="UTF-8" />
+        <property name="basenames">
+            <list>
+                <value>${labels.resource}</value>
+            </list>
+        </property>
+        <property name="useCodeAsDefaultMessage" value="true" />
+    </bean>
+
+    <!-- LMT Configuration END *********************** -->
+
+    <bean id="fileSystemResourceLoader" class="org.springframework.core.io.FileSystemResourceLoader" />
+
+    <bean
+        class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="exceptionMappings">
+            <map>
+                <entry key="eu.ohim.sp.common.ui.exception.SPMultipartException"
+                    value="errors/multipart" />
+                <entry key="eu.ohim.sp.common.SPException"
+                    value="errors/errors" />
+                    
+                <entry key="eu.ohim.sp.dsefiling.ui.exceptions.PageNotFoundException"
+                	value="errors/pageNotFound" />
+                <entry key="eu.ohim.sp.dsefiling.ui.exceptions.InternalServerErrorException"
+                	value="errors/internalServerError" />
+                <entry key="eu.ohim.sp.dsefiling.ui.exceptions.NoSuchConversationException"
+                	value="errors/noSuchConversation" />
+            </map>
+        </property>
+    </bean>
+
+    <!-- **************************************************************** -->
+    <!-- ****** Property replacement from efiling.properties ***** -->
+    <!-- **************************************************************** -->
+    <util:properties id="propertyConfigurer" location="file:///${sp.config}/ds-efiling/ds-efiling.properties" />
+    <context:property-placeholder properties-ref="propertyConfigurer" ignore-unresolvable="true" />
+    <context:property-placeholder location="file:///${sp.config}/environment.properties" ignore-unresolvable="true" />
+    
+    <bean id="fileUploadConfigurationFactory" class="eu.ohim.sp.common.ui.FileUploadConfigurationFactory">
+        <property name="configurationService" ref="configurationServiceDelegator" />
+        <property name="component" value="${sp.module}" />
+    </bean>
+
+    <bean id="fileUploadConfiguration" factory-bean="fileUploadConfigurationFactory"
+        factory-method="getFileuploadConfiguration" />
+
+    <!-- **************************************************************** -->
+    <!-- ***************** Upload Mulitpart Resolver ******************** -->
+    <!-- **************************************************************** -->
+    <bean id="multipartResolver"
+        class="eu.ohim.sp.common.ui.fileupload.CustomCommonsMultipartResolver">
+        <property name="tempRepository" value="${commons.fileupload.temp}" />
+        <property name="fileUploadConfiguration" ref="fileUploadConfiguration" />
+        <property name="maximumFilenameSize" value="${commons.fileupload.maximumFileName}"/>
+    </bean>
+
+    <aop:aspectj-autoproxy />
+
+    <mvc:annotation-driven content-negotiation-manager="contentNegotiationManager"/>
+    <bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+     <!-- Turn off working out content type based on URL file extension, should fall back to looking at the Accept headers -->
+     <property name="favorPathExtension" value="false" />
+    </bean>    
+    
+    <mvc:interceptors>
+        <bean id="localeChangeInterceptor"
+            class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+            <property name="paramName" value="userLanguage" />
+        </bean>
+        <ref local="singleRequestGuard"/>
+        <bean id="flowScopeInterceptor"
+            class="eu.ohim.sp.common.ui.interceptors.FlowScopeInterceptor">
+            <property name="paramName" value="flowKey" />
+            <property name="beanName" value="flowBean" />
+        </bean>
+    </mvc:interceptors>
+    <bean id="singleRequestGuard" class="eu.ohim.sp.common.ui.interceptors.SingleRequestGuardInterceptor" />
+
+    <!-- **************************************************************** -->
+    <!-- ************************* Data Binder ************************** -->
+    <!-- **************************************************************** -->
+    <!-- Custom Date Binder -->
+    <bean id="customDateEditor"
+        class="org.springframework.beans.propertyeditors.CustomDateEditor">
+        <constructor-arg>
+            <bean class="java.text.SimpleDateFormat">
+                <constructor-arg>
+                    <value>${iu.template.dateFormat}</value>
+                </constructor-arg>
+                <property name="lenient" value="false" />
+            </bean>
+        </constructor-arg>
+        <constructor-arg>
+            <value>true</value>
+        </constructor-arg>
+        <constructor-arg>
+            <value>10</value>
+        </constructor-arg>
+    </bean>
+    
+    <bean id="fieldPropertyEditor"
+        class="eu.ohim.sp.common.ui.FieldPropertyEditor"/>
+   
+	<bean id="dsBindingInitializer" class="eu.ohim.sp.dsefiling.ui.controller.bind.DSBindingInitializer"/>
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+    	<property name="webBindingInitializer" ref="dsBindingInitializer" />
+	</bean>
+
+</beans>

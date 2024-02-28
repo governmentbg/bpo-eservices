@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
+	xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.2.xsd">
+
+	<jb:bean beanId="CollectionTaxonomies" class="java.util.ArrayList"
+		createOnElement="//TransactionData">
+		<jb:wiring beanIdRef="taxonomyConceptNode" />
+	</jb:bean>
+
+	<jb:bean beanId="taxonomyConceptNode"
+		class="eu.ohim.sp.external.domain.classification.wrapper.TaxonomyConceptNode"
+		createOnElement="//TransactionData/TaxonomyConceptNode">
+		<jb:value
+			data="//TransactionData/TaxonomyConceptNode/TaxonmyConceptIdentifier"
+			property="id" />
+		<jb:value
+			data="//TransactionData/TaxonomyConceptNode/isLeaf"
+			property="leaf" />
+		<jb:value
+			data="//TransactionData/TaxonomyConceptNode/NonTaxonomyParent"
+			property="nonTaxonomyParent" />
+		<jb:value
+			data="//TransactionData/TaxonomyConceptNode/NiceClass"
+			decoder="BigInteger" property="niceClass" />
+		<jb:value
+			data="//TransactionData/TaxonomyConceptNode/TaxonmyConceptLevel"
+			decoder="BigInteger" property="level" />
+		<jb:value
+			data="//TransactionData/TaxonomyConceptNode/NumTermsSatisfyingSearchCriteriaUnderTaxoConcept"
+			decoder="BigInteger" property="numTermsSatisfyingCriteria" />
+		<jb:value
+			data="//TransactionData/TaxonomyConceptNode/ParentTaxonmyConceptIdentifier"
+			property="parentId" />
+		<jb:value
+			data="//TransactionData/TaxonomyConceptNode/ClassificationTermText"
+			property="text" />
+	</jb:bean>
+</smooks-resource-list>

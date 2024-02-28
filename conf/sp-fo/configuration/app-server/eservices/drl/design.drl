@@ -1,0 +1,332 @@
+package org.domain.rules;
+dialect "mvel"
+
+import eu.ohim.sp.core.configuration.domain.xsd.Section;
+import eu.ohim.sp.core.configuration.domain.xsd.Field;
+
+import eu.ohim.sp.core.domain.design.DesignApplication;
+import eu.ohim.sp.core.domain.design.Design;
+import eu.ohim.sp.core.domain.validation.ErrorCore;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.domain.validation.RulesInformation;
+
+import java.util.Map;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import eu.ohim.sp.core.domain.person.Applicant;
+import org.apache.commons.lang.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.lang.Boolean;
+import org.apache.commons.lang.StringUtils;
+
+global eu.ohim.sp.core.domain.validation.ErrorList errorList;
+
+
+
+/*rule "BR1400 - Design Identifier Mandatory"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section($fields : field)
+	Field( id == "designIdentifier", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	$DA : DesignApplication()
+then		
+	if(($DA.getDesignDetails().get(0).getDesignIdentifier()==null)||($DA.getDesignDetails().get(0).getDesignIdentifier()=="")){
+		addError("designIdentifier", "BR1400a.design.designNumber.empty",	"The field 'Design Number' is mandatory",	null,	$errorList);
+	}			 
+end
+
+rule "BR1402 - Application Number or Registration Number Mandatory"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section($fields : field)
+	Field( id == "eSDesignApplicationData.applicationNumber", $fieldUsableAN : usable) from $fields
+	Field( id == "registrationNumber", $fieldUsableRN : usable) from $fields
+	eval($fieldUsableAN == true)
+	eval($fieldUsableRN == true)
+	$DA : DesignApplication((applicationNumber==null || applicationNumber=="") && (designDetails.get(0).registrationNumber==null || designDetails.get(0).registrationNumber=="") )
+then
+	if($DA.getApplicationNumber()==null || $DA.getApplicationNumber()==""){
+		addError("eSDesignApplicationData.applicationNumber", "BR1402.design.applicationNumber.empty", "The field 'Application Number' is mandatory",	null,	$errorList);
+	}
+	if($DA.getDesignDetails().get(0).getRegistrationNumber()==null || $DA.getDesignDetails().get(0).getRegistrationNumber()==""){
+		addError("registrationNumber", "BR1402.design.registrationNumber.empty", "The field 'Registration Number' is mandatory",	null,	$errorList);
+	}				 
+end
+
+
+rule "BR1401 - Application Date or Registration Date Mandatory"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section($fields : field)
+	Field( id == "eSDesignApplicationData.applicationDate", $fieldUsableAN : usable) from $fields
+	Field( id == "registrationDate", $fieldUsableRN : usable) from $fields
+	eval($fieldUsableAN == true)
+	eval($fieldUsableRN == true)
+	$DA : DesignApplication((applicationDate==null) && (designDetails.get(0).registrationDate==null) )
+then
+	if($DA.getApplicationDate()==null){
+		addError("eSDesignApplicationData.applicationDate", "BR1401.design.applicationDate.empty",	"The field 'Application Date' is mandatory",	null,	$errorList);
+	}
+	if($DA.getDesignDetails().get(0).getRegistrationDate()==null){
+		addError("registrationDate", "BR1401.design.registrationDate.empty",	"The field 'Registration Date' is mandatory",	null,	$errorList);
+	}				 
+end
+
+
+rule "BR Design Number - Format"
+salience 1000
+when
+      	$errorList : ErrorList()
+		Section( $fields : field )
+		Field( id == "designIdentifier", $fieldUsable : usable, $regex : format) from $fields
+		eval($fieldUsable == true && $regex != null)
+		$DA : DesignApplication( (designDetails.get(0).designIdentifier != null) && (StringUtils.isEmpty(designDetails.get(0).designIdentifier)==false) && (designDetails.get(0).designIdentifier not matches $regex)  )				
+then			
+		addError("designIdentifier", "BRFormat", "This field has a bad format", null, $errorList);		       
+end
+
+
+rule "BR Application Number - Format"
+salience 1000
+when
+      	$errorList : ErrorList()
+		Section( $fields : field )
+		Field( id == "eSDesignApplicationData.applicationNumber", $fieldUsable : usable, $regex : format) from $fields
+		eval($fieldUsable == true && $regex != null)
+		$DA : DesignApplication( (applicationNumber != null) && (StringUtils.isEmpty(applicationNumber)==false) && (applicationNumber not matches $regex)  )				
+then			
+		addError("eSDesignApplicationData.applicationNumber", "BRFormat", "This field has a bad format", null, $errorList);		       
+end
+
+rule "BR Registration Number - Format"
+salience 1000
+when
+      	$errorList : ErrorList()
+		Section( $fields : field )
+		Field( id == "registrationNumber", $fieldUsable : usable, $regex : format) from $fields
+		eval($fieldUsable == true && $regex != null)
+		$DA : DesignApplication( (designDetails.get(0).registrationNumber != null) && (StringUtils.isEmpty(designDetails.get(0).registrationNumber)==false) && (designDetails.get(0).registrationNumber not matches $regex)  )				
+then			
+		addError("registrationNumber", "BRFormat", "This field has a bad format", null, $errorList);		       
+end*/
+
+rule "BR447 - Design renewable"
+salience 1000
+when
+	$errorList : ErrorList()
+	RulesInformation($customObjects : customObjects)
+	Section( $fields : field )
+	Field( id == "formMessages", $DSUsable : usable, $DSRequired : required) from $fields
+	eval($DSUsable == true && $DSRequired == true)
+	$DA: DesignApplication(designDetails != null && designDetails.size() >0 && designDetails.get(0)!= null && designDetails.get(0).expiryDate != null)
+
+then
+    HashMap co = $customObjects;
+    String eservice = co.get("eservice");
+	Design ds = $DA.getDesignDetails.get(0);
+
+    if("ds-renewal".equals(eservice)) {
+	    
+		if(!designRenewable(ds)) {
+			addError(null,
+				"Design.All.Designs.MustBe.Renewable",
+				"All selected designs must be within renewal period",
+				"formMessages",
+				$errorList);
+		}
+	}
+end
+
+
+rule "Designs must not have expired for more than 6m"
+salience 1000
+when
+	$errorList : ErrorList()
+	RulesInformation($customObjects : customObjects)
+	Section( $fields : field )
+	Field( id == "formMessages", $DSUsable : usable, $DSRequired : required) from $fields
+	eval($DSUsable == true && $DSRequired == true)
+	$DA: DesignApplication(designDetails != null && designDetails.size() >0 && designDetails.get(0)!= null)
+
+then
+    HashMap co = $customObjects;
+    String eservice = co.get("eservice");
+	Design d = $DA.getDesignDetails.get(0);
+	if(!eservice.equals("ds-generic") && (d.getSelected() != null && d.getSelected()==true) && !designCanBeFiled(d)){
+        addError(null,
+        		"Design.Six.Months.After.Expiry",
+        		"All selected designs must not have expired for more than 6 months",
+        		"formMessages",
+        		$errorList);
+        		return;
+	}
+
+end
+
+rule "BR447 - Design status"
+salience 1000
+when
+	$errorList : ErrorList()
+	RulesInformation($customObjects : customObjects)
+	Section( $fields : field )
+	Field( id == "formMessages", $DSUsable : usable, $DSRequired : required) from $fields
+	eval($DSUsable == true && $DSRequired == true)
+	$DA: DesignApplication(designDetails != null && designDetails.size() >0 && designDetails.get(0)!= null)
+
+then
+    HashMap co = $customObjects;
+    String eservice = co.get("eservice");
+	Design d = $DA.getDesignDetails.get(0);	    
+	if(!eservice.equals("ds-invalidity") && !eservice.equals("ds-generic") && !eservice.equals("ds-changerep") && !eservice.equals("ds-changeca") && !eservice.equals("ds-withdrawal") && !eservice.equals("ds-appeal")){
+		if((d.getSelected() != null && d.getSelected()==true) && !(d.getCurrentStatus().value().equals("Registered")||d.getCurrentStatus().value().equals("Registered and fully published")
+			|| d.getCurrentStatus().value().equals("Invalidity procedure pending")
+			|| d.getCurrentStatus().value().equals("Expiring")
+			|| d.getCurrentStatus().value().equals("Design lapsed")
+			|| d.getCurrentStatus().value().equals("Filed")
+			|| d.getCurrentStatus().value().equals("Application published"))){
+				addError(null,
+					"Design.All.Designs.MustBe.Registered",
+					"All selected designs must have the status application published, filed, registered and fully published, invalidity procedure pending, expiring, design lapsed",
+					"formMessages",
+					 $errorList);
+					 return;
+		}
+	} else if(eservice.equals("ds-invalidity")) {
+		if((d.getSelected() != null && d.getSelected()==true) && !(d.getCurrentStatus().value().equals("Registered")||d.getCurrentStatus().value().equals("Registered and fully published")
+			|| d.getCurrentStatus().value().equals("Invalidity procedure pending")
+			|| d.getCurrentStatus().value().equals("Expiring")
+			|| d.getCurrentStatus().value().equals("Design lapsed")
+			|| d.getCurrentStatus().value().equals("Design surrendered")	)){
+				addError(null,
+					"Design.All.Designs.MustBe.Registered.Invalidity",
+					"All selected designs must have the status registered and fully published, invalidity procedure pending, expiring, design lapsed, design surrendered",
+					"formMessages",
+					$errorList);
+					return;
+		}
+	}
+end
+
+/*rule "BR1307 - Expiry Date - Optional"
+salience 1000
+when
+	$errorList : ErrorList()
+	RulesInformation($customObjects : customObjects)
+	Section( $fields : field )
+	Field( id == "expiryDate", $EDUsable : usable, $EDRequired : required) from $fields
+	eval($EDUsable == true && $EDRequired == true)	
+	$DA : DesignApplication()
+then
+	if($DA.getDesignDetails().get(0).getExpiryDate()==null){
+		addError(null,
+		 "BR1307.trademark.Empty",
+		 "This field is mandatory",
+		 "expiryDate",
+		 $errorList);
+	}		
+	
+end*/
+
+rule "BR448 - Design renewable 25 years"
+salience 1000
+when
+	$errorList : ErrorList()
+	RulesInformation($customObjects : customObjects)
+	Section( $fields : field )
+	Field( id == "formMessages", $DSUsable : usable, $DSRequired : required) from $fields
+	eval($DSUsable == true && $DSRequired == true)
+	$DA : DesignApplication((designDetails.get(0).registrationDate != null))
+then
+	HashMap co = $customObjects;
+	Boolean blocking = co.get("renewableDesign25YearsBlockingMessage");
+    String eservice = co.get("eservice");
+	Design ds = $DA.getDesignDetails.get(0);
+	Date rd = ds.getRegistrationDate();
+    if("ds-renewal".equals(eservice)) {
+	    Calendar calendar = Calendar.getInstance();
+	    calendar.setTime(rd);
+	    calendar.add(Calendar.DATE, 1);
+	    calendar.add(Calendar.YEAR, 25);
+	    Date ed_plus_25 = calendar.getTime();
+	    Date today = new Date();
+		if ((today.compareTo(ed_plus_25)>0) && blocking) {
+			addError(null,
+				"BR448.design.Renewable",
+				"It is not possible to renew a Design after 25 years from registration date",
+				"formMessages",
+				$errorList);
+			
+		}
+	}
+end
+
+rule "BRCHKDS - Check existing application"
+salience 1000
+when
+	$errorList : ErrorList()
+	RulesInformation($customObjects : customObjects)
+	Section( $fields : field )
+	Field( id == "formMessages", $DSUsable : usable, $DSRequired : required) from $fields
+	eval($DSUsable == true && $DSRequired == true)
+	$DA : DesignApplication()
+then
+    HashMap co = $customObjects;
+    Boolean applicationExistInPortal = co.get("applicationExistInPortal");
+    String eservice = co.get("eservice");
+
+    if("ds-renewal".equals(eservice) && (applicationExistInPortal)) {
+    	addError(null,
+				"BRCHK.design.applicationExistInPortal",
+				"Exists a renewal application for challenged design",
+				"formMessages",
+				$errorList);	
+    }
+end
+
+function boolean designCanBeFiled(Design d){
+    if(d.getExpiryDate() == null) {
+    		return true;
+    }
+    Calendar cal = Calendar.getInstance();
+    cal.setTime(d.getExpiryDate());
+    cal.add(Calendar.MONTH, 6);
+    cal.add(Calendar.DATE, 1);
+    Date sixMonths = cal.getTime();
+
+    Date now = new Date();
+
+    if(now.before(sixMonths)){
+       return true;
+    }
+    return false;
+
+}
+
+function boolean designRenewable(Design d) {
+	if(d.getExpiryDate() == null) {
+		return false;
+	}
+	Calendar cal = Calendar.getInstance();
+	cal.setTime(d.getExpiryDate());
+    cal.add(Calendar.YEAR, -1);
+    cal.add(Calendar.DATE, -1);
+    Date yearBack = cal.getTime();
+    
+	cal.setTime(d.getExpiryDate());
+	cal.add(Calendar.MONTH, 6);
+	cal.add(Calendar.DATE, 1);
+	Date sixMonths = cal.getTime();
+	
+	Date now = new Date();
+    
+    if(now.after(yearBack) && now.before(sixMonths)){
+    	return true;
+    }
+    return false;
+}

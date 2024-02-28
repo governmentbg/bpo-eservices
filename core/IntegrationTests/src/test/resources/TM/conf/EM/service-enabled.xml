@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services xmlns="http://www.example.org/service-enabled"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.example.org/service-enabled service-enabled.xsd ">
+	<service enabled="true" name="Get_User_Person" />
+	<service enabled="true" name="Import_Previous" />
+	<service enabled="true" name="Import_Previous_Autocomplete" />
+	<service enabled="true" name="Priority_Import" />
+	<service enabled="true" name="Priority_Manual" />
+	<service enabled="true" name="Priority_Autocomplete" />
+	<service enabled="true" name="Seniority_Import" />
+	<service enabled="true" name="Seniority_Manual" />
+	<service enabled="true" name="Seniority_Autocomplete" />
+	<service enabled="true" name="Transformation_Import" />
+	<service enabled="true" name="Transformation_Manual" />
+	<service enabled="true" name="Transformation_Autocomplete" />
+	<service enabled="true" name="Applicant_Import" />
+	<service enabled="true" name="Applicant_Autocomplete" />
+	<service enabled="false" name="Applicant_Match" />
+	<service enabled="true" name="Applicant_Save" />
+	<service enabled="true" name="Representative_Import" />
+	<service enabled="true" name="Representative_Autocomplete" />
+	<service enabled="false" name="Representative_Match" />
+	<service enabled="true" name="Representative_Save" />
+	<service enabled="true" name="Person_Search" />
+    <service enabled="true" name="Claim_Search" />
+    <service enabled="true" name="Representative_Association_Autocomplete" />
+	<service enabled="true" name="Validate_Term" />
+	<service enabled="false" name="Import_Nice_Class_Heading" />
+	<service enabled="true" name="Search_Term" />
+	<service enabled="true" name="Search_Taxonomy" />
+	<service enabled="true" name="Save_Load_Service" />
+	<service enabled="true" name="SimilarTM_Service" />
+    <service enabled="true" name="SimilarTM_FindMoreDetails_Service" />
+    <service enabled="true" name="FeedBack" />
+    <service enabled="true" name="Communication_Inbox" />
+    <service enabled="true" name="Misleading_Information" />
+    <service enabled="true" name="HelpMessage_Service"/>
+    <service enabled="true" name="HelpMessage_Service_UsesFiles"/>
+    <service enabled="true" name="Payment_Popup"/>
+    <service enabled="true" name="Payment_Now"/>
+    <service enabled="false" name="Payment_Later"/>
+</services>

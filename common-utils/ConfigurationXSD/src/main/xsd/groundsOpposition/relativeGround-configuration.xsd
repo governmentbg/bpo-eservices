@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  * $Id:: relativeGround-configuration.xsd 49260            $
+  *       . * .
+  *     * RRRR  *    Copyright © 2012 OHIM: Office for Harmonization
+  *   .   RR  R   .  in the Internal Market (trade marks and designs)
+  *   *   RRR     *
+  *    .  RR RR  .   ALL RIGHTS RESERVED
+  *     * . _ . *
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:tm="http://www.tm-xml.org/XMLSchema/common" targetNamespace="http://www.example.org/relativeGrounds-configuration"
+	xmlns="http://www.example.org/relativeGrounds-configuration"
+	elementFormDefault="qualified">
+
+	<xs:simpleType name="listLawExclude">
+  		<xs:list itemType="xs:string" />
+	</xs:simpleType>
+	
+	<xs:element name="relativeGrounds">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="relativeGround" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:simpleContent>
+							<xs:extension base="xs:string">
+								<xs:attribute name="code" type="xs:string" use="required" />
+								<xs:attribute name="legalActVersion" type="xs:string" use="required" />
+								<xs:attribute name="lawArticleReference" type="xs:string" use="required" />
+								<xs:attribute name="lawArticleText" type="xs:string" use="required" />
+								<xs:attribute name="reputationClaim" type="xs:boolean" use="required" />
+								<xs:attribute name="exclusivity" type="xs:boolean" use="optional" />
+								<xs:attribute name="excludedLawArticleReference" type="listLawExclude" use="optional"/>
+								<xs:attribute name="earlierEntitlementRightType" type="xs:string" use="required"/>
+								<xs:attribute name="language" type="xs:string" use="required" />
+								<xs:attribute name="applicationType" type="xs:string" use="required" />
+								<xs:attribute name="enabled" type="xs:boolean" use="required" />
+								<xs:attribute name="nonUse" type="xs:boolean" use="optional"/>
+							</xs:extension>
+						</xs:simpleContent>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

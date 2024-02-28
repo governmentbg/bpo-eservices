@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ * SystemConfigurationServiceDao:: ct-address-kind.xml 07/10/13 21:16 karalch $
+  ~  * . * .
+  ~  * * RRRR * Copyright © 2013 OHIM: Office for Harmonization
+  ~  * . RR R . in the Internal Market (trade marks and designs)
+  ~  * * RRR *
+  ~  * . RR RR . ALL RIGHTS RESERVED
+  ~  * * . _ . *
+  -->
+
+<cotypes>
+	<cotype code="Personal" label="cotypes.addresskind.personal" />
+	<cotype code="Work" label="cotypes.addresskind.work" />
+	<cotype code="Other" label="cotypes.addresskind.other" />	
+</cotypes>

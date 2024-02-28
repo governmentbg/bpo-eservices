@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<div th:fragment="owed-taxes-section">
+
+    <h3 th:text="#{title.owedtaxes}"></h3>
+    <div id="owed-taxes-data" style="display: block">
+
+        <div th:if="${ipFile != null}">
+            <span th:if="${ipFile.ipFileId != null}" th:text="${ipFile.getIpFileId().toString() + ' - '}"></span>
+            <span th:if="${ipFile.getTitle() != null}" th:text="${ipFile.getTitle() + ' '}"></span>
+            <span th:if="${ipFile.getRegistrationNum() != null}" th:text="'(' + ${ipFile.getRegistrationNum() + ')'}"></span>
+        </div>
+        <div th:if="${ipFile != null}">
+            <div th:if="${ipFile.getIpProc() != null}"></div>
+            <span th:if="${ipFile.getIpProc().getCfStatus() != null}" th:text="#{common.status} + ': ' + ${ipFile.getIpProc().getCfStatus().getStatusName()}"></span>
+        </div>
+        <div th:if="${ipFile != null}">
+            <span th:if="${ipFile.getMainOwner() != null}" th:text="#{common.owner} + ': ' + ${ipFile.getMainOwner().getPersonName()}"></span>
+        </div>
+        <div th:if="${ipFile != null}">
+            <span th:if="${ipFile.getServicePerson() != null}" th:text="#{common.contactPerson} + ': ' + ${ipFile.getServicePerson().getPersonName()}"></span>
+        </div>
+
+        <div class="mT20" th:if="${liabilityDetails != null}">
+            <th:block th:if="${!liabilityDetails.isEmpty()}"
+                      th:each="entry : ${liabilityDetails}">
+                <div th:text="${entry.getLiabilityCodeName()} + ': ' + ${entry.getAmount()} + ' ' + #{lv}"></div>
+            </th:block>
+            <div th:if="${liabilityDetails.isEmpty()}">
+                <h4 th:text="#{common.no_owed_taxes}"></h4>
+            </div>
+        </div>
+
+        <div th:if="${totalFee != null && totalFee != 0}">
+            <h4 th:text="#{totalFee} + ': ' + ${totalFee} + ' ' + #{lv}"></h4>
+        </div>
+
+        <button id="clear-owed-taxes-btn" style="float: right; display: none" th:text="#{button.clear}"></button>
+
+    </div>
+</div>
+</html>

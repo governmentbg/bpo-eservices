@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  * $Id:: permissions.xsd 57229 2013-02-19 17:28:44Z karalch                    $
+  *       . * .
+  *     * RRRR  *    Copyright © 2012 OHIM: Office for Harmonization
+  *   .   RR  R   .  in the Internal Market (trade marks and designs)
+  *   *   RRR     *
+  *    .  RR RR  .   ALL RIGHTS RESERVED
+  *     * . _ . *
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/permissions" xmlns="http://www.example.org/permissions" elementFormDefault="qualified">
+
+	<xs:element name="roles">
+		<xs:complexType>
+			<xs:sequence >
+				<xs:element name="role" type="roleType" maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType name="roleType">
+		<xs:sequence>
+			<xs:element name="permissions" type="permissionsType"/>
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string" use="required"/>
+	</xs:complexType>
+	
+	<xs:complexType name="permissionsType">
+		<xs:sequence>
+			<xs:element name="permission" type="tmbo-permissions" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	
+	<xs:simpleType name="tmbo-permissions">
+		<xs:annotation>
+			<xs:documentation>permissions for backoffice</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:NMTOKEN">
+				<xs:enumeration value="attachment_read"/>
+			<xs:enumeration value="classification_allow"/>
+			<xs:enumeration value="taskcomment_add"/>
+			<xs:enumeration value="taskcomment_edit"/>
+			<xs:enumeration value="taskcomment_delete"/>
+			<xs:enumeration value="taskcomment_read"/>
+			<xs:enumeration value="taskcomment_list"/>
+			<xs:enumeration value="fileupload_show"/>
+			<xs:enumeration value="fileupload_read"/>
+			<xs:enumeration value="fileupload_save"/>
+			<xs:enumeration value="inboxtask_access"/>
+			<xs:enumeration value="inboxtask_search"/>
+			<xs:enumeration value="inboxtask_todossier"/>
+			<xs:enumeration value="tm_list"/>
+			<xs:enumeration value="tm_save"/>
+			<xs:enumeration value="tm_read"/>
+			<xs:enumeration value="letter_access"/>
+			<xs:enumeration value="person_save"/>
+			<xs:enumeration value="person_search"/>
+			<xs:enumeration value="task_read"/>
+			<xs:enumeration value="task_allocate"/>
+			<xs:enumeration value="task_complete"/>
+			<xs:enumeration value="task_create"/>
+			<xs:enumeration value="task_save"/>
+			<xs:enumeration value="task_delete"/>
+			<xs:enumeration value="task_add"/>
+			<xs:enumeration value="attachment_remove"/>
+			<xs:enumeration value="letter_send"/>
+			<xs:enumeration value="tm_edit"/>
+			<xs:enumeration value="task_all_rights"/>
+			<xs:enumeration value="task_limited_rights"/>
+		</xs:restriction>
+	</xs:simpleType>	
+
+</xs:schema>

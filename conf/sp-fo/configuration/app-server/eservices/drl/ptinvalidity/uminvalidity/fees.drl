@@ -1,0 +1,58 @@
+package org.domain.rules;
+
+dialect "mvel"
+
+import eu.ohim.sp.core.domain.validation.ErrorCore;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.domain.payment.FeeList;
+import eu.ohim.sp.core.domain.payment.FeeType;
+import eu.ohim.sp.core.domain.payment.Fee;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.TreeMap;
+import java.util.List;
+import java.util.Date;
+
+import eu.ohim.sp.core.domain.opposition.OppositionRelativeGrounds;
+import eu.ohim.sp.core.domain.opposition.OppositionGround;
+import eu.ohim.sp.core.domain.opposition.OppositionAbsoluteGrounds;
+import eu.ohim.sp.core.domain.opposition.EarlierEntitlementRightKind;
+import eu.ohim.sp.core.domain.opposition.LawArticle;
+import eu.ohim.sp.core.domain.trademark.TMeServiceApplication;
+import eu.ohim.sp.core.domain.application.EServiceApplication;
+
+rule "Fees reader"
+salience 1000
+no-loop
+    when
+		FeeList($feeTypeList : feeTypeList)
+        $fF : FeeType("umFullInvalidityFee".equals(nameKey)) from $feeTypeList
+        $pF : FeeType("umPartialInvalidityFee".equals(nameKey)) from $feeTypeList
+    then
+    	TreeMap map = new TreeMap();
+        map.put("umFullInvalidityFee", $fF);
+        map.put("umPartialInvalidityFee", $pF);
+        insert(map);
+end
+
+rule "Basic Fee"
+no-loop
+    when
+        $results : HashMap()
+        EServiceApplication($partialInvalidity: partialInvalidity)
+        $map : TreeMap()
+    then
+        Fee fee = new Fee();
+        fee.setQuantity(1);
+        if($partialInvalidity){
+            fee.setFeeType((FeeType) $map.get("umPartialInvalidityFee"));
+            fee.setUnitAmount(((FeeType) $map.get("umPartialInvalidityFee")).getDefaultValue());
+            fee.setAmount(fee.quantity * fee.unitAmount);
+            $results.put("umPartialInvalidityFee", fee);
+        } else {
+            fee.setFeeType((FeeType) $map.get("umFullInvalidityFee"));
+            fee.setUnitAmount(((FeeType) $map.get("umFullInvalidityFee")).getDefaultValue());
+            fee.setAmount(fee.quantity * fee.unitAmount);
+            $results.put("umFullInvalidityFee", fee);
+        }
+end

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feeList xmlns:tns="http://www.example.org/test/"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.example.org/test/ ../../../../../../../../../../../../configuration-xsd/src/main/xsd/fees/fees.xsd ">
+    <feeTypeList>
+        <code>001</code>
+        <nameKey>standpointReply</nameKey>
+        <description>standpointReply</description>
+        <defaultValue>0</defaultValue>
+    </feeTypeList>
+
+    <feeTypeList>
+        <code>002</code>
+        <nameKey>renewalTimeLimitRenew</nameKey>
+        <description>renewalTimeLimitRenew</description>
+        <defaultValue>0</defaultValue>
+    </feeTypeList>
+
+    <feeTypeList>
+        <code>003</code>
+        <nameKey>invalidityTimeLimitExtension</nameKey>
+        <description>invalidityTimeLimitExtension</description>
+        <defaultValue>20</defaultValue>
+    </feeTypeList>
+
+    <feeTypeList>
+        <code>004</code>
+        <nameKey>registerTechErrorRepairRequest</nameKey>
+        <description>registerTechErrorRepairRequest</description>
+        <defaultValue>60</defaultValue>
+    </feeTypeList>
+
+    <feeTypeList>
+        <code>005</code>
+        <nameKey>bpoErrorRepairRequest</nameKey>
+        <description>bpoErrorRepairRequest</description>
+        <defaultValue>0</defaultValue>
+    </feeTypeList>
+
+    <!-- tax calculator necessary, not used in UI for now -->
+    <feeTypeList>
+        <code>006</code>
+        <nameKey>applicationErrorRepairRequest</nameKey>
+        <description>applicationErrorRepairRequest</description>
+        <defaultValue>20</defaultValue>
+    </feeTypeList>
+    <!--    -->
+
+    <feeTypeList>
+        <code>007</code>
+        <nameKey>licenceTermination</nameKey>
+        <description>licenceTermination</description>
+        <defaultValue>20</defaultValue>
+    </feeTypeList>
+
+    <feeTypeList>
+        <code>008</code>
+        <nameKey>remTermination</nameKey>
+        <description>remTermination</description>
+        <defaultValue>20</defaultValue>
+    </feeTypeList>
+
+    <feeTypeList>
+        <code>009</code>
+        <nameKey>bankruptcyTermination</nameKey>
+        <description>bankruptcyTermination</description>
+        <defaultValue>20</defaultValue>
+    </feeTypeList>
+
+    <feeTypeList>
+        <code>010</code>
+        <nameKey>securityTermination</nameKey>
+        <description>securityTermination</description>
+        <defaultValue>20</defaultValue>
+    </feeTypeList>
+
+    <feeTypeList>
+        <code>011</code>
+        <nameKey>remRenewal</nameKey>
+        <description>remRenewal</description>
+        <defaultValue>20</defaultValue>
+    </feeTypeList>
+
+    <feeTypeList>
+        <code>012</code>
+        <nameKey>remChange</nameKey>
+        <description>remChange</description>
+        <defaultValue>20</defaultValue>
+    </feeTypeList>
+
+    <feeTypeList>
+        <code>013</code>
+        <nameKey>enforcement</nameKey>
+        <description>enforcement</description>
+        <defaultValue>20</defaultValue>
+    </feeTypeList>
+
+    <feeTypeList>
+        <code>014</code>
+        <nameKey>applicationTechErrorRepairRequest</nameKey>
+        <description>applicationTechErrorRepairRequest</description>
+        <defaultValue>20</defaultValue>
+    </feeTypeList>
+
+    <feeTypeList>
+        <code>015</code>
+        <nameKey>priorityDeclaration</nameKey>
+        <description>priorityDeclaration</description>
+        <defaultValue>20</defaultValue>
+    </feeTypeList>
+
+    <feeTypeList>
+        <code>016</code>
+        <nameKey>priorityCertificatePresentation</nameKey>
+        <description>priorityCertificatePresentation</description>
+        <defaultValue>0</defaultValue>
+    </feeTypeList>
+
+    <feeTypeList>
+        <code>017</code>
+        <nameKey>exhibitionEvidence</nameKey>
+        <description>exhibitionEvidence</description>
+        <defaultValue>0</defaultValue>
+    </feeTypeList>
+
+    <feeTypeList>
+        <code>018</code>
+        <nameKey>submitAdditionalDocuments</nameKey>
+        <description>submitAdditionalDocuments</description>
+        <defaultValue>0</defaultValue>
+    </feeTypeList>
+
+    <feeTypeList>
+        <code>019</code>
+        <nameKey>termRecovery</nameKey>
+        <description>termRecovery</description>
+        <defaultValue>0</defaultValue>
+    </feeTypeList>
+
+    <feeTypeList>
+        <code>020</code>
+        <nameKey>refundRequest</nameKey>
+        <description>refundRequest</description>
+        <defaultValue>0</defaultValue>
+    </feeTypeList>
+
+</feeList>

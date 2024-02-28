@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="head :: head-declaration"></head>
+<body>
+<div id="header">
+    <div class="bg-primary">
+        <div th:replace="head:: title"/>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">Choose an option</a>
+                </div>
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav opts-nav">
+                        <li class="active"><a class="active" th:href="@{/}">Go to start</a></li>
+                        <li><a th:href="@{/downloadDocument/{documentId}(documentId=${docId})}">Download document</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+</div>
+<div id="main" style="padding:20px">
+    <div class="well well-lg">
+        <h3>Custom properties</h3>
+        <div th:each="prop: ${customProps}">
+            <span th:text="${prop}"></span>
+        </div>
+    </div>
+    <div class="well well-sm" th:if="${data != null}">
+        <h3>XML contents</h3>
+        <pre id="code" class="prettyprint lang-xml" th:text="${data}">
+        </pre>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!--
+  ~ * SignatureMgmt:: pom.xml 08/10/13 12:29 karalch $
+  ~  * . * .
+  ~  * * RRRR * Copyright © 2013 OHIM: Office for Harmonization
+  ~  * . RR R . in the Internal Market (trade marks and designs)
+  ~  * * RRR *
+  ~  * . RR RR . ALL RIGHTS RESERVED
+  ~  * * . _ . *
+  -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+        <groupId>eu.ohim.sp.core</groupId>
+		<artifactId>core</artifactId>
+		<version>2.0.0-RELEASE</version>
+	</parent>
+
+	<artifactId>ESignature</artifactId>
+	<packaging>pom</packaging>
+	<name>e-Signature</name>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+                <groupId>eu.ohim.sp.common</groupId>
+				<artifactId>EncryptionUtils</artifactId>
+                <version>${pm.sp.common.current.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+
+	<modules>
+		<module>ESignatureServiceBean</module>
+		<module>ESignatureServiceEAR</module>
+	</modules>
+
+</project>

@@ -1,0 +1,167 @@
+package org.domain.rules;
+
+dialect "mvel"
+
+import eu.ohim.sp.core.domain.patent.PatentApplication;
+import eu.ohim.sp.core.domain.validation.ErrorCore;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.domain.payment.FeeList;
+import eu.ohim.sp.core.domain.payment.FeeType;
+import eu.ohim.sp.core.domain.payment.Fee;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.TreeMap;
+import java.util.List;
+import java.util.Date;
+
+rule "Fees reader"
+salience 1000
+no-loop
+    when
+		FeeList($feeTypeList : feeTypeList)
+        $validationPublicationFee : FeeType("validationPublicationFee".equals(nameKey)) from $feeTypeList
+        $validationChangePublicationFee : FeeType("validationChangePublicationFee".equals(nameKey)) from $feeTypeList
+        $tempProtectPublicationFee : FeeType("tempProtectPublicationFee".equals(nameKey)) from $feeTypeList
+        $validationDescriptionPublicationFee : FeeType("validationDescriptionPublicationFee".equals(nameKey)) from $feeTypeList
+        $validationDescriptionPublicationFeeNext : FeeType("validationDescriptionPublicationFeeNext".equals(nameKey)) from $feeTypeList
+        $validationChangeDescriptionPublicationFee : FeeType("validationChangeDescriptionPublicationFee".equals(nameKey)) from $feeTypeList
+        $validationChangeDescriptionPublicationFeeNext : FeeType("validationChangeDescriptionPublicationFeeNext".equals(nameKey)) from $feeTypeList
+    then
+    	TreeMap map = new TreeMap();
+        map.put("validationPublicationFee", $validationPublicationFee);
+        map.put("validationChangePublicationFee", $validationChangePublicationFee);
+        map.put("tempProtectPublicationFee", $tempProtectPublicationFee);
+        map.put("validationDescriptionPublicationFee", $validationDescriptionPublicationFee);
+        map.put("validationDescriptionPublicationFeeNext", $validationDescriptionPublicationFeeNext);
+        map.put("validationChangeDescriptionPublicationFee", $validationChangeDescriptionPublicationFee);
+        map.put("validationChangeDescriptionPublicationFeeNext", $validationChangeDescriptionPublicationFeeNext);
+        insert(map);
+end
+
+rule "Validation Publication Fee"
+salience 100
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        PatentApplication(applicationKind != null && applicationKind.equals("EP Validation Request"))
+    then
+        # Creates the base fee.
+        Fee fee = new Fee();
+        fee.setFeeType((FeeType) $map.get("validationPublicationFee"));
+        fee.setQuantity(1);
+        fee.setUnitAmount(((FeeType) $map.get("validationPublicationFee")).getDefaultValue());
+        fee.setAmount(fee.quantity * fee.unitAmount);
+        # Adds the base fee to the result list
+        $results.put("validationPublicationFee", fee);
+end
+
+rule "Validation Change Publication Fee"
+salience 100
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        PatentApplication(applicationKind != null && applicationKind.equals("EP Validation Request for Changed Patent"))
+    then
+        # Creates the base fee.
+        Fee fee = new Fee();
+        fee.setFeeType((FeeType) $map.get("validationChangePublicationFee"));
+        fee.setQuantity(1);
+        fee.setUnitAmount(((FeeType) $map.get("validationChangePublicationFee")).getDefaultValue());
+        fee.setAmount(fee.quantity * fee.unitAmount);
+        # Adds the base fee to the result list
+        $results.put("validationChangePublicationFee", fee);
+end
+
+rule "Temp Protection Publication Fee"
+salience 100
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        PatentApplication(applicationKind != null && applicationKind.equals("EP Temporary Protection"))
+    then
+        # Creates the base fee.
+        Fee fee = new Fee();
+        fee.setFeeType((FeeType) $map.get("tempProtectPublicationFee"));
+        fee.setQuantity(1);
+        fee.setUnitAmount(((FeeType) $map.get("tempProtectPublicationFee")).getDefaultValue());
+        fee.setAmount(fee.quantity * fee.unitAmount);
+        # Adds the base fee to the result list
+        $results.put("tempProtectPublicationFee", fee);
+end
+
+rule "Validation Description Publication Fee"
+salience 100
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        PatentApplication(applicationKind != null && applicationKind.equals("EP Validation Request"))
+    then
+        # Creates the base fee.
+        Fee fee = new Fee();
+        fee.setFeeType((FeeType) $map.get("validationDescriptionPublicationFee"));
+        fee.setQuantity(1);
+        fee.setUnitAmount(((FeeType) $map.get("validationDescriptionPublicationFee")).getDefaultValue());
+        fee.setAmount(fee.quantity * fee.unitAmount);
+        # Adds the base fee to the result list
+        $results.put("validationDescriptionPublicationFee", fee);
+end
+
+rule "Validation Description Publication Fee Next"
+salience 100
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        PatentApplication(patent != null && patent.pagesCountInt > 10 && applicationKind != null && applicationKind.equals("EP Validation Request"),
+            $pages: patent.pagesCountInt)
+    then
+        # Creates the base fee.
+        Fee fee = new Fee();
+        fee.setFeeType((FeeType) $map.get("validationDescriptionPublicationFeeNext"));
+        fee.setQuantity((Integer)$pages - 10);
+        fee.setUnitAmount(((FeeType) $map.get("validationDescriptionPublicationFeeNext")).getDefaultValue());
+        fee.setAmount(fee.quantity * fee.unitAmount);
+        # Adds the base fee to the result list
+        $results.put("validationDescriptionPublicationFeeNext", fee);
+end
+
+rule "Validation Change Description Publication Fee"
+salience 100
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        PatentApplication(applicationKind != null && applicationKind.equals("EP Validation Request for Changed Patent"))
+    then
+        # Creates the base fee.
+        Fee fee = new Fee();
+        fee.setFeeType((FeeType) $map.get("validationChangeDescriptionPublicationFee"));
+        fee.setQuantity(1);
+        fee.setUnitAmount(((FeeType) $map.get("validationChangeDescriptionPublicationFee")).getDefaultValue());
+        fee.setAmount(fee.quantity * fee.unitAmount);
+        # Adds the base fee to the result list
+        $results.put("validationChangeDescriptionPublicationFee", fee);
+end
+
+rule "Validation Change Description Publication Fee Next"
+salience 100
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        PatentApplication(patent != null && patent.pagesCountInt > 10 && applicationKind != null && applicationKind.equals("EP Validation Request for Changed Patent"),
+            $pages: patent.pagesCountInt)
+    then
+        # Creates the base fee.
+        Fee fee = new Fee();
+        fee.setFeeType((FeeType) $map.get("validationChangeDescriptionPublicationFeeNext"));
+        fee.setQuantity((Integer)$pages - 10);
+        fee.setUnitAmount(((FeeType) $map.get("validationChangeDescriptionPublicationFeeNext")).getDefaultValue());
+        fee.setAmount(fee.quantity * fee.unitAmount);
+        # Adds the base fee to the result list
+        $results.put("validationChangeDescriptionPublicationFeeNext", fee);
+end

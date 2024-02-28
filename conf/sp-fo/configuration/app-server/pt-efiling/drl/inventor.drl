@@ -1,0 +1,443 @@
+package org.domain.rules;
+dialect "mvel"
+
+import java.util.HashMap;
+import org.apache.commons.lang.*;
+import org.apache.commons.lang.StringUtils;
+import eu.ohim.sp.core.domain.contact.Email;
+import eu.ohim.sp.core.domain.contact.Phone;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.domain.person.PersonRoleKind;
+import eu.ohim.sp.core.domain.contact.ContactDetails;
+import eu.ohim.sp.core.domain.person.Inventor;
+import eu.ohim.sp.core.domain.person.PersonIdentifier;
+import eu.ohim.sp.core.domain.contact.Address;
+
+import eu.ohim.sp.core.configuration.domain.xsd.Sections;
+import eu.ohim.sp.core.configuration.domain.xsd.Section;
+import eu.ohim.sp.core.configuration.domain.xsd.Field;
+import eu.ohim.sp.core.domain.validation.RulesInformation;
+
+
+rule "BR Inventor firstName - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "firstName", $fieldUsable : usable, $fieldRequired : required, $editableImportField:editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true )
+	Inventor((name != null && StringUtils.isEmpty(name.firstName)) || (name==null))
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	HashMap co = $customObjects;
+    Boolean isSectionValidation = co.get("isSectionValidation");
+    Boolean imported = co.get("imported");
+
+    if (isSectionValidation == false){
+    	addError("firstName", "BRMandatory", "This field is mandatory", null, $errorList);
+    }else{
+    	addError(null, "BR.inventor.firstName.Empty", "The First Name field is mandatory.", "mainForm.inventorDataSection", $errorList);
+    }
+end
+
+rule "BR Inventor middle name - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field, $validateImport:validateImport )
+	Field( id == "middleName", $fieldUsable : usable, $fieldRequired : required, $editableImportField:editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true )
+	Inventor((name != null && StringUtils.isEmpty(name.middleName)) || (name==null))
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	HashMap co = $customObjects;
+    Boolean isSectionValidation = co.get("isSectionValidation");
+    Boolean imported = co.get("imported");
+
+   if ((imported == false || $validateImport == true) && isSectionValidation == false){
+   		addError("middleName", "BRMandatory", "This field is mandatory", null, $errorList);
+   	}else if((imported == false || $validateImport == true) && isSectionValidation == true){
+   		addError(null, "BR.inventor.middleName.Empty", "The Middle Name field is mandatory.", "mainForm.inventorDataSection", $errorList);
+   	}
+end
+
+rule "BR Inventor last name - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field, $validateImport:validateImport )
+	Field( id == "surname", $fieldUsable : usable, $fieldRequired : required, $editableImportField:editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true )
+	Inventor((name != null && StringUtils.isEmpty(name.lastName)) || (name==null))
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	HashMap co = $customObjects;
+    Boolean isSectionValidation = co.get("isSectionValidation");
+    Boolean imported = co.get("imported");
+
+   if ((imported == false || $validateImport == true) && isSectionValidation == false){
+   		addError("surname", "BRMandatory", "This field is mandatory", null, $errorList);
+   	}else if((imported == false || $validateImport == true) && isSectionValidation == true){
+   		addError(null, "BR.inventor.surname.Empty", "The Last Name field is mandatory.", "mainForm.inventorDataSection", $errorList);
+   	}
+end
+
+rule "BR city - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field, $validateImport : validateImport )
+	Field( id == "address.city", $fieldUsable : usable, $fieldRequired : required, $editableImportField:editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Inventor(addresses == null || addresses.size() == 0 || (addresses != null && addresses.get(0) != null && (addresses.get(0).city == null || addresses.get(0).city == "")))
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	HashMap co = $customObjects;
+
+	Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+	if ((imported == false || $validateImport == true) && isSectionValidation == false){
+		addError("address.city", "BRMandatory", "This field is mandatory", null, $errorList);
+	}else if((imported == false || $validateImport == true) && isSectionValidation == true){
+		addError(null, "BR.inventor.address.city.Empty", "The City field is mandatory.", "mainForm.inventorDataSection", $errorList);
+	}
+end
+
+rule "BR country - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field, $validateImport : validateImport )
+	Field( id == "address.country", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true )
+	Inventor(addresses == null || addresses.size() == 0 || (addresses != null && addresses.get(0) != null && (addresses.get(0).country == null || addresses.get(0).country == "")))
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	HashMap co = $customObjects;
+
+	Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+	if ((imported == false || $validateImport == true) && isSectionValidation == false){
+		addError("address.country", "BRMandatory", "This field is mandatory", null, $errorList);
+	}else if((imported == false || $validateImport == true) && isSectionValidation == true){
+		addError(null, "BR.inventor.address.country.Empty", "The Country field is mandatory", "mainForm.inventorDataSection", $errorList);
+	}
+end
+
+
+rule "BR stateProvince - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field, $validateImport : validateImport )
+	Field( id == "address.stateprovince", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true )
+	Inventor($addresses : addresses, addresses == null || addresses.size() == 0 || (addresses != null && addresses.get(0) != null && (addresses.get(0).country == "GB" || addresses.get(0).country =="US") && (addresses.get(0).state == null || addresses.get(0).state == "")))
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	HashMap co = $customObjects;
+
+	Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+	if ((imported == false || $validateImport == true) && isSectionValidation == false){
+		addError("address.stateprovince", "BRMandatory", "This field is mandatory", null, $errorList);
+	}else if((imported == false || $validateImport == true) && isSectionValidation == true){
+		addError(null, "BR.inventor.address.stateProvince.Empty", "The State Province field is mandatory.", "mainForm.inventorDataSection", $errorList);
+	}
+end
+
+
+rule "BR postal code - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field, $validateImport : validateImport )
+	Field( id == "address.postalCode", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true )
+	Inventor(addresses == null || addresses.size() == 0 || (addresses != null && addresses.get(0) != null && (addresses.get(0).postCode == null || addresses.get(0).postCode == "")))
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	HashMap co = $customObjects;
+
+	Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+	if ((imported == false || $validateImport == true) && isSectionValidation == false){
+		addError("address.postalCode", "BRMandatory", "This field is mandatory", null, $errorList);
+	}else if((imported == false || $validateImport == true) && isSectionValidation == true){
+		addError(null, "BR.inventor.address.postalCode.Empty", "The postal code field is mandatory.", "mainForm.inventorDataSection", $errorList);
+	}
+end
+
+rule "BR postal code - Content"
+salience 1000
+when
+    $errorList : ErrorList()
+    Section( $fields : field, $validateImport : validateImport )
+    Field( id == "address.postalCode", $fieldUsable : usable, $regex : format, $editableImportField:editableImport) from $fields
+    eval($fieldUsable == true && StringUtils.isNotEmpty($regex))
+    Inventor(addresses != null, $addresses : addresses)
+    $address : Address(StringUtils.isNotEmpty(postCode) && postCode not matches $regex) from $addresses
+    $rulesInformation : RulesInformation($customObjects : customObjects)
+then
+    HashMap co = $customObjects;
+    Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if ((imported == false || $validateImport == true) && isSectionValidation == false){
+        addError("address.postalCode", "BRFormat", "This field has a bad format", null, $errorList);
+    }else if((imported == false || $validateImport == true) && isSectionValidation == true){
+        addError(null, "BRFormat", "The postal code field has a bad format.", "mainForm.inventorDataSection", $errorList);
+    }
+end
+
+
+rule "BR street - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field, $validateImport : validateImport )
+	Field( id == "address.street", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true )
+	Inventor(addresses == null || addresses.size() == 0 || (addresses != null && addresses.get(0) != null && (addresses.get(0).street == null || addresses.get(0).street == "")))
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	HashMap co = $customObjects;
+
+	Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+	if ((imported == false || $validateImport == true) && isSectionValidation == false){
+		addError("address.street", "BRMandatory", "This field is mandatory", null, $errorList);
+	}else if((imported == false || $validateImport == true) && isSectionValidation == true){
+		addError(null, "BR.inventor.address.street.Empty", "The Street field is mandatory.", "mainForm.inventorDataSection", $errorList);
+	}
+end
+
+rule "BR Phone - Content"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field, $validateImport : validateImport )
+	Field( id == "phone", $fieldUsable : usable, $regex : format, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true )
+	Inventor ($phones : phones)
+	Phone($phoneKind:phoneKind, $number:number, StringUtils.isEmpty(number)==false && StringUtils.isEmpty($regex)==false && number not matches $regex) from $phones
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	HashMap co = $customObjects;
+
+	Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+	if ($phoneKind==null) {
+		if ((imported == false || $validateImport == true) && isSectionValidation == false){
+			addError("phone", "BRFormat", "This field has a bad format",  null, $errorList);
+		}else if((imported == false || $validateImport == true) && isSectionValidation == true){
+			addError(null, "BR.inventor.phone.Empty", "The Phone field is mandatory.", "mainForm.inventorDataSection", $errorList);
+		}
+	}
+end
+
+rule "BR Fax - Content"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field, $validateImport : validateImport )
+	Field( id == "fax", $fieldUsable : usable, $regex : format, $editableImportField : editableImport, StringUtils.isEmpty($regex)==false) from $fields
+	eval($fieldUsable == true )
+	Inventor ($phones : phones)
+	Phone($phoneKind:phoneKind,$number:number, StringUtils.isEmpty(number)==false && StringUtils.isEmpty($regex)==false && number not matches $regex) from $phones
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	HashMap co = $customObjects;
+	Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+	if ($phoneKind!=null  && $phoneKind.toString().equals("Fax")) {
+		if ((imported == false || $validateImport == true) && isSectionValidation == false){
+			addError("fax", "BRFormat", "This field has a bad format",  null, $errorList);
+		}else if((imported == false || $validateImport == true) && isSectionValidation == true){
+			addError(null, "BR.inventor.fax.Format", "The Fax field has a bad format.", "mainForm.inventorDataSection", $errorList);
+		}
+	}
+end
+
+rule "BR Email - Array Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field, $validateImport : validateImport )
+	Field( id == "email", $fieldUsable : usable, $editableImportField : editableImport, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true )
+	Inventor (emails == null || emails.isEmpty())
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	HashMap co = $customObjects;
+	Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+	if ((imported == false || $validateImport == true) && isSectionValidation == false){
+		addError("email", "BRMandatory", "This field has is mandatory",  null, $errorList);
+	}else if((imported == false || $validateImport == true) && isSectionValidation == true){
+		addError(null, "BR.inventor.email.Empty", "The Email field is mandatory.", "mainForm.inventorDataSection", $errorList);
+	}
+end
+
+rule "BR Email - Empty"
+salience 1000
+when
+    $errorList : ErrorList()
+    Section( $fields : field, $validateImport : validateImport )
+    Field( id == "email", $fieldUsable : usable, $fieldRequired : required, $editableImportField:editableImport) from $fields
+    eval($fieldUsable == true && $fieldRequired )
+	Inventor ($emails : emails)
+    Email(StringUtils.isEmpty(emailAddress)) from $emails
+    $rulesInformation : RulesInformation($customObjects : customObjects )
+then
+    HashMap co = $customObjects;
+    Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if ((imported == false || $validateImport == true) && isSectionValidation == false){
+        addError("email", "BRMandatory", "This field is mandatory",  null, $errorList);
+    }else if((imported == false || $validateImport == true) && isSectionValidation == true){
+        addError(null, "BR.person.email.empty", "The Email field is mandatory.",  "mainForm.inventorDataSection", $errorList);
+    }
+end
+
+rule "BR Email - Content"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field, $validateImport: validateImport )
+	Field( id == "email", $fieldUsable : usable, $regex : format, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true )
+	Inventor ($emails : emails)
+	Email(emailAddress != null && emailAddress != "" && emailAddress not matches $regex) from $emails
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	HashMap co = $customObjects;
+	Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+	if ((imported == false || $validateImport == true) && isSectionValidation == false){
+		addError("email", "BRFormat", "This field has a bad format",  null, $errorList);
+	}else if((imported == false || $validateImport == true) && isSectionValidation == true){
+		addError(null, "BRFormat", "The Email field has a bad format.", "mainForm.inventorDataSection", $errorList);
+	}
+end
+
+rule "BR Nationality - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field, $validateImport : validateImport  )
+	Field( id == "nationality", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Inventor(nationality == null || nationality == "Unidentified" || StringUtils.isEmpty(nationality)==true)
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	HashMap co = $customObjects;
+
+	Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+	if (isSectionValidation == false){
+		addError("nationality",	 "BRMandatory", "This field is mandatory",	 null,	$errorList);
+	}else if(isSectionValidation == true){
+		addError(null, "BR.inventor.nationality.Empty", "The nationality field is mandatory.", "mainForm.inventorDataSection", $errorList);
+	}
+end
+
+rule "BR832 (firstName format (BG nationality))"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field, $validateImport : validateImport)
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+	Field( id == "firstName", $fieldUsable : usable, $editableImportField : editableImport, $regex: format) from $fields
+	Field( id == "nationality", $fieldUsableNationality : usable) from $fields
+	eval($fieldUsable && $fieldUsableNationality && StringUtils.isNotEmpty($regex))
+	Inventor(name != null && StringUtils.isEmpty(name.firstName) == false && nationality != null && nationality == "BG" && name.firstName not matches $regex)
+then
+    HashMap co = $customObjects;
+    Boolean imported = co.get("imported");
+    Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if (isSectionValidation == false){
+	    addError("firstName", "BRFormat.firstName", "Bad format of first name", null, $errorList);
+	} else if(isSectionValidation == true){
+        addError(null, "BRFormat.firstName", "Bad format of first name", "mainForm.inventorDataSection", $errorList);
+    }
+end
+
+rule "BR832 (middleName required (BG nationality))"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field, $validateImport : validateImport )
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+	Field( id == "middleName", $fieldUsable : usable, $editableImportField : editableImport, $regex: format) from $fields
+	Field( id == "nationality", $fieldUsableNationality : usable) from $fields
+	eval($fieldUsable && $fieldUsableNationality)
+	Inventor(((name != null && StringUtils.isEmpty(name.middleName) == true) || name.middleName == null) && nationality != null && nationality == "BG")
+then
+    HashMap co = $customObjects;
+    Boolean imported = co.get("imported");
+    Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if ((imported == false || $validateImport == true) && isSectionValidation == false){
+	    addError("middleName", "BRMandatory", "This field is mandatory", null, $errorList);
+	} else if((imported == false || $validateImport == true) && isSectionValidation == true){
+        addError(null, "BRMandatory", "This field is mandatory", "mainForm.inventorDataSection", $errorList);
+    }
+
+end
+
+rule "BR832 (middleName format (BG nationality))"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field, $validateImport : validateImport )
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+	Field( id == "middleName", $fieldUsable : usable, $editableImportField : editableImport, $regex: format) from $fields
+	Field( id == "nationality", $fieldUsableNationality : usable) from $fields
+	eval($fieldUsable && $fieldUsableNationality && StringUtils.isNotEmpty($regex))
+	Inventor(name != null && StringUtils.isEmpty(name.middleName) == false && nationality != null && nationality == "BG" && name.middleName not matches $regex)
+then
+    HashMap co = $customObjects;
+    Boolean imported = co.get("imported");
+    Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if ( isSectionValidation == false){
+	    addError("middleName", "BRFormat.middleName", "Bad format of middle name", null, $errorList);
+	} else if(isSectionValidation == true){
+        addError(null, "BRFormat.middleName", "Bad format of middle name", "mainForm.inventorDataSection", $errorList);
+    }
+end
+
+rule "BR832 (lastName format (BG nationality))"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field, $validateImport : validateImport)
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+	Field( id == "surname", $fieldUsable : usable, $editableImportField : editableImport, $regex: format) from $fields
+	Field( id == "nationality", $fieldUsableNationality : usable) from $fields
+	eval($fieldUsable && $fieldUsableNationality && StringUtils.isNotEmpty($regex))
+	Inventor(name != null && StringUtils.isEmpty(name.lastName) == false && nationality != null && nationality == "BG" && name.lastName not matches $regex)
+then
+    HashMap co = $customObjects;
+    Boolean imported = co.get("imported");
+    Boolean isSectionValidation = co.get("isSectionValidation");
+
+    if (isSectionValidation == false){
+	    addError("surname", "BRFormat.lastName", "Bad format of last name", null, $errorList);
+	} else if(isSectionValidation == true){
+        addError(null, "BRFormat.lastName", "Bad format of last name", "mainForm.inventorDataSection", $errorList);
+    }
+end

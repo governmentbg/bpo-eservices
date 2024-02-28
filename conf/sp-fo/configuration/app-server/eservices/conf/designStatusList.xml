@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<designStatusList xmlns="http://www.example.org/designStatus-configuration"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.example.org/designStatus-configuration designStatus-configuration.xsd ">
+       <designStatus code="" language="en" enabled="true">selectBox.SELECT</designStatus>
+       <designStatus code="FILED" language="en" enabled="true">designStatus.Filed</designStatus>
+       <designStatus code="WITHDRAWN" language="en" enabled="true">designStatus.Withdrawn</designStatus>
+       <designStatus code="REJECTED" language="en" enabled="true">designStatus.Rejected</designStatus>
+       <designStatus code="REGISTERED" language="en" enabled="true">designStatus.Registered</designStatus>
+       <designStatus code="CANCELLED" language="en" enabled="true">designStatus.Cancelled</designStatus>
+       <designStatus code="EXPIRED" language="en" enabled="true">designStatus.Expired</designStatus>
+       <designStatus code="UNDEFINED" language="en" enabled="true">designStatus.Undefined</designStatus>
+       <designStatus code="ENDED" language="en" enabled="true">designStatus.Ended</designStatus>
+       <designStatus code="REGISTERED_AND_FULLY_PUBLISHED" language="en" enabled="true">designStatus.Registered_and_fully_published</designStatus>
+       <designStatus code="REGISTERED_AND_SUBJECT_TO_DEFERMENT" language="en" enabled="true">designStatus.Registered_and_subject_to_deferment</designStatus>
+       <designStatus code="LACK_OF_EFFECTS" language="en" enabled="true">designStatus.Lack_of_effects</designStatus>
+       <designStatus code="DESIGN_SURRENDERED" language="en" enabled="true">designStatus.Design_surrended</designStatus>
+       <designStatus code="INVALIDITY_PROCEDURE_PENDING" language="en" enabled="true">designStatus.Invalidity_procedure_pending</designStatus>
+       <designStatus code="DESIGN_DECLARED_INVALID" language="en" enabled="true">designStatus.Design_declared_invalid</designStatus>
+       <designStatus code="DESIGN_LAPSED" language="en" enabled="true">designStatus.Design_lapsed</designStatus>
+       <designStatus code="EXPIRING" language="en" enabled="true">designStatus.Expiring</designStatus>
+       <designStatus code="APPLICATION_PUBLISHED" language="en" enabled="true">designStatus.Application_published</designStatus>
+</designStatusList>

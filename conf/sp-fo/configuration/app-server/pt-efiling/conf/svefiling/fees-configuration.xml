@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<feeList>
+	<feeTypeList>
+		<code>001</code>
+		<nameKey>basicFee</nameKey>
+		<description>basic fee</description>
+		<defaultValue>40.0</defaultValue>
+	</feeTypeList>
+
+	<feeTypeList>
+		<code>002</code>
+		<nameKey>publicationFee</nameKey>
+		<description>publication fee</description>
+		<defaultValue>20.0</defaultValue>
+	</feeTypeList>
+
+	<feeTypeList>
+		<code>003</code>
+		<nameKey>priorityFee</nameKey>
+		<description>fee for every priority</description>
+		<defaultValue>20.0</defaultValue>
+	</feeTypeList>
+
+	<feeTypeList>
+		<code>004</code>
+		<nameKey>certificateFee</nameKey>
+		<description>fee for certificate</description>
+		<defaultValue>90.0</defaultValue>
+	</feeTypeList>
+
+	<feeTypeList>
+		<code>005</code>
+		<nameKey>imageFeeForCertificate</nameKey>
+		<description>fee for every image if certificate option is chosen</description>
+		<defaultValue>10.0</defaultValue>
+	</feeTypeList>
+
+</feeList>

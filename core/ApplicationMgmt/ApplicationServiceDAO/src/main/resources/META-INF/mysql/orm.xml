@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_2_0.xsd"
+	version="2.0">
+	<persistence-unit-metadata>
+		<persistence-unit-defaults>
+			<access>FIELD</access>
+		</persistence-unit-defaults>
+	</persistence-unit-metadata>
+	<package>eu.ohim.sp.core.application</package>
+
+	<entity class="DraftApplication" name="DFORM">
+		<table-generator name="application-generator" table="TSEQUENCE" pk-column-name="IdSequence" value-column-name="NrLastValue" pk-column-value="DraftApplication" allocation-size="1" />
+		<named-query name="DraftApplication.findApplicationByProvisionalId">
+			<query>SELECT d from DFORM d WHERE d.provisionalId = :provisionalId</query>
+		</named-query>
+		<named-query name="DraftApplication.getAllApplicationsAsc">
+			<query>SELECT d from DFORM d order by :sortProperty asc</query>
+		</named-query>
+		<named-query name="DraftApplication.getAllApplicationsDesc">
+			<query>SELECT d from DFORM d order by :sortProperty desc</query>
+		</named-query>
+		<attributes>
+			<id name="id">
+				<column name="IdForm" column-definition="int"/>
+				<generated-value strategy="TABLE" generator="application-generator" />
+			</id>
+			<basic name="username">
+				<column name="LogUserName" column-definition="CHAR"/>
+			</basic>
+			<basic name="applicationId">
+				<column name="IdApplication" column-definition="CHAR"/>
+			</basic>
+			<basic name="applicationReference">
+				<column name="RefApplication" column-definition="CHAR"/>
+			</basic>
+			<basic name="provisionalId">
+				<column name="IdFiling" column-definition="CHAR"/>
+			</basic>
+			<basic name="office">
+				<column name="IdOffice" column-definition="CHAR"/>
+			</basic>
+			<basic name="paymentId">
+				<column name="IdPayment" column-definition="CHAR"/>
+			</basic>
+			<basic name="dtCreated">
+				<column name="DtCreated" />
+			</basic>
+			<basic name="eCorrespondence" optional="true">
+				<column name="eCorrespondence"/>
+			</basic>
+			<basic name="titleApplication">
+				<column name="TitleApplication" column-definition="CHAR"/>
+			</basic>
+			<basic name="appSubtype">
+				<column name="subtyapplication" column-definition="CHAR"/>
+			</basic>
+			<one-to-many name="statuses" mapped-by="draftApplication">
+				<cascade>
+					<cascade-all />
+				</cascade>
+			</one-to-many>
+			<one-to-many name="signStatuses" mapped-by="draftApplication">
+				<cascade>
+					<cascade-all />
+				</cascade>
+			</one-to-many>
+			<one-to-one name="currentStatus">
+				<join-column name="IdStatus"/>
+			</one-to-one>
+			<one-to-one name="currentSignStatus">
+				<join-column name="IdSignStatus" column-definition="int"/>
+			</one-to-one>
+			<one-to-one name="tyApplication" >
+				<join-column name="TyApplication"/>
+			</one-to-one>
+		</attributes>
+	</entity>
+
+	<entity class="DraftStatus" name="HSTATUSUPDATE">
+		<table-generator name="status-generator" table="TSEQUENCE" pk-column-name="IdSequence" value-column-name="NrLastValue" pk-column-value="DStatus" allocation-size="1" />
+		<named-query name="Status.getStatus">
+			<query>SELECT s from HSTATUSUPDATE s LEFT OUTER JOIN s.draftApplication WHERE s.draftApplication.provisionalId = :applicationId ORDER BY s.modifiedDate DESC</query>
+		</named-query>
+		<attributes>
+			<id name="id">
+				<column name="IdStatus" column-definition="int"/>
+				<generated-value strategy="TABLE" generator="status-generator" />
+			</id>
+			<basic name="modifiedDate">
+				<column name="DtCreated"/>
+			</basic>
+			<basic name="message">
+				<column name="TxtMessage"/>
+			</basic>
+			<many-to-one name="draftApplication">
+				<join-column name="IdForm" nullable="false"/>
+				<cascade>
+					<cascade-all />
+				</cascade>
+			</many-to-one>
+			<one-to-one name="code">
+				<join-column name="IdFormStatus" column-definition="smallint"/>
+			</one-to-one>
+		</attributes>
+	</entity>
+
+	<entity class="DraftSignStatus" name="HSIGNSTATUSUPDATE">
+		<table-generator name="status-generator" table="TSEQUENCE" pk-column-name="IdSequence" value-column-name="NrLastValue" pk-column-value="DSignStatus" allocation-size="1" />
+		<named-query name="SignStatus.getSignStatus">
+			<query>SELECT s from HSIGNSTATUSUPDATE s LEFT OUTER JOIN s.draftApplication WHERE s.draftApplication.provisionalId = :applicationId ORDER BY s.modifiedDate DESC</query>
+		</named-query>
+		<attributes>
+			<id name="id" >
+				<column name="IdStatus" column-definition="int"/>
+				<generated-value strategy="TABLE" generator="status-generator" />
+			</id>
+			<basic name="modifiedDate">
+				<column name="DtCreated"/>
+			</basic>
+			<basic name="message">
+				<column name="TxtMessage"/>
+			</basic>
+			<basic name="signStatus">
+				<column name="IdFormSignStatus" column-definition="smallint"/>
+			</basic>
+			<many-to-one name="draftApplication">
+				<join-column name="IdForm" nullable="false"/>
+				<cascade>
+					<cascade-all />
+				</cascade>
+			</many-to-one>
+
+		</attributes>
+	</entity>
+	
+	<entity class="Status" name="CFORMSTATUS">
+		<named-query name="DraftStatus.getStatus">
+			<query>SELECT s from CFORMSTATUS s WHERE s.code = :code</query>
+		</named-query>
+		<named-query name="DraftStatus.getStatusByDescription">
+			<query>SELECT s from CFORMSTATUS s WHERE s.description= :description</query>
+		</named-query>
+		<attributes>
+			<id name="id">
+				<column name="IdFormStatus" column-definition="smallint"/>
+				<generated-value strategy="TABLE" generator="status-generator" />
+				<table-generator name="status-generator" table="TSEQUENCE" pk-column-name="IdSequence" value-column-name="NrLastValue" pk-column-value="Status" allocation-size="1" />
+			</id>
+			<basic name="code" >
+				<column name="StCode" column-definition="smallint"/>
+			</basic>
+			<basic name="description" >
+				<column name="DscFormStatus" column-definition="CHAR"/>
+			</basic>
+		</attributes>
+	</entity>
+
+	<entity class="TypeApplication" name="CFORMTYPE">
+		<named-query name="TypeApplication.getType">
+			<query>SELECT t from CFORMTYPE t WHERE t.id = :code</query>
+		</named-query>
+		<named-query name="TypeApplication.getTypeByDescription">
+			<query>SELECT t from CFORMTYPE t WHERE t.typeApplication = :description</query>
+		</named-query>
+		<attributes>
+			<id name="id">
+				<column name="IdFormType" column-definition="smallint"/>
+				<generated-value strategy="TABLE" generator="type-application-generator" />
+				<table-generator name="type-application-generator" table="TSEQUENCE" pk-column-name="IdSequence" value-column-name="NrLastValue" pk-column-value="TypeApplication" allocation-size="1" />
+			</id>
+			<basic name="typeApplication" >
+				<column name="DscFormType" column-definition="CHAR"/>
+			</basic>
+		</attributes>
+	</entity>
+	
+</entity-mappings>

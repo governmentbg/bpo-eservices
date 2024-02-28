@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entitlementsOpponent xmlns="http://www.example.org/entitlementsOpponent-configuration"
+                      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                      xsi:schemaLocation="http://www.example.org/entitlementsOpponent-configuration entitlementsOpponent-configuration.xsd ">
+
+    <!--  TM  OPPOSITION-->
+    <entitlementOpponent  applicationType="tm-opposition" mandatoryDetails="false" showDetails="false"
+                          code="Actual-Owner" earlierEntitlementRightType="nonRegistered"  enabled="true">entitlementOpponent.actualOwner</entitlementOpponent>
+
+    <entitlementOpponent  applicationType="tm-opposition" mandatoryDetails="false" showDetails="false"
+                          code="Owner" earlierEntitlementRightType="earlierTradeMark"  enabled="true">entitlementOpponent.owner</entitlementOpponent>
+    <entitlementOpponent  applicationType="tm-opposition" mandatoryDetails="false" showDetails="false"
+                          code="Co-Owner" earlierEntitlementRightType="earlierTradeMark"  enabled="true">entitlementOpponent.coowner</entitlementOpponent>
+    <entitlementOpponent  applicationType="tm-opposition" mandatoryDetails="false" showDetails="false"
+                          code="Licensee" earlierEntitlementRightType="earlierTradeMark"  enabled="true">entitlementOpponent.licensee</entitlementOpponent>
+
+    <entitlementOpponent  applicationType="tm-opposition" mandatoryDetails="false" showDetails="false"
+                          code="Owner" earlierEntitlementRightType="wellKnow"  enabled="true">entitlementOpponent.owner</entitlementOpponent>
+    <entitlementOpponent  applicationType="tm-opposition" mandatoryDetails="false" showDetails="false"
+                          code="Co-Owner" earlierEntitlementRightType="wellKnow"  enabled="true">entitlementOpponent.coowner</entitlementOpponent>
+    <entitlementOpponent  applicationType="tm-opposition" mandatoryDetails="false" showDetails="false"
+                          code="Licensee" earlierEntitlementRightType="wellKnow"  enabled="true">entitlementOpponent.licensee</entitlementOpponent>
+
+    <entitlementOpponent  applicationType="tm-opposition" mandatoryDetails="false" showDetails="false"
+                          code="Actual-Owner" earlierEntitlementRightType="agentApplied"  enabled="true">entitlementOpponent.actualOwner</entitlementOpponent>
+
+    <entitlementOpponent  applicationType="tm-opposition" mandatoryDetails="false" showDetails="false"
+                          code="Owner" earlierEntitlementRightType="reputation"  enabled="true">entitlementOpponent.owner</entitlementOpponent>
+    <entitlementOpponent  applicationType="tm-opposition" mandatoryDetails="false" showDetails="false"
+                          code="Co-Owner" earlierEntitlementRightType="reputation"  enabled="true">entitlementOpponent.coowner</entitlementOpponent>
+    <entitlementOpponent  applicationType="tm-opposition" mandatoryDetails="false" showDetails="false"
+                          code="Licensee" earlierEntitlementRightType="reputation"  enabled="true">entitlementOpponent.licensee</entitlementOpponent>
+
+    <entitlementOpponent  applicationType="tm-opposition" mandatoryDetails="false" showDetails="false"
+                          code="Actual-Owner" earlierEntitlementRightType="badFaith"  enabled="true">entitlementOpponent.actualOwner</entitlementOpponent>
+
+    <entitlementOpponent  applicationType="tm-opposition" mandatoryDetails="false" showDetails="false"
+                          code="Merchant" earlierEntitlementRightType="businessName"  enabled="true">entitlementOpponent.merchant</entitlementOpponent>
+
+    <entitlementOpponent  applicationType="tm-opposition" mandatoryDetails="false" showDetails="false"
+                          code="Person-Authorized" earlierEntitlementRightType="earlierGI"  enabled="true">entitlementOpponent.personAuthorized</entitlementOpponent>
+
+    <!--  TM  INVALIDITY-->
+    <entitlementOpponent  applicationType="tm-invalidity" mandatoryDetails="false" showDetails="false"
+                          code="Actual-Owner" earlierEntitlementRightType="nonRegistered"  enabled="true">entitlementOpponent.actualOwner</entitlementOpponent>
+
+    <entitlementOpponent  applicationType="tm-invalidity" mandatoryDetails="false" showDetails="false"
+                          code="Owner" earlierEntitlementRightType="earlierTradeMark"  enabled="true">entitlementOpponent.owner</entitlementOpponent>
+    <entitlementOpponent  applicationType="tm-invalidity" mandatoryDetails="false" showDetails="false"
+                          code="Co-Owner" earlierEntitlementRightType="earlierTradeMark"  enabled="true">entitlementOpponent.coowner</entitlementOpponent>
+    <entitlementOpponent  applicationType="tm-invalidity" mandatoryDetails="false" showDetails="false"
+                          code="Licensee" earlierEntitlementRightType="earlierTradeMark"  enabled="true">entitlementOpponent.licensee</entitlementOpponent>
+
+    <entitlementOpponent  applicationType="tm-invalidity" mandatoryDetails="false" showDetails="false"
+                          code="Owner" earlierEntitlementRightType="reputation"  enabled="true">entitlementOpponent.owner</entitlementOpponent>
+    <entitlementOpponent  applicationType="tm-invalidity" mandatoryDetails="false" showDetails="false"
+                          code="Co-Owner" earlierEntitlementRightType="reputation"  enabled="true">entitlementOpponent.coowner</entitlementOpponent>
+    <entitlementOpponent  applicationType="tm-invalidity" mandatoryDetails="false" showDetails="false"
+                          code="Licensee" earlierEntitlementRightType="reputation"  enabled="true">entitlementOpponent.licensee</entitlementOpponent>
+
+    <entitlementOpponent  applicationType="tm-invalidity" mandatoryDetails="false" showDetails="false"
+                          code="Actual-Owner" earlierEntitlementRightType="badFaith"  enabled="true">entitlementOpponent.actualOwner</entitlementOpponent>
+
+    <entitlementOpponent  applicationType="tm-invalidity" mandatoryDetails="false" showDetails="false"
+                          code="Actual-Owner" earlierEntitlementRightType="agentApplied"  enabled="true">entitlementOpponent.actualOwner</entitlementOpponent>
+
+    <entitlementOpponent  applicationType="tm-invalidity" mandatoryDetails="false" showDetails="false"
+                          code="Merchant" earlierEntitlementRightType="businessName"  enabled="true">entitlementOpponent.merchant</entitlementOpponent>
+
+    <entitlementOpponent  applicationType="tm-invalidity" mandatoryDetails="false" showDetails="false"
+                          code="Person-Authorized" earlierEntitlementRightType="earlierGI"  enabled="true">entitlementOpponent.personAuthorized</entitlementOpponent>
+
+    <entitlementOpponent  applicationType="tm-invalidity" mandatoryDetails="false" showDetails="false"
+                          code="Owner" earlierEntitlementRightType="rightsAuthor"  enabled="true">entitlementOpponent.owner</entitlementOpponent>
+
+    <entitlementOpponent  applicationType="tm-invalidity" mandatoryDetails="false" showDetails="false"
+                          code="Owner" earlierEntitlementRightType="rightsPortraitName"  enabled="true">entitlementOpponent.owner</entitlementOpponent>
+
+    <entitlementOpponent  applicationType="tm-invalidity" mandatoryDetails="false" showDetails="false"
+                          code="Owner" earlierEntitlementRightType="rightsPlantVariation"  enabled="true">entitlementOpponent.owner</entitlementOpponent>
+
+    <entitlementOpponent  applicationType="tm-invalidity" mandatoryDetails="false" showDetails="false"
+                          code="Owner" earlierEntitlementRightType="industrialPropertyRight"  enabled="true">entitlementOpponent.owner</entitlementOpponent>
+
+    <!--  DS INVALIDITY         -->
+    <entitlementOpponent  applicationType="ds-invalidity" mandatoryDetails="false" showDetails="false"
+                          code="Owner" earlierEntitlementRightType="everyPerson"  enabled="true">entitlementOpponent.owner</entitlementOpponent>
+
+    <entitlementOpponent  applicationType="ds-invalidity" mandatoryDetails="false" showDetails="false"
+                          code="Licensee" earlierEntitlementRightType="everyPerson"  enabled="true">entitlementOpponent.licensee</entitlementOpponent>
+
+    <entitlementOpponent  applicationType="ds-invalidity" mandatoryDetails="false" showDetails="false"
+                          code="Owner" earlierEntitlementRightType="personLegalInterest"  enabled="true">entitlementOpponent.owner</entitlementOpponent>
+
+    <entitlementOpponent  applicationType="ds-invalidity" mandatoryDetails="false" showDetails="false"
+                          code="Licensee" earlierEntitlementRightType="personLegalInterest"  enabled="true">entitlementOpponent.licensee</entitlementOpponent>
+
+    <entitlementOpponent  applicationType="ds-invalidity" mandatoryDetails="false" showDetails="false"
+                          code="Owner" earlierEntitlementRightType="courtAdmittedOwner"  enabled="true">entitlementOpponent.owner</entitlementOpponent>
+
+    <entitlementOpponent  applicationType="ds-invalidity" mandatoryDetails="false" showDetails="false"
+                          code="Licensee" earlierEntitlementRightType="courtAdmittedOwner"  enabled="true">entitlementOpponent.licensee</entitlementOpponent>
+
+</entitlementsOpponent>

@@ -1,0 +1,598 @@
+package org.domain.rules;
+dialect "mvel"
+
+import java.util.List
+
+import eu.ohim.sp.core.domain.resources.DocumentKind;
+import eu.ohim.sp.core.domain.validation.ErrorCore;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.domain.trademark.Priority;
+import eu.ohim.sp.core.domain.trademark.ExhibitionPriority;
+import eu.ohim.sp.core.domain.trademark.Seniority;
+import eu.ohim.sp.core.domain.trademark.TransformationPriority;
+import eu.ohim.sp.core.domain.validation.RulesInformation;
+import eu.ohim.sp.core.domain.resources.Document;
+import eu.ohim.sp.core.configuration.domain.xsd.Sections;
+import eu.ohim.sp.core.configuration.domain.xsd.Sections;
+import eu.ohim.sp.core.configuration.domain.xsd.Section;
+import eu.ohim.sp.core.configuration.domain.xsd.Field;
+import org.apache.commons.lang.StringUtils;
+
+// PRIORITY ----------------------------------------------------------------------------------------------
+
+rule "BR237 - Empty"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "country", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Priority(StringUtils.isEmpty(priorityCountryCode) == true &&
+			 (imported==false || (imported==true && $editableImportField==true)))
+then
+	addError("country",
+		 "BRMandatory",
+			"This field is mandatory",
+		 null,
+		 $rulesInformation);
+end
+
+rule "BR238 - Empty"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "number", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Priority(StringUtils.isEmpty(priorityNumber) == true &&
+			 (imported==false || (imported==true && $editableImportField==true)))
+then
+	addError("number",
+		 "BRMandatory",
+			"This field is mandatory",
+		 null,
+		 $rulesInformation);
+end
+
+rule "BR238 - Content"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "number", $fieldUsable : usable, $regex : format, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && 
+		 StringUtils.isEmpty($regex) == false)
+	Priority(StringUtils.isEmpty(priorityNumber) == false &&
+			 priorityNumber not matches $regex &&
+			 (imported==false || (imported==true && $editableImportField==true)))
+then
+	addError("number",
+		 "BRFormat",
+		 "This field has a bad format",
+		 null,
+		 $rulesInformation);
+end
+
+rule "BR32 Priority Date - Empty"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "date", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true &&
+		 $fieldRequired == true)
+	Priority((priorityDate==null) &&
+			 (imported==false || (imported==true && $editableImportField==true)))
+then
+	addError("date",
+		 "BRMandatory",
+			"This field is mandatory",
+		 null,
+		 $rulesInformation);
+end
+
+rule "BR32 Priority Date - 6months"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "date", $fieldUsable : usable, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true)
+	Priority(priorityDate!=null &&
+			 $priDate : priorityDate &&
+			 (imported==false || (imported==true && $editableImportField==true)))
+then
+	$rulesInformation.getErrorList().addAllErrors(checkOldDate($priDate, "date"));
+end
+
+rule "BR32 Date after today"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "date", $fieldUsable : usable, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true)
+	Priority(priorityDate!=null &&
+			 $priDate : priorityDate &&
+			 (imported==false || (imported==true && $editableImportField==true)) &&
+			 $priDate.after(new Date()))
+then
+	addError("date",
+		 "BRXXX.Date.After",
+		 "The date you selected is after today's date",
+		 null,
+		 $rulesInformation);
+end
+
+rule "BR239 Priority Attachments"
+salience 1000
+when
+	$rulesInformation : RulesInformation()
+	Priority($documents : priorityDocuments)
+	Document(attached == true &&
+			 StringUtils.isEmpty(documentName) == true &&
+			 documentKind.value == "Priority Certificate") from $documents
+then
+	addError("fileWrapperCopy.attachment",
+		 "BRFile",
+		 "Some files need to be attached",
+		 null,
+		 $rulesInformation);
+end
+
+rule "BR404 Priority Translation Attachments"
+salience 1000
+when
+	$rulesInformation : RulesInformation()
+	Priority($documents : priorityDocuments)
+	Document(attached == true &&
+			 StringUtils.isEmpty(documentName) == true &&
+			 documentKind.value == "Priority Certificate Translation") from $documents
+then
+	addError("fileWrapperTranslation.attachment",
+		 "BRFile",
+		 "Some files need to be attached",
+		 null,
+		 $rulesInformation);
+end
+
+// EXHIBITION ---------------------------------------------------------------------------------------------
+
+rule "BR241 - Empty"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "exhibitionName", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	ExhibitionPriority(StringUtils.isEmpty(exhibitionName) == true &&
+					   (imported==false || (imported==true && $editableImportField==true)))
+then
+	addError("exhibitionName",
+		 "BRMandatory",
+			"This field is mandatory",
+		 null,
+		 $rulesInformation);
+end
+
+rule "BR34a Exhibition Date - Empty"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "firstDate", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	ExhibitionPriority(exhibitionFirstDisplayDate==null &&
+					   (imported==false || (imported==true && $editableImportField==true)))
+then
+	addError("firstDate",
+		 "BRMandatory",
+			"This field is mandatory",
+		 null,
+		 $rulesInformation);
+end
+
+rule "BR34b Exhibition Date - 6months"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "firstDate", $fieldUsable : usable, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true)
+	ExhibitionPriority(exhibitionFirstDisplayDate!=null &&
+					   $exhDate : exhibitionFirstDisplayDate &&
+					   (imported==false || (imported==true && $editableImportField==true)))
+then
+	$rulesInformation.getErrorList().addAllErrors(checkOldDate($exhDate,"firstDate"));
+end
+
+rule "BR34c Exhibition Date after today"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "firstDate", $fieldUsable : usable, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true)
+	ExhibitionPriority(exhibitionFirstDisplayDate!=null &&
+					   $exhDate : exhibitionFirstDisplayDate &&
+					   (imported==false || (imported==true && $editableImportField==true)) &&
+					   $exhDate.after(new Date()))
+then
+	addError("firstDate",
+		 "BRXXX.Date.After",
+		 "The date you selected is after today's date",
+		 null,
+		 $rulesInformation);
+end
+
+rule "BR241 - Content"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "exhibitionName", $fieldUsable : usable, $regex : format, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true &&
+		 StringUtils.isEmpty($regex) == false)
+	ExhibitionPriority(StringUtils.isEmpty(exhibitionName) == false &&
+					   exhibitionName not matches $regex &&
+					   (imported==false || (imported==true && $editableImportField==true)))
+then
+	addError("exhibitionName",
+		 "BRMandatory",
+			"This field is mandatory",
+		 null,
+		 $rulesInformation);
+end
+
+rule "BR422 Exhibition Attachments"
+salience 1000
+when
+	$rulesInformation : RulesInformation()
+	ExhibitionPriority($documents : exhibitionDocuments)
+	Document(attached == true &&
+			 StringUtils.isEmpty(documentName) == true &&
+			 documentKind.value == "Exhibition Priority Certificate") from $documents
+then
+	addError("fileWrapper.attachment",
+		 "BRFile",
+		 "Some files need to be attached",
+		 null,
+		 $rulesInformation);
+end
+
+// SENIORITY ----------------------------------------------------------------------------------------------
+
+rule "BR36 - Empty"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "nature", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Seniority((seniorityKind==null) &&
+			  (imported==false || (imported==true && $editableImportField==true)))
+then
+	addError("nature",
+		 "BRMandatory",
+			"This field is mandatory",
+		 null,
+		 $rulesInformation);
+end
+
+rule "BR37a Filling Date - Empty"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "filingDate", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Seniority(seniorityFilingDate==null &&
+			  (imported==false || (imported==true && $editableImportField==true)))
+then
+	addError("filingDate",
+		 "BRMandatory",
+			"This field is mandatory",
+		 null,
+		 $rulesInformation);
+end
+
+rule "BR37b Seniority Filing Date - 6months"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "filingDate", $fieldUsable : usable, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true)
+	Seniority(seniorityFilingDate!=null &&
+			  $senDate : seniorityFilingDate &&
+			  (imported==false || (imported==true && $editableImportField==true)))
+then
+	$rulesInformation.getErrorList().addAllErrors(checkOldDate($senDate, "filingDate"));
+end
+
+rule "BR37c Seniority Filing Date before today"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "filingDate", $fieldUsable : usable, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true)
+	Seniority(seniorityFilingDate!=null &&
+			  $senDate : seniorityFilingDate &&
+			  (imported==false || (imported==true && $editableImportField==true)) &&
+			  $senDate.after(new Date()))
+then
+	addError("filingDate",
+		 "BRXXX.Date.After",
+		 "The date you selected is after today's date",
+		 null,
+		 $rulesInformation);
+end
+
+rule "BR38 - Empty"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "filingNumber", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Seniority(StringUtils.isEmpty(seniorityApplicationNumber) == true &&
+			  (imported==false || (imported==true && $editableImportField==true)))
+then
+	addError("filingNumber",
+		 "BRMandatory",
+			"This field is mandatory",
+		 null,
+		 $rulesInformation);
+end
+
+rule "BR39a Registration Date - Empty"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "registrationDate", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Seniority(seniorityRegistrationDate==null &&
+			  (imported==false || (imported==true && $editableImportField==true)))
+then
+	addError("registrationDate",
+		 "BRMandatory",
+			"This field is mandatory",
+		 null,
+		 $rulesInformation);
+end
+
+rule "BR39b Seniority Registration Date after today"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "registrationDate", $fieldUsable : usable, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true)
+	Seniority(seniorityRegistrationDate!=null &&
+			  $senDate : seniorityRegistrationDate &&
+			  (imported==false || (imported==true && $editableImportField==true)) &&
+			  $senDate.after(new Date()))
+then
+	addError("registrationDate",
+		 "BRXXX.Date.After",
+		 "The date you selected is after today's date",
+		 null,
+		 $rulesInformation);
+end
+
+rule "BR242 - Empty"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "country", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Seniority(StringUtils.isEmpty(seniorityCountryCode) == true &&
+			  (imported==false || (imported==true && $editableImportField==true)))
+then
+	addError("country",
+		 "BRMandatory",
+			"This field is mandatory",
+		 null,
+		 $rulesInformation);
+end
+
+rule "BR40 - Empty"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "registrationNumber", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Seniority(StringUtils.isEmpty(seniorityRegistrationNumber) == true &&
+			  (imported==false || (imported==true && $editableImportField==true)))
+then
+	addError("registrationNumber",
+		 "BRMandatory",
+			"This field is mandatory",
+		 null,
+		 $rulesInformation);
+end
+
+rule "BR38 - Content"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "filingNumber", $fieldUsable : usable, $regex : format, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && StringUtils.isEmpty($regex) == false)
+	Seniority(StringUtils.isEmpty(seniorityApplicationNumber) == false &&
+			  seniorityApplicationNumber not matches $regex &&
+			  (imported==false || (imported==true && $editableImportField==true)))
+then
+	addError("filingNumber",
+		 "BRFormat",
+		 "This field has a bad format",
+		 null,
+		 $rulesInformation);
+end
+
+rule "BR401 Seniority Attachments"
+salience 1000
+when
+$rulesInformation : RulesInformation()
+Seniority($documents : seniorityDocuments)
+Document(attached == true &&
+(documentName == null || documentName == "") &&
+documentKind.value == "Seniority Certificate") from $documents
+then
+	addError("fileWrapperCopy.attachment",
+		 "BRFile",
+		 "Some files need to be attached",
+		 null,
+		 $rulesInformation);
+end
+
+// IR TRANSFORMATION ----------------------------------------------------------------------------------
+
+rule "BR42 - Empty"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "irNumber", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	TransformationPriority(StringUtils.isEmpty(registrationNumber) == true &&
+						   (imported==false || (imported==true && $editableImportField==true)))
+then
+	addError("irNumber",
+		 "BRMandatory",
+			"This field is mandatory",
+		 null,
+		 $rulesInformation);
+end
+
+rule "BR42 - Content"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "irNumber", $fieldUsable : usable, $regex : format, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true &&
+		 StringUtils.isEmpty($regex) == false)
+	TransformationPriority($fieldUsable == true &&
+						   StringUtils.isEmpty(registrationNumber) == false &&
+						   registrationNumber not matches $regex &&
+						   (imported==false || (imported==true && $editableImportField==true)))
+then
+	addError("irNumber",
+		 "BRFormat",
+		 "This field has a bad format",
+		 null,
+		 $rulesInformation);
+end
+
+rule "BR43 - Empty"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "cancelationDate", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	TransformationPriority((cancellationDate==null) &&
+						   (imported==false || (imported==true && $editableImportField==true)))
+then
+	addError("cancelationDate",
+		 "BRMandatory",
+			"This field is mandatory",
+		 null,
+		 $rulesInformation);
+end
+
+rule "BR44 - Empty"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "irDate", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	TransformationPriority((registrationDate==null) &&
+						   (imported==false || (imported==true && $editableImportField==true)))
+then
+	addError("irDate",
+		 "BRMandatory",
+			"This field is mandatory",
+		 null,
+		 $rulesInformation);
+end
+
+rule "BR45 - Empty"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "priosenioDate", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	TransformationPriority((priorityDate==null) &&
+						   (imported==false || (imported==true && $editableImportField==true)))
+then
+	addError("priosenioDate",
+		 "BRMandatory",
+			"This field is mandatory",
+		 null,
+		 $rulesInformation);
+end
+
+rule "BR43 Date after today"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "cancelationDate", $fieldUsable : usable, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true)
+	TransformationPriority(cancellationDate!=null &&
+						   $canDate : cancellationDate &&
+						   (imported==false || (imported==true && $editableImportField==true)) &&
+						   $canDate.after(new Date()))
+then
+	addError("cancelationDate",
+		 "BRXXX.Date.After",
+		 "The date you selected is after today's date",
+		 null,
+		 $rulesInformation);
+end
+
+rule "BR44 Date after today"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "irDate", $fieldUsable : usable, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true)
+	TransformationPriority(registrationDate!=null &&
+						   $regDate : registrationDate &&
+						   (imported==false || (imported==true && $editableImportField==true)) &&
+						   $regDate.after(new Date()))
+then
+	addError("irDate",
+		 "BRXXX.Date.After",
+		 "The date you selected is after today's date",
+		 null,
+		 $rulesInformation);
+end
+
+rule "BR45 Date after today"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "priosenioDate", $fieldUsable : usable, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true)
+	TransformationPriority(priorityDate!=null &&
+						   $priDate : priorityDate &&
+						   (imported==false || (imported==true && $editableImportField==true)) &&
+						   $priDate.after(new Date()))
+then
+	addError("priosenioDate",
+		 "BRXXX.Date.After",
+		 "The date you selected is after today's date",
+		 null,
+		 $rulesInformation);
+end

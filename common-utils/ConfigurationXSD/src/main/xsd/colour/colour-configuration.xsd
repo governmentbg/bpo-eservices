@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  * $Id::                                                                       $
+  *       . * .
+  *     * RRRR  *    Copyright © 2012 OHIM: Office for Harmonization
+  *   .   RR  R   .  in the Internal Market (trade marks and designs)
+  *   *   RRR     *
+  *    .  RR RR  .   ALL RIGHTS RESERVED
+  *     * . _ . *
+-->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.example.org/test/"
+	targetNamespace="http://www.example.org/test/">
+
+	<complexType name="colourlist">
+		<sequence>
+			<element name="country" type="string"></element>
+			<element name="values" type="string" maxOccurs="unbounded"
+				minOccurs="1"></element>
+		</sequence>
+	</complexType>
+
+	<element name="colour">
+		<complexType>
+			<sequence>
+				<element name="colourList" type="tns:colourlist" maxOccurs="unbounded"
+				minOccurs="1"></element>
+			</sequence>
+		</complexType>
+	</element>
+
+</schema>

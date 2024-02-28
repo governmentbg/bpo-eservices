@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow abstract="true" xmlns="http://www.springframework.org/schema/webflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow
+                          http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd"
+	start-state="start">
+
+	<on-start>
+        <evaluate
+                expression="flowBeanAction.loadApplication(requestParameters.form_id, requestParameters.lid)"
+                result="flowScope.flowBean" result-type="java.io.Serializable"/>
+		<evaluate
+				expression="requestParameters.form_id != null ? requestParameters.lid != null : false"
+				result="flowScope.loaded" result-type="boolean"/>
+		<evaluate expression="flowScope.flowBean.initializationErrorCode" result="flashScope.error_code"/>
+		<evaluate expression="flowScope.flowBean.setInitializationErrorCode(null)"/> 
+		<evaluate expression="requestParameters.timeout" result="flashScope.timeout" result-type="java.io.Serializable" />
+		<evaluate expression="(requestParameters.draftId!=null||requestParameters.form_id!=null)?flowScope.flowBean.setFilingNumber((requestParameters.draftId!=null?requestParameters.draftId:requestParameters.form_id)):flowScope.flowBean.setFilingNumber(draftApplicationService.provideProvisionalID())" />
+        <evaluate expression="flowScope.flowBean.setIdreserventity(flowScope.flowBean.getFilingNumber())" />
+	</on-start>
+
+	<decision-state id="start">
+		<if test="requestParameters.form_id != null ? (flowScope.flowBean != null ? (flashScope.error_code == null ? true : false) : false) : false"
+			then="#{flowRequestContext.getActiveFlow().containsState('wiz0') ? 'wiz0' : 'review'}"
+			else="#{flowRequestContext.getActiveFlow().containsState('wizhome') ? 'wizhome' : 'oneform'}"/>
+	</decision-state>
+
+	<view-state id="savetopc" view="externalRedirect:contextRelative:saveToPC.htm?flowKey=#{requestParameters.execution}"/>
+	<view-state id="printDraftReceipt" view="externalRedirect:contextRelative:receipt.htm?flowKey=#{requestParameters.execution}"/>
+	<view-state id="failureState" view="failureTile" />
+
+	<end-state id="submitted" view="redirect:#{flowScope.redirectToPortal? flowScope.redirectURL : '/submitted.htm'}" >
+		<on-entry>
+			<evaluate result="flowScope.uuid" result-type="java.io.Serializable"
+					  expression="draftApplicationService.storeSubmittedApplication(flowBean)" />
+			<evaluate result="flowScope.redirectToPortal" expression="draftApplicationService.redirectToPortal(flowBean)" />
+			<evaluate result="flowScope.redirectURL" expression="draftApplicationService.getRedirectUrl(flowScope.flowBean.idreserventity)"/>
+		</on-entry>
+	</end-state>
+	
+	<action-state id="GlobalLogin">
+		<secured attributes="Login" />
+		<evaluate expression="flowScope.loaded ? null : flowBeanAction.addUserPersonDetails(flowScope.flowBean, flowScope.flowModeId)" result="flowScope.userPersonDetails" />
+		<evaluate expression="flowScope.currentState" />
+		<transition on="wizhome" to="wizhome" />
+		<transition on="wiz0" to="wiz0" />
+		<transition on="wiz1" to="wiz1" />
+		<transition on="wiz2" to="wiz2" />
+		<transition on="wiz3" to="wiz3" />
+		<transition on="wiz4" to="wiz4" />
+		<transition on="oneform" to="oneform" />
+		<transition on="review" to="review" />
+	</action-state>
+	
+	<global-transitions>
+		<transition on="Cancel" validate="false">
+			<evaluate expression="flowBean.clear()" />
+		</transition>
+		<transition on="ChangeLanguage" validate="false">
+			<evaluate expression="false" />
+		</transition>
+		
+		<transition on="importDesignApplication" validate="false">
+			<evaluate
+				expression="flowBeanAction.importDesignApplication(flowBean, requestParameters.idDesign, requestParameters.applicationId)"
+				result="flowScope.flowBean" />
+		</transition>
+		
+		<transition on="Refresh" validate="false">
+		</transition>
+		
+		<transition on="SaveLocally" to="savetopc" validate="false" />
+		
+		<transition on="PrintDraftReceipt" to="printDraftReceipt" validate="false" />
+		
+		<transition on="doPayment" validate="true">
+			<secured attributes="Submit_Application" />
+			<evaluate expression="true" result="flashScope.doPayment"
+				result-type="java.lang.Boolean" />
+		</transition>
+		
+		<transition on="doSubmit" to="submitted" history="discard" validate="true">
+			<secured attributes="Submit_Application" />
+		</transition>
+		
+		<transition on="PAYMENT_OK" to="submitted" history="discard" validate="true" />
+		
+		<transition on="PAYMENT_CANCELLED" />			
+		
+		<transition on="PAYMENT_ERROR">			
+			<evaluate expression="requestParameters.paymentMessage" result="flashScope.paymentMessage"
+				result-type="java.lang.String" />
+		</transition>
+	</global-transitions>
+
+	<exception-handler bean="spFlowExecutionExceptionHandler"/>
+</flow>

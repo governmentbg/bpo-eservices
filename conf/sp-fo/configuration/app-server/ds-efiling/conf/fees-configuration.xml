@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feeList xmlns:tns="http://www.example.org/test/"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.example.org/test/ ../../../../../../../../../../../../configuration-xsd/src/main/xsd/fees/fees.xsd ">
+
+    <feeTypeList>
+        <code>001</code>
+        <nameKey>basicFee</nameKey>
+        <description>basic fee</description>
+        <defaultValue>40</defaultValue>
+    </feeTypeList>
+
+    <feeTypeList>
+        <code>002</code>
+        <nameKey>basicDeferFee</nameKey>
+        <description>defer fee for the first design</description>
+        <defaultValue>50</defaultValue>
+    </feeTypeList>
+
+    <feeTypeList>
+        <code>003</code>
+        <nameKey>deferFeeNext</nameKey>
+        <description>defer fee for every design after the first</description>
+        <defaultValue>25</defaultValue>
+    </feeTypeList>
+
+    <feeTypeList>
+        <code>004</code>
+        <nameKey>deferFeeSetComposition</nameKey>
+        <description>defer fee when having a set or composition</description>
+        <defaultValue>90</defaultValue>
+    </feeTypeList>
+
+    <feeTypeList>
+        <code>005</code>
+        <nameKey>priorityFee</nameKey>
+        <description>fee for every priority</description>
+        <defaultValue>20</defaultValue>
+    </feeTypeList>
+
+    <feeTypeList>
+        <code>006</code>
+        <nameKey>basicExaminationFee</nameKey>
+        <description>fee for examination</description>
+        <defaultValue>70</defaultValue>
+    </feeTypeList>
+
+    <feeTypeList>
+        <code>007</code>
+        <nameKey>examinationFeeNext</nameKey>
+        <description>fee for every claim - priority or exhibition priority</description>
+        <defaultValue>35</defaultValue>
+    </feeTypeList>
+
+    <feeTypeList>
+        <code>008</code>
+        <nameKey>examinationFeeSetComposition</nameKey>
+        <description>fee for every claim - priority or exhibition priority</description>
+        <defaultValue>105</defaultValue>
+    </feeTypeList>       
+    
+</feeList>

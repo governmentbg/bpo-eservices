@@ -1,0 +1,672 @@
+package org.domain.rules;
+dialect "mvel"
+
+import eu.ohim.sp.core.domain.person.Applicant;
+import eu.ohim.sp.core.domain.validation.ErrorCore;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+
+import eu.ohim.sp.core.configuration.domain.xsd.Section;
+import eu.ohim.sp.core.configuration.domain.xsd.Field;
+
+import java.util.Map;
+import java.util.ArrayList;
+
+import eu.ohim.sp.core.domain.validation.ErrorCore;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.domain.person.Applicant;
+import eu.ohim.sp.core.configuration.domain.xsd.Section;
+import eu.ohim.sp.core.configuration.domain.xsd.Sections;
+import eu.ohim.sp.core.configuration.domain.xsd.Field;
+import org.apache.commons.lang.*;
+import eu.ohim.sp.core.domain.opposition.OppositionGround;
+import eu.ohim.sp.core.domain.opposition.OppositionRelativeGrounds;
+import eu.ohim.sp.core.domain.opposition.OppositionAbsoluteGrounds;
+import eu.ohim.sp.core.domain.opposition.OppositionRevocationGrounds;
+import eu.ohim.sp.core.domain.validation.RulesInformation;
+import java.util.HashMap;
+import java.lang.Boolean;
+import java.util.Date;
+import eu.ohim.sp.core.domain.opposition.EarlierEntitlementRightKind;
+import eu.ohim.sp.core.domain.opposition.LawArticle;
+import java.lang.System;
+import eu.ohim.sp.core.domain.design.DesignApplication;
+import eu.ohim.sp.core.domain.design.Design;
+import eu.ohim.sp.core.domain.opposition.RelativeGroundLawArticle;
+
+global eu.ohim.sp.core.domain.validation.ErrorList errorList;
+
+declare DSInvalidityData
+	activateForDSInvalidity: boolean
+	isDSInvalidity: boolean
+end
+
+
+rule "BR319 (ds invalidity set up)"
+salience 2000
+when
+	$errorList : ErrorList()
+	RulesInformation($customObjects : customObjects)	
+	$oRvG: OppositionRelativeGrounds($la: legalActVersion)	
+then	
+	HashMap co = $customObjects;
+    String eservice = co.get("eservice");
+    DSInvalidityData data = new DSInvalidityData(false, false);
+    if(eservice.equals("ds-invalidity")){
+    	data= new DSInvalidityData(false, true);
+    	if($la != null && $la.getArticles() != null){
+		    for(LawArticle art:$oRvG.getLegalActVersion().getArticles()){
+		    	if(art.getReference() != null && art.getReference().equals("ds.invalidityGround.29.2.2a")){
+		    		data= new DSInvalidityData(true, true);
+				}
+		    }
+	    }
+    
+    }
+    insertLogical( data );
+    
+end
+
+rule "BR2001 (At leat one design selected)"
+salience 1000
+when
+	$errorList : ErrorList()
+	RulesInformation($customObjects : customObjects)
+	$Section : Section( $fields : field )
+	$oRG: OppositionRelativeGrounds($earlDss: earlierDesignDetails)
+	DSInvalidityData(isDSInvalidity)
+	eval($earlDss != null && $earlDss.size() >0)
+then	
+	HashMap co = $customObjects;
+	String section = co.get("sectionName");	
+	if(section != null && section.equals("sec_everyPerson")){
+		for(DesignApplication dsApp: $earlDss){
+			if(dsApp.getDesignDetails() != null && dsApp.getDesignDetails().size() >0 && dsApp.getDesignDetails().get(0) != null){
+				Design d = dsApp.getDesignDetails().get(0);
+				if(d.getSelected() != null && d.getSelected()==true){
+					 return;
+				}
+			}
+		}
+		addError(null,
+				"Design.AtLeast.One.Design.Selected",
+				"You have to select at least one earlier design",
+				"formMessages",
+				$errorList);	
+	}
+end
+
+rule "BR2001 (Category mandatory)"
+salience 1000
+when
+	$errorList : ErrorList()
+	$Section : Section( $fields : field )
+	Field( id == "relativeGrounds.earlierEntitlementRightInf.earlierEntitlementRightDetails.categoryTradeMark", $fieldUsable : usable, $fieldRequired : required) from $fields	
+	eval($fieldUsable == true && $fieldRequired == true)
+	$oRG: OppositionRelativeGrounds()
+	DSInvalidityData(isDSInvalidity == false || (isDSInvalidity && activateForDSInvalidity))
+then		
+	if ( $oRG.getEarlierTradeMarkCategory()==null || StringUtils.isEmpty($oRG.getEarlierTradeMarkCategory())  || ",".equalsIgnoreCase($oRG.getEarlierTradeMarkCategory())){	
+		addError("relativeGrounds.earlierEntitlementRightInf.earlierEntitlementRightDetails.categoryTradeMark", "BR2001.category.empty", "This field is mandatory", null, $errorList);
+	}	
+end
+
+rule "BR2001 (DateOfFame mandatory)"
+salience 1000
+when
+	$errorList : ErrorList()
+	RulesInformation($customObjects : customObjects)
+	$Section : Section( $fields : field )
+	Field( id == "relativeGrounds.earlierEntitlementRightInf.earlierEntitlementRightDetails.dateOfFame", $fieldUsable : usable, $fieldRequired : required) from $fields	
+	eval($fieldUsable == true && $fieldRequired == true)
+	$oRG: OppositionRelativeGrounds(dateOfFame == null)		
+then	
+	
+	addError("relativeGrounds.earlierEntitlementRightInf.earlierEntitlementRightDetails.dateOfFame", "BRMandatory", "This field is mandatory", null, $errorList);
+	
+end
+
+rule "BR2509 (applicationDate mandatory)"
+salience 1000
+when
+	$errorList : ErrorList()
+	$Section : Section( $fields : field )
+	Field( id == "relativeGrounds.earlierEntitlementRightInf.earlierEntitlementRightDetails.earlierTradeMarkDetails.applicationDate", $fieldUsable : usable, $fieldRequired : required) from $fields	
+	eval($fieldUsable == true && $fieldRequired == true)
+	$oRG: OppositionRelativeGrounds($earlierRightType: earlierEntitlementRightType)
+    eval($earlierRightType == null || !$earlierRightType.toString().equals("earlierTradeMark"))
+	DSInvalidityData(isDSInvalidity == false || (isDSInvalidity && activateForDSInvalidity))
+then
+	
+		if ( ($oRG.getEarlierTradeMarkDetails()==null) || ( $oRG.getEarlierTradeMarkDetails().getApplicationDate()==null)){	
+			addError("relativeGrounds.earlierEntitlementRightInf.earlierEntitlementRightDetails.earlierTradeMarkDetails.applicationDate", "BR2509.applicationDate.priorityDate.empty", "This field is mandatory", null, $errorList);
+		}	
+	
+end
+
+
+rule "BR2002 (application date mandatory - earlier trade mark)"
+salience 1000
+when
+	$errorList : ErrorList()
+	$Section : Section( $fields : field )
+	Field( id == "relativeGrounds.earlierEntitlementRightInf.earlierEntitlementRightDetails.earlierTradeMarkDetails.applicationDate", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	$oRG: OppositionRelativeGrounds(earlierEntitlementRightType != null && earlierEntitlementRightType.toString().equals("earlierTradeMark") && legalActVersion != null && legalActVersion.getArticles() != null && legalActVersion.getArticles().size() >0,
+	$grounds: legalActVersion.getArticles())
+	exists LawArticle("relativeGround.12.1.1" == reference || "relativeGround.12.1.2" == reference || "invalidityGround.12.1.1" == reference || "invalidityGround.12.1.2" == reference) from $grounds
+	exists LawArticle("relativeGround.12.1.1" != reference && "relativeGround.12.1.2" != reference && "invalidityGround.12.1.1" != reference && "invalidityGround.12.1.2" != reference &&
+	"invalidityGround.12.2.9" != reference && "relativeGround.12.2.9" != reference) from $grounds
+	eval($fieldUsable == true)
+	DSInvalidityData(isDSInvalidity == false || (isDSInvalidity && activateForDSInvalidity))
+then
+	if ( ($oRG.getEarlierTradeMarkDetails()==null) || ( $oRG.getEarlierTradeMarkDetails().getApplicationDate()==null)){
+        addError("relativeGrounds.earlierEntitlementRightInf.earlierEntitlementRightDetails.earlierTradeMarkDetails.applicationDate", "BR2509.applicationDate.priorityDate.empty", "This field is mandatory", null, $errorList);
+    }
+
+end
+
+
+rule "BR2002 (application number mandatory)"
+salience 1000
+when
+	$errorList : ErrorList()
+	$Section : Section( $fields : field )
+	Field( id == "relativeGrounds.earlierEntitlementRightInf.earlierEntitlementRightDetails.earlierTradeMarkDetails.applicationNumber", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	$oRG: OppositionRelativeGrounds($earlierRightType: earlierEntitlementRightType)
+    eval($earlierRightType == null || !$earlierRightType.toString().equals("earlierTradeMark"))
+	eval($fieldUsable == true && $fieldRequired == true)
+	DSInvalidityData(isDSInvalidity == false || (isDSInvalidity && activateForDSInvalidity))
+then
+	if (($oRG.getEarlierTradeMarkDetails()==null) || ($oRG.getEarlierTradeMarkDetails().getApplicationNumber()==null) || (StringUtils.isEmpty($oRG.getEarlierTradeMarkDetails().getApplicationNumber()) ) ){	
+		addError("relativeGrounds.earlierEntitlementRightInf.earlierEntitlementRightDetails.earlierTradeMarkDetails.applicationNumber", "BR2002.applicationNumber.empty", "This field is mandatory", null, $errorList);
+	}
+	
+end
+
+rule "BR2002 (application number mandatory - earlier trade mark)"
+salience 1000
+when
+	$errorList : ErrorList()
+	$Section : Section( $fields : field )
+	Field( id == "relativeGrounds.earlierEntitlementRightInf.earlierEntitlementRightDetails.earlierTradeMarkDetails.applicationNumber", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	$oRG: OppositionRelativeGrounds(earlierEntitlementRightType != null && earlierEntitlementRightType.toString().equals("earlierTradeMark") && legalActVersion != null && legalActVersion.getArticles() != null && legalActVersion.getArticles().size() >0,
+	$grounds: legalActVersion.getArticles())
+	exists LawArticle("relativeGround.12.1.1" == reference || "relativeGround.12.1.2" == reference || "invalidityGround.12.1.1" == reference || "invalidityGround.12.1.2" == reference) from $grounds
+	exists LawArticle("relativeGround.12.1.1" != reference && "relativeGround.12.1.2" != reference && "invalidityGround.12.1.1" != reference && "invalidityGround.12.1.2" != reference &&
+	"invalidityGround.12.2.9" != reference && "relativeGround.12.2.9" != reference) from $grounds
+	eval($fieldUsable == true)
+	DSInvalidityData(isDSInvalidity == false || (isDSInvalidity && activateForDSInvalidity))
+then
+	if (($oRG.getEarlierTradeMarkDetails()==null) || ($oRG.getEarlierTradeMarkDetails().getApplicationNumber()==null) || (StringUtils.isEmpty($oRG.getEarlierTradeMarkDetails().getApplicationNumber()) ) ){
+		addError("relativeGrounds.earlierEntitlementRightInf.earlierEntitlementRightDetails.earlierTradeMarkDetails.applicationNumber", "BR2002.applicationNumber.empty", "This field is mandatory", null, $errorList);
+	}
+
+end
+
+
+rule "BR2013 (Denomination of earlier right mandatory)"
+salience 1000
+when
+	$errorList : ErrorList()
+	$Section : Section( $fields : field )
+	Field( id == "relativeGrounds.earlierEntitlementRightInf.earlierEntitlementRightDetails.earlierTradeMarkDetails.applicationRepresentation", $ARfieldUsable : usable) from $fields
+	Field( id == "relativeGrounds.earlierEntitlementRightInf.earlierEntitlementRightDetails.earlierTradeMarkDetails.representationAttachment", $RAfieldUsable : usable) from $fields	
+	eval($ARfieldUsable == true && $RAfieldUsable == true)
+	$oRG: OppositionRelativeGrounds()	
+	DSInvalidityData(isDSInvalidity == false || (isDSInvalidity && activateForDSInvalidity))
+then	
+	boolean wordMissing = ($oRG.getEarlierTradeMarkDetails()==null) || ($oRG.getEarlierTradeMarkDetails().getWordSpecifications()==null) || ($oRG.getEarlierTradeMarkDetails().getWordSpecifications().size() == 0) || StringUtils.isEmpty($oRG.getEarlierTradeMarkDetails().getWordSpecifications().get(0).getWordElements());
+	boolean attachMissing = ($oRG.getEarlierTradeMarkDetails()==null) || ($oRG.getEarlierTradeMarkDetails().getImageSpecifications()==null) || ($oRG.getEarlierTradeMarkDetails().getImageSpecifications().size() == 0);
+			
+	if (wordMissing && attachMissing){	
+		if($ARfieldUsable){
+			addError("relativeGrounds.earlierEntitlementRightInf.earlierEntitlementRightDetails.earlierTradeMarkDetails.applicationRepresentation", "BR2013.denominationOfEarlierRight.empty", "It is mandatory to add image or word representation", null, $errorList);
+		}
+		if($RAfieldUsable) {
+			addError("relativeGrounds.earlierEntitlementRightInf.earlierEntitlementRightDetails.earlierTradeMarkDetails.representationAttachment", "BR2013.denominationOfEarlierRight.empty", "It is mandatory to add image or word representation", null, $errorList);
+		}
+	}
+end
+
+rule "BR2017 (Aplicant/Holder name mandatory)"
+salience 1000
+when
+	$errorList : ErrorList()
+	$Section : Section( $fields : field )
+	RulesInformation($customObjects : customObjects)
+	Field( id == "relativeGrounds.earlierEntitlementRightInf.earlierEntitlementRightDetails.applicantHolder.name", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields	
+	eval($fieldUsable == true && $fieldRequired == true)
+	$oRG: OppositionRelativeGrounds()	
+	DSInvalidityData(isDSInvalidity == false || (isDSInvalidity && activateForDSInvalidity))
+then
+    HashMap co = $customObjects;
+	Boolean imported = co.get("imported");
+
+	if(!imported) {
+        if (($oRG.getEarlierTradeMarkDetails()==null) || ($oRG.getEarlierTradeMarkDetails().getApplicants()==null|| $oRG.getEarlierTradeMarkDetails().getApplicants().size() == 0 ) || (StringUtils.isEmpty($oRG.getEarlierTradeMarkDetails().getApplicants().get(0).getName().getOrganizationName()) ) ){
+            addError("relativeGrounds.earlierEntitlementRightInf.earlierEntitlementRightDetails.applicantHolder.name", "BR2017.applicantHolder.empty", "This field is mandatory", null, $errorList);
+        }
+	}
+end
+
+rule "BR2019 (city mandatory)"
+salience 1000
+when
+	$errorList : ErrorList()
+	RulesInformation($customObjects : customObjects)
+	Section( $fields : field )
+	Field( id == "relativeGrounds.earlierEntitlementRightInf.earlierEntitlementRightDetails.applicantHolder.address.city", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	$oRG: OppositionRelativeGrounds() 
+then
+	HashMap co = $customObjects;
+	Boolean imported = co.get("imported");
+	
+	if(!imported) {
+		if (($oRG.getEarlierTradeMarkDetails()==null) || ($oRG.getEarlierTradeMarkDetails().getApplicants()==null || $oRG.getEarlierTradeMarkDetails().getApplicants().size() == 0 ) || ($oRG.getEarlierTradeMarkDetails().getApplicants().get(0).getAddresses()==null) || (StringUtils.isEmpty($oRG.getEarlierTradeMarkDetails().getApplicants().get(0).getAddresses().get(0).getCity()) ) ){
+			addError("relativeGrounds.earlierEntitlementRightInf.earlierEntitlementRightDetails.applicantHolder.address.city", "BR818.applicant.city.empty", "This field is mandatory", null, $errorList);
+		}
+	}
+end
+
+rule "BR2019 (country mandatory)"
+salience 1000
+when
+	$errorList : ErrorList()
+	RulesInformation($customObjects : customObjects)
+	Section( $fields : field )
+	Field( id == "relativeGrounds.earlierEntitlementRightInf.earlierEntitlementRightDetails.applicantHolder.address.country", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	$oRG: OppositionRelativeGrounds()
+	DSInvalidityData(isDSInvalidity == false || (isDSInvalidity && activateForDSInvalidity))
+then
+	HashMap co = $customObjects;
+	Boolean imported = co.get("imported");
+	
+	if(!imported) {
+		if (($oRG.getEarlierTradeMarkDetails()==null) || ($oRG.getEarlierTradeMarkDetails().getApplicants()==null|| $oRG.getEarlierTradeMarkDetails().getApplicants().size() == 0 ) || ($oRG.getEarlierTradeMarkDetails().getApplicants().get(0).getAddresses()==null) || (StringUtils.isEmpty($oRG.getEarlierTradeMarkDetails().getApplicants().get(0).getAddresses().get(0).getCountry()) ) ){
+			addError("relativeGrounds.earlierEntitlementRightInf.earlierEntitlementRightDetails.applicantHolder.address.country", "BR820.applicant.country.empty", "This field is mandatory", null, $errorList);
+		}
+	}
+end
+
+rule "BR2019 (postal code mandatory)"
+salience 1000
+when
+	$errorList : ErrorList()
+	RulesInformation($customObjects : customObjects)
+	Section( $fields : field )
+	Field( id == "relativeGrounds.earlierEntitlementRightInf.earlierEntitlementRightDetails.applicantHolder.address.postalCode", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	$oRG: OppositionRelativeGrounds()  
+then
+	HashMap co = $customObjects;
+	Boolean imported = co.get("imported");
+	
+	if(!imported) {
+		if (($oRG.getEarlierTradeMarkDetails()==null) || ($oRG.getEarlierTradeMarkDetails().getApplicants()==null|| $oRG.getEarlierTradeMarkDetails().getApplicants().size() == 0 ) || ($oRG.getEarlierTradeMarkDetails().getApplicants().get(0).getAddresses()==null) || (StringUtils.isEmpty($oRG.getEarlierTradeMarkDetails().getApplicants().get(0).getAddresses().get(0).getPostCode()) ) ){
+			addError("relativeGrounds.earlierEntitlementRightInf.earlierEntitlementRightDetails.applicantHolder.address.postalCode", "BR817.applicant.postalCode.empty", "This field is mandatory", null, $errorList);
+		}
+	}
+end
+
+rule "BR2019 (street mandatory)"
+salience 1000
+when
+	$errorList : ErrorList()
+	RulesInformation($customObjects : customObjects)
+	Section( $fields : field )
+	Field( id == "relativeGrounds.earlierEntitlementRightInf.earlierEntitlementRightDetails.applicantHolder.address.street", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	$oRG: OppositionRelativeGrounds()
+then
+	HashMap co = $customObjects;
+	Boolean imported = co.get("imported");
+	
+	if(!imported) {
+		if (($oRG.getEarlierTradeMarkDetails()==null) || ($oRG.getEarlierTradeMarkDetails().getApplicants()==null|| $oRG.getEarlierTradeMarkDetails().getApplicants().size() == 0 ) || ($oRG.getEarlierTradeMarkDetails().getApplicants().get(0).getAddresses()==null) || (StringUtils.isEmpty($oRG.getEarlierTradeMarkDetails().getApplicants().get(0).getAddresses().get(0).getStreet()) ) ){
+			addError("relativeGrounds.earlierEntitlementRightInf.earlierEntitlementRightDetails.applicantHolder.address.street", "BR816.applicant.street.empty", "This field is mandatory", null, $errorList);
+		}
+	}
+end
+
+rule "BR2019 (house number mandatory)"
+salience 1000
+when
+	$errorList : ErrorList()
+	RulesInformation($customObjects : customObjects)
+	Section( $fields : field )
+	Field( id == "relativeGrounds.earlierEntitlementRightInf.earlierEntitlementRightDetails.applicantHolder.address.houseNumber", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	$oRG: OppositionRelativeGrounds()
+then
+	HashMap co = $customObjects;
+	Boolean imported = co.get("imported");
+	
+	if(!imported) {
+		if (($oRG.getEarlierTradeMarkDetails()==null) || ($oRG.getEarlierTradeMarkDetails().getApplicants()==null|| $oRG.getEarlierTradeMarkDetails().getApplicants().size() == 0 ) || ($oRG.getEarlierTradeMarkDetails().getApplicants().get(0).getAddresses()==null) || (StringUtils.isEmpty($oRG.getEarlierTradeMarkDetails().getApplicants().get(0).getAddresses().get(0).getStreetNumber()) ) ){
+			addError("relativeGrounds.earlierEntitlementRightInf.earlierEntitlementRightDetails.applicantHolder.address.houseNumber", "BR816.applicant.houseNumber.empty", "This field is mandatory", null, $errorList);
+		}
+	}
+end
+
+rule "BR2026 (RELATIVE Explanations of grounds mandatory - text or file)"
+salience 1000
+when
+	$errorList : ErrorList()
+	$Section : Section( $fields : field )
+	Field( id == "relativeGrounds.earlierEntitlementRightInf.groundsRelativeForOpposition.explanations", $fieldUsableText : usable) from $fields	
+	Field(id=="relativeGrounds.earlierEntitlementRightInf.groundsRelativeForOpposition.gExplanationGroundsMarks", $fieldUsableDoc : usable) from $fields
+	eval($fieldUsableText == true && $fieldUsableDoc == true)
+	$oRG: OppositionRelativeGrounds($explDocs: explanationsDocuments, $explText: explanationText )		
+then	
+		
+	if (($explText==null || StringUtils.isEmpty($explText)) && ($explDocs == null || $explDocs.size()<1) ){	
+		addError(null, "BR2026.explanationsOfGrounds.empty", "This field is mandatory", "formMessages", $errorList);
+		
+	}
+end
+
+
+rule "BR2023 (At least one Goods & Services mandatory)"
+salience 1000
+when
+	$errorList : ErrorList()
+	$Section : Section( $fields : field )
+	Field( id == "relativeGrounds.earlierEntitlementRightInf.earlierEntitlementRightDetails.earlierTradeMarkDetails.goodsAndServices", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields	
+	eval($fieldUsable == true && $fieldRequired == true)	
+	$oRG: OppositionRelativeGrounds()		
+	DSInvalidityData(isDSInvalidity == false || (isDSInvalidity && activateForDSInvalidity))
+then	
+	if ( ($oRG.getEarlierTradeMarkDetails()==null) || ($oRG.getEarlierTradeMarkDetails().getLimitedClassDescriptions()==null) || ($oRG.getEarlierTradeMarkDetails().getLimitedClassDescriptions().size()==0)){	
+		addError(null, "BR2023.goodsAndServices.empty", "This field is mandatory", "formMessages", $errorList);
+	}
+end
+
+
+rule "BR2025 (At least one Grounds for opposition mandatory)"
+salience 1000
+when
+	$errorList : ErrorList()
+	$Section : Section( $fields : field )
+	Field( id == "relativeGrounds.earlierEntitlementRightInf.groundsRelativeForOpposition.relativeGroundText", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields	
+	eval($fieldUsable == true && $fieldRequired == true)
+	$oRG: OppositionRelativeGrounds()		
+then	
+	if (($oRG.getLegalActVersion().getArticles()==null || $oRG.getLegalActVersion().getArticles().size() == 0)){
+		addError("relativeGrounds.earlierEntitlementRightInf.groundsRelativeForOpposition.relativeGroundText", "BR2025.groundsForOpposition.empty", "This field is mandatory", null, $errorList);
+	}
+end
+
+
+
+
+rule "BR2061 (Registration number Mandatory)"
+salience 1000
+when
+	$errorList : ErrorList()
+	RulesInformation($customObjects : customObjects)
+	$Section : Section( $fields : field )
+	Field( id == "relativeGrounds.earlierEntitlementRightInf.earlierEntitlementRightDetails.earlierTradeMarkDetails.registrationNumber", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields	
+	eval($fieldUsable == true && $fieldRequired == true)
+	$oRG: OppositionRelativeGrounds()		
+then	
+	HashMap co = $customObjects;
+	Boolean imported = co.get("imported");
+	if((imported == false && $oRG.getEarlierEntitlementRightType().toString().equals("agentApplied")) || !$oRG.getEarlierEntitlementRightType().toString().equals("agentApplied")){
+		if (($oRG.getEarlierTradeMarkDetails()==null) || ($oRG.getEarlierTradeMarkDetails().getRegistrationNumber()==null) || (StringUtils.isEmpty($oRG.getEarlierTradeMarkDetails().getRegistrationNumber()))){	
+			addError("relativeGrounds.earlierEntitlementRightInf.earlierEntitlementRightDetails.earlierTradeMarkDetails.registrationNumber", "BR2061.registrationNumber.empty", "This field is mandatory", null, $errorList);
+		}
+	}
+end
+
+rule "BR2066 (Country mandatory)"
+salience 1000
+when
+	$errorList : ErrorList()
+	$Section : Section( $fields : field )
+	Field( id == "relativeGrounds.earlierEntitlementRightInf.earlierEntitlementRightDetails.country", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields	
+	eval($fieldUsable == true && $fieldRequired == true)
+	$oRG: OppositionRelativeGrounds()		
+then	
+	if (($oRG.getRegistrationCountry()==null) || (StringUtils.isEmpty($oRG.getRegistrationCountry()))){	
+		addError("relativeGrounds.earlierEntitlementRightInf.earlierEntitlementRightDetails.country", "BRMandatory", "This field is mandatory", null, $errorList);
+	}
+end
+
+rule "BR2083 (Type of right mandatory)"
+salience 1000
+when
+	$errorList : ErrorList()
+	$Section : Section( $fields : field )
+	Field( id == "relativeGrounds.earlierEntitlementRightInf.earlierEntitlementRightDetails.typeRight", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields	
+	eval($fieldUsable == true && $fieldRequired == true)
+	$oRG: OppositionRelativeGrounds()		
+then	
+	if ( ($oRG.getTypeRight()==null) || (StringUtils.isEmpty($oRG.getTypeRight()) ) ){		
+		addError("relativeGrounds.earlierEntitlementRightInf.earlierEntitlementRightDetails.typeRight", "BR2083.typeOfRight.empty", "This field is mandatory", null, $errorList);
+	}
+end
+
+rule "BR2084 (Details on type of right mandatory)"
+salience 1000
+when
+	$errorList : ErrorList()
+	$Section : Section( $fields : field )
+	Field( id == "relativeGrounds.earlierEntitlementRightInf.earlierEntitlementRightDetails.typeRightDetails", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields	
+	eval($fieldUsable == true)
+	$oRG: OppositionRelativeGrounds()		
+then	
+	if (($oRG.getEarlierEntitlementRightType().toString().equalsIgnoreCase(EarlierEntitlementRightKind.WELL_KNOW.toString())) && StringUtils.isEmpty($oRG.getTypeRightDetails()) ){		
+		addError("relativeGrounds.earlierEntitlementRightInf.earlierEntitlementRightDetails.typeRightDetails", "BR2084.detailsOnTypeOfRight.empty", "This field is mandatory", null, $errorList);
+	}
+end
+
+
+rule "BR2104 (Registration Date mandatory)"
+salience 1000
+when
+	$errorList : ErrorList()
+	$Section : Section( $fields : field )
+	Field( id == "relativeGrounds.earlierEntitlementRightInf.earlierEntitlementRightDetails.earlierTradeMarkDetails.registrationDate", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields	
+	eval($fieldUsable == true && $fieldRequired == true)
+	$oRG: OppositionRelativeGrounds()		
+	DSInvalidityData(isDSInvalidity == false || (isDSInvalidity && activateForDSInvalidity))
+then	
+	if ( ($oRG.getEarlierTradeMarkDetails()==null) || ($oRG.getEarlierTradeMarkDetails().getRegistrationDate()==null)){	
+		addError("relativeGrounds.earlierEntitlementRightInf.earlierEntitlementRightDetails.earlierTradeMarkDetails.registrationDate", "BR2104.registrationDate.empty", "This field is mandatory", null, $errorList);
+	}
+end
+
+rule "BR2105 (Priority Date mandatory)"
+salience 1000
+when
+	$errorList : ErrorList()
+	$Section : Section( $fields : field )
+	Field( id == "relativeGrounds.earlierEntitlementRightInf.earlierEntitlementRightDetails.earlierTradeMarkDetails.priorityDate", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields	
+	eval($fieldUsable == true && $fieldRequired == true)
+	$oRG: OppositionRelativeGrounds()		
+then	
+	if ( ($oRG.getEarlierTradeMarkDetails()==null) || (($oRG.getEarlierTradeMarkDetails().getPriorities()==null) || ($oRG.getEarlierTradeMarkDetails().getPriorities().size()==0) || ($oRG.getEarlierTradeMarkDetails().getPriorities().get(0)==null) || ($oRG.getEarlierTradeMarkDetails().getPriorities().get(0).getFilingDate()==null))){	
+		addError("relativeGrounds.earlierEntitlementRightInf.earlierEntitlementRightDetails.earlierTradeMarkDetails.priorityDate", "BR2105.priorityDate.empty", "This field is mandatory", null, $errorList);
+	}
+end
+
+rule "BR2106 (Type of right mandatory)"
+salience 1000
+when
+	$errorList : ErrorList()
+	$Section : Section( $fields : field )
+	Field( id == "relativeGrounds.earlierEntitlementRightInf.earlierEntitlementRightDetails.typeRight", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields	
+	eval($fieldUsable == true && $fieldRequired == true)
+	$oRG: OppositionRelativeGrounds()		
+then	
+	if ($oRG.getTypeRight()==null){	
+		addError("relativeGrounds.earlierEntitlementRightInf.earlierEntitlementRightDetails.typeRight", "BR2106.typeRight.empty", "This field is mandatory", null, $errorList);
+	}
+end
+
+rule "BR2026 (ABSOLUTE Explanations of grounds mandatory - text or file)"
+salience 1000
+when
+	$errorList : ErrorList()
+	$Section : Section( $fields : field )
+	Field( id == "absoluteGrounds.explanations", $fieldUsableText : usable) from $fields	
+	Field(id=="absoluteGrounds.gExplanationGroundsMarks", $fieldUsableDoc : usable) from $fields
+	eval($fieldUsableText == true && $fieldUsableDoc == true)
+	$oRG: OppositionAbsoluteGrounds($explDocs: explanationsDocuments, $explText: explanationText )		
+then	
+		
+	if (($explText==null || StringUtils.isEmpty($explText)) && ($explDocs == null || $explDocs.size()<1) ){	
+		addError(null, "BR2026.explanationsOfGrounds.empty", "This field is mandatory", "formMessages", $errorList);
+		
+	}
+end
+
+rule "BR122 (At least one ground)"
+salience 1000
+when
+	$errorList : ErrorList()
+	$Section : Section( $fields : field )
+	//Field( id == "absoluteGrounds.explanations", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields	
+	//eval($fieldUsable == true && $fieldRequired == true)
+	$oAG: OppositionAbsoluteGrounds()		
+then	
+	if (($oAG.getLegalActVersion().getArticles()==null || $oAG.getLegalActVersion().getArticles().size() == 0)){
+		addError("absoluteGrounds.absoluteGroundText", "BR122.absoluteGroundsForOpposition.empty", "This field is mandatory", null, $errorList);
+	}
+end
+
+rule "BR319 (At least one ground)"
+salience 1000
+when
+	$errorList : ErrorList()
+	$Section : Section( $fields : field )
+	//Field( id == "absoluteGrounds.explanations", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields	
+	//eval($fieldUsable == true && $fieldRequired == true)
+	$oRvG: OppositionRevocationGrounds()		
+then	
+	if (($oRvG.getLegalActVersion().getArticles()==null || $oRvG.getLegalActVersion().getArticles().size() == 0)){
+		addError("revocationGrounds.revocationGroundText", "BR319.revocationGrounds.revocationGroundText.empty", "This field is mandatory", null, $errorList);
+	}
+end
+
+rule "BR319 (first two grounds mandatory in earlier trademark)"
+salience 1000
+when
+	$errorList : ErrorList()
+	RulesInformation($customObjects : customObjects)
+	$Section : Section( $fields : field )
+	Field( id == "relativeGrounds.earlierEntitlementRightInf.groundsRelativeForOpposition.relativeGroundText", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields	
+	eval($fieldUsable == true && $fieldRequired == true)
+	$oRvG: OppositionRelativeGrounds()		
+then	
+	HashMap co = $customObjects;
+    String eservice = co.get("eservice");
+    boolean found1 = false;
+	boolean found2 = false;
+	if ("tm-opposition".equals(eservice) && $oRvG.getEarlierEntitlementRightType().toString().equals("earlierTradeMark") && ($oRvG.getLegalActVersion().getArticles()!=null)){
+		
+		for(LawArticle art:$oRvG.getLegalActVersion().getArticles()){
+			if(art.getReference() != null && art.getReference().equals("relativeGround.12.1.1")){
+				found1 = true;
+			}
+			if(art.getReference() != null && art.getReference().equals("relativeGround.12.1.2")){
+				found2 = true;
+			}
+			
+		}
+		if(!(found1 || found2)){
+			addError("relativeGrounds.earlierEntitlementRightInf.groundsRelativeForOpposition.relativeGroundText", "BR319.groundsForOpposition.earlierTradeMark.firstTwo", "It is mandatory to select at least one of the first two legal articles", null, $errorList);
+		}
+	} else if("tm-invalidity".equals(eservice) && ($oRvG.getEarlierEntitlementRightType().toString().equals("earlierTradeMark")||$oRvG.getEarlierEntitlementRightType().toString().equals("wellKnow")) && ($oRvG.getLegalActVersion().getArticles()!=null)){
+		boolean found5Only = true;
+		for(LawArticle art:$oRvG.getLegalActVersion().getArticles()){
+			if(art.getReference() != null && art.getReference().equals("invalidityGround.12.1.1")){
+				found1 = true;
+			}
+			if(art.getReference() != null && art.getReference().equals("invalidityGround.12.1.2")){
+				found2 = true;
+			}
+			if(art.getReference() != null && !art.getReference().equals("invalidityGround.12.5")){
+				found5Only = false;
+			}
+			
+		}
+		if(!(found1 || found2) && !found5Only){
+			addError("relativeGrounds.earlierEntitlementRightInf.groundsRelativeForOpposition.relativeGroundText", "BR319.groundsForOpposition.earlierTradeMark.firstTwo", "It is mandatory to select at least one of the first two legal articles", null, $errorList);
+		}
+	}
+end
+
+rule "BR2026 (REVOCATION Explanations of grounds mandatory - text or file)"
+salience 1000
+when
+	$errorList : ErrorList()
+	$Section : Section( $fields : field )
+	Field( id == "revocationGrounds.explanations", $fieldUsableText : usable) from $fields	
+	Field(id=="revocationGrounds.gExplanationGroundsMarks", $fieldUsableDoc : usable) from $fields
+	eval($fieldUsableText == true && $fieldUsableDoc == true)
+	$oRG: OppositionRevocationGrounds($explDocs: explanationsDocuments, $explText: explanationText )		
+then	
+		
+	if (($explText==null || StringUtils.isEmpty($explText)) && ($explDocs == null || $explDocs.size()<1) ){	
+		addError(null, "BR2026.explanationsOfGrounds.empty", "This field is mandatory", "formMessages", $errorList);		
+	}
+end
+
+rule "BR326 (License contract details mandatory)"
+salience 1000
+when
+	$errorList : ErrorList()
+	$Section : Section( $fields : field )
+	Field( id == "relativeGrounds.earlierEntitlementRightInf.entitlementOpponent.entitlement", $oppoUsable : usable, $oppoRequired : required) from $fields	
+	Field( id == "relativeGrounds.earlierEntitlementRightInf.entitlementOpponent.details", $detUsable : usable, $detRequired : required) from $fields	
+	eval($oppoUsable == true &&  $detUsable == true && $detRequired == true)
+	$oRvG: OppositionRelativeGrounds()		
+then	
+	if (!StringUtils.isEmpty($oRvG.getOpponentEntitlementKind()) && $oRvG.getOpponentEntitlementKind().equals("Licensee") && StringUtils.isEmpty($oRvG.getOpponentEntitlementText())){	
+		addError("relativeGrounds.earlierEntitlementRightInf.entitlementOpponent.details", "BR326.entitlementOpponent.details.empty", "This field is mandatory", null, $errorList);
+	}
+end
+
+rule "BR326 (Registration number warning reputation, agentApplied)"
+salience 1000
+when
+	$errorList : ErrorList()
+	RulesInformation($customObjects : customObjects)	
+	$Section : Section( $fields : field )
+	Field( id == "relativeGrounds.earlierEntitlementRightInf.earlierEntitlementRightDetails.earlierTradeMarkDetails.registrationNumber", $fieldUsable : usable, $fieldRequired : required) from $fields	
+	eval($fieldUsable == true)
+	$oRG: OppositionRelativeGrounds()		
+then	
+	HashMap co = $customObjects;
+	Boolean imported = co.get("importAction");
+	if (imported == true && ("BG".equals($oRG.getEarlierTradeMarkDetails().getRegistrationOffice())) && ($oRG.getEarlierEntitlementRightType().toString().equals("reputation") || $oRG.getEarlierEntitlementRightType().toString().equals("agentApplied")) && StringUtils.isEmpty($oRG.getEarlierTradeMarkDetails().getRegistrationNumber())){	
+		addError(null, "BR326.registrationNumber.warning", "In order for this basis to be valid the trademark must be registered", "formMessages", $errorList);
+	}
+end
+
+
+rule "BR326 Earlier right type right description mandatory"
+salience 1000
+when
+	$errorList : ErrorList()
+	$Section : Section( $fields : field )
+	Field( id == "relativeGrounds.earlierEntitlementRightInf.earlierEntitlementRightDetails.typeRightDetails", $oppoUsable : usable, $oppoRequired : required) from $fields
+	eval($oppoUsable == true &&  $oppoRequired == true )
+	$oRvG: OppositionRelativeGrounds(typeRightDetails == null || StringUtils.isEmpty(typeRightDetails))
+then
+	addError("relativeGrounds.earlierEntitlementRightInf.earlierEntitlementRightDetails.typeRightDetails", "BRMandatory", "This field is mandatory", null, $errorList);
+end
+
+rule "BR326 Earlier right details mandatory"
+salience 1000
+when
+	$errorList : ErrorList()
+	$Section : Section( $fields : field )
+	Field( id == "relativeGrounds.earlierEntitlementRightInf.earlierEntitlementRightDetails.earlierRightDescription", $oppoUsable : usable, $oppoRequired : required) from $fields
+	eval($oppoUsable == true &&  $oppoRequired == true)
+	$oRvG: OppositionRelativeGrounds(earlierRightDescription == null || StringUtils.isEmpty(earlierRightDescription))
+then
+	addError("relativeGrounds.earlierEntitlementRightInf.earlierEntitlementRightDetails.earlierRightDescription", "BRMandatory", "This field is mandatory", null, $errorList);
+end

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:sec="http://www.springframework.org/schema/security"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+				        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+
+
+	<!-- AUTHENTICATION CONFIGURATION -->
+	<sec:authentication-manager alias="spDelegateAuthenticationManager">
+		<sec:authentication-provider ref="spDelegateAuthenticationProvider" />
+	</sec:authentication-manager>
+
+	<bean id="spDelegateAuthenticationProvider"
+		class="eu.ohim.sp.integration.adapter.openam.authentication.OpenAMAuthenticationProvider">
+	</bean>
+
+	<bean id="spDelegateAuthenticationEntryPoint"
+		class="eu.ohim.sp.integration.adapter.openam.authentication.OpenAMAuthenticationEntryPoint">
+	</bean>
+
+
+	<!-- FILTERS CONFIGURATION -->
+	<bean id="spDelegateAuthenticationFilter"
+		class="eu.ohim.sp.integration.adapter.openam.authentication.filter.OpenAMAuthenticationFilter">
+		<constructor-arg index="0"
+			value="/j_spring_openam_security_check" />
+		<property name="authenticationManager" ref="spDelegateAuthenticationManager" />
+	</bean>
+
+	<!-- SINGLE SIGN OUT FILTER -->
+	<!-- <bean id="spDelegateSingleSignOutFilter" -->
+	<!-- class="eu.ohim.sp.integration.adapter.openam.authentication.filter.OpenAMSingleSignOutFilter"> -->
+	<!-- </bean> -->
+
+
+	<!-- HANDLER CONFIGURATION -->
+	<bean id="spDelegateLogoutHandler"
+		class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler" />
+
+	<bean id="spDelegateLogoutSuccessHandler"
+		class="org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler">
+	</bean>
+	
+	<bean id="spDelegateAccessDeniedHandler"
+		class="org.springframework.security.web.access.AccessDeniedHandlerImpl" />
+
+</beans>

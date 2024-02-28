@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="unqualified"
+	version="3.2"
+	targetNamespace="http://ohim.eu/sp/services/resource/v3"
+	xmlns:tns="http://ohim.eu/sp/services/resource/v3"
+	xmlns:common="http://ohim.eu/sp/domain/common/v3"		
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<xs:import namespace="http://ohim.eu/sp/domain/common/v3" schemaLocation="../domain/CommonDomain.xsd" />
+	
+	<xs:element name="getMessage" type="xs:string" />
+	<xs:element name="getMessageResponse" type="xs:string" />
+	<xs:element name="resourceFault" type="tns:ResourceFault" />
+	
+	<xs:complexType name="ResourceFault">
+		<xs:sequence>
+			<xs:element name="return" type="common:Fault" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>		
+
+</xs:schema>

@@ -1,0 +1,27 @@
+<field id="attachmentType">
+    <visible>true</visible>
+    <usable>true</usable>
+</field>
+
+<field id="representativeAttachment">
+    <visible>true</visible>
+    <usable>true</usable>
+</field>
+
+<field id="representativeAttachment.description">
+    <visible>true</visible>
+    <usable>true</usable>
+    <required>false</required>
+</field>
+
+<field id="representativeAttachment.attachment">
+    <visible>false</visible>
+    <usable>false</usable>
+    <required>false</required>
+</field>
+
+<field id="representativeAttachment.provided">
+    <visible>true</visible>
+    <usable>true</usable>
+    <required>true</required>
+</field>

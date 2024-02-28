@@ -1,0 +1,267 @@
+package org.domain.rules;
+
+dialect "mvel"
+
+import eu.ohim.sp.core.domain.validation.ErrorCore;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.domain.trademark.TradeMark;
+import eu.ohim.sp.core.domain.trademark.MarkKind;
+import eu.ohim.sp.core.domain.validation.RulesInformation;
+import eu.ohim.sp.core.domain.payment.FeeList;
+import eu.ohim.sp.core.domain.payment.FeeType;
+import eu.ohim.sp.core.domain.payment.Fee;
+import eu.ohim.sp.core.domain.resources.DocumentKind;
+import eu.ohim.sp.core.domain.resources.Document;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.TreeMap;
+import java.util.List;
+import java.util.AbstractMap.SimpleEntry;
+import java.text.DecimalFormat;
+import org.apache.log4j.Logger;
+
+rule "Map creator"
+salience 1100
+no-loop
+    when
+        # This rule has no WHEN. Is always triggered
+    then
+		# Inserts a new TreeMap in the session
+        insert(new TreeMap());
+end
+
+rule "Fees reader"
+salience 1000
+no-loop
+    when
+		FeeList($feeTypeList : feeTypeList)
+        $map : TreeMap()
+        $bF : FeeType("basicFee".equals(nameKey)) from $feeTypeList
+        $cF : FeeType("collectiveFee".equals(nameKey)) from $feeTypeList
+        $eCBF : FeeType("extraClassBasicFee".equals(nameKey)) from $feeTypeList
+        $eCCF : FeeType("extraClassCollectiveFee".equals(nameKey)) from $feeTypeList
+        $nSF : FeeType("nationalSearchFee".equals(nameKey)) from $feeTypeList
+        $mC : FeeType("maxClasses".equals(nameKey)) from $feeTypeList
+        $prF : FeeType("priorityFee".equals(nameKey)) from $feeTypeList
+        $eF : FeeType("exhibitionFee".equals(nameKey)) from $feeTypeList
+        $certF : FeeType("certificateFee".equals(nameKey)) from $feeTypeList
+        $ecCertF : FeeType("extraClassFeeCertificate".equals(nameKey)) from $feeTypeList
+        $certReqFee : FeeType("certificateRequestedFee".equals(nameKey)) from $feeTypeList
+    then
+		# Fills the map with all the fees
+        $map.put("basicFee", $bF);
+        $map.put("collectiveFee", $cF);
+        $map.put("extraClassBasicFee", $eCBF);
+        $map.put("extraClassCollectiveFee", $eCCF);
+        $map.put("maxClasses", $mC);
+        $map.put("priorityFee", $prF);
+        $map.put("exhibitionFee", $eF);
+        $map.put("certificateFee", $certF);
+        $map.put("extraClassFeeCertificate", $ecCertF);
+        $map.put("certificateRequestedFee", $certReqFee);
+		# Updates the information in the session
+        update($map);
+end
+
+rule "Basic Fee"
+salience 100
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        TradeMark(markRightKind != null && markRightKind.value() == "Individual")
+    then
+		//System.out.println("				>>>>>> Inside basic fee rule <<<<<<");
+        # Creates the base fee.
+        Fee fee = new Fee();
+        fee.setFeeType((FeeType) $map.get("basicFee"));
+        fee.setAmount(((FeeType) $map.get("basicFee")).getDefaultValue());
+        fee.setQuantity(1);
+        fee.setUnitAmount(((FeeType) $map.get("basicFee")).getDefaultValue());
+        # Adds the base fee to the result list
+        $results.put("baseFee", fee);
+end
+
+rule "Certificate Requested Fee"
+salience 50
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        SimpleEntry(key == "certificateRequestedIndicator" && value != null && value == true)
+    then
+		//System.out.println("				>>>>>> Inside basic fee rule <<<<<<");
+        # Creates the base fee.
+        Fee fee = new Fee();
+        fee.setFeeType((FeeType) $map.get("certificateRequestedFee"));
+        fee.setAmount(((FeeType) $map.get("certificateRequestedFee")).getDefaultValue());
+        fee.setQuantity(1);
+        fee.setUnitAmount(((FeeType) $map.get("certificateRequestedFee")).getDefaultValue());
+        # Adds the base fee to the result list
+        $results.put("certificateRequestedFee", fee);
+end
+
+rule "Collective Fee"
+salience 100
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        TradeMark(markRightKind != null && markRightKind.value() == "Collective")
+    then
+		//System.out.println("				>>>>>> Inside collective fee rule <<<<<<");
+        # Creates the base fee.
+        Fee fee = new Fee();
+        fee.setFeeType((FeeType) $map.get("collectiveFee"));
+        fee.setAmount(((FeeType) $map.get("collectiveFee")).getDefaultValue());
+        fee.setQuantity(1);
+        fee.setUnitAmount(((FeeType) $map.get("collectiveFee")).getDefaultValue());
+        # Adds the base fee to the result list
+        $results.put("collectiveFee", fee);
+end
+
+rule "Extra Classes Basic Fee"
+salience 90
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        TradeMark(markRightKind != null && markRightKind.value() == "Individual" &&
+                    classDescriptions != null &&
+                    $map.get("maxClasses") != null &&
+                    classDescriptions.size() > ((FeeType) $map.get("maxClasses")).getDefaultValue() &&
+                    $totalClasses : classDescriptions.size())
+    then
+		//System.out.println("				>>>>>> Inside extra classes basic fee rule <<<<<<");
+        # Creates the base fee.
+        Fee fee = new Fee();
+        fee.setFeeType((FeeType) $map.get("extraClassBasicFee"));
+        fee.setAmount(((FeeType) $map.get("extraClassBasicFee")).getDefaultValue() * ($totalClasses - ((FeeType) $map.get("maxClasses")).getDefaultValue()));
+        fee.setQuantity($totalClasses - ((FeeType) $map.get("maxClasses")).getDefaultValue());
+        fee.setUnitAmount(((FeeType) $map.get("extraClassBasicFee")).getDefaultValue());
+        # Adds the base fee to the result list
+        $results.put("extraClasses", fee);
+end
+
+rule "Extra Classes Collective Fee"
+salience 90
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        TradeMark(markRightKind != null && markRightKind.value() == "Collective" &&
+                    classDescriptions != null &&
+                    $map.get("maxClasses") != null &&
+                    classDescriptions.size() > ((FeeType) $map.get("maxClasses")).getDefaultValue() &&
+                    $totalClasses : classDescriptions.size())
+    then
+		//System.out.println("				>>>>>> Inside extra classes collective fee rule <<<<<<");
+        # Creates the base fee.
+        Fee fee = new Fee();
+        fee.setFeeType((FeeType) $map.get("extraClassCollectiveFee"));
+        fee.setAmount(((FeeType) $map.get("extraClassCollectiveFee")).getDefaultValue() * ($totalClasses - ((FeeType) $map.get("maxClasses")).getDefaultValue()));
+        fee.setQuantity($totalClasses - ((FeeType) $map.get("maxClasses")).getDefaultValue());
+        fee.setUnitAmount(((FeeType) $map.get("extraClassCollectiveFee")).getDefaultValue());
+        # Adds the base fee to the result list
+        $results.put("extraClasses", fee);
+end
+
+rule "National Search Fee"
+salience 0
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        TradeMark(nationalSearchReportIndicator == true)
+    then
+		//System.out.println("				>>>>>> Inside national Search fee rule <<<<<<");
+        # Creates the base fee.
+        Fee fee = new Fee();
+        fee.setFeeType((FeeType) $map.get("nationalSearchFee"));
+        fee.setAmount(((FeeType) $map.get("nationalSearchFee")).getDefaultValue());
+        fee.setQuantity(1);
+        fee.setUnitAmount(((FeeType) $map.get("nationalSearchFee")).getDefaultValue());
+        # Adds the base fee to the result list
+        $results.put("nationalSearch", fee);
+end
+
+
+rule "Certificate Fee"
+salience 100
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        TradeMark(markRightKind != null && markRightKind.value() == "Certificate")
+    then
+		//System.out.println("				>>>>>> Inside certificate fee rule <<<<<<");
+        # Creates the base fee.
+        Fee fee = new Fee();
+        fee.setFeeType((FeeType) $map.get("certificateFee"));
+        fee.setAmount(((FeeType) $map.get("certificateFee")).getDefaultValue());
+        fee.setQuantity(1);
+        fee.setUnitAmount(((FeeType) $map.get("certificateFee")).getDefaultValue());
+        # Adds the base fee to the result list
+        $results.put("certificateFee", fee);
+end
+
+rule "Priority Fee"
+salience 90
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        TradeMark(priorities != null && priorities.size() > 0, $prioSize: priorities.size())
+    then
+		//System.out.println("				>>>>>> Inside priority fee rule <<<<<<");
+        # Creates the base fee.
+        Fee fee = new Fee();
+        fee.setFeeType((FeeType) $map.get("priorityFee"));
+        fee.setQuantity($prioSize);
+        fee.setUnitAmount(((FeeType) $map.get("priorityFee")).getDefaultValue());
+        fee.setAmount(fee.getUnitAmount()*fee.getQuantity());
+        # Adds the base fee to the result list
+        $results.put("priorityFee", fee);
+end
+
+rule "Exhibition Fee"
+salience 90
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        TradeMark(exhibitionPriorities != null && exhibitionPriorities.size() > 0, $exhSize: exhibitionPriorities.size())
+    then
+		//System.out.println("				>>>>>> Inside exhibition fee rule <<<<<<");
+        # Creates the base fee.
+        Fee fee = new Fee();
+        fee.setFeeType((FeeType) $map.get("exhibitionFee"));
+        fee.setQuantity($exhSize);
+        fee.setUnitAmount(((FeeType) $map.get("exhibitionFee")).getDefaultValue());
+        fee.setAmount(fee.getUnitAmount()*fee.getQuantity());
+        # Adds the base fee to the result list
+        $results.put("exhibitionFee", fee);
+end
+
+rule "Extra Classes Certificate Fee"
+salience 90
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        TradeMark(markRightKind != null && markRightKind.value() == "Certificate" &&
+                    classDescriptions != null &&
+                    $map.get("maxClasses") != null &&
+                    classDescriptions.size() > ((FeeType) $map.get("maxClasses")).getDefaultValue() &&
+                    $totalClasses : classDescriptions.size())
+    then
+		//System.out.println("				>>>>>> Inside extra classes certificate fee rule <<<<<<");
+        # Creates the base fee.
+        Fee fee = new Fee();
+        fee.setFeeType((FeeType) $map.get("extraClassFeeCertificate"));
+        fee.setAmount(((FeeType) $map.get("extraClassFeeCertificate")).getDefaultValue() * ($totalClasses - ((FeeType) $map.get("maxClasses")).getDefaultValue()));
+        fee.setQuantity($totalClasses - ((FeeType) $map.get("maxClasses")).getDefaultValue());
+        fee.setUnitAmount(((FeeType) $map.get("extraClassFeeCertificate")).getDefaultValue());
+        # Adds the base fee to the result list
+        $results.put("extraClassFeeCertificate", fee);
+end

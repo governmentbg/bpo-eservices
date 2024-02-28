@@ -1,0 +1,207 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions name="NiceClassificationService"
+	targetNamespace="http://ohim.eu/sp/services/nice-classification/v3"
+	xmlns:tns="http://ohim.eu/sp/services/nice-classification/v3"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap12/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	
+	<wsdl:types>
+		<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+			<xsd:import namespace="http://ohim.eu/sp/services/nice-classification/v3" schemaLocation="../xsd/services/NiceClassificationService.xsd" />
+		</xsd:schema>
+	</wsdl:types>
+
+	<wsdl:message name="getTaxonomyResponse">
+		<wsdl:part element="tns:getTaxonomyResponse" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="getNiceClassHeadingResponse">
+		<wsdl:part element="tns:getNiceClassHeadingResponse" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="getClassScopesResponse">
+		<wsdl:part element="tns:getClassScopesResponse" name="parameters">
+		</wsdl:part>
+	</wsdl:message>	
+	<wsdl:message name="getAutocompleteResponse">
+		<wsdl:part element="tns:getAutocompleteResponse" name="parameters">
+		</wsdl:part>
+	</wsdl:message>		
+	<wsdl:message name="verifyListOfTermsResponse">
+		<wsdl:part element="tns:verifyListOfTermsResponse" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="verifyListOfTerms">
+		<wsdl:part element="tns:verifyListOfTerms" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="searchTerm">
+		<wsdl:part element="tns:searchTerm" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="getDistribution">
+		<wsdl:part element="tns:getDistribution" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="getNiceClassHeading">
+		<wsdl:part element="tns:getNiceClassHeading" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="getClassScopes">
+		<wsdl:part element="tns:getClassScopes" name="parameters">
+		</wsdl:part>
+	</wsdl:message>	
+	<wsdl:message name="getAutocomplete">
+		<wsdl:part element="tns:getAutocomplete" name="parameters">
+		</wsdl:part>
+	</wsdl:message>		
+	<wsdl:message name="getTaxonomy">
+		<wsdl:part element="tns:getTaxonomy" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="searchTermResponse">
+		<wsdl:part element="tns:searchTermResponse" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="getDistributionResponse">
+		<wsdl:part element="tns:getDistributionResponse" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="niceClassificationFault">
+		<wsdl:part name="parameters" element="tns:niceClassificationFault"/>
+	</wsdl:message>	
+
+	<wsdl:portType name="NiceClassificationServicePortType">
+		<wsdl:operation name="verifyListOfTerms">
+			<wsdl:input name="verifyListOfTerms" message="tns:verifyListOfTerms" />
+			<wsdl:output name="verifyListOfTermsResponse" message="tns:verifyListOfTermsResponse" />
+			<wsdl:fault name="niceClassificationFault" message="tns:niceClassificationFault" />
+		</wsdl:operation>
+		<wsdl:operation name="searchTerm">
+			<wsdl:input name="searchTerm" message="tns:searchTerm" />
+			<wsdl:output name="searchTermResponse" message="tns:searchTermResponse" />
+			<wsdl:fault name="niceClassificationFault" message="tns:niceClassificationFault" />
+		</wsdl:operation>
+		<wsdl:operation name="getDistribution">
+			<wsdl:input name="getDistribution" message="tns:getDistribution" />
+			<wsdl:output name="getDistributionResponse" message="tns:getDistributionResponse" />
+			<wsdl:fault name="niceClassificationFault" message="tns:niceClassificationFault" />
+		</wsdl:operation>
+		<wsdl:operation name="getNiceClassHeading">
+			<wsdl:input name="getNiceClassHeading" message="tns:getNiceClassHeading" />
+			<wsdl:output name="getNiceClassHeadingResponse" message="tns:getNiceClassHeadingResponse" />
+			<wsdl:fault name="niceClassificationFault" message="tns:niceClassificationFault" />
+		</wsdl:operation>
+		<wsdl:operation name="getClassScopes">
+			<wsdl:input name="getClassScopes" message="tns:getClassScopes" />
+			<wsdl:output name="getClassScopesResponse" message="tns:getClassScopesResponse" />
+			<wsdl:fault name="niceClassificationFault" message="tns:niceClassificationFault" />
+		</wsdl:operation>		
+		<wsdl:operation name="getAutocomplete">
+			<wsdl:input name="getAutocomplete" message="tns:getAutocomplete" />
+			<wsdl:output name="getAutocompleteResponse" message="tns:getAutocompleteResponse" />
+			<wsdl:fault name="niceClassificationFault" message="tns:niceClassificationFault" />
+		</wsdl:operation>				
+		<wsdl:operation name="getTaxonomy">
+			<wsdl:input name="getTaxonomy" message="tns:getTaxonomy" />
+			<wsdl:output name="getTaxonomyResponse" message="tns:getTaxonomyResponse" />
+			<wsdl:fault name="niceClassificationFault" message="tns:niceClassificationFault" />
+		</wsdl:operation>
+	</wsdl:portType>
+
+	<wsdl:binding name="NiceClassificationServiceBinding" type="tns:NiceClassificationServicePortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+		
+		<wsdl:operation name="verifyListOfTerms">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="verifyListOfTerms">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="verifyListOfTermsResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+            <wsdl:fault name="niceClassificationFault">
+                <soap:fault use="literal" name="niceClassificationFault"/>
+            </wsdl:fault>
+        </wsdl:operation>
+		<wsdl:operation name="searchTerm">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="searchTerm">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="searchTermResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+            <wsdl:fault name="niceClassificationFault">
+                <soap:fault use="literal" name="niceClassificationFault"/>
+            </wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="getDistribution">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="getDistribution">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="getDistributionResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+            <wsdl:fault name="niceClassificationFault">
+                <soap:fault use="literal" name="niceClassificationFault"/>
+            </wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="getNiceClassHeading">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="getNiceClassHeading">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="getNiceClassHeadingResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+            <wsdl:fault name="niceClassificationFault">
+                <soap:fault use="literal" name="niceClassificationFault"/>
+            </wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="getClassScopes">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="getClassScopes">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="getClassScopesResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+            <wsdl:fault name="niceClassificationFault">
+                <soap:fault use="literal" name="niceClassificationFault"/>
+            </wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="getAutocomplete">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="getAutocomplete">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="getAutocompleteResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+            <wsdl:fault name="niceClassificationFault">
+                <soap:fault use="literal" name="niceClassificationFault"/>
+            </wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="getTaxonomy">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="getTaxonomy">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="getTaxonomyResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+            <wsdl:fault name="niceClassificationFault">
+                <soap:fault use="literal" name="niceClassificationFault"/>
+            </wsdl:fault>
+        </wsdl:operation>
+	</wsdl:binding>
+
+	<wsdl:service name="NiceClassificationService">
+		<wsdl:port name="NiceClassificationServicePort" binding="tns:NiceClassificationServiceBinding" >
+			<soap:address location="http://${fsp.ws.host}/${fsp.ws.context.root}${fsp.ws.eu.ohim.sp.external.adapters.classification.path}${fsp.ws.wsdl.services.path}" />
+		</wsdl:port>
+	</wsdl:service>
+
+</wsdl:definitions>

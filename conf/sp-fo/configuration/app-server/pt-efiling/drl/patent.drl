@@ -1,0 +1,621 @@
+package org.domain.rules;
+dialect "mvel"
+
+import java.util.Map;
+import java.util.ArrayList;
+import java.util.HashMap;
+import org.apache.commons.lang.*;
+import eu.ohim.sp.core.domain.patent.PatentApplication;
+import eu.ohim.sp.core.domain.patent.Patent;
+
+import eu.ohim.sp.core.configuration.domain.xsd.Section;
+import eu.ohim.sp.core.configuration.domain.xsd.Field;
+import eu.ohim.sp.core.domain.validation.RulesInformation
+import java.util.Calendar
+import java.util.Date
+import java.time.LocalDate
+import java.util.regex.Pattern
+import java.util.regex.Matcher
+import java.text.DateFormat
+import java.text.SimpleDateFormat;
+
+global eu.ohim.sp.core.domain.validation.ErrorList errorList;
+
+rule "BR Patent patentTitle - Empty value"
+salience 500
+when
+	$errorList : ErrorList()
+	RulesInformation($stateId : customObjects["stateId"], $sectionList: customObjects["sections"])
+	Section (coreName == "patent", viewStateId == $stateId, $fields : field) from $sectionList
+	Field(id=="patent.patentTitle", $fieldUsable: usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	PatentApplication(patent != null && StringUtils.isEmpty(patent.patentTitle))
+then
+    addError("patent.patentTitle", "BR.patent.patentTitle.empty", "The title field is mandatory", "mainForm.patentSection", $errorList);
+end
+
+rule "BR Patent patentTitleTransliteration - Empty value"
+salience 500
+when
+	$errorList : ErrorList()
+	RulesInformation($stateId : customObjects["stateId"], $sectionList: customObjects["sections"])
+	Section (coreName == "patent", viewStateId == $stateId, $fields : field) from $sectionList
+	Field(id=="patent.titleTransliteration", $fieldUsable: usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	PatentApplication(patent != null && StringUtils.isEmpty(patent.titleTransliteration))
+then
+    addError("patent.titleTransliteration", "BR.patent.patentTitleTransliteration.empty", "The title transliteration field is mandatory", "mainForm.patentSection", $errorList);
+end
+
+rule "BR Patent taxon - Empty value"
+salience 500
+when
+	$errorList : ErrorList()
+	RulesInformation($stateId : customObjects["stateId"], $sectionList: customObjects["sections"])
+	Section (coreName == "patent", viewStateId == $stateId, $fields : field) from $sectionList
+	Field(id=="patent.taxon", $fieldUsable: usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	PatentApplication(patent != null && StringUtils.isEmpty(patent.taxon))
+then
+    addError("patent.latinClassification", "BR.patent.taxon.empty", "The taxon field is mandatory", "mainForm.patentSection", $errorList);
+end
+
+rule "BR Patent latinClassification - Empty value"
+salience 500
+when
+	$errorList : ErrorList()
+	RulesInformation($stateId : customObjects["stateId"], $sectionList: customObjects["sections"])
+	Section (coreName == "patent", viewStateId == $stateId, $fields : field) from $sectionList
+	Field(id=="patent.latinClassification", $fieldUsable: usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	PatentApplication(patent != null && StringUtils.isEmpty(patent.latinClassification))
+then
+    addError("patent.latinClassification", "BR.patent.latinClassification.empty", "The latin classification field is mandatory", "mainForm.patentSection", $errorList);
+end
+
+rule "BR Patent sort breed - Empty value"
+salience 500
+when
+	$errorList : ErrorList()
+	RulesInformation($stateId : customObjects["stateId"], $sectionList: customObjects["sections"])
+	Section (coreName == "patent", viewStateId == $stateId, $fields : field) from $sectionList
+	Field(id=="patent.svKind.label", $fieldUsable: usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	PatentApplication(patent != null && (patent.svKind == null))
+then
+    addError("patent.svKind", "BR.patent.svKind.empty", "The sort/breed field is mandatory", "mainForm.patentSection", $errorList);
+end
+
+rule "BR SPC reg kind - Empty value"
+salience 500
+when
+	$errorList : ErrorList()
+	RulesInformation($stateId : customObjects["stateId"], $sectionList: customObjects["sections"])
+	Section (coreName == "patent", viewStateId == $stateId, $fields : field) from $sectionList
+	Field(id=="patent.regKind.label", $fieldUsable: usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	PatentApplication(patent != null && (patent.regKind == null))
+then
+    addError("patent.regKind", "BR.patent.regKind.empty", "The regKind field is mandatory", "mainForm.patentSection", $errorList);
+end
+
+rule "BR Patent patentAbstract - Empty value"
+salience 500
+when
+	$errorList : ErrorList()
+	RulesInformation($stateId : customObjects["stateId"], $sectionList: customObjects["sections"])
+	Section (coreName == "patent", viewStateId == $stateId, $fields : field) from $sectionList
+	Field(id=="patent.patentAbstract", $fieldUsable: usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	PatentApplication(patent != null && StringUtils.isEmpty(patent.patentAbstract))
+then
+    addError("patent.patentAbstract", "BR.patent.patentAbstract.empty", "The abstract field is mandatory", "mainForm.patentSection", $errorList);
+end
+
+rule "BR Patent patentViews - count"
+salience 500
+when
+	$errorList : ErrorList()
+	RulesInformation($stateId : customObjects["stateId"], $sectionList: customObjects["sections"])
+	Section (coreName == "patent", viewStateId == $stateId, $fields : field) from $sectionList
+	Field(id=="patent.patentViews", $fieldUsable: usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	PatentApplication(patent != null && (patent.patentViews == null || patent.patentViews.size() == 0))
+then
+    addError("patent.patentViews", "BR.patent.patentViews.empty", "You have to add at least one figure", "mainForm.patentSection", $errorList);
+end
+
+rule "BR Patent patentDescriptions- count"
+salience 500
+when
+	$errorList : ErrorList()
+	RulesInformation($stateId : customObjects["stateId"], $sectionList: customObjects["sections"])
+	Section (coreName == "patent", viewStateId == $stateId, $fields : field) from $sectionList
+	Field(id=="patent.patentDescriptions", $fieldUsable: usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	PatentApplication($appKindEP: (applicationKind != null), patent != null && (patent.patentDescriptions == null || patent.patentDescriptions.size() == 0) &&
+	    (applicationKind == null || !applicationKind.equals("EP Temporary Protection")))
+then
+    if(!$appKindEP){
+        addError("patent.patentDescriptions.attachment", "BR.patent.patentDescriptions.empty", "You have to add description document", "mainForm.patentSection", $errorList);
+    } else {
+        addError("patent.patentDescriptions.attachment", "BR.patent.patentDescriptionsTranslation.empty", "You have to add description translation document", "mainForm.patentSection", $errorList);
+    }
+end
+
+rule "BR Patent patentClaims - count"
+salience 500
+when
+	$errorList : ErrorList()
+	RulesInformation($stateId : customObjects["stateId"], $sectionList: customObjects["sections"])
+	Section (coreName == "patent", viewStateId == $stateId, $fields : field) from $sectionList
+	Field(id=="patent.patentClaims", $fieldUsable: usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	PatentApplication(patent != null && (patent.patentClaims == null || patent.patentClaims.size() == 0))
+then
+    addError("patent.patentClaims.attachment", "BR.patent.patentClaims.empty", "You have to add claim document", "mainForm.patentSection", $errorList);
+end
+
+rule "BR Patent patentDrawings - count"
+salience 500
+when
+	$errorList : ErrorList()
+	RulesInformation($stateId : customObjects["stateId"], $sectionList: customObjects["sections"])
+	Section (coreName == "patent", viewStateId == $stateId, $fields : field) from $sectionList
+	Field(id=="patent.patentDrawings", $fieldUsable: usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	PatentApplication(patent != null && (patent.patentDrawings == null || patent.patentDrawings.size() == 0))
+then
+    addError("patent.patentDrawings.attachment", "BR.patent.patentDrawings.empty", "You have to add drawing document", "mainForm.patentSection", $errorList);
+end
+
+rule "BR Patent pagesCount - Empty value"
+salience 500
+when
+	$errorList : ErrorList()
+	RulesInformation($stateId : customObjects["stateId"], $sectionList: customObjects["sections"])
+	Section (coreName == "patent", viewStateId == $stateId, $fields : field) from $sectionList
+	Field(id=="patent.pagesCount", $fieldUsable: usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	PatentApplication(patent != null && StringUtils.isEmpty(patent.pagesCount) && (applicationKind == null || !applicationKind.equals("EP Temporary Protection")))
+then
+    addError("patent.pagesCount", "BR.patent.pagesCount.empty", "This field is mandatory", "mainForm.patentSection", $errorList);
+end
+
+rule "BR Patent pagesCount - Format"
+salience 500
+when
+	$errorList : ErrorList()
+	RulesInformation($stateId : customObjects["stateId"], $sectionList: customObjects["sections"])
+	Section (coreName == "patent", viewStateId == $stateId, $fields : field) from $sectionList
+	Field( id == "patent.pagesCount", $fieldUsable : usable, $regex : format) from $fields
+    eval($fieldUsable)
+	PatentApplication(patent != null && !StringUtils.isEmpty(patent.pagesCount) && patent.pagesCount not matches $regex)
+then
+    addError("patent.pagesCount", "BRFormat", "The field has bad format", "mainForm.patentSection", $errorList);
+end
+
+rule "BR Patent claimsCount - Empty value"
+salience 500
+when
+	$errorList : ErrorList()
+	RulesInformation($stateId : customObjects["stateId"], $sectionList: customObjects["sections"])
+	Section (coreName == "patent", viewStateId == $stateId, $fields : field) from $sectionList
+	Field(id=="patent.claimsCount", $fieldUsable: usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	PatentApplication(patent != null && StringUtils.isEmpty(patent.claimsCount) && (applicationKind == null || !applicationKind.equals("EP Temporary Protection")))
+then
+    addError("patent.claimsCount", "BR.patent.claimsCount.empty", "This field is mandatory", "mainForm.patentSection", $errorList);
+end
+
+rule "BR Patent claimsCount - Format"
+salience 500
+when
+	$errorList : ErrorList()
+	RulesInformation($stateId : customObjects["stateId"], $sectionList: customObjects["sections"])
+	Section (coreName == "patent", viewStateId == $stateId, $fields : field) from $sectionList
+	Field( id == "patent.claimsCount", $fieldUsable : usable, $regex : format) from $fields
+    eval($fieldUsable)
+	PatentApplication(patent != null && !StringUtils.isEmpty(patent.claimsCount) && patent.claimsCount not matches $regex)
+then
+    addError("patent.claimsCount", "BRFormat", "The field has bad format", "mainForm.patentSection", $errorList);
+end
+
+rule "BR Patent independentClaimsCount - Empty value"
+salience 500
+when
+	$errorList : ErrorList()
+	RulesInformation($stateId : customObjects["stateId"], $sectionList: customObjects["sections"])
+	Section (coreName == "patent", viewStateId == $stateId, $fields : field) from $sectionList
+	Field(id=="patent.independentClaimsCount", $fieldUsable: usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	PatentApplication(patent != null && StringUtils.isEmpty(patent.independentClaimsCount))
+then
+    addError("patent.independentClaimsCount", "BR.patent.independentClaimsCount.empty", "This field is mandatory", "mainForm.patentSection", $errorList);
+end
+
+rule "BR Patent independentClaimsCount - Format"
+salience 500
+when
+	$errorList : ErrorList()
+	RulesInformation($stateId : customObjects["stateId"], $sectionList: customObjects["sections"])
+	Section (coreName == "patent", viewStateId == $stateId, $fields : field) from $sectionList
+	Field( id == "patent.independentClaimsCount", $fieldUsable : usable, $regex : format) from $fields
+    eval($fieldUsable)
+	PatentApplication(patent != null && !StringUtils.isEmpty(patent.independentClaimsCount) && patent.independentClaimsCount not matches $regex)
+then
+    addError("patent.independentClaimsCount", "BRFormat", "The field has bad format", "mainForm.patentSection", $errorList);
+end
+
+rule "BR Patent drawingsCount - Empty value"
+salience 500
+when
+	$errorList : ErrorList()
+	RulesInformation($stateId : customObjects["stateId"], $sectionList: customObjects["sections"])
+	Section (coreName == "patent", viewStateId == $stateId, $fields : field) from $sectionList
+	Field(id=="patent.drawingsCount", $fieldUsable: usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	PatentApplication(patent != null && StringUtils.isEmpty(patent.drawingsCount) && (applicationKind == null || !applicationKind.equals("EP Temporary Protection")))
+then
+    addError("patent.drawingsCount", "BR.patent.drawingsCount.empty", "This field is mandatory", "mainForm.patentSection", $errorList);
+end
+
+rule "BR Patent drawingsCount - Format"
+salience 500
+when
+	$errorList : ErrorList()
+	RulesInformation($stateId : customObjects["stateId"], $sectionList: customObjects["sections"])
+	Section (coreName == "patent", viewStateId == $stateId, $fields : field) from $sectionList
+	Field( id == "patent.drawingsCount", $fieldUsable : usable, $regex : format) from $fields
+    eval($fieldUsable)
+	PatentApplication(patent != null && !StringUtils.isEmpty(patent.drawingsCount) && patent.drawingsCount not matches $regex)
+then
+    addError("patent.drawingsCount", "BRFormat", "The field has bad format", "mainForm.patentSection", $errorList);
+end
+
+rule "BR Patent drawingNumber - Empty value"
+salience 500
+when
+	$errorList : ErrorList()
+	RulesInformation($stateId : customObjects["stateId"], $sectionList: customObjects["sections"])
+	Section (coreName == "patent", viewStateId == $stateId, $fields : field) from $sectionList
+	Field(id=="patent.drawingNumber", $fieldUsable: usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	PatentApplication(patent != null && StringUtils.isEmpty(patent.drawingNumber))
+then
+    addError("patent.drawingNumber", "BR.patent.drawingNumber.empty", "This field is mandatory", "mainForm.patentSection", $errorList);
+end
+
+rule "BR Patent drawingNumber - must not be bigger than drawingsCount"
+salience 500
+when
+	$errorList : ErrorList()
+	RulesInformation($stateId : customObjects["stateId"], $sectionList: customObjects["sections"])
+	Section (coreName == "patent", viewStateId == $stateId, $fields : field) from $sectionList
+	Field(id=="patent.drawingNumber", $fieldUsable: usable) from $fields
+	Field( id == "patent.drawingsCount", $fieldUsableCount : usable) from $fields
+	eval($fieldUsable == true && $fieldUsableCount == true)
+	PatentApplication(patent != null && StringUtils.isNotEmpty(patent.drawingNumber) && StringUtils.isNotEmpty(patent.drawingsCount) && patent.getDrawingsCountInt() < patent.getDrawingNumberInt())
+then
+    addError("patent.drawingNumber", "BR.patent.drawingNumber.biggerThanCount", "The drawing number can not be bigger than the count ", "mainForm.patentSection", $errorList);
+end
+
+rule "BR Patent drawingNumber - Format"
+salience 500
+when
+	$errorList : ErrorList()
+	RulesInformation($stateId : customObjects["stateId"], $sectionList: customObjects["sections"])
+	Section (coreName == "patent", viewStateId == $stateId, $fields : field) from $sectionList
+	Field( id == "patent.drawingNumber", $fieldUsable : usable, $regex : format) from $fields
+    eval($fieldUsable)
+	PatentApplication(patent != null && !StringUtils.isEmpty(patent.drawingNumber) && patent.drawingNumber not matches $regex)
+then
+    addError("patent.drawingNumber", "BRFormat", "The field has bad format", "mainForm.patentSection", $errorList);
+end
+
+rule "BR Patent patentClaims no attached  - claims count  must be 0"
+salience 500
+when
+	$errorList : ErrorList()
+	RulesInformation($stateId : customObjects["stateId"], $sectionList: customObjects["sections"])
+	Section (coreName == "patent", viewStateId == $stateId, $fields : field) from $sectionList
+	Field(id=="patent.patentClaims", $fieldUsable: usable, $fieldRequired : required) from $fields
+	Field(id=="patent.claimsCount", $fieldUsableCount: usable, $fieldRequiredCount : required) from $fields
+	eval($fieldUsable == true && $fieldUsableCount == true)
+	PatentApplication(patent != null && (patent.patentClaims == null || patent.patentClaims.size() == 0) && patent.claimsCountInt != 0 && applicationKind == null)
+then
+    addError("patent.claimsCount", "BR.patent.claimsCount.zero", "Claims count must be set to 0 when there is no claims attachment", "mainForm.patentSection", $errorList);
+end
+
+
+rule "BR Patent patentDrawings not attached - drawings count must be 0"
+salience 500
+when
+	$errorList : ErrorList()
+	RulesInformation($stateId : customObjects["stateId"], $sectionList: customObjects["sections"])
+	Section (coreName == "patent", viewStateId == $stateId, $fields : field) from $sectionList
+	Field(id=="patent.patentDrawings", $fieldUsable: usable, $fieldRequired : required) from $fields
+	Field(id=="patent.drawingsCount", $fieldUsableCount: usable, $fieldRequiredCount : required) from $fields
+	eval($fieldUsable == true && $fieldUsableCount == true)
+	PatentApplication(patent != null && (patent.patentDrawings == null || patent.patentDrawings.size() == 0) && patent.drawingsCountInt != 0 && applicationKind == null)
+then
+    addError("patent.drawingsCount", "BR.patent.drawingsCount.zero", "Drawings count must be set to 0 when there is no drawings attachment", "mainForm.patentSection", $errorList);
+end
+
+rule "BR Patent patentDrawings not attached - drawing number must be 0"
+salience 500
+when
+	$errorList : ErrorList()
+	RulesInformation($stateId : customObjects["stateId"], $sectionList: customObjects["sections"])
+	Section (coreName == "patent", viewStateId == $stateId, $fields : field) from $sectionList
+	Field(id=="patent.patentDrawings", $fieldUsable: usable, $fieldRequired : required) from $fields
+	Field(id=="patent.drawingNumber", $fieldUsableNumber: usable, $fieldRequiredNumber : required) from $fields
+	eval($fieldUsable == true && $fieldUsableNumber == true)
+	PatentApplication(patent != null && (patent.patentDrawings == null || patent.patentDrawings.size() == 0) && patent.drawingNumberInt != 0 && applicationKind == null)
+then
+    addError("patent.drawingNumber", "BR.patent.drawingNumber.zero", "Drawing number for publication must be set to 0 when there is no drawings attachment", "mainForm.patentSection", $errorList);
+end
+
+rule "BR Patent claims count  must be > 0"
+salience 500
+when
+	$errorList : ErrorList()
+	RulesInformation($stateId : customObjects["stateId"], $sectionList: customObjects["sections"])
+	Section (coreName == "patent", viewStateId == $stateId, $fields : field) from $sectionList
+	Field(id=="patent.claimsCount", $fieldUsableCount: usable, $fieldRequiredCount : required) from $fields
+	eval($fieldUsableCount == true)
+	PatentApplication(patent != null && patent.claimsCount != null && patent.claimsCountInt <= 0 && applicationKind != null && applicationKind != "EP Temporary Protection")
+then
+    addError("patent.claimsCount", "BR.patent.claimsCount.mustBeBiggerThanZero", "Claims count > 0", "mainForm.patentSection", $errorList);
+end
+
+
+rule "BR Patent drawings count must be => 0"
+salience 500
+when
+	$errorList : ErrorList()
+	RulesInformation($stateId : customObjects["stateId"], $sectionList: customObjects["sections"])
+	Section (coreName == "patent", viewStateId == $stateId, $fields : field) from $sectionList
+	Field(id=="patent.drawingsCount", $fieldUsableCount: usable, $fieldRequiredCount : required) from $fields
+	eval($fieldUsableCount == true)
+	PatentApplication(patent != null && patent.drawingsCount != null && patent.drawingsCountInt < 0 && applicationKind != null &&  applicationKind != "EP Temporary Protection")
+then
+    addError("patent.drawingsCount", "BR.patent.drawingsCount.mustBeBiggerThanOrEqualToZero", "Drawings count must be => 0", "mainForm.patentSection", $errorList);
+end
+
+rule "BR Patent pages count must be > 0"
+salience 500
+when
+	$errorList : ErrorList()
+	RulesInformation($stateId : customObjects["stateId"], $sectionList: customObjects["sections"])
+	Section (coreName == "patent", viewStateId == $stateId, $fields : field) from $sectionList
+	Field(id=="patent.pagesCount", $fieldUsableCount: usable, $fieldRequiredCount : required) from $fields
+	eval($fieldUsableCount == true)
+	PatentApplication(patent != null && patent.pagesCount != null && patent.pagesCountInt <= 0 && applicationKind != null &&  applicationKind != "EP Temporary Protection")
+then
+    addError("patent.pagesCount", "BR.patent.pagesCount.mustBeBiggerThanZero", "Pages count must be > 0 ", "mainForm.patentSection", $errorList);
+end
+
+
+rule "BR Patent validation period expired"
+salience 500
+when
+	$errorList : ErrorList()
+	RulesInformation($stateId : customObjects["stateId"], $sectionList: customObjects["sections"])
+	Section (coreName == "patent", viewStateId == $stateId, $fields : field) from $sectionList
+	Field(id=="patent.registrationPublicationDate", $fieldUsable: usable, $fieldVisible : visible) from $fields
+	eval($fieldUsable == true && $fieldVisible == true)
+	PatentApplication(patent != null && patent.registrationPublicationDate != null &&  applicationKind != null && applicationKind.equals("EP Validation Request"),
+        $patentRegPublicationDate: patent.registrationPublicationDate)
+then
+    Calendar calendar = Calendar.getInstance();
+    calendar.setTime($patentRegPublicationDate);
+    calendar.set(Calendar.MINUTE, 0);
+    calendar.set(Calendar.HOUR, 0);
+    calendar.set(Calendar.SECOND, 0);
+    calendar.set(Calendar.MILLISECOND, 0);
+    calendar.add(Calendar.MONTH, 3);
+    Date regPublicationPLus3Months = calendar.getTime();
+
+    calendar.setTime(new Date());
+    calendar.set(Calendar.HOUR_OF_DAY, 0);
+    calendar.set(Calendar.MINUTE, 0);
+    calendar.set(Calendar.SECOND, 0);
+    calendar.set(Calendar.MILLISECOND, 0);
+    Date now = calendar.getTime();
+
+    if(now.after(regPublicationPLus3Months)){
+        addErrorWarning(true,
+            "BR.patent.validation.period.expired", "validation period has expired for this patent", "mainForm.patentSection", $errorList);
+    }
+end
+
+rule "BR Patent no registration publication - can only file for temp protect"
+salience 500
+when
+	$errorList : ErrorList()
+	RulesInformation($stateId : customObjects["stateId"], $sectionList: customObjects["sections"])
+	Section (coreName == "patent", viewStateId == $stateId, $fields : field) from $sectionList
+	Field(id=="patent.registrationPublicationDate", $fieldUsable: usable, $fieldVisible : visible) from $fields
+	eval($fieldUsable == true && $fieldVisible == true)
+	PatentApplication(patent != null && patent.registrationNumber == null && patent.registrationPublicationDate == null
+	    &&  applicationKind != null && !applicationKind.equals("EP Temporary Protection"))
+then
+    addErrorWarning(true,
+        "BR.patent.validation.no.registration.publication", "No registration publication. Can only file for EP Temporary Protection", "mainForm.patentSection", $errorList);
+    addError("formWarnings", "BR.patent.validation.no.registration.publication", "No registration publication. Can only file for EP Temporary Protection", "mainForm.patentSection", $errorList);
+end
+
+rule "BR Patent in bo but not validated already"
+salience 500
+when
+	$errorList : ErrorList()
+	RulesInformation($stateId : customObjects["stateId"], $sectionList: customObjects["sections"])
+	Section (coreName == "patent", viewStateId == $stateId, $fields : field) from $sectionList
+	Field(id=="patent.imported", $fieldUsable: usable, $fieldVisible : visible) from $fields
+	eval($fieldUsable == true && $fieldVisible == true)
+	PatentApplication(patent != null && patent.externalReferenceNumber != null && (patent.patentValidated == null || patent.patentValidated == false)
+	    && applicationKind != null && applicationKind.equals("EP Validation Request"))
+then
+    addErrorWarning(true,
+        "BR.patent.in.bo.but.not.validated", "The patent has been inserted in bo but is not yet validated", "mainForm.patentSection", $errorList);
+end
+
+rule "BR Patent validated already"
+salience 500
+when
+	$errorList : ErrorList()
+	RulesInformation($stateId : customObjects["stateId"], $sectionList: customObjects["sections"])
+	Section (coreName == "patent", viewStateId == $stateId, $fields : field) from $sectionList
+	Field(id=="patent.imported", $fieldUsable: usable, $fieldVisible : visible) from $fields
+	eval($fieldUsable == true && $fieldVisible == true)
+	PatentApplication(patent != null && patent.externalReferenceNumber != null && patent.patentValidated != null && patent.patentValidated == true
+	    && applicationKind != null && applicationKind.equals("EP Validation Request"))
+then
+    addErrorWarning(true,
+            "BR.patent.in.bo.and.validated", "The patent has been inserted in bo and is already validated", "mainForm.patentSection", $errorList);
+    addError("formWarnings", "BR.patent.in.bo.and.validated", "The patent has been inserted in bo and is already validated", "mainForm.patentSection", $errorList);
+end
+
+rule "BR Patent must be imported"
+salience 500
+when
+	$errorList : ErrorList()
+	RulesInformation($stateId : customObjects["stateId"], $sectionList: customObjects["sections"])
+	Section (coreName == "patent", viewStateId == $stateId, $fields : field) from $sectionList
+	Field(id=="patent.imported", $fieldUsable: usable, $fieldVisible : visible) from $fields
+	eval($fieldUsable == true && $fieldVisible == true)
+	PatentApplication(patent != null && (patent.applicationNumber == null || patent.applicationNumber.isEmpty()))
+then
+    addErrorWarning(true,
+            "BR.patent.must.be.imported", "The patent details must be imported", "mainForm.patentSection", $errorList);
+    addError("formWarnings", "BR.patent.must.be.imported", "The patent details must be imported", "mainForm.patentSection", $errorList);
+end
+
+rule "BR Patent must not be registered for temporary protection"
+salience 500
+when
+	$errorList : ErrorList()
+	RulesInformation($stateId : customObjects["stateId"], $sectionList: customObjects["sections"])
+	Section (coreName == "patent", viewStateId == $stateId, $fields : field) from $sectionList
+	Field(id=="patent.registrationNumber", $fieldUsable: usable, $fieldVisible : visible) from $fields
+	eval($fieldUsable == true && $fieldVisible == true)
+	PatentApplication(patent != null && patent.registrationNumber != null && !patent.registrationNumber.isEmpty()
+	    && applicationKind != null && applicationKind.equals("EP Temporary Protection"))
+then
+    addErrorWarning(true,
+            "BR.patent.must.not.be.registered.tempProtection", "The patent must not be registered for filing for temporary protection", "mainForm.patentSection", $errorList);
+    addError("formWarnings", "BR.patent.must.not.be.registered.tempProtection", "The patent must not be registered for filing for temporary protection", "mainForm.patentSection", $errorList);
+end
+
+rule "BR Patent must be validated for validation for changed patent"
+salience 500
+when
+	$errorList : ErrorList()
+	RulesInformation($stateId : customObjects["stateId"], $sectionList: customObjects["sections"])
+	Section (coreName == "patent", viewStateId == $stateId, $fields : field) from $sectionList
+	Field(id=="patent.imported", $fieldUsable: usable, $fieldVisible : visible) from $fields
+	eval($fieldUsable == true && $fieldVisible == true)
+	PatentApplication(patent != null && (patent.externalReferenceNumber == null ||  patent.externalReferenceNumber.isEmpty() || patent.patentValidated == null || patent.patentValidated == false)
+	    && applicationKind != null && applicationKind.equals("EP Validation Request for Changed Patent"))
+then
+    addErrorWarning(true,
+            "BR.patent.must.be.validated.validationChange", "The patent must be validated for validation of changed patent", "mainForm.patentSection", $errorList);
+    addError("formWarnings", "BR.patent.must.be.validated.validationChange", "The patent must be validated for validation of changed patent", "mainForm.patentSection", $errorList);
+end
+
+rule "BR SPC firstPermissions BG - Empty values"
+salience 500
+when
+	$errorList : ErrorList()
+	RulesInformation($stateId : customObjects["stateId"], $sectionList: customObjects["sections"])
+	Section (coreName == "patent", viewStateId == $stateId, $fields : field) from $sectionList
+	Field(id=="patent.firstPermissionBGNumber", $fieldUsableBGN: usable) from $fields
+	Field(id=="patent.firstPermissionBGDate", $fieldUsableBGD: usable) from $fields
+	Field(id=="patent.firstPermissionBGNotificationDate", $fieldUsableBGND: usable) from $fields
+	eval($fieldUsableBGN == true && $fieldUsableBGD == true && $fieldUsableBGND == true)
+	PatentApplication($patent: patent)
+	eval($patent != null)
+	PatentApplication($firstPermissionBGNumber: patent.firstPermissionBGNumber, $firstPermissionBGDate: patent.firstPermissionBGDate, $firstPermissionBGNotificationDate: patent.firstPermissionBGNotificationDate)
+then
+
+    if(StringUtils.isEmpty($firstPermissionBGDate)){
+     addError("patent.firstPermissionBGDate", "BR.patent.firstPermissionDate.empty", "The firstPermissionBGDate field is mandatory", "mainForm.patentSection", $errorList);
+    }
+    if(StringUtils.isEmpty($firstPermissionBGNumber)){
+     addError("patent.firstPermissionBGNumber", "BR.patent.firstPermissionNumber.empty", "The firstPermissionBGNumber field is mandatory", "mainForm.patentSection", $errorList);
+    } else {
+     String firstPermissionBGNumber = $firstPermissionBGNumber;
+     if (StringUtils.startsWith(firstPermissionBGNumber, "EU")){
+         if(StringUtils.isEmpty($firstPermissionBGNotificationDate)){
+              addError("patent.firstPermissionBGNotificationDate", "BR.patent.firstPermissionBGNotificationDate.empty", "The firstPermissionBGNotificationDate field is mandatory", "mainForm.patentSection", $errorList);
+         }
+     }
+    }
+end
+
+rule "BR firstPermissionBGDate - Format"
+salience 500
+when
+	$errorList : ErrorList()
+	RulesInformation($stateId : customObjects["stateId"], $sectionList: customObjects["sections"])
+    Section (coreName == "patent", viewStateId == $stateId, $fields : field) from $sectionList
+	Field(id=="patent.firstPermissionBGDate", $fieldUsable : usable, $regex: format) from $fields
+	eval($fieldUsable == true)
+	PatentApplication($patent: patent)
+    eval($patent != null)
+	PatentApplication($firstPermissionBGDate: patent.firstPermissionBGDate)
+	eval($firstPermissionBGDate != null)
+then
+    DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+    String strDate = dateFormat.format($firstPermissionBGDate);
+    Pattern pattern = Pattern.compile($regex);
+    Matcher matcher = pattern.matcher(strDate);
+    if (!matcher.matches()) {
+    	addError("patent.firstPermissionBGDate", "BRFormat.wrong", "This field has bad format", "mainForm.patentSection", $errorList);
+    }
+end
+
+rule "BR firstPermissionEUDate - Format"
+salience 500
+when
+	$errorList : ErrorList()
+	RulesInformation($stateId : customObjects["stateId"], $sectionList: customObjects["sections"])
+    Section (coreName == "patent", viewStateId == $stateId, $fields : field) from $sectionList
+	Field(id=="patent.firstPermissionEUDate", $fieldUsable : usable, $regex: format) from $fields
+	eval($fieldUsable == true)
+	PatentApplication($patent: patent)
+    eval($patent != null)
+	PatentApplication($firstPermissionEUDate: patent.firstPermissionEUDate)
+	eval($firstPermissionEUDate != null)
+then
+    DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+    String strDate = dateFormat.format($firstPermissionEUDate);
+    Pattern pattern = Pattern.compile($regex);
+    Matcher matcher = pattern.matcher(strDate);
+    if (!matcher.matches()) {
+    	addError("patent.firstPermissionEUDate", "BRFormat.wrong", "This field has bad format", "mainForm.patentSection", $errorList);
+    }
+end
+
+rule "BR firstPermissionBGNotificationDate - Format"
+salience 500
+when
+	$errorList : ErrorList()
+	RulesInformation($stateId : customObjects["stateId"], $sectionList: customObjects["sections"])
+    Section (coreName == "patent", viewStateId == $stateId, $fields : field) from $sectionList
+	Field(id=="patent.firstPermissionBGNotificationDate", $fieldUsable : usable, $regex: format) from $fields
+	eval($fieldUsable == true)
+	PatentApplication($patent: patent)
+    eval($patent != null)
+	PatentApplication($firstPermissionBGNotificationDate: patent.firstPermissionBGNotificationDate)
+	eval($firstPermissionBGNotificationDate != null)
+then
+    DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+    String strDate = dateFormat.format($firstPermissionBGNotificationDate);
+    Pattern pattern = Pattern.compile($regex);
+    Matcher matcher = pattern.matcher(strDate);
+    if (!matcher.matches()) {
+    	addError("patent.firstPermissionBGNotificationDate", "BRFormat.wrong", "This field has bad format", "mainForm.patentSection", $errorList);
+    }
+end

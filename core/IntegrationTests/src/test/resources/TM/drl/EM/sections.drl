@@ -1,0 +1,219 @@
+package org.domain.rules;
+dialect "mvel"
+import eu.ohim.sp.core.domain.validation.ErrorCore;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.domain.person.Applicant;
+import eu.ohim.sp.core.domain.person.Representative;
+import eu.ohim.sp.core.domain.resources.Colour;
+import eu.ohim.sp.core.domain.validation.RulesInformation;
+import eu.ohim.sp.core.domain.trademark.TradeMark;
+import eu.ohim.sp.core.configuration.domain.xsd.Sections;
+import eu.ohim.sp.core.configuration.domain.xsd.Section;
+import eu.ohim.sp.core.configuration.domain.xsd.Field;
+
+import java.util.List;
+import org.apache.commons.lang.StringUtils;
+
+rule "BREEA - EEA Applicants"
+salience 1000
+when
+$rulesInformation : RulesInformation($sectionName : sectionName)
+$section : Section($sectionName == id.value())
+eval($sectionName == "applicant" || $sectionName == "representative")
+TradeMark($listApplicants : getApplicantDetails())
+TradeMark($listRepresentatives : getRepresentativeDetails())
+then
+	if(!checkPersonEEA($listApplicants,true, $section) && !checkPersonEEA($listRepresentatives, false, $section)){
+		addError(null,
+			 "BREEA",
+			 "At least one Representative or Applicant must be from the EEA",
+			 "mainForm.personalDataSection",
+			 $rulesInformation);
+	}
+end
+
+/*rule "BRNFP - Not Finland Person"
+salience 1000
+when
+$rulesInformation : RulesInformation($sectionName : sectionName)
+eval($sectionName == "applicant" || $sectionName == "representative")
+TradeMark($listApplicants : getApplicantDetails())
+TradeMark($listRepresentatives : getRepresentativeDetails())
+then
+	if(!checkPersonCountry($listApplicants, true, "FI") && !checkPersonNF($listRepresentatives, false, "FI")){
+		addError(null,
+			 "BRNFP",
+			 "Neither an Applicant nor a Representative from finland was added to the application",
+			 "mainForm.personalDataSection",
+			 $rulesInformation);
+	}
+end*/
+
+rule "BR8 - Number of Applicants"
+salience 1000
+when
+$rulesInformation : RulesInformation($sectionName : sectionName)
+eval($sectionName == "applicant")
+TradeMark(applicantDetails.size() <= 0)
+then
+	addError(null,
+		"BR8.ApplicantNumber.Empty",
+		"You must add at least one applicant",
+		"mainForm.personalDataSection",
+		$rulesInformation);
+end
+
+rule "BRGS - Number of G&S"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	List($sectionName == "goodsandservices" &&
+		 size <= 0)
+then
+	addError(null,
+		"BRGS.GSNumber.Empty",
+		"You must add at least one Good and Service",
+		"mainForm.gsSection",
+		$rulesInformation);
+end
+
+rule "BR230 - Reference Empty"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "reference",
+			$fieldUsable : usable,
+			$fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	TradeMark(applicationUseReference == true &&
+			  StringUtils.isEmpty(applicationReference) == true)
+then
+	addError("reference",
+			 "BR230.Reference.Empty",
+			 "This field is mandatory",
+			 "mainForm.referenceSection",
+			 $rulesInformation);
+end
+
+rule "BR230 - Reference - Content"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "reference", $fieldUsable : usable, $regex : format) from $fields
+	TradeMark($fieldUsable == true &&
+			  applicationUseReference == true &&
+			  StringUtils.isEmpty(applicationReference) == false &&
+			  StringUtils.isEmpty($regex) == false &&
+			  applicationReference not matches $regex)
+then
+	addError("reference",
+			 "BR230.Reference.Content",
+			 "This field has a bat format (30 char max)",
+			 "mainForm.referenceSection",
+			 $rulesInformation);
+end
+
+rule "BR19 - Divisional Application Number"
+salience 1000
+when
+$rulesInformation : RulesInformation($sectionName : sectionName)
+Section( $sectionName == id.value(), $fields : field )
+Field( id == "dateDivisionalApplication", $fieldUsable : usable, $fieldRequired : required) from $fields
+eval($sectionName == "divisionalApplicationSection" &&
+	 $fieldUsable == true &&
+	 $fieldRequired == true)
+TradeMark(divisionalApplicationDetails != null &&
+		  StringUtils.isEmpty(divisionalApplicationDetails.initialApplicationNumber))
+then
+	addError("mainForm.numberDivisionalApplication",
+		 "BR19.Divisional.Number",
+		 "This field is mandatory",
+		 "mainForm.divisionalSection",
+		 $rulesInformation);
+end
+
+rule "BR19 - Divisional Application Date"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "dateDivisionalApplication", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($sectionName == "divisionalApplicationSection" &&
+		 $fieldUsable == true &&
+		 $fieldRequired == true)
+	TradeMark(divisionalApplicationDetails != null &&
+			  divisionalApplicationDetails.initialApplicationDate == null)
+then
+	addError("mainForm.dateDivisionalApplication",
+		 "BR19.Divisional.Date",
+		 "This field is mandatory",
+		 "mainForm.divisionalSection",
+		 $rulesInformation);
+end
+
+rule "BR19b - Divisional Application Date After"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "dateDivisionalApplication", $fieldUsable : usable) from $fields
+	eval($sectionName == "divisionalApplicationSection" && $fieldUsable == true)
+	TradeMark(divisionalApplicationDetails != null &&
+			  divisionalApplicationDetails.initialApplicationDate != null &&
+			  $divDate : divisionalApplicationDetails.initialApplicationDate &&
+			  $divDate.after(new Date()))
+then
+	addError("mainForm.dateDivisionalApplication",
+		 "BR19.Divisional.Date.After",
+		 "This field cannot contain a date in the future",
+		 "mainForm.divisionalSection",
+		 $rulesInformation);
+end
+
+rule "BR91a - Colour format"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Colour($format : format &&
+			$value : value &&
+		   StringUtils.isEmpty(value) == false)
+then
+	if(!checkColourFormat($format, $value)){
+		addError(null,
+			 "BRCL",
+			 "This field has a wrong format",
+			 "value",
+			 $rulesInformation);
+	}
+end
+
+rule "BR91b - Colour format without value"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Colour(StringUtils.isEmpty(value) == true)
+then
+	addError(null,
+		 "BRMandatory",
+		 "This field is mandatory",
+		 "value",
+		 $rulesInformation);
+end
+
+rule "BRXX - Application size check"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName: sectionName, $fileSize : fileSize)
+	eval($sectionName != null && $sectionName.equals("ApplicationSize"))
+	$tradeMark : TradeMark()
+then
+	if(($tradeMark.getApplicationSize($tradeMark) + $fileSize)/(1024*1024) > 15){
+		addError(null,
+			 "BRASC",
+			 "The application size exceed the maximum size (15 mb)",
+			 "description",
+			 $rulesInformation);
+	}
+end

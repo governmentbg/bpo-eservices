@@ -1,0 +1,135 @@
+package org.domain.rules;
+dialect "mvel"
+
+
+import eu.ohim.sp.core.domain.validation.RulesInformation;
+import eu.ohim.sp.core.domain.validation.ErrorCore;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.domain.licence.Licence;
+import eu.ohim.sp.core.configuration.domain.xsd.Section;
+import eu.ohim.sp.core.configuration.domain.xsd.Field;
+import org.apache.commons.lang.StringUtils;
+import java.util.HashMap;
+
+global eu.ohim.sp.core.domain.validation.ErrorList errorList;
+
+rule "Lincence kind mandatory"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )	
+	Field( id == "licenceKind", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Licence(licenceKind == null)
+then
+	addError(null,
+		 "BRMandatory",
+		 "This field is mandatory",
+		 "licenceKind",
+		 $errorList);
+end
+
+rule "subLicenceIndicator mandatory"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )	
+	Field( id == "subLicenceIndicator", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Licence(subLicenceIndicator == null)
+then
+	addError(null,
+		 "BRMandatory",
+		 "This field is mandatory",
+		 "subLicenceIndicator",
+		 $errorList);
+end
+
+rule "territoryLimitationIndicator mandatory"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )	
+	Field( id == "territoryLimitationIndicator", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Licence(territoryLimitationIndicator == null)
+then
+	addError(null,
+		 "BRMandatory",
+		 "This field is mandatory",
+		 "territoryLimitationIndicator",
+		 $errorList);
+end
+
+rule "territoryLimitationText mandatory if territory limitation"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )	
+	Field( id == "territoryLimitationText", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Licence($terr: territoryLimitationIndicator, $terrText: territoryLimitationText)
+	eval($terr == true && StringUtils.isEmpty($terrText))
+then
+	addError(null,
+		 "BRMandatory",
+		 "This field is mandatory",
+		 "territoryLimitationText",
+		 $errorList);
+end
+
+rule "periodLimitationEndDate mandatory"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )	
+	Field( id == "periodLimitationEndDate", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Licence(periodLimitationEndDate == null, periodLimitationIndicator == false)
+then
+	addError(null,
+		 "BRMandatory",
+		 "This field is mandatory",
+		 "periodLimitationEndDate",
+		 $errorList);
+end
+
+rule "periodLimitationEndDate <= now"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )	
+	Licence($endDate: periodLimitationEndDate)
+then
+	Date now = new Date();
+	if($endDate!= null && $endDate.compareTo(now) <= 0){
+		addError(null,
+			 "licence.periodLimitationEndDate.BeforeNow",
+			 "The end date must be after today",
+			 "periodLimitationEndDate",
+			 $errorList);
+	}
+end
+
+rule "GSHelper licence GS mandatory"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )	
+	Licence($gh: gsHelper)
+	$stateId : RulesInformation($customObjects : customObjects)	
+	eval($gh != null)
+then
+	HashMap co = $customObjects;
+    String flowModeId = co.get("flowModeId");
+    if("tm-licence".equals(flowModeId)){	
+		if($gh.getClassDescriptions() == null || $gh.getClassDescriptions().size() <=0){
+			addError(null,
+			 "gshelper.GS.mandatory",
+			 "Goods And Services can not be empty",
+			 "gsHelper.formMessages",
+			 $errorList);
+		}
+	}
+	
+end

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="unqualified"
+	version="3.2"
+	targetNamespace="http://ohim.eu/sp/services/trademark-search/v3"
+	xmlns:tns="http://ohim.eu/sp/services/trademark-search/v3"
+	xmlns:common="http://ohim.eu/sp/domain/common/v3"	
+	xmlns:tradeMark="http://ohim.eu/sp/domain/trademark/v3"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<xs:import namespace="http://ohim.eu/sp/domain/trademark/v3" schemaLocation="../domain/TradeMarkDomain.xsd" />
+	<xs:import namespace="http://ohim.eu/sp/domain/common/v3" schemaLocation="../domain/CommonDomain.xsd" />
+
+	<xs:element name="getInternationalTradeMark" type="tns:GetInternationalTradeMark" />
+	<xs:element name="getInternationalTradeMarkResponse" type="tns:GetInternationalTradeMarkResponse" />
+	
+	<xs:element name="getPreclearanceReport" type="tns:GetPreclearanceReport" />
+	<xs:element name="getPreclearanceReportResponse" type="tns:GetPreclearanceReportResponse" />
+	
+	<xs:element name="getTradeMark" type="tns:GetTradeMark" />
+	<xs:element name="getTradeMarkResponse" type="tns:GetTradeMarkResponse" />
+		
+	<xs:element name="getTradeMarkAutocomplete" type="tns:GetTradeMarkAutocomplete" />
+	<xs:element name="getTradeMarkAutocompleteResponse" type="tns:GetTradeMarkAutocompleteResponse" />
+
+	<xs:element name="trademarkFault" type="tns:TrademarkFault" />
+
+	<xs:complexType name="GetTradeMark">
+		<xs:sequence>
+			<xs:element name="office" type="xs:string" minOccurs="0" />
+			<xs:element name="tradeMarkId" type="xs:string" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="GetTradeMarkResponse">
+		<xs:sequence>
+			<xs:element name="return" type="tradeMark:TradeMark" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="GetTradeMarkAutocomplete">
+        <xs:complexContent>
+            <xs:extension base="common:GenericAutocompleteRequest"/>
+        </xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="GetTradeMarkAutocompleteResponse">
+		<xs:sequence>
+			<xs:element name="return" type="xs:string" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="GetPreclearanceReport">
+		<xs:sequence>
+			<xs:element name="office" type="xs:string" minOccurs="0" />
+			<xs:element name="tradeMark" type="tradeMark:TradeMark" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="GetPreclearanceReportResponse">
+		<xs:sequence>
+			<xs:element name="return" type="tradeMark:TradeMark" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="GetInternationalTradeMark">
+		<xs:sequence>
+			<xs:element name="office" type="xs:string" minOccurs="0" />
+			<xs:element name="tradeMarkId" type="xs:string" minOccurs="0" />
+			<xs:element name="option" type="xs:boolean" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="GetInternationalTradeMarkResponse">
+		<xs:sequence>
+			<xs:element name="return" type="tradeMark:TradeMark" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+    <xs:complexType name="TrademarkFault">
+        <xs:sequence>
+            <xs:element name="return" type="common:Fault" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+	
+</xs:schema>

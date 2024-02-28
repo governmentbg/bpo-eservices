@@ -1,0 +1,212 @@
+<jaxb:bindings jaxb:version="2.1"
+               xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+               xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+               xmlns:inheritance="http://jaxb2-commons.dev.java.net/basic/inheritance"
+               jaxb:extensionBindingPrefixes="xjc">
+    <jaxb:globalBindings>
+        <jaxb:serializable uid="1" />
+        <xjc:javaType name="java.util.Date" xmlType="xsd:dateTime"
+                      adapter="eu.ohim.sp.common.util.DateAdapter"/>
+        <xjc:javaType name="java.util.Date" xmlType="xsd:date"
+                      adapter="eu.ohim.sp.common.util.DateAdapter"/>
+    </jaxb:globalBindings>
+    <jaxb:bindings node="/xsd:schema" schemaLocation="ApplicantService.xsd">
+        <jaxb:schemaBindings>
+            <jaxb:package name="eu.ohim.sp.external.services.applicant"/>
+        </jaxb:schemaBindings>
+    </jaxb:bindings>
+    <jaxb:bindings node="/xsd:schema" schemaLocation="DesignerService.xsd">
+        <jaxb:schemaBindings>
+            <jaxb:package name="eu.ohim.sp.external.services.designer"/>
+        </jaxb:schemaBindings>
+    </jaxb:bindings>
+    <jaxb:bindings node="/xsd:schema" schemaLocation="InventorService.xsd">
+        <jaxb:schemaBindings>
+            <jaxb:package name="eu.ohim.sp.external.services.inventor"/>
+        </jaxb:schemaBindings>
+    </jaxb:bindings>
+    <jaxb:bindings node="/xsd:schema" schemaLocation="FeeCalculationService.xsd">
+        <jaxb:schemaBindings>
+            <jaxb:package name="eu.ohim.sp.external.services.fee"/>
+        </jaxb:schemaBindings>
+    </jaxb:bindings>
+    <jaxb:bindings node="/xsd:schema" schemaLocation="AddressService.xsd">
+        <jaxb:schemaBindings>
+            <jaxb:package name="eu.ohim.sp.external.services.contact"/>
+        </jaxb:schemaBindings>
+    </jaxb:bindings>
+    <jaxb:bindings node="/xsd:schema" schemaLocation="RepresentativeService.xsd">
+        <jaxb:schemaBindings>
+            <jaxb:package name="eu.ohim.sp.external.services.representative"/>
+        </jaxb:schemaBindings>
+    </jaxb:bindings>
+    <jaxb:bindings node="/xsd:schema" schemaLocation="DesignSearchService.xsd">
+        <jaxb:schemaBindings>
+            <jaxb:package name="eu.ohim.sp.external.services.design"/>
+        </jaxb:schemaBindings>
+    </jaxb:bindings>
+    <jaxb:bindings node="/xsd:schema" schemaLocation="PatentSearchService.xsd">
+        <jaxb:schemaBindings>
+            <jaxb:package name="eu.ohim.sp.external.services.patent"/>
+        </jaxb:schemaBindings>
+    </jaxb:bindings>
+    <jaxb:bindings node="/xsd:schema" schemaLocation="UserdocSearchService.xsd">
+        <jaxb:schemaBindings>
+            <jaxb:package name="eu.ohim.sp.external.services.userdoc"/>
+        </jaxb:schemaBindings>
+    </jaxb:bindings>
+    <jaxb:bindings node="/xsd:schema" schemaLocation="LocarnoClassificationService.xsd">
+        <jaxb:schemaBindings>
+            <jaxb:package name="eu.ohim.sp.external.services.classification.locarno"/>
+        </jaxb:schemaBindings>
+    </jaxb:bindings>
+    <jaxb:bindings node="/xsd:schema" schemaLocation="UserSearchService.xsd">
+        <jaxb:schemaBindings>
+            <jaxb:package name="eu.ohim.sp.external.services.user"/>
+        </jaxb:schemaBindings>
+    </jaxb:bindings>
+    <jaxb:bindings node="/xsd:schema" schemaLocation="ApplicationService.xsd">
+        <jaxb:schemaBindings>
+            <jaxb:package name="eu.ohim.sp.external.services.application"/>
+        </jaxb:schemaBindings>
+    </jaxb:bindings>
+    <jaxb:bindings node="/xsd:schema" schemaLocation="ResourceService.xsd">
+        <jaxb:schemaBindings>
+            <jaxb:package name="eu.ohim.sp.external.services.resource"/>
+        </jaxb:schemaBindings>
+    </jaxb:bindings>
+    <jaxb:bindings node="/xsd:schema" schemaLocation="EPaymentService.xsd">
+        <jaxb:schemaBindings>
+            <jaxb:package name="eu.ohim.sp.external.services.epayment"/>
+        </jaxb:schemaBindings>
+    </jaxb:bindings>
+    <jaxb:bindings node="/xsd:schema" schemaLocation="NiceClassificationService.xsd">
+        <jaxb:schemaBindings>
+            <jaxb:package name="eu.ohim.sp.external.services.classification.nice"/>
+        </jaxb:schemaBindings>
+    </jaxb:bindings>
+    <jaxb:bindings node="/xsd:schema" schemaLocation="TrademarkSearchService.xsd">
+        <jaxb:schemaBindings>
+            <jaxb:package name="eu.ohim.sp.external.services.trademark"/>
+        </jaxb:schemaBindings>
+    </jaxb:bindings>
+    <jaxb:bindings node="/xsd:schema" schemaLocation="../domain/ClassificationDomain.xsd">
+        <jaxb:schemaBindings>
+            <jaxb:package name="eu.ohim.sp.external.domain.classification"/>
+        </jaxb:schemaBindings>
+    </jaxb:bindings>
+    <jaxb:bindings node="/xsd:schema"
+                   schemaLocation="../domain/ClassificationWrapperDomain.xsd">
+        <jaxb:schemaBindings>
+            <jaxb:package name="eu.ohim.sp.external.domain.classification.wrapper"/>
+        </jaxb:schemaBindings>
+    </jaxb:bindings>
+    <jaxb:bindings node="/xsd:schema"
+                   schemaLocation="../domain/ApplicationDomain.xsd">
+        <jaxb:schemaBindings>
+            <jaxb:package name="eu.ohim.sp.external.domain.application"/>
+        </jaxb:schemaBindings>
+    </jaxb:bindings>
+	
+    <jaxb:bindings node="/xsd:schema" schemaLocation="../domain/ClaimDomain.xsd">
+        <jaxb:schemaBindings>
+            <jaxb:package name="eu.ohim.sp.external.domain.claim"/>
+        </jaxb:schemaBindings>
+    </jaxb:bindings>
+    <jaxb:bindings node="/xsd:schema" schemaLocation="../domain/PersonDomain.xsd">
+        <jaxb:schemaBindings>
+            <jaxb:package name="eu.ohim.sp.external.domain.person"/>
+        </jaxb:schemaBindings>
+    </jaxb:bindings>
+    <jaxb:bindings node="/xsd:schema" schemaLocation="../domain/DesignDomain.xsd">
+        <jaxb:schemaBindings>
+            <jaxb:package name="eu.ohim.sp.external.domain.design"/>
+        </jaxb:schemaBindings>
+    </jaxb:bindings>
+    <jaxb:bindings node="/xsd:schema" schemaLocation="../domain/PatentDomain.xsd">
+        <jaxb:schemaBindings>
+            <jaxb:package name="eu.ohim.sp.external.domain.patent"/>
+        </jaxb:schemaBindings>
+    </jaxb:bindings>
+    <jaxb:bindings node="/xsd:schema" schemaLocation="../domain/UserdocDomain.xsd">
+        <jaxb:schemaBindings>
+            <jaxb:package name="eu.ohim.sp.external.domain.userdoc"/>
+        </jaxb:schemaBindings>
+    </jaxb:bindings>
+    <jaxb:bindings node="/xsd:schema" schemaLocation="../domain/ContactDomain.xsd">
+        <jaxb:schemaBindings>
+            <jaxb:package name="eu.ohim.sp.external.domain.contact"/>
+        </jaxb:schemaBindings>
+    </jaxb:bindings>
+    <jaxb:bindings node="/xsd:schema" schemaLocation="../domain/ResourceDomain.xsd">
+        <jaxb:schemaBindings>
+            <jaxb:package name="eu.ohim.sp.external.domain.resource"/>
+        </jaxb:schemaBindings>
+    </jaxb:bindings>
+    <jaxb:bindings node="/xsd:schema" schemaLocation="../domain/UserDomain.xsd">
+        <jaxb:schemaBindings>
+            <jaxb:package name="eu.ohim.sp.external.domain.user"/>
+        </jaxb:schemaBindings>
+    </jaxb:bindings>
+    <jaxb:bindings node="/xsd:schema" schemaLocation="../domain/CommonDomain.xsd">
+        <jaxb:schemaBindings>
+            <jaxb:package name="eu.ohim.sp.external.domain.common"/>
+        </jaxb:schemaBindings>
+    </jaxb:bindings>
+    <jaxb:bindings
+            node="/xsd:schema/xsd:complexType[@name='ParamsMap']"
+            schemaLocation="../domain/CommonDomain.xsd">
+        <inheritance:implements>eu.ohim.sp.common.xml.XsdMap</inheritance:implements>
+    </jaxb:bindings>
+    <jaxb:bindings node="/xsd:schema" schemaLocation="../domain/PaymentDomain.xsd">
+        <jaxb:schemaBindings>
+            <jaxb:package name="eu.ohim.sp.external.domain.epayment"/>
+        </jaxb:schemaBindings>
+    </jaxb:bindings>
+    <jaxb:bindings node="/xsd:schema" schemaLocation="../domain/PaymentWrapperDomain.xsd">
+        <jaxb:schemaBindings>
+            <jaxb:package name="eu.ohim.sp.external.domain.epayment.wrapper"/>
+        </jaxb:schemaBindings>
+    </jaxb:bindings>
+    <jaxb:bindings node="/xsd:schema" schemaLocation="../domain/TradeMarkDomain.xsd">
+        <jaxb:schemaBindings>
+            <jaxb:package name="eu.ohim.sp.external.domain.trademark"/>
+        </jaxb:schemaBindings>
+    </jaxb:bindings>
+
+    <!-- fixed name for reserved name 'return' of java -->
+    <jaxb:bindings multiple="true" node="//xs:element[@name='return']"  schemaLocation="ApplicantService.xsd">
+            <jaxb:property name="ReturnedObject" />
+    </jaxb:bindings>
+    <jaxb:bindings multiple="true" node="//xs:element[@name='return']"  schemaLocation="DesignerService.xsd">
+        <jaxb:property name="ReturnedObject" />
+    </jaxb:bindings>
+    <jaxb:bindings multiple="true" node="//xs:element[@name='return']"  schemaLocation="InventorService.xsd">
+        <jaxb:property name="ReturnedObject" />
+    </jaxb:bindings>
+    <jaxb:bindings multiple="true" node="//xs:element[@name='return']"  schemaLocation="DesignSearchService.xsd">
+        <jaxb:property name="ReturnedObject" />
+    </jaxb:bindings>
+    <jaxb:bindings multiple="true" node="//xs:element[@name='return']"  schemaLocation="EPaymentService.xsd">
+        <jaxb:property name="ReturnedObject" />
+    </jaxb:bindings>
+    <jaxb:bindings multiple="true" node="//xs:element[@name='return']"  schemaLocation="LocarnoClassificationService.xsd">
+        <jaxb:property name="ReturnedObject" />
+    </jaxb:bindings>
+    <jaxb:bindings multiple="true" node="//xs:element[@name='return']"  schemaLocation="NiceClassificationService.xsd">
+        <jaxb:property name="ReturnedObject" />
+    </jaxb:bindings>
+    <jaxb:bindings multiple="true" node="//xs:element[@name='return']"  schemaLocation="RepresentativeService.xsd">
+        <jaxb:property name="ReturnedObject" />
+    </jaxb:bindings>
+    <jaxb:bindings multiple="true" node="//xs:element[@name='return']"  schemaLocation="ResourceService.xsd">
+        <jaxb:property name="ReturnedObject" />
+    </jaxb:bindings>
+    <jaxb:bindings multiple="true" node="//xs:element[@name='return']"  schemaLocation="TrademarkSearchService.xsd">
+        <jaxb:property name="ReturnedObject" />
+    </jaxb:bindings>
+    <jaxb:bindings multiple="true" node="//xs:element[@name='return']"  schemaLocation="UserSearchService.xsd">
+        <jaxb:property name="ReturnedObject" />
+    </jaxb:bindings>
+
+</jaxb:bindings>

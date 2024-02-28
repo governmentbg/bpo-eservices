@@ -1,0 +1,23 @@
+# ./jboss-cli.sh --file=undeploy-domain-cli.sh
+connect @node.ip@
+undeploy jackrabbit-jca.rar --all-relevant-server-groups
+undeploy jackrabbitexplorer.war --all-relevant-server-groups
+undeploy jackrabbit-webapp-2.6.2.war --all-relevant-server-groups
+undeploy sp-core-configuration.ear --all-relevant-server-groups
+undeploy sp-core-rules.ear --all-relevant-server-groups
+undeploy sp-core-resources.ear --all-relevant-server-groups
+undeploy sp-core-application.ear --all-relevant-server-groups
+undeploy sp-core-document.ear --all-relevant-server-groups
+undeploy sp-core-epayment.ear --all-relevant-server-groups
+undeploy sp-core-esignature.ear --all-relevant-server-groups
+undeploy sp-core-fee-calculation.ear --all-relevant-server-groups
+undeploy sp-core-ipapplication.ear --all-relevant-server-groups
+undeploy sp-core-locarno-classification.ear --all-relevant-server-groups
+undeploy sp-core-nice-classification.ear --all-relevant-server-groups
+undeploy sp-core-person-search.ear --all-relevant-server-groups
+undeploy sp-core-report.ear --all-relevant-server-groups
+undeploy sp-core-trademark-search.ear --all-relevant-server-groups
+undeploy sp-core-design-search.ear --all-relevant-server-groups
+undeploy sp-ui-tmefiling.war --all-relevant-server-groups
+undeploy sp-ui-dsefiling.war --all-relevant-server-groups
+undeploy sp-ui-eservices.war --all-relevant-server-groups

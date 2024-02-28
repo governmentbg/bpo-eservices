@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://dozer.sourceforge.net http://dozer.sourceforge.net/schema/beanmapping.xsd">
+
+
+    <mapping map-null="false">
+        <class-a>eu.ohim.sp.core.domain.contact.Address</class-a>
+        <class-b>eu.ohim.sp.filing.domain.ol.Address</class-b>
+        <field>
+            <a>this</a>
+            <b>formattedAddress</b>
+        </field>
+        <field>
+            <a>country</a>
+            <b>addressCountryCode</b>
+        </field>
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>eu.ohim.sp.core.domain.contact.Address</class-a>
+        <class-b>eu.ohim.sp.filing.domain.ol.AddressBook</class-b>
+        <field>
+            <a>this</a>
+            <b>formattedNameAddress.address.formattedAddress</b>
+        </field>
+        <field>
+            <a>postalName</a>
+            <b>formattedNameAddress.name.freeFormatName.freeFormatNameDetails.freeFormatNameLine[0].value</b>
+        </field>
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>eu.ohim.sp.core.domain.person.Person</class-a>
+        <class-b>eu.ohim.sp.filing.domain.ol.ContactInformationDetails</class-b>
+        <field>
+            <a>emails</a>
+            <b>email</b>
+            <a-hint>eu.ohim.sp.core.domain.contact.Email</a-hint>
+            <b-hint>java.lang.String</b-hint>
+        </field>
+        <field>
+            <a>phones</a>
+            <b>phone</b>
+            <a-hint>eu.ohim.sp.core.domain.contact.Phone</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.ol.Phone</b-hint>
+        </field>
+        <field>
+            <a>phones</a>
+            <b>fax</b>
+            <a-hint>eu.ohim.sp.core.domain.contact.Phone</a-hint>
+            <b-hint>java.lang.String</b-hint>
+        </field>
+        <field>
+            <a>urls</a>
+            <b>url</b>
+        </field>
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>eu.ohim.sp.core.domain.person.Representative</class-a>
+        <class-b>eu.ohim.sp.filing.domain.ol.Representative</class-b>
+        <field>
+            <a>identifiers</a>
+            <b>representativeIdentifier</b>
+        </field>
+        <field>
+            <a>addresses[0]</a>
+            <b>addressBook</b>
+            <a-hint>eu.ohim.sp.core.domain.contact.Address</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.ol.AddressBook</b-hint>
+        </field>
+        <field>
+            <a>name</a>
+            <b>addressBook.formattedNameAddress.name.formattedName</b>
+        </field>
+        <field>
+            <a>kind</a>
+            <b>addressBook.formattedNameAddress.name.nameKind</b>
+        </field>
+        <field>
+            <a>representativeKind</a>
+            <b>kind</b>
+        </field>
+        <field>
+            <a>this</a>
+            <b>addressBook.contactInformationDetails</b>
+        </field>
+        <field>
+            <a>correspondenceAddresses</a>
+            <b>correspondenceAddresses</b>
+            <a-hint>eu.ohim.sp.core.domain.contact.Address</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.ol.AddressBook</b-hint>
+        </field>
+        <field>
+            <a>correspondenceEmails</a>
+            <b>correspondenceAddresses[0].contactInformationDetails.email</b>
+            <a-hint>eu.ohim.sp.core.domain.contact.Email</a-hint>
+            <b-hint>java.lang.String</b-hint>
+        </field>
+        <field>
+            <a>correspondencePhones</a>
+            <b>correspondenceAddresses[0].contactInformationDetails.phone</b>
+            <a-hint>eu.ohim.sp.core.domain.contact.Phone</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.ol.Phone</b-hint>
+        </field>
+        <field>
+            <a>correspondencePhones</a>
+            <b>correspondenceAddresses[0].contactInformationDetails.fax</b>
+            <a-hint>eu.ohim.sp.core.domain.contact.Phone</a-hint>
+            <b-hint>java.lang.String</b-hint>
+        </field>
+        <field>
+            <a>personRoleRelationships[0]</a>
+            <b>this</b>
+            <a-hint>eu.ohim.sp.core.domain.person.PersonRoleRelationship</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.ol.Representative</b-hint>
+        </field>
+        <field>
+            <a>powReauthorizationIndicator</a>
+            <b get-method="isPowReauthorizationIndicator">powReauthorizationIndicator</b>
+        </field>
+        <field>
+            <a>powValidityIndefiniteIndicator</a>
+            <b get-method="isPowValidityIndefiniteIndicator">powValidityIndefiniteIndicator</b>
+        </field>
+        <field>
+            <a>powRevokesPreviousIndicator</a>
+            <b get-method="isPowRevokesPreviousIndicator">powRevokesPreviousIndicator</b>
+        </field>
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>eu.ohim.sp.core.domain.person.PersonRoleRelationship
+        </class-a>
+        <class-b>eu.ohim.sp.filing.domain.ol.Representative</class-b>
+        <field>
+            <a>documents</a>
+            <b>representativeDocumentDetails.documentIncluded</b>
+            <a-hint>eu.ohim.sp.core.domain.resources.AttachedDocument</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.ol.Document</b-hint>
+        </field>
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>eu.ohim.sp.core.domain.contact.ContactDetails</class-a>
+        <class-b>eu.ohim.sp.filing.domain.ol.CorrespondenceAddress</class-b>
+        <field>
+            <a>address[0]</a>
+            <b>correspondenceAddressBook</b>
+            <a-hint>eu.ohim.sp.core.domain.contact.Address</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.ol.AddressBook</b-hint>
+        </field>
+        <field map-id="custom-contact-map">
+            <a>this</a>
+            <b>correspondenceAddressBook.contactInformationDetails</b>
+        </field>
+        <field>
+            <a>electronicCorrespondence</a>
+            <b get-method="isElectronicCorrespondenceIndicator">electronicCorrespondenceIndicator</b>
+        </field>
+    </mapping>
+
+    <mapping map-id="custom-contact-map" map-null="false">
+        <class-a>eu.ohim.sp.core.domain.contact.ContactDetails</class-a>
+        <class-b>eu.ohim.sp.filing.domain.ol.ContactInformationDetails</class-b>
+        <field>
+            <a>phone</a>
+            <b>phone</b>
+        </field>
+        <field>
+            <a>email</a>
+            <b>email</b>
+        </field>
+        <field>
+            <a>fax</a>
+            <b>fax</b>
+        </field>
+        <field>
+            <a>url</a>
+            <b>url</b>
+        </field>
+    </mapping>
+
+
+    <mapping map-null="false">
+        <class-a>eu.ohim.sp.core.domain.payment.Payment</class-a>
+        <class-b>eu.ohim.sp.filing.domain.ol.Payment</class-b>
+        <field>
+            <a>payer.addresses[0]</a>
+            <b>payerAddressBook</b>
+            <a-hint>eu.ohim.sp.core.domain.contact.Address</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.ol.AddressBook</b-hint>
+        </field>
+        <field>
+            <a>identifier</a>
+            <b>paymentIdentifier</b>
+        </field>
+        <field>
+            <a>kind</a>
+            <b>paymentKind</b>
+        </field>
+        <field>
+            <a>payer.name</a>
+            <b>payerName.formattedName</b>
+        </field>
+        <field>
+            <a>payer</a>
+            <b>payerAddressBook.contactInformationDetails</b>
+        </field>
+        <field>
+            <a>bankTransfer</a>
+            <b>paymentMethod.bankTransfer</b>
+            <a-hint>eu.ohim.sp.core.domain.payment.BankTransfer</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.ol.BankTransfer</b-hint>
+        </field>
+        <field>
+            <a>account</a>
+            <b>paymentMethod.account</b>
+            <a-hint>eu.ohim.sp.core.domain.payment.Account</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.ol.Account</b-hint>
+        </field>
+        <field>
+            <a>cardAccount</a>
+            <b>paymentMethod.cardAccount</b>
+            <a-hint>eu.ohim.sp.core.domain.payment.CardAccount</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.ol.CardAccount</b-hint>
+        </field>
+        <field>
+            <a>comment</a>
+            <b>comment.value</b>
+        </field>
+        <field>
+            <a get-method="getStatus">status</a>
+            <b get-method="getPaymentStatus">paymentStatus</b>
+        </field>
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>eu.ohim.sp.core.domain.application.Signatory</class-a>
+        <class-b>eu.ohim.sp.filing.domain.ol.Signatory</class-b>
+        <field>
+            <a>name</a>
+            <b>name.freeFormatName.freeFormatNameDetails.freeFormatNameLine[0].value</b>
+        </field>
+        <field>
+            <a>userId</a>
+            <b>signatoryUserId</b>
+        </field>
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>eu.ohim.sp.core.domain.payment.PaymentFee</class-a>
+        <class-b>eu.ohim.sp.filing.domain.ol.Payment</class-b>
+        <field>
+            <a>fees</a>
+            <b>paymentFeeDetails.paymentFee</b>
+            <a-hint>eu.ohim.sp.core.domain.payment.MatchedFee</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.ol.PaymentFee</b-hint>
+        </field>
+        <field>
+            <a>payLaterAttachedDocuments</a>
+            <b>paymentDocument</b>
+        </field>
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>eu.ohim.sp.core.domain.payment.MatchedFee</class-a>
+        <class-b>eu.ohim.sp.filing.domain.ol.PaymentFee</class-b>
+        <field>
+            <a>fee.feeType.nameKey</a>
+            <b>feeReference</b>
+        </field>
+        <field>
+            <a>fee.amount</a>
+            <b>feeAmount.value</b>
+        </field>
+        <field>
+            <a>fee.quantity</a>
+            <b>feeUnitQuantity</b>
+        </field>
+        <field>
+            <a>fee.unitAmount</a>
+            <b>feeUnitAmount.value</b>
+        </field>
+        <field>
+            <a get-method="getExpirationExtentYearsFromEntitlement">fee.expirationExtentYearsFromEntitlement</a>
+            <b get-method="getExpirationExtentYearsFromEntitlement">expirationExtentYearsFromEntitlement</b>
+        </field>
+        <field>
+            <a get-method="getExpirationExtentNewDate">fee.expirationExtentNewDate</a>
+            <b get-method="getExpirationExtentNewDate">expirationExtentNewDate</b>
+        </field>
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>eu.ohim.sp.core.domain.person.Applicant</class-a>
+        <class-b>eu.ohim.sp.filing.domain.ol.Applicant</class-b>
+        <field>
+            <a>owner</a>
+            <b get-method="isApplicantIsOwner">applicantIsOwner</b>
+        </field>
+    </mapping>
+
+
+    <mapping map-null="false">
+        <class-a>eu.ohim.sp.core.domain.person.PersonRole</class-a>
+        <class-b>eu.ohim.sp.filing.domain.ol.Applicant</class-b>
+        <field>
+            <a>identifiers</a>
+            <b>applicantIdentifier</b>
+        </field>
+        <field>
+            <a>addresses[0]</a>
+            <b>addressBook</b>
+            <a-hint>eu.ohim.sp.core.domain.contact.Address</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.ol.AddressBook</b-hint>
+        </field>
+        <field>
+            <a>correspondenceAddresses</a>
+            <b>correspondenceAddresses</b>
+            <a-hint>eu.ohim.sp.core.domain.contact.Address</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.ol.AddressBook</b-hint>
+        </field>
+        <field>
+            <a>kind</a>
+            <b>addressBook.formattedNameAddress.name.nameKind</b>
+        </field>
+        <field>
+            <a>name</a>
+            <b>addressBook.formattedNameAddress.name.formattedName</b>
+        </field>
+        <field>
+            <a>this</a>
+            <b>addressBook.contactInformationDetails</b>
+            <a-hint>eu.ohim.sp.core.domain.person.Person</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.ol.ContactInformationDetails</b-hint>
+        </field>
+
+        <field>
+            <a>correspondenceEmails</a>
+            <b>correspondenceAddresses[0].contactInformationDetails.email</b>
+            <a-hint>eu.ohim.sp.core.domain.contact.Email</a-hint>
+            <b-hint>java.lang.String</b-hint>
+        </field>
+        <field>
+            <a>correspondencePhones</a>
+            <b>correspondenceAddresses[0].contactInformationDetails.phone</b>
+            <a-hint>eu.ohim.sp.core.domain.contact.Phone</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.ol.Phone</b-hint>
+        </field>
+        <field>
+            <a>correspondencePhones</a>
+            <b>correspondenceAddresses[0].contactInformationDetails.fax</b>
+            <a-hint>eu.ohim.sp.core.domain.contact.Phone</a-hint>
+            <b-hint>java.lang.String</b-hint>
+        </field>
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>eu.ohim.sp.core.domain.other.OLeServiceApplication</class-a>
+        <class-b>eu.ohim.sp.filing.domain.ol.ObjectlessServicesApplicationType</class-b>
+
+        <field>
+            <a>signatures</a>
+            <b>signatoryDetails.signatory</b>
+            <a-hint>eu.ohim.sp.core.domain.application.Signatory</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.ol.Signatory</b-hint>
+        </field>
+        <field>
+            <a>payments</a>
+            <b>paymentDetails.payment</b>
+            <a-hint>eu.ohim.sp.core.domain.payment.PaymentFee</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.ol.Payment</b-hint>
+        </field>
+        <field>
+            <a>applicants</a>
+            <b>applicantDetails.applicant</b>
+            <a-hint>eu.ohim.sp.core.domain.person.Applicant</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.ol.Applicant</b-hint>
+        </field>
+        <field>
+            <a>representatives</a>
+            <b>representativeDetails.representative</b>
+            <a-hint>eu.ohim.sp.core.domain.person.Representative</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.ol.Representative</b-hint>
+        </field>
+
+        <field>
+            <a>documents</a>
+            <b>documentIncludedDetails.documentIncluded</b>
+            <a-hint>eu.ohim.sp.core.domain.resources.AttachedDocument</a-hint>
+            <b-hint>eu.ohim.sp.filing.domain.ol.Document</b-hint>
+        </field>
+        <field>
+            <a>contactDetails</a>
+            <b>correspondenceAddress</b>
+        </field>
+
+        <field>
+            <a>esignDocDeclaration</a>
+            <b get-method="isEsignDocDeclarationIndicator">esignDocDeclarationIndicator</b>
+        </field>
+    </mapping>
+</mappings>

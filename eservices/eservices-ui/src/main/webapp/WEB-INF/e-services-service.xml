@@ -1,0 +1,289 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:cache="http://www.springframework.org/schema/cache"
+       xmlns:jee="http://www.springframework.org/schema/jee" xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.1.xsd
+
+        http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache-3.1.xsd
+        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.1.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd">
+
+
+
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="ignoreResourceNotFound" value="false"/>
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
+    	<property name="locations">
+        	<list>
+        		<value>file:///${sp.config}/authenticationclient.properties</value>
+        		<value>file:///${sp.config}/authenticationadapter.properties</value>
+        		<value>file:///${sp.config}/eservices/securityclient.properties</value>
+        		<value>file:///${sp.config}/eservices/eservices.properties</value>
+                <value>file:///${sp.config}/eservices/cas.properties</value>
+        		<value>file:///${sp.config}/environment.properties</value>
+        	</list>
+    	</property>
+	</bean>
+
+    <!-- SECURITY -->
+    <import resource="classpath*:softwarePackageContext-security.xml" />
+
+    <util:properties id="permissionsProperties" location="file:///${sp.config}/eservices/permissions.properties" />
+
+    <bean id="log4jInitialization" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="targetClass" value="org.springframework.util.Log4jConfigurer"/>
+        <property name="targetMethod" value="initLogging"/>
+        <property name="arguments">
+            <list>
+                <value>classpath:log4j.xml</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Activates various annotations to be detected in bean classes: Spring's
+        @Required and @Autowired, as well as JSR 250's @PostConstruct, @PreDestroy
+        and @Resource (if available). -->
+    <context:annotation-config />
+    
+     
+	
+
+    <!-- Enables caching annotations -->
+    <cache:annotation-driven />
+
+    <task:annotation-driven />
+<!--
+    <task:scheduler id="scheduler" pool-size="1" />
+    <task:executor id="executor" pool-size="1" queue-capacity="1" />
+    <task:scheduled-tasks scheduler="scheduler">
+        <task:scheduled ref="messageSource" method="clearCache"
+            fixed-rate="86400" />
+    </task:scheduled-tasks>
+-->
+    <bean id="jndiProperties"
+        class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="properties">
+            <map>
+                <entry key="java.naming.factory.url.pkgs" value="org.jboss.ejb.client.naming" />
+                <entry key="jboss.naming.client.ejb.context" value="true"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="usedProvisionalNumbers" class="eu.ohim.sp.common.ui.form.application.UsedProvisionalNumbers"
+        scope="session">
+        <aop:scoped-proxy />
+    </bean>
+
+
+    <bean id="submittedMap" class="eu.ohim.sp.common.ui.form.application.SubmittedMap"
+        scope="session">
+        <aop:scoped-proxy />
+    </bean>
+
+    <jee:local-slsb id="documentService"
+        business-interface="eu.ohim.sp.core.document.DocumentServiceRemote"
+        jndi-name="${document.jndi.name}" resource-ref="false"
+        environment-ref="jndiProperties" expose-access-context="true" />
+
+    <jee:local-slsb id="paymentService"
+        business-interface="eu.ohim.sp.core.epayment.EPaymentServiceRemote"
+        jndi-name="${payment.jndi.name}" resource-ref="false" environment-ref="jndiProperties" />
+        
+    <jee:local-slsb id="tradeMarkService"
+		business-interface="eu.ohim.sp.core.register.TradeMarkSearchServiceRemote"
+		jndi-name="${trademark.jndi.name}" resource-ref="false"
+		environment-ref="jndiProperties" />
+
+    <jee:local-slsb id="designService"
+		business-interface="eu.ohim.sp.core.register.DesignSearchServiceRemote"
+		jndi-name="${design.jndi.name}" resource-ref="false"
+		environment-ref="jndiProperties" />
+
+    <jee:local-slsb id="applicantService"
+        business-interface="eu.ohim.sp.core.person.ApplicantServiceRemote"
+        jndi-name="${applicant.jndi.name}" resource-ref="false"
+        environment-ref="jndiProperties" />
+
+    <jee:local-slsb id="representativeService"
+        business-interface="eu.ohim.sp.core.person.RepresentativeServiceRemote"
+        jndi-name="${representative.jndi.name}" resource-ref="false"
+        environment-ref="jndiProperties" />
+
+    <jee:local-slsb id="personChangeService"
+        business-interface="eu.ohim.sp.core.person.PersonChangeServiceRemote"
+        jndi-name="${personChange.jndi.name}" resource-ref="false"
+        environment-ref="jndiProperties" />
+   
+	<jee:local-slsb id="classificationService"
+		business-interface="eu.ohim.sp.core.classification.NiceClassificationServiceRemote"
+		jndi-name="${classification.jndi.name}" resource-ref="false"
+		environment-ref="jndiProperties" />
+      
+    <jee:local-slsb id="businessRulesService"
+        business-interface="eu.ohim.sp.core.rules.RulesServiceRemote"
+        jndi-name="${businessrules.jndi.name}" resource-ref="false"
+        environment-ref="jndiProperties" />
+  
+    <jee:local-slsb id="userService"
+        business-interface="eu.ohim.sp.core.user.UserSearchServiceRemote"
+        jndi-name="${user.jndi.name}" resource-ref="false" environment-ref="jndiProperties" />
+
+    <jee:local-slsb id="reportService"
+        business-interface="eu.ohim.sp.core.report.ReportServiceRemote"
+        jndi-name="${report.jndi.name}" resource-ref="false" environment-ref="jndiProperties" />
+
+    <jee:local-slsb id="resourceService"
+        business-interface="eu.ohim.sp.core.resource.ResourceServiceRemote"
+        jndi-name="${resource.jndi.name}" resource-ref="false"
+        environment-ref="jndiProperties" />
+        
+   	<jee:local-slsb id="applicationService"
+        business-interface="eu.ohim.sp.core.application.ApplicationServiceRemote"
+        jndi-name="${es.application.jndi.name}" resource-ref="false"
+        environment-ref="jndiProperties" expose-access-context="true" />
+        
+     <jee:local-slsb id="feeManagementService"
+        business-interface="eu.ohim.sp.core.fee.FeeCalculationServiceRemote"
+        jndi-name="${fee.jndi.name}" resource-ref="false" environment-ref="jndiProperties" />
+
+	<jee:local-slsb id="tradeMarkService"
+		business-interface="eu.ohim.sp.core.register.TradeMarkSearchServiceRemote"
+		jndi-name="${trademark.jndi.name}" resource-ref="false"
+		environment-ref="jndiProperties" />       
+ 
+ 	<jee:local-slsb id="systemConfigurationService"
+        business-interface="eu.ohim.sp.core.configuration.ConfigurationServiceRemote"
+        jndi-name="${configuration.jndi.name}" resource-ref="false"
+        environment-ref="jndiProperties" />
+        
+    <jee:local-slsb id="addressService"
+        business-interface="eu.ohim.sp.core.person.AddressServiceRemote"
+        jndi-name="${addressAdapter.jndi.name}" resource-ref="false"
+        environment-ref="jndiProperties" />
+        
+     <jee:local-slsb id="locarnoClassificationService"
+        business-interface="eu.ohim.sp.core.classification.LocarnoClassificationServiceRemote"
+        jndi-name="${locarno.classification.jndi.name}" resource-ref="false"
+        environment-ref="jndiProperties" />
+
+    <jee:local-slsb id="bpoBackOfficeSearchService"
+                    business-interface="eu.ohim.sp.core.register.BPOBackOfficeSearchServiceRemote"
+                    jndi-name="${backoffice.service.jndi.name}" resource-ref="false"
+                    environment-ref="jndiProperties" />
+
+    <!-- <bean id="applicationService"  class="eu.ohim.sp.eservices.ui.mock.MockedApplicationService"/>-->
+  	<!-- <bean id="systemConfigurationService"  class="eu.ohim.sp.eservices.ui.mock.MockedConfigurationService"/>-->  	
+ 	<!-- <bean id="tradeMarkService" class="eu.ohim.sp.eservices.ui.mock.MockedTradeMarkService"/>-->
+    <!-- <bean id="feeManagementService" class="eu.ohim.sp.eservices.ui.mock.MockedFeeManagementService"/>-->
+<!--    <bean id="designerService" class="eu.ohim.sp.eservices.ui.mock.MockedDesignerService"/>-->
+
+    <jee:local-slsb id="designerService"
+                    business-interface="eu.ohim.sp.core.person.DesignerServiceRemote"
+                    jndi-name="${designer.jndi.name}" resource-ref="false"
+                    environment-ref="jndiProperties" />
+
+    <jee:local-slsb id="inventorService"
+                    business-interface="eu.ohim.sp.core.person.InventorService"
+                    jndi-name="${inventor.jndi.name}" resource-ref="false"
+                    environment-ref="jndiProperties"/>
+
+    <jee:local-slsb id="patentService"
+                    business-interface="eu.ohim.sp.core.register.BPOPatentSearchService"
+                    jndi-name="${bpo.patent.jndi.name}" resource-ref="false"
+                    environment-ref="jndiProperties" />
+
+    <jee:local-slsb id="epoPatentService"
+                    business-interface="eu.ohim.sp.core.register.BPOEPOPatentSearchService"
+                    jndi-name="${bpo.epopatent.jndi.name}" resource-ref="false"
+                    environment-ref="jndiProperties" />
+
+    <jee:local-slsb id="umService"
+                    business-interface="eu.ohim.sp.core.register.BPOUMSearchService"
+                    jndi-name="${bpo.um.jndi.name}" resource-ref="false"
+                    environment-ref="jndiProperties" />
+
+    <jee:local-slsb id="spcService"
+                    business-interface="eu.ohim.sp.core.register.BPOSPCSearchService"
+                    jndi-name="${bpo.spc.jndi.name}" resource-ref="false"
+                    environment-ref="jndiProperties" />
+
+    <jee:local-slsb id="plantService"
+                    business-interface="eu.ohim.sp.core.register.BPOPlantSearchService"
+                    jndi-name="${bpo.plant.jndi.name}" resource-ref="false"
+                    environment-ref="jndiProperties" />
+
+    <jee:local-slsb id="ipoAutocompleteService"
+                    business-interface="eu.ohim.sp.core.register.IPOAutocompleteSearchService"
+                    jndi-name="${bpo.ipoautocomplete.jndi.name}" resource-ref="false"
+                    environment-ref="jndiProperties" />
+
+    <jee:local-slsb id="bpoClassificationService"
+                    business-interface="eu.ohim.sp.core.classification.BPOClassificationService"
+                    jndi-name="${bpoClassification.service.jndi.name}" resource-ref="false"
+                    environment-ref="jndiProperties" />
+
+    <bean id="exceptionHandlingAspect" class="eu.ohim.sp.common.ui.ExceptionInterceptor" />
+
+    <context:component-scan base-package="eu.ohim.sp.common.ui.webflow" />
+    <context:component-scan base-package="eu.ohim.sp.common.ui.preparer" />
+    <context:component-scan base-package="eu.ohim.sp.common.ui.adapter" />
+    <context:component-scan base-package="eu.ohim.sp.common.ui.service" />    
+    <context:component-scan base-package="eu.ohim.sp.common.ui.validator" />
+    <context:component-scan base-package="eu.ohim.sp.common.ui.configuration" />    
+	<context:component-scan base-package="eu.ohim.sp.eservices.ui.validator" />
+	<context:component-scan base-package="eu.ohim.sp.eservices.ui.service" />
+	<context:component-scan base-package="eu.ohim.sp.eservices.ui.adapter" />
+    <context:component-scan base-package="eu.ohim.sp.eservices.ui.util" />
+	
+	<!-- 
+	<context:component-scan base-package="eu.ohim.sp.common.ui.security.provider" />
+	-->
+		
+    <!--
+    <sec:global-method-security
+        pre-post-annotations="enabled">
+        <sec:expression-handler ref="expressionHandler" />
+    </sec:global-method-security>
+    -->
+
+
+<!--     <bean id="expressionHandler" -->
+<!--         class="org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler"> -->
+<!--         <property name="permissionEvaluator" ref="customPermissionEvaluator" /> -->
+<!--     </bean> -->
+
+    <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+        <property name="cacheManager">
+            <bean class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+                <property name="configLocation" value="/WEB-INF/ehcache.xml" />
+            </bean>
+        </property>
+    </bean>
+
+    <!-- task:scheduled-tasks scheduler="myScheduler">
+        <task:scheduled ref="scheduledTasks" method="preloadNiceClassHeadings"
+            trigger="trigger" />
+    </task:scheduled-tasks>
+
+    <bean id="scheduledTasks" class="eu.ohim.sp.common.ui.scheduler.ScheduledTasks">
+        <property name="preloadLanguages" value="${gs.preload.languages.importClassHeading}" />
+        <property name="numberOfClasses" value="${gs.number.classes}" />
+    </bean>
+
+    <bean id="trigger" class="eu.ohim.sp.common.ui.scheduler.trigger.OnOffTrigger">
+        <constructor-arg value="60000" />
+        <property name="enabled" value="${gs.preload.enabled.importClassHeading}" />
+    </bean>
+
+    <task:scheduler id="myScheduler" />
+ -->
+
+    <bean id="guardInterceptor" class="eu.ohim.sp.common.ui.interceptors.SingleRequestGuardInterceptor" />
+ 
+</beans>

@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<p:fileUploadConfiguration
+        xmlns:p="http://www.example.org/fileupload-configuration" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.example.org/fileupload-configuration fileupload-configuration.xsd">
+    <p:fileUpload fieldName="filePriorityCopy">
+        <p:fileUploadInfo>
+            <p:description>true</p:description>
+            <p:maximumFiles>5</p:maximumFiles>
+            <p:labelCode>p:labelCode</p:labelCode>
+            <p:allowedTypes>
+                <p:allowedFileType allowedSize="10485760" value="image/jpeg" description="JPEG" />
+                <p:allowedFileType allowedSize="10485760" value="image/pjpeg" description="PJPEG"/>
+                <p:allowedFileType allowedSize="10485760" value="application/pdf" description="PDF"/>
+                <p:allowedFileType allowedSize="10485760" value="audio/mp3" description="MP3"/>
+                <p:allowedFileType allowedSize="10485760" value="audio/mpeg" description="AUDIO/MPEG"/>
+                <!--<p:allowedFileType allowedSize="10485760" value="image/png" description="PNG"/>-->
+            </p:allowedTypes>
+        </p:fileUploadInfo>
+    </p:fileUpload>
+    <p:fileUpload fieldName="filePriorityTranslation">
+        <p:fileUploadInfo>
+            <p:description>true</p:description>
+            <p:maximumFiles>1</p:maximumFiles>
+            <p:labelCode>p:labelCode</p:labelCode>
+            <p:allowedTypes>
+                <p:allowedFileType allowedSize="10485760" value="image/jpeg" description="JPEG"/>
+                <p:allowedFileType allowedSize="10485760" value="image/pjpeg" description="PJPEG"/>
+                <p:allowedFileType allowedSize="10485760" value="application/pdf" description="PDF"/>
+                <p:allowedFileType allowedSize="10485760" value="audio/mp3" description="MP3"/>
+                <p:allowedFileType allowedSize="10485760" value="audio/mpeg" description="AUDIO/MPEG"/>
+                <!--<p:allowedFileType allowedSize="10485760" value="image/png" description="PNG"/>-->
+            </p:allowedTypes>
+        </p:fileUploadInfo>
+    </p:fileUpload>
+    <p:fileUpload fieldName="filePriorityCertificate">
+        <p:fileUploadInfo>
+            <p:description>true</p:description>
+            <p:maximumFiles>1</p:maximumFiles>
+            <p:labelCode>p:labelCode</p:labelCode>
+            <p:allowedTypes>
+                <p:allowedFileType allowedSize="10485760" value="image/jpeg" description="JPEG"/>
+                <p:allowedFileType allowedSize="10485760" value="image/pjpeg" description="PJPEG"/>
+                <p:allowedFileType allowedSize="10485760" value="application/pdf" description="PDF"/>
+                <p:allowedFileType allowedSize="10485760" value="audio/mp3" description="MP3"/>
+                <p:allowedFileType allowedSize="10485760" value="audio/mpeg" description="AUDIO/MPEG"/>
+            </p:allowedTypes>
+        </p:fileUploadInfo>
+    </p:fileUpload>
+    <p:fileUpload fieldName="fileDocumentAttachment">
+        <p:fileUploadInfo>
+            <p:description>true</p:description>
+            <p:maximumFiles>1</p:maximumFiles>
+            <p:labelCode>p:labelCode</p:labelCode>
+            <p:allowedTypes>
+                <p:allowedFileType allowedSize="10485760" value="image/jpeg" description="JPEG"/>
+                <p:allowedFileType allowedSize="10485760" value="image/pjpeg" description="PJPEG"/>
+                <p:allowedFileType allowedSize="10485760" value="application/pdf" description="PDF"/>
+                <p:allowedFileType allowedSize="10485760" value="audio/mp3" description="MP3"/>
+                <p:allowedFileType allowedSize="10485760" value="audio/mpeg" description="AUDIO/MPEG"/>
+                <!--<p:allowedFileType allowedSize="10485760" value="image/png" description="PNG"/>-->
+            </p:allowedTypes>
+        </p:fileUploadInfo>
+    </p:fileUpload>
+  
+    <p:fileUpload fieldName="fileWrapperImage">
+        <p:fileUploadInfo>
+            <p:description>true</p:description>
+            <p:maximumFiles>1</p:maximumFiles>
+            <p:labelCode>p:labelCode</p:labelCode>
+            <p:allowedTypes>
+                <p:allowedFileType allowedSize="2097152" value="image/jpeg" description="JPEG" image="true">
+                    <p:imageValidationParameters>
+                        <p:minSizePixels height="299" width="299"/>
+                        <p:maxSizePixels height="2835" width="2835"/>
+                        <p:maxSizeCentimeters height="24" width="24"/>
+                        <p:exifInfo>
+                            <p:validResolutionUnits>
+                                <p:validByte>0</p:validByte>
+                                <p:validByte>1</p:validByte>
+                                <p:validByte>2</p:validByte>
+                            </p:validResolutionUnits>
+                            <p:minXDensity>
+                                300
+                            </p:minXDensity>
+                            <p:minYDensity>
+                                300
+                            </p:minYDensity>
+                        </p:exifInfo>
+                        <p:acceptedColorModels>
+                            <p:colorModel>RGB</p:colorModel>
+                            <p:colorModel>Grayscale</p:colorModel>
+                            <p:colorModel>BW</p:colorModel>
+                        </p:acceptedColorModels>
+                    </p:imageValidationParameters>
+                </p:allowedFileType>
+                <!--<p:allowedFileType allowedSize="2097152" value="image/pjpeg" description="PJPEG" image="true">-->
+                <!--<p:imageValidationParameters>-->
+                <!--<p:minSizePixels height="799" width="599"/>-->
+                <!--<p:maxSizePixels height="2010" width="2835"/>-->
+                <!--<p:maxSizeCentimeters height="17" width="24"/>-->
+                <!--<p:exifInfo>-->
+                <!--<p:validResolutionUnits>-->
+                <!--<p:validByte>0</p:validByte>-->
+                <!--<p:validByte>1</p:validByte>-->
+                <!--<p:validByte>2</p:validByte>-->
+                <!--</p:validResolutionUnits>-->
+                <!--<p:minXDensity>-->
+                <!--300-->
+                <!--</p:minXDensity>-->
+                <!--<p:minYDensity>-->
+                <!--300-->
+                <!--</p:minYDensity>-->
+                <!--</p:exifInfo>-->
+                <!--<p:acceptedColorModels>-->
+                <!--<p:colorModel>RGB</p:colorModel>-->
+                <!--<p:colorModel>Grayscale</p:colorModel>-->
+                <!--<p:colorModel>BW</p:colorModel>-->
+                <!--</p:acceptedColorModels>-->
+                <!--</p:imageValidationParameters>-->
+                <!--</p:allowedFileType>-->
+                <p:allowedFileType allowedSize="2097152" value="image/png" description="PNG" image="true">
+                    <p:imageValidationParameters>
+                        <p:minSizePixels height="299" width="299"/>
+                        <p:maxSizePixels height="2835" width="2835"/>
+                        <!--<p:maxSizeCentimeters height="17" width="24"/>-->
+                        <p:exifInfo>
+                            <p:validResolutionUnits>
+                                <p:validByte>0</p:validByte>
+                                <p:validByte>1</p:validByte>
+                                <p:validByte>2</p:validByte>
+                            </p:validResolutionUnits>
+                            <p:minXDensity>
+                                300
+                            </p:minXDensity>
+                            <p:minYDensity>
+                                300
+                            </p:minYDensity>
+                        </p:exifInfo>
+                        <p:acceptedColorModels>
+                            <p:colorModel>RGB</p:colorModel>
+                            <p:colorModel>Grayscale</p:colorModel>
+                            <p:colorModel>BW</p:colorModel>
+                        </p:acceptedColorModels>
+                    </p:imageValidationParameters>
+                </p:allowedFileType>
+            </p:allowedTypes>
+        </p:fileUploadInfo>
+    </p:fileUpload>
+    <!-- p:fileUpload fieldName="soundFile">
+        <p:fileUploadInfo>
+            <p:description>true</p:description>
+            <p:maximumFiles>1</p:maximumFiles>
+            <p:labelCode>p:labelCode</p:labelCode>
+            <p:allowedTypes>
+                <p:allowedFileType allowedSize="2097152" value="audio/mp3">
+ 					<p:soundValidationParameters>
+                        <p:minSampleRate>22050</p:minSampleRate>
+                        <p:allowedSampleRates>
+                            <p:sampleRate>8000</p:sampleRate>
+                            <p:sampleRate>11025</p:sampleRate>
+                            <p:sampleRate>22050</p:sampleRate>
+                            <p:sampleRate>44100</p:sampleRate>
+                        </p:allowedSampleRates>
+                        <p:channels>
+                            <p:channel>1</p:channel>
+                            <p:channel>2</p:channel>
+                        </p:channels>
+                    </p:soundValidationParameters>                
+                </p:allowedFileType>
+                <p:allowedFileType allowedSize="2097152" value="audio/mp3">
+ 					<p:soundValidationParameters>
+                        <p:minSampleRate>22050</p:minSampleRate>
+                        <p:allowedSampleRates>
+                            <p:sampleRate>8000</p:sampleRate>
+                            <p:sampleRate>11025</p:sampleRate>
+                            <p:sampleRate>22050</p:sampleRate>
+                            <p:sampleRate>44100</p:sampleRate>
+                        </p:allowedSampleRates>
+                        <p:channels>
+                            <p:channel>1</p:channel>
+                            <p:channel>2</p:channel>
+                        </p:channels>
+                    </p:soundValidationParameters>					                
+                </p:allowedFileType>
+                <p:allowedFileType allowedSize="2097152" value="audio/mp3" description="MP3" sound="true">
+                    <p:soundValidationParameters>
+                        <p:minSampleRate>22050</p:minSampleRate>
+                        <p:allowedSampleRates>
+                            <p:sampleRate>8000</p:sampleRate>
+                            <p:sampleRate>11025</p:sampleRate>
+                            <p:sampleRate>22050</p:sampleRate>
+                            <p:sampleRate>44100</p:sampleRate>
+                        </p:allowedSampleRates>
+                        <p:channels>
+                            <p:channel>1</p:channel>
+                            <p:channel>2</p:channel>
+                        </p:channels>
+                    </p:soundValidationParameters>
+                </p:allowedFileType>
+            </p:allowedTypes>
+        </p:fileUploadInfo>
+    </p:fileUpload> -->
+    <!-- p:fileUpload fieldName="trademarkRegulationDocuments">
+        <p:fileUploadInfo>
+            <p:description>true</p:description>
+            <p:maximumFiles>1</p:maximumFiles>
+            <p:labelCode>p:labelCode</p:labelCode>
+            <p:allowedTypes>
+                <p:allowedFileType allowedSize="2097152" value="image/jpeg" description="JPEG"/>
+                <p:allowedFileType allowedSize="2097152" value="image/pjpeg" description="PJPEG"/>
+                <p:allowedFileType allowedSize="2097152" value="application/pdf" description="PDF"/>
+                <p:allowedFileType allowedSize="2097152" value="audio/mp3" description="MP3"/>
+            </p:allowedTypes>
+        </p:fileUploadInfo>
+    </p:fileUpload>
+    <p:fileUpload fieldNatrademarkTranslationDocumentsions">
+        <p:fileUploadInfo>
+            <p:description>true</p:description>
+            <p:maximumFiles>1</p:maximumFiles>
+            <p:labelCode>p:labelCode</p:labelCode>
+            <p:allowedTypes>
+                <p:allowedFileType allowedSize="2097152" value="application/pdf" description="PDF"/>
+                <p:allowedFileType allowedSize="2097152" value="audio/mp3" description="MP3"/>
+            </p:allowedTypes>
+        </p:fileUploadInfo>
+    </p:fileUpload>
+    <p:fileUpload fieldName="trademarkApplicantDocuments">
+        <p:fileUploadInfo>
+            <p:description>true</p:description>
+            <p:maximumFiles>1</p:maximumFiles>
+            <p:labelCode>p:labelCode</p:labelCode>
+            <p:allowedTypes>
+                <p:allowedFileType allowedSize="2097152" value="image/jpeg" description="JPEG"/>
+                <p:allowedFileType allowedSize="2097152" value="image/pjpeg" description="PJPEG"/>
+                <p:allowedFileType allowedSize="2097152" value="application/pdf" description="PDF"/>
+                <p:allowedFileType allowedSize="2097152" value="audio/mp3" description="MP3"/>
+            </p:allowedTypes>
+        </p:fileUploadInfo>
+    </p:fileUpload> -->
+    <p:fileUpload fieldName="otherAttachments">
+        <p:fileUploadInfo>
+            <p:description>true</p:description>
+            <p:maximumFiles>10</p:maximumFiles>
+            <p:labelCode>p:labelCode</p:labelCode>
+            <p:allowedTypes>
+                <p:allowedFileType allowedSize="10485760" value="application/pdf" description="PDF"/>
+                <p:allowedFileType allowedSize="10485760" value="application/msword" description="DOC" />
+                <p:allowedFileType allowedSize="10485760" value="application/vnd.openxmlformats-officedocument.wordprocessingml.document" description="DOCX" />
+                <p:allowedFileType allowedSize="10485760" value="application/rtf" description="RTF"/>
+                <p:allowedFileType allowedSize="10485760" value="text/plain" description="TXT"/>
+            </p:allowedTypes>
+        </p:fileUploadInfo>
+    </p:fileUpload>
+    <p:fileUpload fieldName="loadApplicationXML">
+        <p:fileUploadInfo>
+            <p:description>true</p:description>
+            <p:maximumFiles>1</p:maximumFiles>
+            <p:labelCode>p:labelCode</p:labelCode>
+            <p:allowedTypes>
+                <p:allowedFileType allowedSize="2097152" value="text/xml" description="XML"/>
+                <p:allowedFileType allowedSize="2097152" value="application/epub"/>
+            </p:allowedTypes>
+        </p:fileUploadInfo>
+    </p:fileUpload>
+
+    <p:fileUpload fieldName="view">
+        <p:fileUploadInfo>
+            <p:description>false</p:description>
+            <p:maximumFiles>1</p:maximumFiles>
+            <p:labelCode>p:labelCode</p:labelCode>
+            <p:allowedTypes>
+                <p:allowedFileType allowedSize="2097152" value="image/jpeg" description="JPEG" image="true">
+                    <p:imageValidationParameters>
+                        <p:minSizePixels height="300" width="300"/>
+                        <p:maxSizePixels height="2830" width="2830"/>
+                        <p:maxSizeCentimeters height="24" width="24"/>
+                        <p:exifInfo>
+                            <p:validResolutionUnits>
+                                <p:validByte>0</p:validByte>
+                                <p:validByte>1</p:validByte>
+                                <p:validByte>2</p:validByte>
+                            </p:validResolutionUnits>
+                            <p:minXDensity>
+                                300
+                            </p:minXDensity>
+                            <p:minYDensity>
+                                300
+                            </p:minYDensity>
+                        </p:exifInfo>
+                        <p:acceptedColorModels>
+                            <p:colorModel>RGB</p:colorModel>
+                            <p:colorModel>Grayscale</p:colorModel>
+                            <p:colorModel>BW</p:colorModel>
+                        </p:acceptedColorModels>
+                    </p:imageValidationParameters>
+                </p:allowedFileType>
+                <p:allowedFileType allowedSize="2097152" value="image/png" description="PNG" image="true">
+                    <p:imageValidationParameters>
+                        <p:minSizePixels height="300" width="300"/>
+                        <p:maxSizePixels height="2830" width="2830"/>
+                        <p:maxSizeCentimeters height="24" width="24"/>
+                        <p:exifInfo>
+                            <p:validResolutionUnits>
+                                <p:validByte>0</p:validByte>
+                                <p:validByte>1</p:validByte>
+                                <p:validByte>2</p:validByte>
+                            </p:validResolutionUnits>
+                            <p:minXDensity>
+                                300
+                            </p:minXDensity>
+                            <p:minYDensity>
+                                300
+                            </p:minYDensity>
+                        </p:exifInfo>
+                        <p:acceptedColorModels>
+                            <p:colorModel>RGB</p:colorModel>
+                            <p:colorModel>Grayscale</p:colorModel>
+                            <p:colorModel>BW</p:colorModel>
+                        </p:acceptedColorModels>
+                    </p:imageValidationParameters>
+                </p:allowedFileType>
+
+            </p:allowedTypes>
+        </p:fileUploadInfo>
+    </p:fileUpload>
+    <p:fileUpload fieldName="fileDivisionalApplication">
+    	<p:fileUploadInfo>
+            <p:description>false</p:description>
+            <p:maximumFiles>10</p:maximumFiles>
+            <p:labelCode>p:labelCode</p:labelCode>
+            <p:allowedTypes>
+                <p:allowedFileType allowedSize="52428800" value="image/jpeg" description="JPEG" />
+                <p:allowedFileType allowedSize="52428800" value="image/pjpeg" description="PJPEG"/>
+                <p:allowedFileType allowedSize="52428800" value="application/pdf" description="PDF"/>
+                <p:allowedFileType allowedSize="52428800" value="audio/mp3" description="MP3"/>
+                <p:allowedFileType allowedSize="52428800" value="audio/mpeg" description="AUDIO/MPEG"/>
+                <!--<p:allowedFileType allowedSize="52428800" value="image/png" description="PNG"/>-->
+            </p:allowedTypes>
+        </p:fileUploadInfo>
+    </p:fileUpload>
+    <p:fileUpload fieldName="filePowerOfAttorney">
+        <p:fileUploadInfo>
+            <p:description>true</p:description>
+            <p:maximumFiles>1</p:maximumFiles>
+            <p:labelCode>p:labelCode</p:labelCode>
+            <p:allowedTypes>
+                <p:allowedFileType allowedSize="52428800" value="application/pdf" description="PDF"/>                
+            </p:allowedTypes>
+        </p:fileUploadInfo>
+    </p:fileUpload>    
+	<p:fileUpload fieldName="designOfficiaryFiles">
+    	<p:fileUploadInfo>
+            <p:description>false</p:description>
+            <p:maximumFiles>10</p:maximumFiles>
+            <p:labelCode>p:labelCode</p:labelCode>
+            <p:allowedTypes>
+                <p:allowedFileType allowedSize="52428800" value="image/jpeg" description="JPEG" />
+                <p:allowedFileType allowedSize="52428800" value="image/pjpeg" description="PJPEG"/>
+                <p:allowedFileType allowedSize="52428800" value="application/pdf" description="PDF"/>
+                <!--<p:allowedFileType allowedSize="52428800" value="image/png" description="PNG"/>-->
+            </p:allowedTypes>
+        </p:fileUploadInfo>
+    </p:fileUpload>	
+	<p:fileUpload fieldName="designNotOfficiaryFiles">
+    	<p:fileUploadInfo>
+            <p:description>false</p:description>
+            <p:maximumFiles>10</p:maximumFiles>
+            <p:labelCode>p:labelCode</p:labelCode>
+            <p:allowedTypes>
+                <p:allowedFileType allowedSize="52428800" value="image/jpeg" description="JPEG" />
+                <p:allowedFileType allowedSize="52428800" value="image/pjpeg" description="PJPEG"/>
+                <p:allowedFileType allowedSize="52428800" value="application/pdf" description="PDF"/>
+                <!--<p:allowedFileType allowedSize="52428800" value="image/png" description="PNG"/>-->
+            </p:allowedTypes>
+        </p:fileUploadInfo>
+    </p:fileUpload>	
+	<p:fileUpload fieldName="payLaterAttachment">
+    	<p:fileUploadInfo>
+            <p:description>false</p:description>
+            <p:maximumFiles>1</p:maximumFiles>
+            <p:labelCode>p:labelCode</p:labelCode>
+            <p:allowedTypes>
+                <p:allowedFileType allowedSize="52428800" value="image/jpeg" description="JPEG" />
+                <p:allowedFileType allowedSize="52428800" value="image/pjpeg" description="PJPEG"/>
+                <p:allowedFileType allowedSize="52428800" value="application/pdf" description="PDF"/>
+                <!--<p:allowedFileType allowedSize="52428800" value="image/png" description="PNG"/>-->
+            </p:allowedTypes>
+        </p:fileUploadInfo>
+    </p:fileUpload>		
+</p:fileUploadConfiguration>

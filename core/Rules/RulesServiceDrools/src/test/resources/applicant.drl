@@ -1,0 +1,211 @@
+package org.domain.rules;
+dialect "mvel"
+
+import eu.ohim.sp.core.domain.person.Applicant;
+import eu.ohim.sp.core.domain.validation.RulesInformation;
+import eu.ohim.sp.core.domain.validation.ErrorCore;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+
+import eu.ohim.sp.core.configuration.domain.xsd.Section;
+import eu.ohim.sp.core.configuration.domain.xsd.Field;
+
+import java.util.Map;
+import java.util.ArrayList;
+
+import org.apache.commons.lang.StringUtils;
+
+global eu.ohim.sp.core.domain.validation.ErrorList errorList;
+
+# Creates a new error and returns it
+function ErrorCore createError(String info, String code, String message){
+	ErrorCore errorField = new ErrorCore();
+	if(info != null){
+		errorField.setField(info);
+		errorField.setErrorCode(code);
+		errorField.setErrorArgs(null);
+		errorField.setDisplayMessage(message);
+		errorField.setStackTrace("");
+		errorField.setServiceName("");
+		errorField.setSection("");
+		errorField.setBusinessRule(code);
+	}
+
+	return errorField;
+}
+
+function void addError(String field, String code, String message, String section, ErrorList errorList) {
+	# Error for the field
+	if (errorList.getErrorList() == null ) {
+		errorList.setErrorList(new ArrayList<ErrorCore>());
+	}
+	if (field != null){
+		errorList.getErrorList().add(createError(field, code, message));
+	}
+	# Error for the section
+	if(section != null){
+		errorList.getErrorList().add(createError(section, code, message));
+	}
+}
+
+rule "BR114 - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "type", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Applicant(kind==null)
+then
+	addError("type",
+		 "BRMandatory",
+		 "This field is mandatory",
+		 null,
+		 $errorList);
+end
+
+rule "BR116 - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "domicile", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Applicant(StringUtils.isEmpty(domicileLocality) == true)
+then
+	addError("domicile",
+		 "BRMandatory",
+		 "This field is mandatory",
+		 null,
+		 $errorList);
+end
+
+rule "BR117 - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "countryOfDomicile", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Applicant(StringUtils.isEmpty(domicileCountry) == true)
+then
+	addError("countryOfDomicile",
+		 "BRMandatory",
+		 "This field is mandatory",
+		 null,
+		 $errorList);
+end
+
+rule "BR122 - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "email", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Applicant(emails == null || (emails != null && emails.size() == 0))
+then
+	addError("email",
+		 "BRMandatory",
+		 "This field is mandatory",
+		 null,
+		 $errorList);
+end
+
+rule "BR128 - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "nationality", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Applicant(StringUtils.isEmpty(nationality) == true)
+then
+	addError("nationality",
+			 "BRMandatory",
+			"This field is mandatory",
+			 null,
+			 $errorList);
+end
+
+rule "BR131a - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "surname", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Applicant(name == null)
+then
+	addError("surname",
+			 "BRMandatory",
+			"This field is mandatory",
+			 null,
+			 $errorList);
+end
+
+rule "BR131b - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "surname", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Applicant(name != null &&
+				StringUtils.isEmpty(name.lastName) == true)
+then
+	addError("surname",
+			 "BRMandatory",
+			"This field is mandatory",
+			 null,
+			 $errorList);
+end
+
+rule "BR136 - Empty (secondLastName)"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "surname", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Applicant(name != null &&
+				StringUtils.isEmpty(name.secondLastName) == true)
+then
+	addError("name",
+			 "BRMandatory",
+			"This field is mandatory",
+			 null,
+			 $errorList);
+end
+
+rule "BR132b - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "firstName", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)  
+	Applicant(name != null &&
+				StringUtils.isEmpty(name.firstName) == true)
+then
+	addError("firstName",
+			 "BRMandatory",
+			"This field is mandatory",
+			 null,
+			 $errorList);
+end
+
+rule "BR138a - Empty (city)"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "address.city", $fieldUsable : usable, $fieldRequired : required, $editableImportField : editableImport) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Applicant(addresses == null || (addresses != null && addresses.size() == 0))	  
+then
+	addError("address.city",
+			 "BRMandatory",
+			"This field is mandatory",
+			 null,
+			 $errorList);
+end

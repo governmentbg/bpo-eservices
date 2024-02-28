@@ -1,0 +1,237 @@
+package org.domain.rules;
+
+dialect "mvel"
+
+import eu.ohim.sp.core.domain.validation.ErrorCore;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.domain.trademark.TradeMark;
+import eu.ohim.sp.core.domain.trademark.MarkKind;
+import eu.ohim.sp.core.domain.validation.RulesInformation;
+import eu.ohim.sp.core.domain.payment.FeeList;
+import eu.ohim.sp.core.domain.payment.FeeType;
+import eu.ohim.sp.core.domain.payment.Fee;
+import eu.ohim.sp.core.domain.resources.DocumentKind;
+import eu.ohim.sp.core.domain.resources.Document;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.TreeMap;
+import java.util.List;
+import java.util.Date;
+import java.text.DecimalFormat;
+
+rule "Fees reader"
+salience 1000
+no-loop
+    when
+		FeeList($feeTypeList : feeTypeList)
+        $bF : FeeType("basicFee".equals(nameKey)) from $feeTypeList
+        $cF : FeeType("collectiveFee".equals(nameKey)) from $feeTypeList
+        $eCBF : FeeType("extraClassBasicFee".equals(nameKey)) from $feeTypeList
+        $eCCF : FeeType("extraClassCollectiveFee".equals(nameKey)) from $feeTypeList
+        $oAD : FeeType("onlineAppDiscount".equals(nameKey)) from $feeTypeList
+        $nSF : FeeType("nationalSearchFee".equals(nameKey)) from $feeTypeList
+        $oPF : FeeType("outsidePeriodFee".equals(nameKey)) from $feeTypeList
+        $mC : FeeType("maxClasses".equals(nameKey)) from $feeTypeList
+    then
+    	TreeMap map = new TreeMap();
+        map.put("basicFee", $bF);
+        map.put("collectiveFee", $cF);
+        map.put("extraClassBasicFee", $eCBF);
+        map.put("extraClassCollectiveFee", $eCCF);
+        map.put("onlineAppDiscount", $oAD);
+        map.put("maxClasses", $mC);
+        map.put("nationalSearchFee", $nSF);
+        map.put("outsidePeriodFee", $oPF);
+        insert(map);
+end
+
+rule "Basic Fee"
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        $mark : TradeMark(markRightKind.value() == "Individual")
+    then
+        # Creates the base fee.
+        Fee fee = new Fee();
+        fee.setFeeType((FeeType) $map.get("basicFee"));
+        fee.setQuantity(1);
+        fee.setUnitAmount(((FeeType) $map.get("basicFee")).getDefaultValue());
+        fee.setAmount(fee.quantity * fee.unitAmount);
+        # Adds the base fee to the result list
+        $results.put(generateUID(fee, $mark), fee);
+end
+
+rule "Collective Fee"
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        $mark : TradeMark(markRightKind.value() == "Collective")
+    then
+        # Creates the base fee.
+        Fee fee = new Fee();
+        fee.setFeeType((FeeType) $map.get("collectiveFee"));
+        fee.setQuantity(1);
+        fee.setUnitAmount(((FeeType) $map.get("collectiveFee")).getDefaultValue());
+        fee.setAmount(fee.quantity * fee.unitAmount);
+        # Adds the base fee to the result list
+        $results.put(generateUID(fee, $mark), fee);
+end
+
+rule "Extra Classes Basic Fee"
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        $mark : TradeMark(markRightKind.value() == "Individual" &&  classDescriptions != null &&
+                    classDescriptions.size() > ((FeeType) $map.get("maxClasses")).getDefaultValue() &&
+                    $totalClasses : classDescriptions.size())
+    then
+        # Creates the base fee.
+        Fee fee = new Fee();
+        fee.setFeeType((FeeType) $map.get("extraClassBasicFee"));
+        fee.setQuantity($totalClasses - ((FeeType) $map.get("maxClasses")).getDefaultValue());
+        fee.setUnitAmount(((FeeType) $map.get("extraClassBasicFee")).getDefaultValue());
+        fee.setAmount(fee.quantity * fee.unitAmount);
+        # Adds the base fee to the result list
+        $results.put(generateUID(fee, $mark), fee);
+end
+
+rule "Extra Classes Collective Fee"
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        $mark : TradeMark(markRightKind.value() == "Collective" &&
+                    classDescriptions != null &&
+                    classDescriptions.size() > ((FeeType) $map.get("maxClasses")).getDefaultValue() &&
+                    $totalClasses : classDescriptions.size())
+    then
+        # Creates the base fee.
+        Fee fee = new Fee();
+        fee.setFeeType((FeeType) $map.get("extraClassCollectiveFee"));
+        fee.setQuantity($totalClasses - ((FeeType) $map.get("maxClasses")).getDefaultValue());
+        fee.setUnitAmount(((FeeType) $map.get("extraClassCollectiveFee")).getDefaultValue());
+        fee.setAmount(fee.quantity * fee.unitAmount);
+        # Adds the base fee to the result list
+        $results.put(generateUID(fee, $mark), fee);
+end
+
+/*rule "National Search Fee"
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        TradeMark(nationalSearchReportIndicator == true)
+    then
+        # Creates the base fee.
+        Fee fee = new Fee();
+        fee.setFeeType((FeeType) $map.get("nationalSearchFee"));
+        fee.setAmount(((FeeType) $map.get("nationalSearchFee")).getDefaultValue());
+        fee.setQuantity(1);
+        fee.setUnitAmount(((FeeType) $map.get("nationalSearchFee")).getDefaultValue());
+        # Adds the base fee to the result list
+        $results.put(fee.toString, fee);
+end*/
+
+rule "Online Application Discount"
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        //TradeMark()
+        eval(((FeeType) $map.get("onlineAppDiscount")).getDefaultValue() > 0)
+    then
+        # Creates the base fee.
+        Fee fee = new Fee();
+        fee.setFeeType((FeeType) $map.get("onlineAppDiscount"));
+        fee.setQuantity(1);
+        fee.setUnitAmount((-1) * ((FeeType) $map.get("onlineAppDiscount")).getDefaultValue());
+        fee.setAmount(fee.quantity * fee.unitAmount);
+        # Adds the base fee to the result list
+        $results.put(generateUID(fee, null), fee);
+end
+
+rule "Outside renewal period fee"
+salience -1000 //must be the last rule
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        $mark : TradeMark(expirationDate < new Date())
+    then
+        # Creates the base fee.
+        Fee fee = new Fee();
+        fee.setFeeType((FeeType) $map.get("outsidePeriodFee"));
+        fee.setQuantity(1);
+        fee.setUnitAmount(getTotalAmount($results, $mark) * ((FeeType) $map.get("outsidePeriodFee")).getDefaultValue());
+        fee.setAmount(fee.quantity * fee.unitAmount);
+        # Adds the base fee to the result list
+        $results.put(generateUID(fee, $mark), fee);
+end
+
+//generates unique ids for the fees and also references the trademark to which the fee applies
+//tradeMark is null when the fee is general, not trademark dependant
+function String generateUID(Fee fee, TradeMark tradeMark){
+	String tradeMarkId = "";
+	if(tradeMark != null){
+		tradeMarkId = tradeMark.getApplicationNumber() + "|";
+	}
+	return tradeMarkId + fee.toString();
+}
+
+//if trademark is null gets all fees
+function double getTotalAmount(Map result, TradeMark tradeMark) {
+	double amount = 0;
+	for(Object object: result.keySet()){
+		boolean add = false;
+		String key = (String) object;
+		String[] keyArray = key.split("\\|");
+		if(tradeMark == null || keyArray.length == 1){
+			add = true;
+		}else if(keyArray.length == 2 && keyArray[0].equals(tradeMark.getApplicationNumber())){
+			add = true;
+		}
+		if(add){
+			amount += ((Fee) result.get(key)).getAmount();
+		}
+	}
+    return amount;
+}
+
+# --------------------------------------------------------------------------------
+# --------------------------- RULES FOR PAYMENT PROCESS --------------------------
+# --------------------------------------------------------------------------------
+/*
+rule "BRXXX Payment (basic and collective)"
+no-loop
+when
+	Fee($basicFee : basicFee,
+		$collectiveFee : collectiveFee,
+		$extraClassFeeBasic : extraClassFeeBasic,
+		$extraClassFeeCollective : extraClassFeeCollective,
+		$onlineAppDiscount : onlineAppDiscount,
+		$nationalSearchFee : nationalSearchFee,
+		$totalClasses : totalClasses,
+		$maxClasses : maxClasses)
+	$map : Map()
+then
+	DecimalFormat formatter = new DecimalFormat("####0.00");
+	modify($map){
+		put("F-001", formatter.format($basicFee + $collectiveFee - $onlineAppDiscount));
+	};
+	
+	if($totalClasses > $maxClasses){
+		modify($map){
+			put("F-002", formatter.format(($extraClassFeeBasic + $extraClassFeeCollective) * ($totalClasses - $maxClasses)));
+		};
+	}
+	
+	if($nationalSearchFee > 0){
+		modify($map){
+			put("F-003", formatter.format($nationalSearchFee));
+		};
+	}
+end
+*/

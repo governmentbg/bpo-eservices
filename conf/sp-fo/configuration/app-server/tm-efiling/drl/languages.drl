@@ -1,0 +1,51 @@
+package org.domain.rules;
+dialect "mvel"
+
+import eu.ohim.sp.core.domain.trademark.TradeMark;
+import eu.ohim.sp.core.domain.validation.ErrorCore;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.configuration.domain.xsd.Field;
+import eu.ohim.sp.core.configuration.domain.xsd.Section;
+import eu.ohim.sp.core.configuration.domain.xsd.Sections;
+import eu.ohim.sp.core.domain.validation.RulesInformation;
+import eu.ohim.sp.core.domain.trademark.TradeMarkApplication;
+
+rule "BR First Language - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field, coreName == "languages" )	
+	Field( id == "firstLang", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)	
+	TradeMarkApplication( $tradeMark : tradeMark )
+	TradeMark (applicationLanguage == null || applicationLanguage == "") from $tradeMark
+then
+	addError(null,"BR301.FirstLanguage.Empty","The First language field is mandatory","mainForm.languageSection",$errorList); 	 
+end
+
+
+rule "BR301 - Second Language - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field, coreName == "languages" )	
+	Field( id == "secLang", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)	
+	TradeMarkApplication ($tradeMark : tradeMark)
+	TradeMark (secondLanguage == null || secondLanguage == "") from $tradeMark
+then
+	addError(null,"BR301.SecondLanguage.Empty","The Second language field is mandatory","mainForm.languageSection",$errorList); 
+end
+
+
+rule "BR301 - Second Language - Content"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field, coreName == "languages" )	
+	Field( id == "secLang", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)		
+	TradeMark( secondLanguage != null && applicationLanguage != null && secondLanguage == applicationLanguage )
+then
+	addError(null, "BR301.SecondLanguage.Content", "The Second language and First language fields can't be equal", "mainForm.languageSection", $errorList); 	
+end

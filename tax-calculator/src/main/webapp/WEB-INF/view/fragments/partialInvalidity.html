@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<div th:fragment="partialInvalidity-fragment" class="inlBlW100">
+
+    <div th:text="#{invalidity.type}"></div>
+    <div class="mT10 rb-grid">
+        <div>
+            <input name="partialInvalidity" class="radio-btn vertical-rb" type="radio" value="true" th:attr="data-rel-field='partialInvalidity-field'" checked>
+            <div th:text="#{invalidity.partial}" class="rb-text"></div>
+        </div>
+        <div>
+            <input name="partialInvalidity" class="radio-btn vertical-rb" type="radio" value="false" th:attr="data-rel-field='partialInvalidity-field'">
+            <div th:text="#{invalidity.full}" class="rb-text"></div>
+        </div>
+
+
+    <input type="hidden" class="input-param" id="partialInvalidity-field" value="true" th:attr="data-name='partialInvalidity'">
+
+</div>
+</html>

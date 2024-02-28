@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="unqualified"
+	version="3.2" 
+	targetNamespace="http://ohim.eu/sp/services/representative/v3"
+	xmlns:tns="http://ohim.eu/sp/services/representative/v3"
+	xmlns:common="http://ohim.eu/sp/domain/common/v3"	
+	xmlns:person="http://ohim.eu/sp/domain/person/v3"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	
+	<xs:import namespace="http://ohim.eu/sp/domain/person/v3" schemaLocation="../domain/PersonDomain.xsd" />
+	<xs:import namespace="http://ohim.eu/sp/domain/common/v3" schemaLocation="../domain/CommonDomain.xsd" />
+		
+	<xs:element name="getRepresentative" type="tns:GetRepresentative" />
+	<xs:element name="getRepresentativeResponse" type="tns:GetRepresentativeResponse" />
+		
+	<xs:element name="getRepresentativeAutocomplete" type="tns:GetRepresentativeAutocomplete" />
+	<xs:element name="getRepresentativeAutocompleteResponse" type="tns:GetRepresentativeAutocompleteResponse" />
+	
+	<xs:element name="matchRepresentative" type="tns:MatchRepresentative" />
+	<xs:element name="matchRepresentativeResponse" type="tns:MatchRepresentativeResponse" />
+
+	<xs:element name="saveRepresentative" type="tns:SaveRepresentative" />
+	<xs:element name="saveRepresentativeResponse" type="tns:SaveRepresentativeResponse" />
+
+	<xs:element name="searchRepresentative" type="tns:SearchRepresentative" />
+	<xs:element name="searchRepresentativeResponse" type="tns:SearchRepresentativeResponse" />
+
+	<xs:element name="representativeFault" type="tns:RepresentativeFault" />	
+
+	<xs:complexType name="MatchRepresentative">
+        <xs:complexContent>
+            <xs:extension base="person:PersonRequest">
+                <xs:sequence>
+                    <xs:element name="representative" type="person:Representative" minOccurs="0" />
+                    <xs:element name="numberOfResults" type="xs:int" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="MatchRepresentativeResponse">
+		<xs:sequence>
+			<xs:element name="return" type="person:Representative" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="GetRepresentativeAutocomplete">
+        <xs:complexContent>
+            <xs:extension base="person:AutocompleteRequest"/>
+        </xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="GetRepresentativeAutocompleteResponse">
+		<xs:sequence>
+			<xs:element name="return" type="xs:string" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="SaveRepresentative">
+        <xs:complexContent>
+            <xs:extension base="person:PersonRequest">
+                <xs:sequence>
+                    <xs:element name="user" type="xs:string" minOccurs="0" />
+                    <xs:element name="representative" type="person:Representative" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SaveRepresentativeResponse">
+		<xs:sequence>
+			<xs:element name="return" type="common:Result" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="GetRepresentative">
+        <xs:complexContent>
+            <xs:extension base="person:PersonRequest">
+                <xs:sequence>
+                    <xs:element name="representativeId" type="xs:string" minOccurs="0" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="GetRepresentativeResponse">
+		<xs:sequence>
+			<xs:element name="return" type="person:Representative" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="SearchRepresentative">
+        <xs:complexContent>
+            <xs:extension base="person:PersonRequest">
+                <xs:sequence>
+                    <xs:element name="representativeId" type="xs:string" minOccurs="0" />
+                    <xs:element name="name" type="xs:string" minOccurs="0" />
+                    <xs:element name="nationality" type="xs:string" minOccurs="0" />
+                    <xs:element name="numberOfResults" type="xs:int" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="SearchRepresentativeResponse">
+		<xs:sequence>
+			<xs:element name="return" type="person:Representative" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="RepresentativeFault">
+		<xs:sequence>
+			<xs:element name="return" type="common:Fault" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>		
+
+</xs:schema>

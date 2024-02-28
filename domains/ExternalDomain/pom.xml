@@ -1,0 +1,196 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>eu.ohim.sp.domains</groupId>
+		<artifactId>domains</artifactId>
+		<version>2.0.0-RELEASE</version>
+	</parent>
+
+	<artifactId>ExternalDomain</artifactId>
+	<packaging>jar</packaging>
+
+	<dependencies>
+        <!-- *********************************************** -->
+        <!-- *** Internal Software Packages dependencies *** -->
+        <!-- *********************************************** -->
+        <dependency>
+			<groupId>eu.ohim.sp.common</groupId>
+			<artifactId>CommonUtils</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>eu.ohim.sp.domains</groupId>
+			<artifactId>WebServicesSchemas</artifactId>
+		</dependency>
+        <dependency>
+            <groupId>eu.ohim.sp.domains</groupId>
+            <artifactId>CoreDomain</artifactId>
+        </dependency>
+
+        <!-- *********************************************** -->
+        <!-- ************** External Dependencies ********** -->
+        <!-- *********************************************** -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+
+        <!-- *********************************************** -->
+        <!-- ************** External Dependencies ********** -->
+        <!-- *********************************************** -->
+        <dependency>
+            <groupId>net.sf.dozer</groupId>
+            <artifactId>dozer</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+            <version>3.2.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>uk.co.jemos.podam</groupId>
+            <artifactId>podam</artifactId>
+            <version>3.0.5.RELEASE</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>de.odysseus.juel</groupId>
+            <artifactId>juel-spi</artifactId>
+            <version>2.2.6</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>de.odysseus.juel</groupId>
+            <artifactId>juel-api</artifactId>
+            <version>2.2.6</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>de.odysseus.juel</groupId>
+            <artifactId>juel-impl</artifactId>
+            <version>2.2.6</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+	<build>
+		<plugins>
+            <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>src/main/java</directory>
+                            <includes>
+                                <include>**</include>
+                            </includes>
+                        </fileset>
+                    </filesets>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                        <phase>clean</phase>
+                    </execution>
+                </executions>
+            </plugin>
+
+						<plugin>
+						    <groupId>org.codehaus.mojo</groupId>
+						    <artifactId>properties-maven-plugin</artifactId>
+						    <version>1.0.0</version>
+						    <executions>
+						        <execution>
+						            <goals>
+						                <goal>set-system-properties</goal>
+						            </goals>
+						            <configuration>
+						                <properties>
+						                    <property>
+						                        <name>javax.xml.accessExternalSchema</name>
+						                        <value>all</value>
+						                    </property>
+						                </properties>
+						            </configuration>
+						        </execution>
+						    </executions>
+						</plugin>
+
+			<plugin>
+
+				<groupId>org.jvnet.jaxb2.maven2</groupId>
+				<artifactId>maven-jaxb2-plugin</artifactId>
+                <dependencies>
+                    <dependency>
+                        <groupId>eu.ohim.sp.common</groupId>
+                        <artifactId>SPMavenPlugin</artifactId>
+                        <version>${pm.sp.common.current.version}</version>
+                    </dependency>
+                </dependencies>
+                <version>0.8.3</version>
+				<configuration>
+					<schemaDirectory>../WebServicesSchemas/src/main/resources/xsd/services</schemaDirectory>
+					<schemaIncludes>
+						<include>**/*.xsd</include>
+					</schemaIncludes>
+					<args>
+						<arg>-Xvalue-constructor</arg>
+						<arg>-Xcollection-setter-injector</arg>
+						<arg>-Xinheritance</arg>
+                        <arg>-Xprivate</arg>
+                        <arg>-XBoolean-getter</arg>
+                        <arg>-Xdate-clone</arg>
+                        <arg>-Xbyte-array-copy</arg>
+                        <arg>-Xconstructor-accessor-clone</arg>
+                    </args>
+					<strict>false</strict>
+					<verbose>false</verbose>
+					<extension>true</extension>
+					<readOnly>yes</readOnly>
+					<removeOldOutput>false</removeOldOutput>
+                    <bindingDirectory>../WebServicesSchemas/src/main/resources/xsd/services</bindingDirectory>
+					<plugins>
+						<plugin>
+							<groupId>org.jvnet.jaxb2_commons</groupId>
+							<artifactId>jaxb2-basics</artifactId>
+							<version>0.6.3</version>
+						</plugin>
+						<plugin>
+							<groupId>org.jvnet.jaxb2_commons</groupId>
+							<artifactId>jaxb2-value-constructor</artifactId>
+							<version>3.0</version>
+						</plugin>
+						<plugin>
+							<groupId>net.java.dev.vcc.thirdparty</groupId>
+							<artifactId>collection-setter-injector</artifactId>
+							<version>0.5.0-1</version>
+						</plugin>
+						<plugin>
+							<groupId>org.jvnet.jaxb2_commons</groupId>
+							<artifactId>jaxb2-basics-annotate</artifactId>
+							<version>0.6.3</version>
+						</plugin>
+                        <plugin>
+                            <groupId>eu.ohim.sp.common</groupId>
+                            <artifactId>SPMavenPlugin</artifactId>
+                            <version>${pm.sp.common.current.version}</version>
+                        </plugin>
+                    </plugins>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+                        <phase>generate-sources</phase>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

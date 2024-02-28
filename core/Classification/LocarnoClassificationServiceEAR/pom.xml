@@ -1,0 +1,70 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	
+	<parent>
+        <groupId>eu.ohim.sp.core</groupId>
+		<artifactId>Classification</artifactId>
+		<version>2.0.0-RELEASE</version>
+	</parent>
+
+    <properties>
+        <skipCodeCoverage>true</skipCodeCoverage>
+    </properties>
+
+    <artifactId>LocarnoClassificationServiceEAR</artifactId>
+    <name>sp-core-locarno-classification</name>
+    <packaging>ear</packaging>
+
+	<dependencies>
+		<dependency>
+            <groupId>eu.ohim.sp.core</groupId>
+            <artifactId>LocarnoClassificationServiceBean</artifactId>
+            <version>${pm.sp.core.current.version}</version>
+            <type>ejb</type>
+		</dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+    </dependencies>
+
+	<build>
+		<finalName>sp-core-locarno-classification</finalName>
+		
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-ear-plugin</artifactId>
+				<configuration>
+					<initializeInOrder>true</initializeInOrder>
+					<defaultLibBundleDir>lib</defaultLibBundleDir>
+					<generateApplicationXml>true</generateApplicationXml>					
+					<modules>
+						<ejbModule>
+                            <groupId>eu.ohim.sp.core</groupId>
+							<artifactId>LocarnoClassificationServiceBean</artifactId>
+							<bundleDir>/</bundleDir>
+						</ejbModule>
+					</modules>
+					<archive>
+						<manifestEntries>
+							<dependencies>
+								org.dom4j,
+								deployment.sp-core-rules.ear
+							</dependencies>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.jboss.as.plugins</groupId>
+				<artifactId>jboss-as-maven-plugin</artifactId>
+				<configuration>
+					<skip>false</skip>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

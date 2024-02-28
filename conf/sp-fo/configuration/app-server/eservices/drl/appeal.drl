@@ -1,0 +1,163 @@
+package org.domain.rules;
+dialect "mvel"
+
+
+import eu.ohim.sp.core.domain.validation.RulesInformation;
+import eu.ohim.sp.core.domain.validation.ErrorCore;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.domain.application.Appeal;
+import eu.ohim.sp.core.configuration.domain.xsd.Section;
+import eu.ohim.sp.core.configuration.domain.xsd.Field;
+import org.apache.commons.lang.StringUtils;
+import eu.ohim.sp.core.domain.application.AppealKind;
+import java.util.HashMap;
+import java.util.Date;
+
+global eu.ohim.sp.core.domain.validation.ErrorList errorList;
+
+rule "Appeal kind mandatory"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )	
+	Field( id == "appealKind", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Appeal(appealKind == null)
+then
+	addError(null,
+		 "appeal.kind.Empty",
+		 "This field is mandatory",
+		 "appealKind",
+		 $errorList);
+end
+
+rule "Appeal decision date mandatory"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )	
+	Field( id == "decisionDate", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Appeal(decisionDate == null)
+then
+	addError(null,
+		 "BRMandatory",
+		 "This field is mandatory",
+		 "decisionDate",
+		 $errorList);
+end
+
+rule "Appeal decision date >= now"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Field( id == "decisionDate", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true)
+	Appeal($decisionDate: decisionDate)
+	eval($decisionDate != null)
+then
+    Date now = new Date();
+    if($decisionDate.compareTo(now) >= 0){
+        addError(null,
+             "BR.appeal.decision.date.bad",
+             "Opposition decision date can not be in the future",
+             "decisionDate",
+             $errorList);
+	}
+end
+
+rule "Appeal opposition filing date mandatory"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )	
+	Field( id == "oppositionFilingDate", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Appeal(oppositionFilingDate == null, $appealKind: appealKind)
+then
+	if($appealKind != null && $appealKind.equals(AppealKind.APPEAL_AGAINST_OPPOSITION_DECISION)){
+		addError(null,
+		 "BRMandatory",
+		 "This field is mandatory",
+		 "oppositionFilingDate",
+		 $errorList);
+	}
+end
+
+rule "Appeal opposition filing date - bad date"
+salience 1000
+when
+	$errorList : ErrorList()
+    Section( $fields : field )
+    Field( id == "oppositionFilingDate", $fieldUsable : usable, $fieldRequired : required) from $fields
+    eval($fieldUsable == true)
+    Appeal($oppositionFilingDate: oppositionFilingDate, $decisionDate: decisionDate)
+    eval($oppositionFilingDate != null)
+then
+    Date now = new Date();
+    if($oppositionFilingDate.compareTo(now) >= 0 || ($decisionDate != null && $oppositionFilingDate.compareTo($decisionDate) >= 0)){
+        addError(null,
+             "BR.appeal.oppositionFiling.mustbe.before.decision",
+             "Opposition filing date must be earlier date than opposition decision date",
+             "oppositionFilingDate",
+             $errorList);
+	}
+end
+
+rule "Appeal decision number mandatory"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )	
+	Field( id == "decisionNumber", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Appeal(decisionNumber == null, $appealKind: appealKind)
+then
+	if($appealKind != null && $appealKind.equals(AppealKind.APPEAL_AGAINST_OPPOSITION_DECISION)){
+		addError(null,
+			 "BRMandatory",
+			 "This field is mandatory",
+			 "decisionNumber",
+			 $errorList);
+	}
+end
+
+rule "BR2026 (ABSOLUTE Explanations of grounds mandatory - text or file)"
+salience 1000
+when
+	$errorList : ErrorList()
+	$Section : Section( $fields : field )
+	Field( id == "explanations", $fieldUsableText : usable) from $fields	
+	Field(id=="gExplanationGrounds", $fieldUsableDoc : usable) from $fields
+	eval($fieldUsableText == true && $fieldUsableDoc == true)
+	$app: Appeal($explDocs: explanationsDocuments, $explText: explanationText )		
+then	
+		
+	if (($explText==null || StringUtils.isEmpty($explText)) && ($explDocs == null || $explDocs.size()<1) ){	
+		addError(null, "BR2026.explanationsOfGrounds.empty", "This field is mandatory", "formMessages", $errorList);		
+	}
+end
+
+rule "GSHelper Appeal GS mandatory"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field )
+	Appeal($gh: gsHelper)
+	$stateId : RulesInformation($customObjects : customObjects)
+	eval($gh != null)
+then
+	HashMap co = $customObjects;
+    String flowModeId = co.get("flowModeId");
+    if("tm-appeal".equals(flowModeId)){
+		if($gh.getClassDescriptions() == null || $gh.getClassDescriptions().size() <=0){
+			addError(null,
+			 "gshelper.GS.mandatory",
+			 "Goods And Services can not be empty",
+			 "gsHelper.formMessages",
+			 $errorList);
+		}
+	}
+
+end

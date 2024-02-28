@@ -1,0 +1,34 @@
+<!--
+  * $Id::                                                                       $
+  *       . * .
+  *     * RRRR  *    Copyright © 2012 OHIM: Office for Harmonization
+  *   .   RR  R   .  in the Internal Market (trade marks and designs)
+  *   *   RRR     *
+  *    .  RR RR  .   ALL RIGHTS RESERVED
+  *     * . _ . *
+-->
+<jxb:bindings version="1.0"
+xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
+xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<jxb:globalBindings>
+	  <jxb:serializable uid="1"/>
+	</jxb:globalBindings>
+    <jxb:bindings schemaLocation="sections-fields-configuration.xsd">
+        <jxb:bindings node="//xs:simpleType[@name='availableSectionId']">
+               <jxb:typesafeEnumClass name="AvailableSection" />
+			   <jxb:bindings node=".//xs:enumeration[@value='3dmark']">
+			      <jxb:typesafeEnumMember name="ThreeDMark"/>
+			   </jxb:bindings>
+			   <jxb:bindings node=".//xs:enumeration[@value='3dwordmark']">
+			      <jxb:typesafeEnumMember name="ThreeDWordMark"/>
+			   </jxb:bindings>
+			<jxb:bindings node=".//xs:enumeration[@value='3dmark_markViews']">
+				<jxb:typesafeEnumMember name="ThreeDMark_MARK_VIEWS"/>
+			</jxb:bindings>
+			<jxb:bindings node=".//xs:enumeration[@value='3dwordmark_markViews']">
+				<jxb:typesafeEnumMember name="ThreeDWordMark_MARK_VIEWS"/>
+			</jxb:bindings>
+
+        </jxb:bindings>
+   </jxb:bindings>
+</jxb:bindings>

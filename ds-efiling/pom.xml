@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>eu.ohim.sp.ui</groupId>
+	<artifactId>ds-efiling</artifactId>
+	<packaging>pom</packaging>
+
+	<name>Software Package DS e-Filing</name>
+	<url>https://svn.oami.europa.eu/svn/emrepo/softwarepackage/ds-efiling/trunk</url>
+
+	<ciManagement>
+		<system>Bamboo</system>
+		<url>http://ci-prod-bamboo-master:8085/bamboo/browse/SPDSEF-SONR</url>
+	</ciManagement>
+
+	<scm>
+		<connection>scm:svn:https://svn.oami.europa.eu/svn/emrepo/softwarepackage/ds-efiling/trunk</connection>
+		<developerConnection>scm:svn:https://svn.oami.europa.eu/svn/emrepo/softwarepackage/ds-efiling/trunk</developerConnection>
+		<url>https://svn.oami.europa.eu/svn/emrepo/softwarepackage/ds-efiling/trunk</url>
+	</scm>
+
+	<issueManagement>
+		<system>JIRA</system>
+		<url>https://jira.ohimqaportal.eu/browse/DEVSPHARMO</url>
+	</issueManagement>
+
+	<organization>
+		<name>OHIM</name>
+		<url>http://oami.europa.eu/</url>
+	</organization>
+
+	<parent>
+		<groupId>eu.ohim.sp.ui</groupId>
+		<artifactId>CFO</artifactId>
+		<version>2.0.0-RELEASE</version>
+	</parent>
+
+	<modules>
+		<module>ds-efiling-ui</module>
+	</modules>
+
+	<properties>
+		<war.final.name>sp-ui-dsefiling</war.final.name>
+		<web.context.path>sp/dsefiling</web.context.path>
+		<folder.context.path>ds-efiling</folder.context.path>
+
+		<pm.springframework.version>4.3.0.RELEASE</pm.springframework.version>
+		<pm.springframework.security.version>3.2.0.RELEASE</pm.springframework.security.version>
+
+		<pm.sp.common.current.version>2.0.0-RELEASE</pm.sp.common.current.version>
+		<pm.sp.core.current.version>2.0.0-RELEASE</pm.sp.core.current.version>
+		<pm.sp.common-ui.current.version>2.0.0-RELEASE</pm.sp.common-ui.current.version>
+		<pm.sp.common-utils.current.version>2.0.0-RELEASE</pm.sp.common-utils.current.version>
+		<pm.sp.external.current.version>2.0.0-RELEASE</pm.sp.external.current.version>
+		<pm.sp.integration.current.version>2.0.0-RELEASE</pm.sp.integration.current.version>
+		<pm.sp.authentication.current.version>2.0.0-RELEASE</pm.sp.authentication.current.version>
+
+		<pm.version.plugin.checkstyle>2.9.1</pm.version.plugin.checkstyle>
+		<!-- Used for maven plugin deploy only for local conf -->
+		<tomcat.server.url>http://localhost:8087/manager/html</tomcat.server.url>
+		<tomcat.server.credentials>mytomcatserver</tomcat.server.credentials>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+
+			<dependency>
+				<groupId>eu.ohim.sp.core</groupId>
+				<artifactId>MockTicketAdapter</artifactId>
+				<version>${pm.sp.core.current.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>eu.ohim.sp.core</groupId>
+				<artifactId>MockPaymentAdapterUI</artifactId>
+				<version>${pm.sp.core.current.version}</version>
+			</dependency>
+
+			<!-- In application dependencies -->
+			<dependency>
+				<groupId>eu.ohim.sp.common</groupId>
+				<artifactId>CommonUtils</artifactId>
+				<version>${pm.sp.common-utils.current.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>eu.ohim.sp.common</groupId>
+				<artifactId>WebSecurityClient</artifactId>
+				<version>${pm.sp.common-ui.current.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>eu.ohim.sp.common</groupId>
+				<artifactId>ui-template</artifactId>
+				<version>${pm.sp.common-ui.current.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>eu.ohim.sp.common</groupId>
+				<artifactId>ui-fileupload</artifactId>
+				<version>${pm.sp.common-ui.current.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>eu.ohim.sp.common</groupId>
+				<artifactId>UIComponent</artifactId>
+				<version>${pm.sp.common-ui.current.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>eu.ohim.sp.common</groupId>
+				<artifactId>UIServiceImpl</artifactId>
+				<version>${pm.sp.common-ui.current.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+				<version>14.0</version>
+			</dependency>
+
+			<!-- ############################################################################## -->
+			<!-- ############################## Spring dependencies ########################## -->
+			<!-- ############################################################################## -->
+
+			<!-- Core utilities used by other modules. Define this if you use Spring 
+				Utility APIs (org.springframework.core.*/org.springframework.util.*) -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-core</artifactId>
+				<version>${pm.springframework.version}</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<!-- Expression Language (depends on spring-core) Define this if you use 
+				Spring Expression APIs (org.springframework.expression.*) -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-expression</artifactId>
+				<version>${pm.springframework.version}</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<!-- Bean Factory and JavaBeans utilities (depends on spring-core) Define 
+				this if you use Spring Bean APIs (org.springframework.beans.*) -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-beans</artifactId>
+				<version>${pm.springframework.version}</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<!-- Aspect Oriented Programming (AOP) Framework (depends on spring-core, 
+				spring-beans) Define this if you use Spring AOP APIs (org.springframework.aop.*) -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-aop</artifactId>
+				<version>${pm.springframework.version}</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<!-- Application Context (depends on spring-core, spring-expression, spring-aop, 
+				spring-beans) This is the central artifact for Spring's Dependency Injection 
+				Container and is generally always defined -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context</artifactId>
+				<version>${pm.springframework.version}</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<!-- Various Application Context utilities, including EhCache, JavaMail, 
+				Quartz, and Freemarker integration Define this if you need any of these integrations -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context-support</artifactId>
+				<version>${pm.springframework.version}</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-aspects</artifactId>
+				<version>${pm.springframework.version}</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<!-- Transaction Management Abstraction (depends on spring-core, spring-beans, 
+				spring-aop, spring-context) Define this if you use Spring Transactions or 
+				DAO Exception Hierarchy (org.springframework.transaction.*/org.springframework.dao.*) -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-tx</artifactId>
+				<version>${pm.springframework.version}</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<!-- JDBC Data Access Library (depends on spring-core, spring-beans, spring-context, 
+				spring-tx) Define this if you use Spring's JdbcTemplate API (org.springframework.jdbc.*) -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-jdbc</artifactId>
+				<version>${pm.springframework.version}</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<!-- Object-to-Relation-Mapping (ORM) integration with Hibernate, JPA, 
+				and iBatis. (depends on spring-core, spring-beans, spring-context, spring-tx) 
+				Define this if you need ORM (org.springframework.orm.*) -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-orm</artifactId>
+				<version>${pm.springframework.version}</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<!-- Object-to-XML Mapping (OXM) abstraction and integration with JAXB, 
+				JiBX, Castor, XStream, and XML Beans. (depends on spring-core, spring-beans, 
+				spring-context) Define this if you need OXM (org.springframework.oxm.*) -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-oxm</artifactId>
+				<version>${pm.springframework.version}</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<!-- Web application development utilities applicable to both Servlet 
+				and Portlet Environments (depends on spring-core, spring-beans, spring-context) 
+				Define this if you use Spring MVC, or wish to use Struts, JSF, or another 
+				web framework with Spring (org.springframework.web.*) -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-web</artifactId>
+				<version>${pm.springframework.version}</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-core</artifactId>
+				<version>${pm.springframework.security.version}</version>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-web</artifactId>
+				<version>${pm.springframework.security.version}</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-taglibs</artifactId>
+				<version>${pm.springframework.security.version}</version>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-config</artifactId>
+				<version>${pm.springframework.security.version}</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<!-- Spring MVC for Servlet Environments (depends on spring-core, spring-beans, 
+				spring-context, spring-web) Define this if you use Spring MVC with a Servlet 
+				Container such as Apache Tomcat (org.springframework.web.servlet.*) -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-webmvc</artifactId>
+				<version>${pm.springframework.version}</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<!-- Support for testing Spring applications with tools such as JUnit 
+				and TestNG This artifact is generally always defined with a 'test' scope 
+				for the integration testing framework and unit testing stubs -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-test</artifactId>
+				<version>${pm.springframework.version}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework.webflow</groupId>
+				<artifactId>spring-webflow</artifactId>
+				<version>2.4.2.RELEASE</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<!-- ############################################################################## -->
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>javax.servlet-api</artifactId>
+				<version>3.0.1</version>
+				<scope>provided</scope>
+			</dependency>
+			<!-- ==== Unit testing ==== -->
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>4.11</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.mockito</groupId>
+				<artifactId>mockito-all</artifactId>
+				<version>1.9.0</version>
+				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>xerces</groupId>
+				<artifactId>xercesImpl</artifactId>
+				<version>2.9.1</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<configuration>
+					<tagNameFormat>@{project.version}</tagNameFormat>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>${pm.version.plugin.checkstyle}</version>
+				<configuration>
+					<configLocation>../conf/src/main/resources/checkstyle.xml</configLocation>
+					<propertiesLocation>../conf/src/main/resources/checkstyle.properties</propertiesLocation>
+					<propertyExpansion>basedir=${project.basedir}</propertyExpansion>
+					<failsOnError>false</failsOnError>
+					<consoleOutput>false</consoleOutput>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

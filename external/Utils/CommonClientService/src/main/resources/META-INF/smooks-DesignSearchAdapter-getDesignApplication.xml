@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
+                      xmlns:calc="http://www.milyn.org/xsd/smooks/calc-1.1.xsd"
+                      xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.4.xsd"
+                      xmlns:g="http://www.milyn.org/xsd/smooks/groovy-1.1.xsd">
+
+    <!-- support beans for publication dates count -->
+    <jb:bean beanId="pubDates" class="java.util.ArrayList" createOnElement="//Design/PublicationDetails">
+        <jb:wiring beanIdRef="pubDate" />
+    </jb:bean>
+    <jb:bean beanId="pubDate" class="java.util.HashMap" createOnElement="//Design/PublicationDetails/Publication">
+        <jb:value property="sec" data="//Design/PublicationDetails/Publication/PublicationSection" />
+        <jb:value property="pub" decoder="Date" data="//Design/PublicationDetails/Publication/PublicationDate">
+            <jb:decodeParam name="format">yyyy-MM-dd</jb:decodeParam>
+        </jb:value>
+    </jb:bean>
+    <!-- end support beans -->
+
+    <jb:bean beanId="DesignApplication" class="eu.ohim.sp.external.domain.design.DesignApplication" createOnElement="//TransactionData/DesignDetails/Design" retain="true">
+        <jb:value data="//TransactionData/DesignDetails/Design/ApplicationDate" decoder="Date" property="applicationDate">
+            <jb:decodeParam name="format">yyyy-MM-dd</jb:decodeParam>
+        </jb:value>
+        <jb:value data="//TransactionData/DesignDetails/Design/ApplicationLanguageCode" property="applicationLanguage"/>
+        <jb:value data="//TransactionData/DesignDetails/Design/ApplicationNumber" property="applicationNumber"/>
+        <jb:value data="//TransactionData/DesignDetails/Design/PublicationDate" decoder="Date" property="publicationDate">
+            <jb:decodeParam name="format">yyyy-MM-dd</jb:decodeParam>
+        </jb:value>
+        <jb:value data="//TransactionData/DesignDetails/Design/ApplicationReference" property="reference"/>
+        <jb:value data="//TransactionData/DesignDetails/Design/SecondLanguageCode" property="secondLanguage"/>
+        <jb:wiring beanIdRef="designDetails" property="designDetails"/>
+        <jb:wiring beanIdRef="applicants" property="applicants"/>
+        <jb:wiring beanIdRef="representatives" property="representatives"/>
+
+    </jb:bean>
+
+    <jb:bean beanId="designDetails" class="java.util.ArrayList" createOnElement="//TransactionData/DesignDetails">
+        <jb:wiring beanIdRef="Design"/>
+    </jb:bean>
+
+
+    <jb:bean beanId="Design" class="eu.ohim.sp.external.domain.design.Design" createOnElement="//TransactionData/DesignDetails/Design" >
+        <jb:value data="//TransactionData/DesignDetails/Design/ApplicationLanguageCode" property="applicationLanguage"/>
+        <jb:value data="//TransactionData/DesignDetails/Design/DesignCurrentStatusCode" decoder="SPEnum" property="currentStatus">
+            <jb:decodeParam name="enumType">eu.ohim.sp.external.domain.design.DesignStatusCode</jb:decodeParam>
+            <jb:decodeParam name="Filled">FILLED</jb:decodeParam>
+            <jb:decodeParam name="Withdraw">WITHDRAW</jb:decodeParam>
+            <jb:decodeParam name="Rejected">REJECTED</jb:decodeParam>
+            <jb:decodeParam name="Registered">REGISTERED</jb:decodeParam>
+            <jb:decodeParam name="Cancelled">CANCELLED</jb:decodeParam>
+            <jb:decodeParam name="Expired">EXPIRED</jb:decodeParam>
+            <jb:decodeParam name="defaultValue">UNDEFINED</jb:decodeParam>
+            <jb:decodeParam name="Ended">ENDED</jb:decodeParam>
+            <jb:decodeParam name="Registered and fully published">REGISTERED_AND_FULLY_PUBLISHED</jb:decodeParam>
+            <jb:decodeParam name="Registered and subject to deferment">REGISTERED_AND_SUBJECT_TO_DEFERMENT</jb:decodeParam>
+            <jb:decodeParam name="Lack of effects">LACK_OF_EFFECTS</jb:decodeParam>
+            <jb:decodeParam name="Design surrendered">DESIGN_SURRENDERED</jb:decodeParam>
+            <jb:decodeParam name="Invalidity procedure pending">INVALIDITY_PROCEDURE_PENDING</jb:decodeParam>
+            <jb:decodeParam name="Design declared invalid">DESIGN_DECLARED_INVALID</jb:decodeParam>
+            <jb:decodeParam name="Design lapsed">DESIGN_LAPSED</jb:decodeParam>
+            <jb:decodeParam name="Expiring">EXPIRING</jb:decodeParam>
+            <jb:decodeParam name="Application published">APPLICATION_PUBLISHED</jb:decodeParam>
+            <jb:decodeParam name="Undefined">UNDEFINED</jb:decodeParam>
+        </jb:value>
+
+        <jb:value data="//TransactionData/DesignDetails/Design/DesignCurrentStatusDate" decoder="Date" property="currentStatusDate">
+            <jb:decodeParam name="format">yyyy-MM-dd</jb:decodeParam>
+        </jb:value>
+
+        <jb:value data="//TransactionData/DesignDetails/Design/DesignDescription" property="description"/>
+        <jb:value data="//TransactionData/DesignDetails/Design/DesignIdentifier" property="designIdentifier"/>
+
+        <jb:value data="//TransactionData/DesignDetails/Design/ExpiryDate" decoder="Date" property="expiryDate">
+            <jb:decodeParam name="format">yyyy-MM-dd</jb:decodeParam>
+        </jb:value>
+
+        <jb:value data="//TransactionData/DesignDetails/Design/PublicationDefermentIndicator" decoder="Boolean" property="publicationDefermentIndicator"/>
+
+        <jb:value data="//TransactionData/DesignDetails/Design/RegistrationDate" decoder="Date" property="registrationDate">
+            <jb:decodeParam name="format">yyyy-MM-dd</jb:decodeParam>
+        </jb:value>
+
+        <jb:value data="//TransactionData/DesignDetails/Design/ApplicationNumber" property="applicationNumber"/>
+        <jb:value data="//TransactionData/DesignDetails/Design/RegistrationNumber" property="registrationNumber"/>
+        <jb:value data="//TransactionData/DesignDetails/Design/RegistrationOfficeCode" property="registrationOffice"/>
+        <jb:value data="//TransactionData/DesignDetails/Design/SecondLanguageCode" property="secondLanguage"/>
+        <jb:value data="//TransactionData/DesignDetails/Design/VerbalElementText" property="verbalElements"/>
+        <jb:wiring beanIdRef="priorities" property="priorities"/>
+        <jb:wiring beanIdRef="productIndications" property="productIndications"/>
+        <jb:wiring beanIdRef="views" property="views"/>
+        <!--   no data incoming  <jb:wiring beanIdRef="divisionalApplicationDetails" property="divisionalApplicationDetails"/> -->
+    </jb:bean>
+
+    <!--
+       Set the publicationDate number of renewals accordingly
+    -->
+    <g:groovy executeOnElement="//TransactionData/DesignDetails/Design/PublicationDetails">
+        <g:script>
+            <!--
+                def list = getBean('pubDates');
+                def count = 0;
+                list.each() { it ->
+                        //System.out.println("=======>"+it.get('sec'));
+                        if((it.get('sec')).trim()=='Renewal') {
+                            count += 1;
+                        }
+                }
+                //System.out.println("=======>"+count);
+                eu.ohim.sp.external.domain.design.Design d = BeanRepository.getInstance(executionContext).getBean("Design");
+                d.setNumberOfRenewals(count);
+            -->
+        </g:script>
+    </g:groovy>
+
+    <jb:value beanId="holderPR" data="//TransactionData/DesignDetails/Design/DesignPreferedRepresentation/ViewURI"  />
+    <jb:value beanId="holderURI"  data="//TransactionData/DesignDetails/Design/DesignRepresentationSheetDetails/DesignRepresentationSheet/ViewDetails/View/ViewURI" />
+
+    <jb:bean beanId="priorities" class="java.util.ArrayList" createOnElement="//TransactionData/DesignDetails/Design/PriorityDetails">
+        <jb:wiring beanIdRef="Priority"/>
+    </jb:bean>
+
+    <jb:bean beanId="Priority" class="eu.ohim.sp.external.domain.claim.DesignPriority" createOnElement="//TransactionData/DesignDetails/Design/PriorityDetails/Priority">
+        <jb:value property="filingDate" data="//TransactionData/DesignDetails/Design/PriorityDetails/Priority/PriorityDate" decoder="Date" >
+            <jb:decodeParam name="format">yyyy-MM-dd</jb:decodeParam>
+        </jb:value>
+        <jb:value property="filingOffice" data="//TransactionData/DesignDetails/Design/PriorityDetails/Priority/PriorityCountryCode" />
+        <jb:value property="filingNumber" data="//TransactionData/DesignDetails/Design/PriorityDetails/Priority/PriorityNumber"  />
+    </jb:bean>
+
+    <calc:counter beanId="indexIndicationProduct" countOnElement="//TransactionData/DesignDetails/Design/IndicationProductDetails/IndicationProduct"  start="0" />
+
+    <jb:bean beanId="IndicationProductDetailsCustom" class="java.util.ArrayList" createOnElement="//TransactionData/DesignDetails/Design/IndicationProductDetails"  retain="true">
+        <jb:wiring beanIdRef="IndicationProductDetailsMap" />
+    </jb:bean>
+
+
+    <jb:bean beanId="IndicationProductDetailsMap" class="java.util.HashMap" createOnElement="//TransactionData/DesignDetails/Design/IndicationProductDetails/IndicationProduct">
+        <jb:value property="IndicationProduct" data="//TransactionData/DesignDetails/Design/IndicationProductDetails/IndicationProduct" />
+    </jb:bean>
+
+    <jb:bean beanId="productIndications" class="java.util.ArrayList" createOnElement="//TransactionData/DesignDetails/Design/ClassDescriptionDetails">
+        <jb:wiring beanIdRef="ProductIndication"/>
+    </jb:bean>
+
+    <jb:bean beanId="ProductIndication" class="eu.ohim.sp.external.domain.design.ProductIndication" createOnElement="//TransactionData/DesignDetails/Design/ClassDescriptionDetails">
+        <jb:wiring beanIdRef="classes" property="classes"/>
+    </jb:bean>
+
+    <jb:bean beanId="classes" class="java.util.ArrayList" createOnElement="//TransactionData/DesignDetails/Design/ClassDescriptionDetails">
+        <jb:wiring beanIdRef="ProductIndicationClass"/>
+    </jb:bean>
+
+    <calc:counter beanId="indexClass" countOnElement="//TransactionData/DesignDetails/Design/ClassDescriptionDetails/ClassDescription/ClassNumber"  start="0" />
+
+    <jb:bean beanId="ProductIndicationClass" class="eu.ohim.sp.external.domain.design.ProductIndicationClass" createOnElement="//TransactionData/DesignDetails/Design/ClassDescriptionDetails/ClassDescription/ClassNumber">
+        <jb:value data="//TransactionData/DesignDetails/Design/ClassDescriptionDetails/ClassDescription/ClassNumber" decoder="ProductIndicationClass" property="mainClass"/>
+        <jb:value data="//TransactionData/DesignDetails/Design/ClassDescriptionDetails/ClassDescription/ClassNumber" decoder="ProductIndicationSubClass" property="subClass"/>
+        <jb:wiring beanIdRef="terms" property="terms"/>
+    </jb:bean>
+
+    <jb:bean beanId="terms" class="java.util.ArrayList" createOnElement="//TransactionData/DesignDetails/Design/ClassDescriptionDetails/ClassDescription/ClassNumber">
+        <jb:wiring beanIdRef="ProductIndicationTerm"/>
+    </jb:bean>
+
+    <jb:bean beanId="ProductIndicationTerm" class="eu.ohim.sp.external.domain.design.ProductIndicationTerm" createOnElement="//TransactionData/DesignDetails/Design/ClassDescriptionDetails/ClassDescription/ClassNumber">
+        <jb:expression property="text">
+            (String)((java.util.HashMap) IndicationProductDetailsCustom.get(new java.lang.Integer("0").intValue())).get("IndicationProduct")
+        </jb:expression>
+    </jb:bean>
+
+
+    <jb:bean beanId="views" class="java.util.ArrayList" createOnElement="//TransactionData/DesignDetails/Design/DesignRepresentationSheetDetails/DesignRepresentationSheet/ViewDetails">
+        <jb:wiring beanIdRef="DesignView"/>
+    </jb:bean>
+    <jb:bean beanId="DesignView" class="eu.ohim.sp.external.domain.design.DesignView" createOnElement="//TransactionData/DesignDetails/Design/DesignRepresentationSheetDetails/DesignRepresentationSheet/ViewDetails/View">
+        <jb:wiring beanIdRef="view" property="view"/>
+        <jb:expression property="sequence">
+            (holderURI!=null  and !holderURI.equals(""))? new java.math.BigInteger(holderURI.substring(holderURI.length()-3))
+        </jb:expression>
+
+    </jb:bean>
+
+    <jb:bean beanId="view" class="eu.ohim.sp.external.domain.resource.AttachedDocument" createOnElement="//TransactionData/DesignDetails/Design/DesignRepresentationSheetDetails/DesignRepresentationSheet/ViewDetails/View">
+        <jb:wiring beanIdRef="document12" property="document"/>
+    </jb:bean>
+
+    <jb:bean beanId="document12" class="eu.ohim.sp.external.domain.resource.Document" createOnElement="//TransactionData/DesignDetails/Design/DesignRepresentationSheetDetails/DesignRepresentationSheet/ViewDetails/View">
+        <!-- <jb:value property="name" data="//TransactionData/DesignDetails/Design/DesignRepresentationSheetDetails/DesignRepresentationSheet/ViewDetails/View/ViewIdentifier" /> -->
+        <jb:value property="fileName" data="//TransactionData/DesignDetails/Design/DesignRepresentationSheetDetails/DesignRepresentationSheet/ViewDetails/View/ViewURI"  decoder="ImageName"/>
+        <jb:value property="name" data="//TransactionData/DesignDetails/Design/DesignRepresentationSheetDetails/DesignRepresentationSheet/ViewDetails/View/ViewURI"  decoder="ImageName"/>
+        <jb:value property="uri" data="//TransactionData/DesignDetails/Design/DesignRepresentationSheetDetails/DesignRepresentationSheet/ViewDetails/View/ViewURI"  decoder="ImageExtractor"/>
+    </jb:bean>
+
+    <!-- resolved applicant -->
+
+    <jb:bean beanId="applicants" class="java.util.ArrayList" createOnElement="//TransactionData/DesignDetails/Design/ApplicantDetails">
+        <jb:wiring beanIdRef="applicant"/>
+    </jb:bean>
+
+
+    <jb:bean beanId="applicant" class="eu.ohim.sp.external.domain.person.Applicant"
+             createOnElement="//TransactionData/DesignDetails/Design/ApplicantDetails/Applicant">
+
+        <jb:value data="//TransactionData/DesignDetails/Design/ApplicantDetails/Applicant/ApplicantURI" property="personNumber"/>
+    </jb:bean>
+
+    <jb:bean beanId="representatives" class="java.util.ArrayList" createOnElement="//TransactionData/DesignDetails/Design/RepresentativeDetails">
+        <jb:wiring beanIdRef="representative"/>
+    </jb:bean>
+
+    <jb:bean beanId="representative" class="eu.ohim.sp.external.domain.person.Representative"
+             createOnElement="//TransactionData/DesignDetails/Design/RepresentativeDetails/Representative">
+
+        <jb:value data="//TransactionData/DesignDetails/Design/RepresentativeDetails/Representative/RepresentativeURI" property="personNumber"/>
+    </jb:bean>
+
+    <jb:result retainBeans="DesignApplication"/>
+
+</smooks-resource-list>

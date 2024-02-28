@@ -1,0 +1,478 @@
+.doubleItem h4 {
+    line-height: 30px;
+}
+
+.row:empty {
+    padding-bottom: 0px;
+}
+
+.fileProgressBar {
+    width: 200px;
+}
+
+.fileProgressBar .bar {
+    background-color: #0e90d2;
+    background-image: -moz-linear-gradient(top, #149bdf, #0480be);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#149bdf), to(#0480be));
+    background-image: -webkit-linear-gradient(top, #149bdf, #0480be);
+    background-image: -o-linear-gradient(top, #149bdf, #0480be);
+    background-image: linear-gradient(top, #149bdf, #0480be);
+    background-image: -ms-linear-gradient(top, #149bdf, #0480be);
+    background-repeat: repeat-x;
+    filter: progid:dximagetransform.microsoft.gradient(startColorstr = '#149bdf', endColorstr = '#0480be', GradientType = 0);
+    -webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+    -moz-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-transition: width 0.6s ease;
+    -moz-transition: width 0.6s ease;
+    -ms-transition: width 0.6s ease;
+    -o-transition: width 0.6s ease;
+    transition: width 0.6s ease;
+    margin-top: 10px;
+    height: 18px;
+    color: white;
+    text-align: center;
+}
+
+.secondLanguage {
+    display: none;
+}
+
+table#termsTb tr:first-child  th {
+    border-top: none;
+}
+
+.firstLanguageTabGoods.active {
+    background-color: #F9F9F9;
+    cursor: auto;
+}
+
+.firstLanguageTabGoods {
+    background-color: white;
+    display: inline;
+    cursor: pointer;
+    padding: 10px 35px 10px 35px;
+    border-radius: 2px;
+}
+
+.secondLanguageTabGoods.active {
+    background-color: #F9F9F9;
+    color: crimson;
+    display: inline;
+    cursor: auto;
+    margin-left: 15px;
+}
+
+.secondLanguageTabGoods {
+    color: white;
+    background-color: crimson;
+    display: inline;
+    cursor: pointer;
+    padding: 10px 35px 10px 35px;
+    margin-left: 15px;
+    border-radius: 2px;
+}
+
+.captionGoodsServices {
+    text-align: left;
+    margin-bottom: 10px;
+    margin-top: 15px;
+}
+
+.languagesTabs {
+    margin-bottom: 10px;
+    margin-top: 15px;
+}
+
+.termsTabs {
+    margin-top: 10px;
+}
+
+.provideTranslation {
+    margin-left: 25px;
+    display: inline;
+    color: red;
+}
+
+.firstLanguageTermsInfo {
+    font-size: 10px;
+    color: silver;
+}
+
+.w95 {
+    width: 95%;
+}
+
+.modalSearchTerms {
+    max-height: 600px;
+}
+
+.ajaxBlockDiv {
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    opacity: 0.05;
+    z-index: 100001;
+    cursor: wait;
+}
+
+#messageModal .modal, #warningModal .modal {
+    width: 350px;
+}
+
+#paymentContainer {
+    width: 1050px;
+    height: 720px;
+    left: 40%;
+}
+
+#formEF input[disabled].dateInput {
+    cursor: not-allowed;
+    background-color: #EEE;
+}
+
+#ajaxSearchResults form {
+    margin: 12px 12px 12px 12px;
+}
+
+.tableFileupload {
+    width: 100%;
+}
+
+.tableFileupload th.action {
+    width: 20%;
+}
+
+.tableFileupload th.filename {
+    width: 30%;
+}
+
+.person-form-section {
+    font-weight: bold;
+}
+
+.noPaddingBottom {
+    padding-bottom: 0px !important;
+}
+
+.modal#ajaxSearchResults {
+    width: 900px;
+    top: 40%;
+    left: 45%;
+}
+
+.modal#ajaxSearchResults .modal-body {
+    max-height: 650px
+}
+
+#gsResults #treeOptions {
+    width: 42%;
+}
+
+input[type="text"] {
+    line-height: 15px;
+}
+
+#wizard #similarTrademarksTable {
+    overflow: auto;
+    /*max-height: 400px;*/
+}
+
+.loading {
+    background: url("../img/ajax-loader.gif") no-repeat center;
+    width: 100%;
+    height: 32px;
+}
+
+.breakword {
+    word-break: break-all;
+}
+
+.table div.name {
+    max-width: 350px;
+    overflow: hidden;
+}
+
+.review-wordRepresentation {
+    margin-left: 26px;
+}
+
+.leftMargin {
+    margin-left: 5px;
+}
+
+#similarTrademarksPageContainer span {
+    margin-left: 10px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+#similarTrademarksPageContainer span.current {
+    font-weight: bold;
+}
+
+.hidden {
+    display: none;
+}
+
+.fileinput-button {
+    position: relative;
+    overflow: hidden;
+}
+
+.fileinput-button input {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    border: solid transparent;
+    border-width: 0 0 100px 200px;
+    opacity: 0;
+    filter: alpha(opacity = 0);
+    -moz-transform: translate(-300px, 0) scale(4);
+    direction: ltr;
+    cursor: pointer;
+}
+
+.ui-autocomplete {
+    cursor: default;
+    position: absolute;
+    /*DS Class Integration changes start */
+    z-index: 1000 !important;
+    /*DS Class Integration changes end*/
+}
+
+* html .ui-autocomplete {
+    width: 1px;
+}
+
+.ui-autocomplete.ui-menu {
+    background: #f2f2f2;
+    border: 1px solid #999;
+    border-radius: 4px;
+    box-shadow: 1px 1px 5px 1px #bdbdbd;
+    filter: Alpha(Opacity = 95);
+    font-size: 0.9em;
+    moz-box-shadow: 1px 1px 5px 1px #bdbdbd;
+    opacity: 0.95;
+    webkit-box-shadow: 1px 1px 5px 1px #bdbdbd;
+}
+
+.ui-menu {
+    display: block;
+    float: left;
+    list-style: none;
+    margin: 0;
+    padding: 4px;
+}
+
+.ui-menu .ui-menu {
+    margin-top: -3px;
+}
+
+.ui-menu .ui-menu-item {
+    clear: left;
+    float: left;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    zoom: 1;
+}
+
+.ui-menu .ui-menu-item a {
+    color: #454545;
+    display: block;
+    line-height: 1.5;
+    padding: .2em .4em;
+    text-decoration: none;
+    zoom: 1;
+}
+
+.ui-menu .ui-menu-item a.wider {
+    display: inline-block;
+    width: 95%;
+}
+
+.ui-menu .ui-menu-item a.wider .first-col{
+    width: 60%;
+}
+.ui-menu .ui-menu-item a.wider .second-col{
+    width: 20%;
+}
+.ui-menu .ui-menu-item a.wider .third-col{
+    width: 20%;
+}
+
+.ui-menu .ui-menu-item a.ui-state-hover,
+.ui-menu .ui-menu-item a.ui-state-active {
+    background: #bebebe;
+    border: 1px solid #999;
+    border-radius: 4px;
+    box-shadow: 1px 1px 5px 1px #bdbdbd;
+    color: #000;
+    font-weight: normal;
+    margin: -1px;
+    moz-box-shadow: 1px 1px 5px 1px #bdbdbd;
+    webkit-box-shadow: 1px 1px 5px 1px #bdbdbd;
+}
+
+.ui-autocomplete .four-col {
+    width: 100%;
+}
+
+.ui-autocomplete .first-col,
+.ui-autocomplete .second-col,
+.ui-autocomplete .third-col,
+.ui-autocomplete .fourth-col {
+    display: inline-table;
+}
+
+.ui-autocomplete .four-col .selectable-col .first-col {
+    width: 60%;
+}
+
+.ui-autocomplete .four-col .selectable-col .second-col {
+    width: 15%;
+    text-align: center;
+}
+
+.ui-autocomplete .four-col .selectable-col .third-col {
+    width: 15%;
+    text-align: center;
+}
+
+.ui-autocomplete .navigation-col span {
+    width: 100%;
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.ui-autocomplete .selectable-col {
+    width: 100%;
+    float: left;
+}
+
+.ui-autocomplete .navigation-col {
+    float: right;
+    line-height: 1.5;
+    padding: .2em .4em;
+    width: 15%;
+}
+
+.ui-menu .ui-menu-item a {
+    display: inline-block;
+    width: 76%;
+}
+
+.ui-autocomplete {
+    width: 500px;
+}
+
+#priorityForm .checkItem input,
+#priorityForm .checkItem label {
+    display: inline-block;
+}
+
+#partialInfo .classNumber,
+#partialInfo .termsDescription {
+    display: inline-block;
+}
+
+input[type='text'].readonlyImport,
+select.readonlyImport {
+    color: gray;
+}
+
+
+/*DS Class Integration changes start*/
+
+.loading-small {
+    background: url("../img/ajax-loader-small.gif") no-repeat center;
+    width: 16px;
+    height: 16px;
+}
+.autocomplete-loading{
+    position:relative;
+    top:26px;
+    z-index: 10;
+    float:left;
+}
+#representative .autocomplete-loading,
+#applicant .autocomplete-loading{
+    left:255px;
+}
+#previousRCD .autocomplete-loading{
+    left:185px;
+}
+
+.leftMargin30 {
+    margin-left: 30px;
+}
+
+.ui-menu li.ui-menu-item.ui-state-focus {
+    background: #284b74;
+    border: 1px solid #999;
+    box-shadow: 1px 1px 5px 1px #bdbdbd;
+    font-weight: normal;
+    margin: -1px;
+    moz-box-shadow: 1px 1px 5px 1px #bdbdbd;
+    webkit-box-shadow: 1px 1px 5px 1px #bdbdbd;
+}
+.ui-menu li.ui-menu-item.ui-state-focus a {
+    color: white;
+}
+.ui-menu li.ui-menu-item.ui-state-focus span.navigation-col {
+    color: white;
+}
+
+.ui-autocomplete .one-col .selectable-col .first-col {
+    width: 100%;
+}
+
+.ui-autocomplete .two-col .selectable-col .first-col {
+    width: 80%;
+}
+
+.ui-autocomplete .two-col .selectable-col .second-col {
+    width: 20%;
+    text-align: center;
+}
+
+.ui-autocomplete .three-col .selectable-col .first-col {
+    width: 80%;
+}
+
+.ui-autocomplete .three-col .selectable-col .second-col {
+    width: 20%;
+    text-align: center;
+}
+
+
+.later{
+
+}
+[for='collectiveMark']{
+    padding-left: 0px;
+    margin-left:0px;
+}
+.autocomplete-loading{
+    position:relative;
+    /* top:26px; */
+    z-index: 10;
+    float:left;
+}
+
+.loading-small {
+    background: url("../img/ajax-loader-small.gif") no-repeat center;
+    width: 16px;
+    height: 16px;
+}
+
+/*DS Class Integration changes end*/

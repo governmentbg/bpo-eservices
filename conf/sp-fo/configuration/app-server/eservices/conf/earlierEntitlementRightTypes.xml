@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<earlierEntitlementRightTypes xmlns="http://www.example.org/earlierEntitlementRightTypes-configuration"
+                              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                              xsi:schemaLocation="http://www.example.org/earflierEntitlementRightTypes-configuration earlierEntitlementRightTypes-configuration.xsd ">
+    <earlierEntitlementRightType    applicationType="tm-opposition" language="EN" legalActVersion="2019"
+                                    code="" enabled="true">selectBox.SELECT</earlierEntitlementRightType>
+    <earlierEntitlementRightType    applicationType="tm-opposition" language="EN" legalActVersion="2019"
+                                    code="earlierTradeMark" enabled="true">earlierEntitlement.earlierTradeMark</earlierEntitlementRightType>
+    <earlierEntitlementRightType    applicationType="tm-opposition" language="EN" legalActVersion="2019"
+                                    code="reputation" enabled="true">earlierEntitlement.reputation</earlierEntitlementRightType>
+    <earlierEntitlementRightType    applicationType="tm-opposition" language="EN" legalActVersion="2019"
+                                    code="nonRegistered" enabled="true">earlierEntitlement.nonRegistered</earlierEntitlementRightType>
+    <earlierEntitlementRightType    applicationType="tm-opposition" language="EN" legalActVersion="2019"
+                                    code="badFaith" enabled="true">earlierEntitlement.badFaith</earlierEntitlementRightType>
+    <earlierEntitlementRightType    applicationType="tm-opposition" language="EN" legalActVersion="2019"
+                                    code="agentApplied" enabled="true">earlierEntitlement.agentApplied</earlierEntitlementRightType>
+    <earlierEntitlementRightType    applicationType="tm-opposition" language="EN" legalActVersion="2019"
+                                    code="businessName" enabled="true">earlierEntitlement.businessName</earlierEntitlementRightType>
+    <earlierEntitlementRightType    applicationType="tm-opposition" language="EN" legalActVersion="2019"
+                                    code="earlierGI" enabled="true">earlierEntitlement.earlierGI</earlierEntitlementRightType>
+
+
+    <earlierEntitlementRightType    applicationType="tm-invalidity" language="EN" legalActVersion="2019"
+                                    code="" enabled="true">selectBox.SELECT</earlierEntitlementRightType>
+    <earlierEntitlementRightType    applicationType="tm-invalidity" language="EN" legalActVersion="2019"
+                                    code="earlierTradeMark" enabled="true">invalidity.earlierEntitlement.earlierTradeMark</earlierEntitlementRightType>>
+    <earlierEntitlementRightType    applicationType="tm-invalidity" language="EN" legalActVersion="2019"
+                                    code="reputation" enabled="true">invalidity.earlierEntitlement.reputation</earlierEntitlementRightType>
+    <earlierEntitlementRightType    applicationType="tm-invalidity" language="EN" legalActVersion="2019"
+                                    code="nonRegistered" enabled="true">invalidity.earlierEntitlement.nonRegistered</earlierEntitlementRightType>
+    <earlierEntitlementRightType    applicationType="tm-invalidity" language="EN" legalActVersion="2019"
+                                    code="badFaith" enabled="true">invalidity.earlierEntitlement.badFaith</earlierEntitlementRightType>
+    <earlierEntitlementRightType    applicationType="tm-invalidity" language="EN" legalActVersion="2019"
+                                    code="agentApplied" enabled="true">invalidity.earlierEntitlement.agentApplied</earlierEntitlementRightType>
+    <earlierEntitlementRightType    applicationType="tm-invalidity" language="EN" legalActVersion="2019"
+                                    code="businessName" enabled="true">invalidity.earlierEntitlement.businessName</earlierEntitlementRightType>
+    <earlierEntitlementRightType    applicationType="tm-invalidity" language="EN" legalActVersion="2019"
+                                    code="earlierGI" enabled="true">invalidity.earlierEntitlement.earlierGI</earlierEntitlementRightType>
+    <earlierEntitlementRightType    applicationType="tm-invalidity" language="EN" legalActVersion="2019"
+                                    code="rightsAuthor" enabled="true">invalidity.earlierEntitlement.rightsAuthor</earlierEntitlementRightType>
+    <earlierEntitlementRightType    applicationType="tm-invalidity" language="EN" legalActVersion="2019"
+                                    code="rightsPortraitName" enabled="true">invalidity.earlierEntitlement.rightsPortraitName</earlierEntitlementRightType>
+    <earlierEntitlementRightType    applicationType="tm-invalidity" language="EN" legalActVersion="2019"
+                                    code="rightsPlantVariation" enabled="true">invalidity.earlierEntitlement.rightsPlantVariation</earlierEntitlementRightType>
+    <earlierEntitlementRightType    applicationType="tm-invalidity" language="EN" legalActVersion="2019"
+                                    code="industrialPropertyRight" enabled="true">invalidity.earlierEntitlement.industrialPropertyRight</earlierEntitlementRightType>
+
+
+    <earlierEntitlementRightType    applicationType="ds-invalidity" language="EN" legalActVersion="2019"
+                                    code="" enabled="true">selectBox.SELECT</earlierEntitlementRightType>
+    <earlierEntitlementRightType    applicationType="ds-invalidity" language="EN" legalActVersion="2019"
+                                    code="everyPerson" enabled="true">invalidity.earlierEntitlement.everyPerson</earlierEntitlementRightType>
+    <earlierEntitlementRightType    applicationType="ds-invalidity" language="EN" legalActVersion="2019"
+                                    code="personLegalInterest" enabled="true">invalidity.earlierEntitlement.personLegalInterest</earlierEntitlementRightType>
+    <earlierEntitlementRightType    applicationType="ds-invalidity" language="EN" legalActVersion="2019"
+                                    code="courtAdmittedOwner" enabled="true">invalidity.earlierEntitlement.courtAdmittedOwner</earlierEntitlementRightType>
+</earlierEntitlementRightTypes>

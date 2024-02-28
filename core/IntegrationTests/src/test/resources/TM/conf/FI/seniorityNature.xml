@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<seniorityNatures xmlns="http://www.example.org/seniorityNature-configuration"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.example.org/seniorityNature-configuration seniorityNature-configuration.xsd ">
+	<seniorityNature code="" value="selectBox.SELECT" />
+	<seniorityNature code="INTERNATIONAL_TRADE_MARK" value="nature.international" />
+	<seniorityNature code="NATIONAL_OR_REGIONAL_TRADE_MARK"
+		value="nature.national" />
+</seniorityNatures>

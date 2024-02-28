@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="unqualified"
+	version="3.2"
+	targetNamespace="http://ohim.eu/sp/services/patent-search/v3"
+	xmlns:tns="http://ohim.eu/sp/services/patent-search/v3"
+	xmlns:common="http://ohim.eu/sp/domain/common/v3"	
+	xmlns:patent="http://ohim.eu/sp/domain/patent/v3"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<xs:import namespace="http://ohim.eu/sp/domain/patent/v3" schemaLocation="../domain/PatentDomain.xsd" />
+	<xs:import namespace="http://ohim.eu/sp/domain/common/v3" schemaLocation="../domain/CommonDomain.xsd" />
+	
+	<xs:element name="getPatent" type="tns:GetPatent" />
+	<xs:element name="getPatentResponse" type="tns:GetPatentResponse" />
+
+	<xs:element name="patentFault" type="tns:PatentFault" />
+
+	<xs:complexType name="GetPatent">
+		<xs:sequence>
+			<xs:element name="office" type="xs:string" minOccurs="0" />
+			<xs:element name="patentId" type="xs:string" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="GetPatentResponse">
+		<xs:sequence>
+			<xs:element name="return" type="patent:Patent" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+    <xs:complexType name="PatentFault">
+        <xs:sequence>
+            <xs:element name="return" type="common:Fault" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+	
+</xs:schema>

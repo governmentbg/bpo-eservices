@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://egov.bg/RegiX/PatentDepartment" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://egov.bg/RegiX/PatentDepartment" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="getEBDAutocomplete" type="getEBDAutocompleteType">
+		<xs:annotation>
+			<xs:documentation>Autocomplete request</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="getEBDAutocompleteType">
+		<xs:sequence>
+			<xs:element name="word" type="xs:string"/>
+			<xs:element name="rows" type="xs:integer"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

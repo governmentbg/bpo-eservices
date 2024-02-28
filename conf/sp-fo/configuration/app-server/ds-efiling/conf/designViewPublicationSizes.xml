@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<designViewPublicationSizes xmlns="http://www.example.org/designViewPublicationSizes-configuration"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.example.org/designViewPublicationSizes-configuration designViewPublicationSizes-configuration.xsd">
+	<designViewPublicationSize code="" value="selectBox.SELECT" />
+	<designViewPublicationSize code="6x6" value="view.publicationSize.6x6" />
+	<designViewPublicationSize code="12x12" value="view.publicationSize.12x12" />
+	<designViewPublicationSize code="24x24" value="view.publicationSize.24x24" />
+</designViewPublicationSizes>

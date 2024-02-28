@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="qualified"
+           version="3.2"
+           targetNamespace="http://ohim.eu/sp/domain/classification-wrapper/v3"
+           xmlns:tns="http://ohim.eu/sp/domain/classification-wrapper/v3"
+           xmlns:class="http://ohim.eu/sp/domain/classification/v3"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:import namespace="http://ohim.eu/sp/domain/classification/v3" schemaLocation="./ClassificationDomain.xsd"/>
+
+    <xs:complexType name="DistributionResult">
+        <xs:sequence>
+            <xs:element name="classNum" type="xs:integer" minOccurs="0"/>
+            <xs:element name="totalMatches" type="xs:integer" minOccurs="0"/>
+            <xs:element name="totalNumber" type="xs:integer" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ClassScope">
+        <xs:sequence>
+            <xs:element name="language" type="xs:string" minOccurs="0"/>
+            <xs:element name="classNumber" type="xs:string" minOccurs="0"/>
+            <xs:element name="description" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="DistributionCriteria">
+        <xs:complexContent>
+            <xs:extension base="tns:GeneralTermCriteria"/>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="DistributionResults">
+        <xs:sequence>
+            <xs:element name="distributionResult" type="tns:DistributionResult" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="SearchResults">
+        <xs:sequence>
+            <xs:element name="terms" type="tns:Term" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="totalResults" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="GeneralTermCriteria">
+        <xs:sequence>
+            <xs:element name="office" type="xs:string" minOccurs="0"/>
+            <xs:element name="language" type="xs:string" minOccurs="0"/>
+            <xs:element name="term" type="xs:string" minOccurs="0"/>
+            <xs:element name="searchMode" type="tns:SearchMode" minOccurs="0"/>
+            <xs:element name="niceClassList" type="xs:integer" maxOccurs="unbounded" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="SearchTermCriteria">
+        <xs:complexContent>
+            <xs:extension base="tns:GeneralTermCriteria">
+                <xs:sequence>
+                    <xs:element name="showMaster" type="xs:boolean"/>
+                    <xs:element name="size" type="xs:integer" minOccurs="0"/>
+                    <xs:element name="page" type="xs:integer" minOccurs="0"/>
+                    <xs:element name="sortBy" type="tns:SortBy" minOccurs="0"/>
+                    <xs:element name="orderBy" type="tns:OrderBy" minOccurs="0"/>
+                    <xs:element name="taxoConceptNodeId" type="xs:string" minOccurs="0"/>
+                    <xs:element name="showNonTaxoTermsOnly" type="xs:boolean" minOccurs="0"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="TaxonomyConceptNode">
+        <xs:sequence>
+            <xs:element name="id" type="xs:string" minOccurs="0"/>
+            <xs:element name="parentId" type="xs:string" minOccurs="0"/>
+            <xs:element name="text" type="xs:string" minOccurs="0"/>
+            <xs:element name="level" type="xs:integer" minOccurs="0"/>
+            <xs:element name="numTermsSatisfyingCriteria" type="xs:integer" minOccurs="0"/>
+            <xs:element name="niceClass" type="xs:integer" minOccurs="0"/>
+            <xs:element name="nonTaxonomyParent" type="xs:boolean" minOccurs="0"/>
+            <xs:element name="leaf" type="xs:boolean"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="TaxonomyCriteria">
+        <xs:complexContent>
+            <xs:extension base="tns:GeneralTermCriteria">
+                <xs:sequence>
+                    <xs:element name="levelLimit" type="xs:integer" minOccurs="0"/>
+                    <xs:element name="taxoConceptNodeId" type="xs:string" minOccurs="0"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="Term">
+        <xs:sequence>
+            <xs:element name="id" type="xs:string" minOccurs="0"/>
+            <xs:element name="lang" type="xs:string" minOccurs="0"/>
+            <xs:element name="niceClass" type="xs:int" minOccurs="0"/>
+            <xs:element name="scopeAcceptability" type="xs:boolean" minOccurs="0"/>
+            <xs:element name="scope" type="xs:string" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="text" type="xs:string" minOccurs="0"/>
+            <xs:element name="verificationResult" type="class:VerifiedTermResult" minOccurs="0"/>
+            <xs:element name="verificationAssessment" type="xs:string" minOccurs="0"/>
+            <xs:element name="parentIds" type="xs:string" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="matchedTerms" type="class:MatchedTerm" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="TermsToBeValidated">
+        <xs:sequence>
+            <xs:element name="office" type="xs:string" minOccurs="0"/>
+            <xs:element name="language" type="xs:string" minOccurs="0"/>
+            <xs:element name="terms" type="xs:string" minOccurs="0"/>
+            <xs:element name="niceClass" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="TermsValidated">
+        <xs:sequence>
+            <xs:element name="niceClass" type="xs:string" minOccurs="0"/>
+            <xs:element name="terms" type="tns:Term" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="language" type="xs:string" minOccurs="0"/>
+            <xs:element name="description" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!--ENUM-->
+
+    <xs:simpleType name="OrderBy">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="ASC"/>
+            <xs:enumeration value="DESC"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="SearchMode">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="WORDSPREFIX"/>
+            <xs:enumeration value="FULLPHRASE"/>
+            <xs:enumeration value="EXACTMATCH"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="SortBy">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="TEXT"/>
+            <xs:enumeration value="NICECLASS"/>
+            <xs:enumeration value="RELEVANCE"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!--ADDED LATER -->
+
+    <xs:complexType name="NiceHeadingCriteria">
+        <xs:sequence>
+            <xs:element name="language" type="xs:string" minOccurs="0"/>
+            <xs:element name="niceClassHeading" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ClassScopesCriteria">
+        <xs:sequence>
+            <xs:element name="language" type="xs:string" minOccurs="0"/>
+            <xs:element name="niceClassHeadings" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="DidYouMeanCriteria">
+        <xs:sequence>
+            <xs:element name="language" type="xs:string" minOccurs="0"/>
+            <xs:element name="searchPhrase" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema>

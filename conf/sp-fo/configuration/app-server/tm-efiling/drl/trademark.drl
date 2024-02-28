@@ -1,0 +1,1148 @@
+package org.domain.rules;
+dialect "mvel"
+
+import org.apache.commons.lang.StringUtils;
+import eu.ohim.sp.core.domain.resources.Colour;
+import eu.ohim.sp.core.domain.resources.Document;
+import eu.ohim.sp.core.domain.trademark.TradeMark;
+import eu.ohim.sp.core.domain.validation.ErrorCore;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.domain.trademark.MarkFeature;
+import eu.ohim.sp.core.configuration.domain.xsd.Field;
+import eu.ohim.sp.core.domain.trademark.MarkDisclaimer;
+import eu.ohim.sp.core.domain.trademark.MarkDescription;
+import eu.ohim.sp.core.configuration.domain.xsd.Section;
+import eu.ohim.sp.core.domain.resources.AttachedDocument;
+import eu.ohim.sp.core.configuration.domain.xsd.Sections;
+import eu.ohim.sp.core.domain.validation.RulesInformation;
+import eu.ohim.sp.core.domain.trademark.WordSpecification;
+import eu.ohim.sp.core.domain.trademark.ImageSpecification;
+
+
+rule "BR54 - Empty"
+salience 1000
+when
+    RulesInformation($flowModeId: customObjects["flowModeId"])
+	$errorList : ErrorList()
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark(markKind.toString() == "Undefined") from $tradeMark	
+then
+	addError(null,
+		 "BR54.markType.Empty."+$flowModeId,
+		 "You must select kind",
+		 "mainForm.markRepresentationSection",
+		 $errorList);
+end
+
+rule "BR57 - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "mark_details", $subsections : subsection )	
+	Section (coreName == "Wordmark", $fields : field ) from $subsections
+	Field( id == "mainForm.firstDisclaimer", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true &&
+		 $fieldRequired == true)
+	TradeMarkApplication($tradeMark : tradeMark)		 
+	TradeMark(markDisclaimers == null || (markDisclaimers != null && markDisclaimers.size() == 0)) from $tradeMark	
+then
+	addError("mainForm.firstDisclaimer",
+		 "BR57.disclaimer.Empty",
+		 "This field is mandatory",
+		 "mainForm.markRepresentationSection",
+		 $errorList);
+end
+
+rule "BR57 - Content"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "mark_details", $subsections : subsection )	
+	Section (coreName == "Wordmark", $fields : field ) from $subsections	
+	Field( id == "mainForm.firstDisclaimer", $fieldUsable : usable, $regex : format) from $fields
+	eval($fieldUsable == true &&
+		 StringUtils.isEmpty($regex) == false)
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark($markDisclaimers : markDisclaimers) from $tradeMark
+	MarkDisclaimer(value not matches $regex) from $markDisclaimers
+then
+	addError("mainForm.firstDisclaimer",
+		 "BR57.disclaimer.Wrong",
+		 "This field is mandatory",
+		 "mainForm.markRepresentationSection",
+		 $errorList);
+end
+
+rule "BR58 - Disclaimer 2nd Language - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "mark_details", $subsections : subsection )	
+	Section (coreName == "Wordmark", $fields : field ) from $subsections
+	Field( id == "mainForm.secondDisclaimer", $fieldUsable : usable) from $fields
+	eval($fieldUsable == true)
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark(secondLanguageTranslation == true && $secondLanguage : secondLanguage && $markDisclaimers : markDisclaimers) from $tradeMark
+	forall(MarkDisclaimer(!language.equals($secondLanguage)) from $markDisclaimers)
+then
+	addError("mainForm.secondDisclaimer",
+		 "BR58.disclaimerSecondLanguage.Empty",
+		 "This field is mandatory",
+		 "mainForm.markRepresentationSection",
+		 $errorList);
+end
+
+rule "BR58  - Disclaimer 2nd Language - Content"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "mark_details", $subsections : subsection )	
+	Section (coreName == "Wordmark", $fields : field ) from $subsections
+	Field( id == "mainForm.secondDisclaimer", $fieldUsable : usable, $regex : format) from $fields
+	eval($fieldUsable == true &&
+		 StringUtils.isEmpty($regex) == false)
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark(secondLanguageTranslation == true && $secondLanguage : secondLanguage && $markDisclaimers : markDisclaimers) from $tradeMark
+	MarkDisclaimer(language.equals($secondLanguage) && language not matches $regex) from $markDisclaimers
+then
+	addError("mainForm.secondDisclaimer",
+		 "BR58.disclaimerSecondLanguage.Wrong",
+		 "This field has a bad format",
+		 "mainForm.markRepresentationSection",
+		 $errorList);
+end
+
+
+rule "BR63(Word Mark) Char set - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "mark_details", $subsections : subsection )	
+	Section (coreName == "Wordmark", $fields : field ) from $subsections
+	Field( id == "mainForm.charset", $fieldUsable: usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark($wordSpecifications : wordSpecifications, markKind.toString() == "Word")	from $tradeMark
+	WordSpecification(StringUtils.isEmpty(characterSet)==true) from $wordSpecifications
+then
+	addError("mainForm.charset",
+		 "BR63.characterSet.Empty",
+		 "This field is mandatory",
+		 "mainForm.markRepresentationSection",
+		 $errorList);
+end
+
+rule "BR63 - Content"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "mark_details", $subsections : subsection )	
+	Section (coreName == "Wordmark", $fields : field ) from $subsections
+	Field( id == "mainForm.charset", $fieldUsable : usable, $regex : format) from $fields
+	eval($fieldUsable == true && StringUtils.isEmpty($regex) == false)
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark($wordSpecifications : wordSpecifications, markKind.toString() == "Word")	from $tradeMark
+	WordSpecification(StringUtils.isEmpty(characterSet)== false && characterSet not matches $regex) from $wordSpecifications
+then
+	addError("mainForm.charset",
+		 "BR63.characterSet.Wrong",
+		 "This field has a bad format",
+		 "mainForm.markRepresentationSection",
+		 $errorList);
+end
+
+rule "Figwordmark BR65 BR75 BR92 BR104 - Image - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "mark_details", $subsections : subsection )
+	Section (coreName == "Figwordmark", $fields : field ) from $subsections	
+	
+	Field( id == "mainForm.fileWrapperImage", $fieldUsable: usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark(imageSpecifications == null || imageSpecifications.size() == 0 || imageSpecifications.get(0).representation == null,
+	    markKind == MarkFeature.FIGURATIVE) from $tradeMark
+then
+	addError("mainForm.fileWrapperImage"+".attachment",
+		 "BR.representation.Empty",
+		 "A file need to be attached to this field",
+		 "mainForm.markRepresentationSection",
+		 $errorList);
+end
+
+rule "Figurative BR65 BR75 BR92 BR104 - Image - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "mark_details", $subsections : subsection )
+	Section (coreName == "Figurative", $fields : field ) from $subsections	
+	
+	Field( id == "mainForm.fileWrapperImage", $fieldUsable: usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark(imageSpecifications == null || imageSpecifications.size() == 0 || imageSpecifications.get(0).representation == null,
+	    markKind == MarkFeature.STYLIZED_CHARACTERS) from $tradeMark
+then
+	addError("mainForm.fileWrapperImage"+".attachment",
+		 "BR.representation.Empty",
+		 "A file need to be attached to this field",
+		 "mainForm.markRepresentationSection",
+		 $errorList);
+end
+
+rule "Colour BR65 BR75 BR92 BR104 - Image - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "mark_details", $subsections : subsection )
+	Section (coreName == "Colourmark", $fields : field ) from $subsections	
+	
+	Field( id == "mainForm.fileWrapperImage", $fieldUsable: usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark(imageSpecifications == null || imageSpecifications.size() == 0 || imageSpecifications.get(0).representation == null,
+	    markKind == MarkFeature.COLOUR) from $tradeMark
+then
+	addError("mainForm.fileWrapperImage"+".attachment",
+		 "BR.representation.Empty",
+		 "A file need to be attached to this field",
+		 "mainForm.markRepresentationSection",
+		 $errorList);
+end
+
+rule "3D BR65 BR75 BR92 BR104 - Image - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "mark_details", $subsections : subsection )
+	Section (coreName == "3Dmark", $fields : field, $viewsSubsect : subsection ) from $subsections
+	Field( id == "mainForm.fileWrapperImage", $fieldUsable: usable, $fieldRequired : required) from $fields
+
+	eval($fieldUsable == true && $fieldRequired == true)
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark(imageSpecifications == null || imageSpecifications.size() == 0 || imageSpecifications.get(0).representation == null,
+	    markKind == MarkFeature.THREE_D) from $tradeMark
+then
+	addError("mainForm.fileWrapperImage"+".attachment",
+    		 "BR.representation.Empty",
+    		 "A file need to be attached to this field",
+    		 "mainForm.markRepresentationSection",
+    		 $errorList);
+end
+
+rule "Others BR65 BR75 BR92 BR104 - Image - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "mark_details", $subsections : subsection )
+	Section (coreName == "Others", $fields : field ) from $subsections	
+	
+	Field( id == "mainForm.fileWrapperImage", $fieldUsable: usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark(imageSpecifications == null || imageSpecifications.size() == 0 || imageSpecifications.get(0).representation == null,
+	    markKind == MarkFeature.OTHER) from $tradeMark
+then
+	addError("mainForm.fileWrapperImage"+".attachment",
+		 "BR.representation.Empty",
+		 "A file need to be attached to this field",
+		 "mainForm.markRepresentationSection",
+		 $errorList);
+end
+
+rule "Other mark description empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "mark_details", $subsections : subsection )
+	Section (coreName == "Others", $fields : field ) from $subsections
+	Field( id == "mainForm.markDescription", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true &&
+		 $fieldRequired == true)
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark(markDescriptions == null || markDescriptions.size() == 0, markKind == MarkFeature.OTHER)	from $tradeMark
+then
+	addError("mainForm.markDescription",
+		 "BR69.description.Empty",
+		 "This field is mandatory",
+		 "mainForm.markRepresentationSection",
+		 $errorList);
+end
+
+rule "Combined BR65 BR75 BR92 BR104 - Image - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "mark_details", $subsections : subsection )
+	Section (coreName == "3DWordMark", $fields : field ) from $subsections	
+	
+	Field( id == "mainForm.fileWrapperImage", $fieldUsable: usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark(imageSpecifications == null || imageSpecifications.size() == 0 || imageSpecifications.get(0).representation == null,
+	    markKind == MarkFeature.COMBINED) from $tradeMark
+then
+	addError("mainForm.fileWrapperImage"+".attachment",
+		 "BR.representation.Empty",
+		 "A file need to be attached to this field",
+		 "mainForm.markRepresentationSection",
+		 $errorList);
+end
+
+rule "Sound BR65 BR75 BR92 BR104 - Image and sound - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "mark_details", $subsections : subsection )
+	Section (coreName == "Soundmark", $fields : field ) from $subsections	
+	
+	Field( id == "mainForm.fileWrapperImage", $fieldUsable: usable, $fieldRequired : required) from $fields
+	Field( id == "mainForm.soundFile", $fieldUsableSound: usable, $fieldRequiredSound : required) from $fields
+	eval($fieldUsable == true && $fieldUsableSound == true)
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark((imageSpecifications == null || imageSpecifications.size() == 0 || imageSpecifications.get(0).representation == null) &&
+	    (soundRepresentations == null || (soundRepresentations.size()>0 && soundRepresentations.get(0).document == null)), markKind == MarkFeature.SOUND) from $tradeMark
+then
+	addError("mainForm.soundFile"+".attachment",
+		 "BR.view.sound.representation.Empty",
+		 "A file need to be attached to this field",
+		 "mainForm.markRepresentationSection",
+		 $errorList);
+end
+
+rule "Pattern, Position BR65 BR75 BR92 BR104 - Image - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "mark_details", $subsections : subsection )
+	Section (coreName == "PatternMark", $fields : field ) from $subsections
+
+	Field( id == "mainForm.fileWrapperImage", $fieldUsable: usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark(imageSpecifications == null || imageSpecifications.size() == 0 || imageSpecifications.get(0).representation == null,
+	    markKind == MarkFeature.PATTERN || markKind == MarkFeature.POSITION) from $tradeMark
+then
+	addError("mainForm.fileWrapperImage"+".attachment",
+		 "BR.representation.Empty",
+		 "A file need to be attached to this field",
+		 "mainForm.markRepresentationSection",
+		 $errorList);
+end
+
+
+rule "Hologram BR65 BR75 BR92 BR104 - Media or Image - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "mark_details", $subsections : subsection )
+	Section (coreName == "HologramMark", $fields : field, $viewsSubsect : subsection ) from $subsections
+
+	Field( id == "mainForm.fileWrapperImage", $imgFieldUsable: usable) from $fields
+	Field( id == "mainForm.fileWrapperMultimedia", $mulFieldUsable: usable) from $fields
+    eval(($imgFieldUsable == true) || ($mulFieldUsable == true))
+
+    TradeMarkApplication($tradeMark : tradeMark)
+    TradeMark(imageSpecifications == null || imageSpecifications.size() == 0 || imageSpecifications.get(0).representation == null,
+        mediaRepresentations == null, markKind == MarkFeature.HOLOGRAM) from $tradeMark
+then
+    addError("mainForm.fileWrapperImage"+".attachment",
+             "BR.view.media.representation.Empty",
+             "A file need to be attached to this field",
+             "mainForm.markRepresentationSection",
+             $errorList);
+end
+
+rule "Motion BR65 BR75 BR92 BR104 - Media or Image - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "mark_details", $subsections : subsection )
+	Section (coreName == "MotionMark", $fields : field, $viewsSubsect : subsection ) from $subsections
+    Section(StringUtils.endsWith(coreName, "_markViews"), $viewsFields: field) from $viewsSubsect
+
+	Field( id == "view", $imgFieldUsable: usable) from $viewsFields
+    Field( id == "mainForm.fileWrapperMultimedia", $mulFieldUsable: usable) from $fields
+    eval(($imgFieldUsable == true) || ($mulFieldUsable == true ))
+
+	TradeMarkApplication($tradeMark : tradeMark)
+    TradeMark(imageSpecifications == null || imageSpecifications.size() == 0 || imageSpecifications.get(0).representation == null,
+        mediaRepresentations == null, markKind == MarkFeature.MOTION) from $tradeMark
+then
+	addError("markViews",
+		 "BR.view.media.representation.Empty",
+		 "A file need to be attached to this field",
+		 "mainForm.markRepresentationSection",
+		 $errorList);
+end
+
+rule "Multimedia BR65 BR75 BR92 BR104 - Media - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "mark_details", $subsections : subsection )
+	Section (coreName == "MultimediaMark", $fields : field ) from $subsections
+	Field( id == "mainForm.fileWrapperMultimedia", $fieldUsable: usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark(mediaRepresentations == null, markKind == MarkFeature.MULTIMEDIA) from $tradeMark
+then
+	addError("mainForm.fileWrapperMultimedia"+".attachment",
+		 "BR.representation.Empty",
+		 "A file need to be attached to this field",
+		 "mainForm.markRepresentationSection",
+		 $errorList);
+end
+
+rule "BR67(Wordmark) Word Elements - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "mark_details", $subsections : subsection )	
+	Section ((coreName == "Wordmark"), $fields : field, $coreName : coreName ) from $subsections
+	Field( id == "mainForm.wordRepresentation", $fieldUsable: usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark($wordSpecifications : wordSpecifications, markKind.toString()=="Word" )	from $tradeMark
+	WordSpecification(StringUtils.isEmpty(wordElements)) from $wordSpecifications	
+then
+	addError("mainForm.wordRepresentation",
+		 "BR67.wordElements.Empty",
+		 "This field is mandatory",
+		 "mainForm.markRepresentationSection",
+		 $errorList);
+end
+
+rule "BR77(Figwordmark) Word Elements - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "mark_details", $subsections : subsection )	
+	Section ((coreName == "Figwordmark" ), $fields : field ) from $subsections
+	Field( id == "mainForm.wordRepresentation", $fieldUsable: usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark($wordSpecifications : wordSpecifications, markKind.toString()=="Combined")	from $tradeMark
+	WordSpecification(StringUtils.isEmpty(wordElements)) from $wordSpecifications	
+then
+	addError("mainForm.wordRepresentation",
+		 "BR67.wordElements.Empty",
+		 "This field is mandatory",
+		 "mainForm.markRepresentationSection",
+		 $errorList);
+end
+
+rule "BR106(Combined) Word Elements - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "mark_details", $subsections : subsection )	
+	Section ((coreName == "3DWordMark" ), $fields : field ) from $subsections
+	Field( id == "mainForm.wordRepresentation", $fieldUsable: usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark($wordSpecifications : wordSpecifications, markKind.toString()=="Stylized characters")	from $tradeMark
+	WordSpecification(StringUtils.isEmpty(wordElements)) from $wordSpecifications	
+then
+	addError("mainForm.wordRepresentation",
+		 "BR67.wordElements.Empty",
+		 "This field is mandatory",
+		 "mainForm.markRepresentationSection",
+		 $errorList);
+end
+
+rule "BR106(Combined) Word elements - Content"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "mark_details", $subsections : subsection )	
+	Section (coreName =="3DWordMark", $fields : field ) from $subsections
+	Field( id == "mainForm.wordRepresentation", $fieldUsable : usable, $regex : format) from $fields
+	eval($fieldUsable == true &&
+		 StringUtils.isEmpty($regex) == false)
+	TradeMarkApplication($tradeMark : tradeMark)		 
+	TradeMark($wordSpecifications : wordSpecifications, markKind.toString()=="Combined") from $tradeMark
+	WordSpecification(!StringUtils.isEmpty(wordElements) && wordElements not matches $regex) from $wordSpecifications
+then
+	System.out.println ("BR106 Word Elements - Empty");
+	addError("mainForm.wordRepresentation",
+		 "BR67.wordElements.Wrong",
+		 "This field has a bad format",
+		 "mainForm.markRepresentationSection",
+		 $errorList);
+end
+
+rule "BR69 BR97 BR102 BR107 - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "mark_details", $subsections : subsection )	
+	Section (coreName == "Wordmark", $fields : field ) from $subsections
+	Field( id == "mainForm.markDescription", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true &&
+		 $fieldRequired == true)
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark(markDescriptions == null || markDescriptions.size() == 0)	from $tradeMark
+then
+	addError("mainForm.markDescription",
+		 "BR69.description.Empty",
+		 "This field is mandatory",
+		 "mainForm.markRepresentationSection",
+		 $errorList);
+end
+
+rule "BR69 BR97 BR102 BR107 - Content"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "mark_details", $subsections : subsection )	
+	Section (coreName == "Wordmark", $fields : field ) from $subsections
+	Field( id == "mainForm.markDescription", $fieldUsable : usable, $regex : format) from $fields
+	eval($fieldUsable == true &&
+		 StringUtils.isEmpty($regex) == false)
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark($markDescriptions : markDescriptions)	from $tradeMark
+	MarkDescription(value not matches $regex) from $markDescriptions 
+then
+	addError("mainForm.markDescription",
+		 "BR69.description.Wrong",
+		 "This field is mandatory",
+		 "mainForm.markRepresentationSection",
+		 $errorList);
+end
+
+rule "BR70 BR88 BR98 BR103 - Description of Mark 2nd Language - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "mark_details", $subsections : subsection )	
+	Section (coreName == "Figwordmark", $fields : field ) from $subsections
+	Field( id == "mainForm.markDescriptionSecond", $fieldUsable : usable) from $fields
+	eval($fieldUsable == true)
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark(markKind == MarkFeature.FIGURATIVE 
+		&& secondLanguageTranslation == true 
+		&& $secondLanguage : secondLanguage 
+		&& $markDescriptions : markDescriptions) from $tradeMark
+	forall(MarkDescription(!language.equals($secondLanguage)) from $markDescriptions)
+then
+	addError("mainForm.markDescriptionSecond",
+		 "BR70.descriptionSecondLanguage.Empty",
+		 "This field is mandatory",
+		 "mainForm.markRepresentationSection",
+		 $errorList);
+end
+
+rule "BR88 BR98 BR103 - Description of Mark 2nd Language - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "mark_details", $subsections : subsection )	
+	Section (coreName == "Figurative", $fields : field ) from $subsections
+	Field( id == "mainForm.markDescriptionSecond", $fieldUsable : usable) from $fields
+	eval($fieldUsable == true)
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark(markKind == MarkFeature.STYLIZED_CHARACTERS 
+		&& secondLanguageTranslation == true 
+		&& $secondLanguage : secondLanguage 
+		&& $markDescriptions : markDescriptions) from $tradeMark
+	forall(MarkDescription(!language.equals($secondLanguage)) from $markDescriptions)
+then
+	addError("mainForm.markDescriptionSecond",
+		 "BR70.descriptionSecondLanguage.Empty",
+		 "This field is mandatory",
+		 "mainForm.markRepresentationSection",
+		 $errorList);
+end
+
+rule "BR98 BR103 - Description of Mark 2nd Language - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "mark_details", $subsections : subsection )	
+	Section (coreName == "Colourmark", $fields : field ) from $subsections
+	Field( id == "mainForm.markDescriptionSecond", $fieldUsable : usable) from $fields
+	eval($fieldUsable == true)
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark(markKind == MarkFeature.COLOUR 
+		&& secondLanguageTranslation == true 
+		&& $secondLanguage : secondLanguage 
+		&& $markDescriptions : markDescriptions) from $tradeMark
+	forall(MarkDescription(!language.equals($secondLanguage)) from $markDescriptions)
+then
+	addError("mainForm.markDescriptionSecond",
+		 "BR70.descriptionSecondLanguage.Empty",
+		 "This field is mandatory",
+		 "mainForm.markRepresentationSection",
+		 $errorList);
+end
+
+rule "BR103 - Description of Mark 2nd Language - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "mark_details", $subsections : subsection )	
+	Section (coreName == "3Dmark", $fields : field ) from $subsections
+	Field( id == "mainForm.markDescriptionSecond", $fieldUsable : usable) from $fields
+	eval($fieldUsable == true)
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark(markKind == MarkFeature.THREE_D 
+		&& secondLanguageTranslation == true 
+		&& $secondLanguage : secondLanguage 
+		&& $markDescriptions : markDescriptions) from $tradeMark
+	forall(MarkDescription(!language.equals($secondLanguage)) from $markDescriptions)
+then
+	addError("mainForm.markDescriptionSecond",
+		 "BR70.descriptionSecondLanguage.Empty",
+		 "This field is mandatory",
+		 "mainForm.markRepresentationSection",
+		 $errorList);
+end
+
+rule "Sound - Description of Mark 2nd Language - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "mark_details", $subsections : subsection )	
+	Section (coreName == "Soundmark", $fields : field ) from $subsections
+	Field( id == "mainForm.markDescriptionSecond", $fieldUsable : usable) from $fields
+	eval($fieldUsable == true)
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark(markKind == MarkFeature.SOUND 
+		&& secondLanguageTranslation == true 
+		&& $secondLanguage : secondLanguage 
+		&& $markDescriptions : markDescriptions) from $tradeMark
+	forall(MarkDescription(!language.equals($secondLanguage)) from $markDescriptions)
+then
+	addError("mainForm.markDescriptionSecond",
+		 "BR70.descriptionSecondLanguage.Empty",
+		 "This field is mandatory",
+		 "mainForm.markRepresentationSection",
+		 $errorList);
+end
+
+rule "Other - Description of Mark 2nd Language - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "mark_details", $subsections : subsection )	
+	Section (coreName == "Others", $fields : field ) from $subsections
+	Field( id == "mainForm.markDescriptionSecond", $fieldUsable : usable) from $fields
+	eval($fieldUsable == true)
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark(markKind == MarkFeature.OTHER 
+		&& secondLanguageTranslation == true 
+		&& $secondLanguage : secondLanguage 
+		&& $markDescriptions : markDescriptions) from $tradeMark
+	forall(MarkDescription(!language.equals($secondLanguage)) from $markDescriptions)
+then
+	addError("mainForm.markDescriptionSecond",
+		 "BR70.descriptionSecondLanguage.Empty",
+		 "This field is mandatory",
+		 "mainForm.markRepresentationSection",
+		 $errorList);
+end
+
+rule "Combined - Description of Mark 2nd Language - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "mark_details", $subsections : subsection )	
+	Section (coreName == "3DWordMark", $fields : field ) from $subsections
+	Field( id == "mainForm.markDescriptionSecond", $fieldUsable : usable) from $fields
+	eval($fieldUsable == true)
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark(markKind == MarkFeature.COMBINED 
+		&& secondLanguageTranslation == true 
+		&& $secondLanguage : secondLanguage 
+		&& $markDescriptions : markDescriptions) from $tradeMark
+	forall(MarkDescription(!language.equals($secondLanguage)) from $markDescriptions)
+then
+	addError("mainForm.markDescriptionSecond",
+		 "BR70.descriptionSecondLanguage.Empty",
+		 "This field is mandatory",
+		 "mainForm.markRepresentationSection",
+		 $errorList);
+end
+
+rule "BR70 BR88 BR98 BR103 - Description of Mark 2nd Language - Content"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "mark_details", $subsections : subsection )	
+	Section (coreName == "Figwordmark", $fields : field ) from $subsections
+	Field( id == "mainForm.markDescriptionSecond", $fieldUsable : usable, $regex : format) from $fields
+	eval($fieldUsable == true &&
+		 StringUtils.isEmpty($regex) == false)
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark(markKind == MarkFeature.FIGURATIVE 
+		&& secondLanguageTranslation == true 
+		&& $secondLanguage : secondLanguage 
+		&& $markDescriptions : markDescriptions) from $tradeMark
+	MarkDescription(language.equals($secondLanguage) && value not matches $regex) from $markDescriptions
+then
+	addError("mainForm.markDescriptionSecond",
+		 "BR70.descriptionSecondLanguage.Wrong",
+		 "This field has a bad format",
+		 "mainForm.markRepresentationSection",
+		$errorList);
+end
+
+rule "BR88 BR98 BR103 - Description of Mark 2nd Language - Content"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "mark_details", $subsections : subsection )	
+	Section (coreName == "Figurative", $fields : field ) from $subsections
+	Field( id == "mainForm.markDescriptionSecond", $fieldUsable : usable, $regex : format) from $fields
+	eval($fieldUsable == true &&
+		 StringUtils.isEmpty($regex) == false)
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark(markKind == MarkFeature.STYLIZED_CHARACTERS 
+		&& secondLanguageTranslation == true 
+		&& $secondLanguage : secondLanguage 
+		&& $markDescriptions : markDescriptions) from $tradeMark
+	MarkDescription(language.equals($secondLanguage) && value not matches $regex) from $markDescriptions
+then
+	addError("mainForm.markDescriptionSecond",
+		 "BR70.descriptionSecondLanguage.Wrong",
+		 "This field has a bad format",
+		 "mainForm.markRepresentationSection",
+		$errorList);
+end
+
+rule "BR98 BR103 - Description of Mark 2nd Language - Content"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "mark_details", $subsections : subsection )	
+	Section (coreName == "Colourmark", $fields : field ) from $subsections
+	Field( id == "mainForm.markDescriptionSecond", $fieldUsable : usable, $regex : format) from $fields
+	eval($fieldUsable == true &&
+		 StringUtils.isEmpty($regex) == false)
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark(markKind == MarkFeature.COLOUR 
+		&& secondLanguageTranslation == true 
+		&& $secondLanguage : secondLanguage 
+		&& $markDescriptions : markDescriptions) from $tradeMark
+	MarkDescription(language.equals($secondLanguage) && value not matches $regex) from $markDescriptions
+then
+	addError("mainForm.markDescriptionSecond",
+		 "BR70.descriptionSecondLanguage.Wrong",
+		 "This field has a bad format",
+		 "mainForm.markRepresentationSection",
+		$errorList);
+end
+
+rule "BR103 - Description of Mark 2nd Language - Content"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "mark_details", $subsections : subsection )	
+	Section (coreName == "3Dmark", $fields : field ) from $subsections
+	Field( id == "mainForm.markDescriptionSecond", $fieldUsable : usable, $regex : format) from $fields
+	eval($fieldUsable == true &&
+		 StringUtils.isEmpty($regex) == false)
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark(markKind == MarkFeature.THREE_D 
+		&& secondLanguageTranslation == true 
+		&& $secondLanguage : secondLanguage 
+		&& $markDescriptions : markDescriptions) from $tradeMark
+	MarkDescription(language.equals($secondLanguage) && value not matches $regex) from $markDescriptions
+then
+	addError("mainForm.markDescriptionSecond",
+		 "BR70.descriptionSecondLanguage.Wrong",
+		 "This field has a bad format",
+		 "mainForm.markRepresentationSection",
+		$errorList);
+end
+
+rule "Sound - Description of Mark 2nd Language - Content"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "mark_details", $subsections : subsection )	
+	Section (coreName == "Soundmark", $fields : field ) from $subsections
+	Field( id == "mainForm.markDescriptionSecond", $fieldUsable : usable, $regex : format) from $fields
+	eval($fieldUsable == true &&
+		 StringUtils.isEmpty($regex) == false)
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark(markKind == MarkFeature.SOUND 
+		&& secondLanguageTranslation == true 
+		&& $secondLanguage : secondLanguage 
+		&& $markDescriptions : markDescriptions) from $tradeMark
+	MarkDescription(language.equals($secondLanguage) && value not matches $regex) from $markDescriptions
+then
+	addError("mainForm.markDescriptionSecond",
+		 "BR70.descriptionSecondLanguage.Wrong",
+		 "This field has a bad format",
+		 "mainForm.markRepresentationSection",
+		$errorList);
+end
+
+rule "Other - Description of Mark 2nd Language - Content"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "mark_details", $subsections : subsection )	
+	Section (coreName == "Others", $fields : field ) from $subsections
+	Field( id == "mainForm.markDescriptionSecond", $fieldUsable : usable, $regex : format) from $fields
+	eval($fieldUsable == true &&
+		 StringUtils.isEmpty($regex) == false)
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark(markKind == MarkFeature.OTHER 
+		&& secondLanguageTranslation == true 
+		&& $secondLanguage : secondLanguage 
+		&& $markDescriptions : markDescriptions) from $tradeMark
+	MarkDescription(language.equals($secondLanguage) && value not matches $regex) from $markDescriptions
+then
+	addError("mainForm.markDescriptionSecond",
+		 "BR70.descriptionSecondLanguage.Wrong",
+		 "This field has a bad format",
+		 "mainForm.markRepresentationSection",
+		$errorList);
+end
+
+rule "Combined - Description of Mark 2nd Language - Content"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "mark_details", $subsections : subsection )	
+	Section (coreName == "3DWordMark", $fields : field ) from $subsections
+	Field( id == "mainForm.markDescriptionSecond", $fieldUsable : usable, $regex : format) from $fields
+	eval($fieldUsable == true &&
+		 StringUtils.isEmpty($regex) == false)
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark(markKind == MarkFeature.COMBINED 
+		&& secondLanguageTranslation == true 
+		&& $secondLanguage : secondLanguage 
+		&& $markDescriptions : markDescriptions) from $tradeMark
+	MarkDescription(language.equals($secondLanguage) && value not matches $regex) from $markDescriptions
+then
+	addError("mainForm.markDescriptionSecond",
+		 "BR70.descriptionSecondLanguage.Wrong",
+		 "This field has a bad format",
+		 "mainForm.markRepresentationSection",
+		$errorList);
+end
+
+
+rule "BRb10 BRb11 RBb12 - Colour List without colours"
+salience 1000
+when
+	$errorList : ErrorList()
+//	TradeMark((colorChecked == true ??
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark($imageSpecification : imageSpecifications, markKind.toString() == "Colour") from $tradeMark
+	ImageSpecification ($colours : colours, colours == null || colours.size() <= 0) from $imageSpecification	
+then
+	addError("mainForm.colourChecked",
+		 "BRCL",
+		 "The colour list can't be empty",
+		 "mainForm.markRepresentationSection",
+		 $errorList);
+end
+
+
+rule "BR74 BR91 BR99 - Colour List with colours"
+salience 1000
+when
+	$errorList : ErrorList()
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark($imageSpecification : imageSpecifications)	from $tradeMark
+	ImageSpecification ($listColours : colours, colours != null && colours.size() > 0) from $imageSpecification
+//	TradeMark((colorChecked == true ??
+then
+	if(!checkColourList($listColours)){
+		addError("mainForm.colourChecked",
+			 "BRCL",
+			 "A colour without description has been found",
+			 "mainForm.markRepresentationSection",
+			$errorList);
+	}
+end
+
+
+rule "BR48 Attachment Description - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (id.value() == "otherAttachments", $fields : field)	
+	Field( id == "otherAttachments.description", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark($tradeMarkDocuments : tradeMarkDocuments) from $tradeMark
+	AttachedDocument($document : document) from $tradeMarkDocuments
+	Document(StringUtils.isEmpty(comment) == true) from $document
+then
+	addError("mainForm.otherAttachments", "BR48a.OtherAttachments.Description.Empty", "This field is mandatory", null, $errorList);
+end
+
+
+rule "Series Number -Word mark - Content"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "mark_details", $subsections : subsection )
+	Section (coreName == "Wordmark", $fields : field ) from $subsections
+	Field( id == "mainForm.seriesNumber", $fieldUsable : usable, $regex : format) from $fields
+	eval($fieldUsable == true && StringUtils.isEmpty($regex) == false)
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark(markKind == MarkFeature.WORD,
+        seriesIndicator == true && seriesNumber not matches $regex) from $tradeMark
+then
+	addError("mainForm.seriesNumber",
+		 "BRXYZ.seriesNumber.Wrong",
+		 "This field has a bad format",
+		 "mainForm.markRepresentationSection",
+		$errorList);
+end
+
+
+rule "Series Number - Figurative trademark - Content"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "mark_details", $subsections : subsection )
+	Section (coreName == "Figurative", $fields : field ) from $subsections
+	Field( id == "mainForm.seriesNumber", $fieldUsable : usable, $regex : format) from $fields
+	eval($fieldUsable == true && StringUtils.isEmpty($regex) == false)
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark(markKind == MarkFeature.FIGURATIVE,
+        seriesIndicator == true && seriesNumber not matches $regex) from $tradeMark
+then
+	addError("mainForm.seriesNumber",
+		 "BRXYZ.seriesNumber.Wrong",
+		 "This field has a bad format",
+		 "mainForm.markRepresentationSection",
+		$errorList);
+end
+
+
+rule "Series Number - Figurative with words - Content"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "mark_details", $subsections : subsection )
+	Section (coreName == "Figwordmark", $fields : field ) from $subsections
+	Field( id == "mainForm.seriesNumber", $fieldUsable : usable, $regex : format) from $fields
+	eval($fieldUsable == true && StringUtils.isEmpty($regex) == false)
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark(markKind == MarkFeature.STYLIZED_CHARACTERS,
+        seriesIndicator == true && seriesNumber not matches $regex) from $tradeMark
+then
+	addError("mainForm.seriesNumber",
+		 "BRXYZ.seriesNumber.Wrong",
+		 "This field has a bad format",
+		 "mainForm.markRepresentationSection",
+		$errorList);
+end
+
+
+rule "Series Number - 3D mark - Content"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "mark_details", $subsections : subsection )
+	Section (coreName == "3Dmark", $fields : field ) from $subsections
+	Field( id == "mainForm.seriesNumber", $fieldUsable : usable, $regex : format) from $fields
+	eval($fieldUsable == true && StringUtils.isEmpty($regex) == false)
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark(markKind == MarkFeature.THREE_D,
+        seriesIndicator == true && seriesNumber not matches $regex) from $tradeMark
+then
+	addError("mainForm.seriesNumber",
+		 "BRXYZ.seriesNumber.Wrong",
+		 "This field has a bad format",
+		 "mainForm.markRepresentationSection",
+		$errorList);
+end
+
+
+rule "Series Number - Colour mark - Content"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "mark_details", $subsections : subsection )
+	Section (coreName == "Colourmark", $fields : field ) from $subsections
+	Field( id == "mainForm.seriesNumber", $fieldUsable : usable, $regex : format) from $fields
+	eval($fieldUsable == true && StringUtils.isEmpty($regex) == false)
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark(markKind == MarkFeature.COLOUR,
+        seriesIndicator == true && seriesNumber not matches $regex) from $tradeMark
+then
+	addError("mainForm.seriesNumber",
+		 "BRXYZ.seriesNumber.Wrong",
+		 "This field has a bad format",
+		 "mainForm.markRepresentationSection",
+		$errorList);
+end
+
+
+rule "Series Number - Sound mark - Content"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "mark_details", $subsections : subsection )
+	Section (coreName == "Soundmark", $fields : field ) from $subsections
+	Field( id == "mainForm.seriesNumber", $fieldUsable : usable, $regex : format) from $fields
+	eval($fieldUsable == true && StringUtils.isEmpty($regex) == false)
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark(markKind == MarkFeature.SOUND,
+        seriesIndicator == true && seriesNumber not matches $regex) from $tradeMark
+then
+	addError("mainForm.seriesNumber",
+		 "BRXYZ.seriesNumber.Wrong",
+		 "This field has a bad format",
+		 "mainForm.markRepresentationSection",
+		$errorList);
+end
+
+
+rule "Series Number - Other - Content"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "mark_details", $subsections : subsection )
+	Section (coreName == "Others", $fields : field ) from $subsections
+	Field( id == "mainForm.seriesNumber", $fieldUsable : usable, $regex : format) from $fields
+	eval($fieldUsable == true && StringUtils.isEmpty($regex) == false)
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark(markKind == MarkFeature.OTHER,
+        seriesIndicator == true && seriesNumber not matches $regex) from $tradeMark
+then
+	addError("mainForm.seriesNumber",
+		 "BRXYZ.seriesNumber.Wrong",
+		 "This field has a bad format",
+		 "mainForm.markRepresentationSection",
+		$errorList);
+end
+
+
+rule "Series Number - 3D mark with word elements - Content"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "mark_details", $subsections : subsection )
+	Section (coreName == "3DWordMark", $fields : field ) from $subsections
+	Field( id == "mainForm.seriesNumber", $fieldUsable : usable, $regex : format) from $fields
+	eval($fieldUsable == true && StringUtils.isEmpty($regex) == false)
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark(markKind == MarkFeature.COMBINED,
+        seriesIndicator == true && seriesNumber not matches $regex) from $tradeMark
+then
+	addError("mainForm.seriesNumber",
+		 "BRXYZ.seriesNumber.Wrong",
+		 "This field has a bad format",
+		 "mainForm.markRepresentationSection",
+		$errorList);
+end
+
+rule "Document mandatory if collective"
+salience 1000
+when
+	$errorList : ErrorList()
+	TradeMarkApplication( $tradeMark : tradeMark)
+	TradeMark(markRightKind != null && markRightKind.value() == "Collective",
+            $tradeMarkDocuments : tradeMarkDocuments,
+	        $tradeMarkDocuments == null || $tradeMarkDocuments.size() == 0) from $tradeMark
+then
+	addError(null,
+		 "BRXYZ.collective.mandatory",
+		 "Collective attached document is mandatory",
+		 "mainForm.markRepresentationSection",
+		$errorList);
+end
+
+rule "Document mandatory if certificate"
+salience 1000
+when
+	$errorList : ErrorList()
+	TradeMarkApplication( $tradeMark : tradeMark)
+	TradeMark(markRightKind != null && markRightKind.value() == "Certificate",
+            $tradeMarkDocuments : tradeMarkDocuments,
+	        $tradeMarkDocuments == null || $tradeMarkDocuments.size() == 0) from $tradeMark
+then
+	addError(null,
+		 "BRXYZ.certificate.mandatory",
+		 "Certificate attached document is mandatory",
+		 "mainForm.markRepresentationSection",
+		$errorList);
+end
+
+rule "BR(GeoIndication) Word Elements - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "mark_details", $subsections : subsection )
+	Section ((coreName == "GeoIndication"), $fields : field, $coreName : coreName ) from $subsections
+	Field( id == "mainForm.wordRepresentation", $fieldUsable: usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark($wordSpecifications : wordSpecifications, markKind.toString()=="Geographic indication" )	from $tradeMark
+	WordSpecification(StringUtils.isEmpty(wordElements)) from $wordSpecifications
+then
+	addError("mainForm.wordRepresentation",
+		 "BR67.wordElements.Empty.gi-efiling",
+		 "This field is mandatory",
+		 "mainForm.markRepresentationSection",
+		 $errorList);
+end
+
+rule "BR(OriName) Word Elements - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "mark_details", $subsections : subsection )
+	Section ((coreName == "OriName"), $fields : field, $coreName : coreName ) from $subsections
+	Field( id == "mainForm.wordRepresentation", $fieldUsable: usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark($wordSpecifications : wordSpecifications, markKind.toString()=="Origin name" )	from $tradeMark
+	WordSpecification(StringUtils.isEmpty(wordElements)) from $wordSpecifications
+then
+	addError("mainForm.wordRepresentation",
+		 "BR67.wordElements.Empty.gi-efiling",
+		 "This field is mandatory",
+		 "mainForm.markRepresentationSection",
+		 $errorList);
+end
+
+rule "BR (GeoIndication) description empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "mark_details", $subsections : subsection )
+	Section (coreName == "GeoIndication", $fields : field ) from $subsections
+	Field( id == "mainForm.markDescription", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true &&
+		 $fieldRequired == true)
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark(markDescriptions == null || markDescriptions.size() == 0, markKind == MarkFeature.GEOGRAPHIC_INDICATION)	from $tradeMark
+then
+	addError("mainForm.markDescription",
+		 "BR69.description.Empty",
+		 "This field is mandatory",
+		 "mainForm.markRepresentationSection",
+		 $errorList);
+end
+
+rule "BR (OriName) description empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "mark_details", $subsections : subsection )
+	Section (coreName == "OriName", $fields : field ) from $subsections
+	Field( id == "mainForm.markDescription", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true &&
+		 $fieldRequired == true)
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark(markDescriptions == null || markDescriptions.size() == 0, markKind == MarkFeature.ORIGIN_NAME)	from $tradeMark
+then
+	addError("mainForm.markDescription",
+		 "BR69.description.Empty",
+		 "This field is mandatory",
+		 "mainForm.markRepresentationSection",
+		 $errorList);
+end

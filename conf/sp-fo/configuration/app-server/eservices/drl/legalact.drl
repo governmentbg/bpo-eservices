@@ -1,0 +1,93 @@
+package org.domain.rules;
+dialect "mvel"
+
+import eu.ohim.sp.core.domain.validation.ErrorCore;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.domain.trademark.TradeMark;
+import eu.ohim.sp.core.domain.trademark.MarkKind;
+import eu.ohim.sp.core.domain.validation.RulesInformation;
+import eu.ohim.sp.core.domain.payment.FeeList;
+import eu.ohim.sp.core.domain.payment.FeeType;
+import eu.ohim.sp.core.domain.payment.Fee;
+import eu.ohim.sp.core.domain.resources.DocumentKind;
+import eu.ohim.sp.core.domain.resources.Document;
+import eu.ohim.sp.core.domain.opposition.LegalActVersion;
+import eu.ohim.sp.core.domain.opposition.GroundCategoryKind;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.TreeMap;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Date;
+import java.text.DecimalFormat;
+import java.util.Calendar;
+import eu.ohim.sp.core.domain.patent.Patent;
+
+rule "TM Filter"
+salience 1000
+no-loop
+    when
+    	$result : HashMap()	
+    	exists (TradeMark() or Patent())
+    	$legalActs : ArrayList()    	
+    	$rI : RulesInformation()
+    then
+    	List returnList = new ArrayList();
+    	Date today = new Date();
+    	Date beginDate = new Date();
+    	Date endDate = new Date();
+    	Date endDatePartial = new Date();
+    	String type = $rI.getCustomObjects().get("type");
+    	String category = $rI.getCustomObjects().get("category");
+    	    	
+    	for(LegalActVersion lA : $legalActs){
+    	
+    		beginDate=lA.getEntryForceDate();
+	    	endDatePartial=lA.getEndApplicabilityDate();
+    		if (endDatePartial == null){
+    			endDate=null;
+    		}
+    		else
+    		{
+    			Calendar calendar = Calendar.getInstance();
+		    	calendar.setTime(endDatePartial);
+		    	calendar.add(Calendar.MONTH, 2);
+		    	endDate = calendar.getTime();
+    		}
+    		//opposition case
+    		if ( "tm-opposition".equals(type) ){
+    			//filing date between begin & end
+	    		if(( (today.compareTo(beginDate)>0) && endDate==null ) || ((today.compareTo(beginDate)>0) && (today.compareTo(endDate)<0))){
+	    			returnList.add(lA);
+	    		} 	
+    		}
+    		if ( "tm-objection".equals(type) ){
+    			//filing date between begin & end
+	    		if(( (today.compareTo(beginDate)>0) && endDate==null ) || ((today.compareTo(beginDate)>0) && (today.compareTo(endDate)<0))){
+	    			returnList.add(lA);
+	    		} 	
+    		}
+    		if ( "tm-invalidity".equals(type) || "pt-invalidity".equals(type) || "spc-invalidity".equals(type) || "um-invalidity".equals(type) ){
+    			if (category.equalsIgnoreCase(GroundCategoryKind.RELATIVE_GROUNDS.toString())){    			    		
+	    			if(( (today.compareTo(beginDate)>0) && endDate==null ) || ((today.compareTo(beginDate)>0) && (today.compareTo(endDate)<0))){
+	    				returnList.add(lA);
+	    			}
+	    		}
+	    		if (category.equalsIgnoreCase(GroundCategoryKind.ABSOLUTE_GROUNDS.toString())){
+	    			if(( (today.compareTo(beginDate)>0) && endDate==null ) || ((today.compareTo(beginDate)>0) && (today.compareTo(endDate)<0))){
+	    				returnList.add(lA);
+	    			}
+	    		}
+    		}
+    		//revocation case    		
+    		if ( "tm-revocation".equals(type) ){
+    			if (category.equalsIgnoreCase(GroundCategoryKind.REVOCATION_GROUNDS.toString())){    			
+    				if(( (today.compareTo(beginDate)>0) && endDate==null ) || ((today.compareTo(beginDate)>0) && (today.compareTo(endDate)<0))){
+	    				returnList.add(lA);
+	    			}
+	    		}    	
+			}
+    	}
+    	$result.put("lAList",returnList);
+    	    	    	    	    		        	
+end

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ * SystemConfigurationServiceDao:: tmbo-home-conf.xml 07/10/13 21:16 karalch $
+  ~  * . * .
+  ~  * * RRRR * Copyright © 2013 OHIM: Office for Harmonization
+  ~  * . RR R . in the Internal Market (trade marks and designs)
+  ~  * * RRR *
+  ~  * . RR RR . ALL RIGHTS RESERVED
+  ~  * * . _ . *
+  -->
+
+<sections anonymousMode="true" navigationPath="false"
+	xmlns="http://www.example.org/sections-fields-configuration" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.example.org/sections-fields-configuration sections-fields-configuration.xsd ">
+
+	<section id="tmbo-tab-files" description="DISPLAYS FILES TABS OF TMBO">
+		<visible>true</visible>
+		<order>1</order>
+		<subsection id="tmbo-tab-trademarks" description="SUBSECTION FOR THE TAB OF TRADEMARKS">
+			<visible>true</visible>
+			<order>1</order>
+			<field id="type">
+				<visible>true</visible>
+				<usable>true</usable>
+				<required>true</required>
+				<editableImport>false</editableImport>
+				<format></format>
+			</field>
+			<field id="applicationNumber">
+				<visible>true</visible>
+				<usable>true</usable>
+				<required>true</required>
+				<editableImport>false</editableImport>
+				<format></format>
+			</field>
+			<field id="denomination">
+				<visible>true</visible>
+				<usable>true</usable>
+				<required>true</required>
+				<editableImport>false</editableImport>
+				<format></format>
+			</field>
+			<field id="status">
+				<visible>true</visible>
+				<usable>true</usable>
+				<required>true</required>
+				<editableImport>false</editableImport>
+				<format></format>
+			</field>
+			<field id="date">
+				<visible>true</visible>
+				<usable>true</usable>
+				<required>true</required>
+				<editableImport>false</editableImport>
+				<format></format>
+			</field>			
+		</subsection>
+		<subsection id="tmbo-tab-designs" description="SUBSECTION FOR THE TAB OF DESIGNS">
+			<visible>true</visible>
+			<order>2</order>
+		</subsection>
+		<subsection id="tmbo-tab-oppositions" description="SUBSECTION FOR THE TAB OF OPPOSITIONS">
+			<visible>true</visible>
+			<order>3</order>
+		</subsection>
+	</section>
+
+	<section id="tmbo-tab-tasks" description="DISPLAYS TASKS TABS OF TMBO">
+		<visible>true</visible>
+		<order>2</order>
+		<subsection id="tmbo-tab-myTasks" description="SUBSECTION FOR THE TAB OF MY TASKS">
+			<visible>true</visible>
+			<order>1</order>
+		</subsection>
+		<subsection id="tmbo-tab-groupTasks" description="SUBSECTION FOR THE TAB OF GROUP TASKS">
+			<visible>true</visible>
+			<order>2</order>
+		</subsection>
+		<subsection id="tmbo-tab-unallocatedTasks" description="SUBSECTION FOR THE TAB OF UNALLOCATED TASKS">
+			<visible>true</visible>
+			<order>3</order>
+		</subsection>
+	</section>
+
+</sections>

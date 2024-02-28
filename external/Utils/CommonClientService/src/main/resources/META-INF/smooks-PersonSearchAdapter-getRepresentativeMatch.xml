@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
+                      xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.2.xsd"
+                      xmlns:g="http://www.milyn.org/xsd/smooks/groovy-1.1.xsd">
+
+
+    <import file="smooks-PersonSearchAdapter-getRepresentative.xml"></import>
+
+    <jb:bean beanId="000start" class="java.util.ArrayList" createOnElement="//RepresentativeDetails">
+        <jb:wiring beanIdRef="representative"/>
+    </jb:bean>
+</smooks-resource-list>

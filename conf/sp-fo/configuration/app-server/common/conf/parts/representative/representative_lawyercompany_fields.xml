@@ -1,0 +1,410 @@
+
+    <field id="nameOfLegalEntity">
+        <visible>true</visible>
+        <usable>true</usable>
+        <required>true</required>
+        <previousCTMImportable>true</previousCTMImportable>
+        <priorityImportable>true</priorityImportable>
+        <seniorityImportable>true</seniorityImportable>
+        <transformationImportable>true</transformationImportable>
+        <generalImportable>true</generalImportable>
+        <editableImport>false</editableImport>
+    </field>
+    <!-- representative specific -->
+    <field id="nationality">
+        <visible>false</visible>
+        <usable>false</usable>
+        <required>false</required>
+        <previousCTMImportable>false</previousCTMImportable>
+        <priorityImportable>false</priorityImportable>
+        <seniorityImportable>false</seniorityImportable>
+        <transformationImportable>false</transformationImportable>
+        <generalImportable>false</generalImportable>
+        <editableImport>false</editableImport>
+    </field>
+    <field id="reference">
+        <visible>false</visible>
+        <usable>false</usable>
+        <required>false</required>
+        <previousCTMImportable>false</previousCTMImportable>
+        <priorityImportable>false</priorityImportable>
+        <seniorityImportable>false</seniorityImportable>
+        <transformationImportable>false</transformationImportable>
+        <generalImportable>false</generalImportable>
+        <editableImport>false</editableImport>
+    </field>
+    <field id="nationalOfficialBusinessRegister">
+        <visible>true</visible>
+        <usable>true</usable>
+        <required>false</required>
+        <previousCTMImportable>false</previousCTMImportable>
+        <priorityImportable>false</priorityImportable>
+        <seniorityImportable>false</seniorityImportable>
+        <transformationImportable>false</transformationImportable>
+        <generalImportable>false</generalImportable>
+        <editableImport>false</editableImport>
+    </field>
+    <field id="taxIdNumber">
+        <visible>false</visible>
+        <usable>false</usable>
+        <required>false</required>
+        <previousCTMImportable>false</previousCTMImportable>
+        <priorityImportable>false</priorityImportable>
+        <seniorityImportable>false</seniorityImportable>
+        <transformationImportable>false</transformationImportable>
+        <generalImportable>false</generalImportable>
+        <editableImport>false</editableImport>
+    </field>
+    <field id="consentForPublishingPersonalInfo">
+        <visible>false</visible>
+        <usable>false</usable>
+        <required>false</required>
+        <previousCTMImportable>false</previousCTMImportable>
+        <priorityImportable>false</priorityImportable>
+        <seniorityImportable>false</seniorityImportable>
+        <transformationImportable>false</transformationImportable>
+        <generalImportable>false</generalImportable>
+        <editableImport>false</editableImport>
+    </field>
+    <field id="domicile">
+        <visible>false</visible>
+        <usable>false</usable>
+        <required>false</required>
+        <previousCTMImportable>false</previousCTMImportable>
+        <priorityImportable>false</priorityImportable>
+        <seniorityImportable>false</seniorityImportable>
+        <transformationImportable>false</transformationImportable>
+        <generalImportable>false</generalImportable>
+        <editableImport>false</editableImport>
+    </field>
+    <field id="countryOfDomicile">
+        <visible>false</visible>
+        <usable>false</usable>
+        <required>false</required>
+        <previousCTMImportable>true</previousCTMImportable>
+        <priorityImportable>true</priorityImportable>
+        <seniorityImportable>true</seniorityImportable>
+        <transformationImportable>true</transformationImportable>
+        <generalImportable>true</generalImportable>
+        <editableImport>false</editableImport>
+    </field>
+
+    <!-- representative address -->
+    <field id="address.city">
+        <visible>true</visible>
+        <usable>true</usable>
+        <required>true</required>
+        <previousCTMImportable>true</previousCTMImportable>
+        <priorityImportable>true</priorityImportable>
+        <seniorityImportable>true</seniorityImportable>
+        <transformationImportable>true</transformationImportable>
+        <generalImportable>true</generalImportable>
+        <editableImport>false</editableImport>
+        <!-- In case some one needs to limit characters un-comment/modify regex -->
+        <!--<format>^[а-яα-ωa-zА-ЯΑ-ΩA-ZÀ-ÿĄ-ţťžďŤŽĎ][А-ЯΑ-ΩA-Zа-яα-ωa-zÀ-ÿĄ-ţťžďŤŽĎ .,-ёйў]\*</format>-->
+    </field>
+    <field id="address.street">
+        <visible>true</visible>
+        <usable>true</usable>
+        <required>true</required>
+        <previousCTMImportable>true</previousCTMImportable>
+        <priorityImportable>true</priorityImportable>
+        <seniorityImportable>true</seniorityImportable>
+        <transformationImportable>true</transformationImportable>
+        <generalImportable>true</generalImportable>
+        <editableImport>false</editableImport>
+        <!-- In case some one needs to limit characters un-comment/modify regex -->
+        <!--<format>^[а-яα-ωa-zА-Я0-9Α-ΩA-ZÀ-ÿĄ-ţťžďŤŽĎ][А-ЯΑ-Ω0-9A-Zа-яα-ωa-zÀ-ÿĄ-ţťžďŤŽĎ .,-ёйў]\*</format>-->
+    </field>
+    <field id="address.houseNumber">
+        <visible>false</visible>
+        <usable>false</usable>
+        <required>false</required>
+        <previousCTMImportable>true</previousCTMImportable>
+        <priorityImportable>true</priorityImportable>
+        <seniorityImportable>true</seniorityImportable>
+        <transformationImportable>true</transformationImportable>
+        <generalImportable>true</generalImportable>
+        <editableImport>false</editableImport>
+        <!-- In case some one needs to limit characters un-comment/modify regex -->
+        <!--<format>^[a-zĄ-ţťžďŤŽĎA-Z0-9 ]\*$</format>-->
+    </field>
+    <field id="address.postalCode">
+        <visible>true</visible>
+        <usable>true</usable>
+        <required>true</required>
+        <previousCTMImportable>true</previousCTMImportable>
+        <priorityImportable>true</priorityImportable>
+        <seniorityImportable>true</seniorityImportable>
+        <transformationImportable>true</transformationImportable>
+        <generalImportable>true</generalImportable>
+        <editableImport>false</editableImport>
+        <!-- In case some one needs to limit characters un-comment/modify regex -->
+        <!--<format>^[a-zĄ-ţťžďŤŽĎA-Z0-9 ]\*$</format>-->
+        <format>.{1,15}</format>
+    </field>
+    <field id="address.country">
+        <visible>true</visible>
+        <usable>true</usable>
+        <required>true</required>
+        <previousCTMImportable>true</previousCTMImportable>
+        <priorityImportable>true</priorityImportable>
+        <seniorityImportable>true</seniorityImportable>
+        <transformationImportable>true</transformationImportable>
+        <generalImportable>true</generalImportable>
+        <editableImport>false</editableImport>
+    </field>
+    <field id="address.stateprovince">
+        <visible>true</visible>
+        <usable>true</usable>
+        <required>false</required>
+        <previousCTMImportable>true</previousCTMImportable>
+        <priorityImportable>true</priorityImportable>
+        <seniorityImportable>true</seniorityImportable>
+        <transformationImportable>true</transformationImportable>
+        <generalImportable>true</generalImportable>
+        <editableImport>false</editableImport>
+    </field>
+
+    <!-- correspondence addresses -->
+
+    <field id="correspondenceAddresses">
+        <visible>false</visible>
+        <usable>false</usable>
+        <required>false</required>
+    </field>
+
+    <field id="correspondenceAddresses.correspondenceName">
+        <visible>true</visible>
+        <usable>true</usable>
+        <required>true</required>
+        <previousCTMImportable>true</previousCTMImportable>
+        <priorityImportable>true</priorityImportable>
+        <seniorityImportable>true</seniorityImportable>
+        <transformationImportable>true</transformationImportable>
+        <generalImportable>true</generalImportable>
+        <editableImport>true</editableImport>
+        <!-- In case some one needs to limit characters un-comment/modify regex -->
+        <!--<format>^[а-яα-ωa-zА-ЯΑ-ΩA-ZÀ-ÿĄ-ţťžďŤŽĎ][А-ЯΑ-ΩA-Zа-яα-ωa-zÀ-ÿĄ-ţťžďŤŽĎ .,-ёйў]\*</format>-->
+    </field>
+
+    <field id="correspondenceAddresses.correspondenceEmail">
+        <visible>false</visible>
+        <usable>false</usable>
+        <required>false</required>
+        <previousCTMImportable>true</previousCTMImportable>
+        <priorityImportable>true</priorityImportable>
+        <seniorityImportable>true</seniorityImportable>
+        <transformationImportable>true</transformationImportable>
+        <generalImportable>true</generalImportable>
+        <editableImport>true</editableImport>
+        <format>^[A-Za-z0-9\._-]+@([A-Za-z0-9][A-Za-z0-9-]*[A-Za-z0-9]\.)+([A-Za-z]+\.)?([A-Za-z]+)$</format>
+    </field>
+
+    <field id="correspondenceAddresses.correspondencePhone">
+        <visible>false</visible>
+        <usable>false</usable>
+        <required>false</required>
+        <previousCTMImportable>true</previousCTMImportable>
+        <priorityImportable>true</priorityImportable>
+        <seniorityImportable>true</seniorityImportable>
+        <transformationImportable>true</transformationImportable>
+        <generalImportable>true</generalImportable>
+        <editableImport>true</editableImport>
+    </field>
+
+    <field id="correspondenceAddresses.addressForm.city">
+        <visible>true</visible>
+        <usable>true</usable>
+        <required>true</required>
+        <previousCTMImportable>true</previousCTMImportable>
+        <priorityImportable>true</priorityImportable>
+        <seniorityImportable>true</seniorityImportable>
+        <transformationImportable>true</transformationImportable>
+        <generalImportable>true</generalImportable>
+        <editableImport>true</editableImport>
+        <!-- In case some one needs to limit characters un-comment/modify regex -->
+        <!--<format>^[а-яα-ωa-zА-ЯΑ-ΩA-ZÀ-ÿĄ-ţťžďŤŽĎ][А-ЯΑ-ΩA-Zа-яα-ωa-zÀ-ÿĄ-ţťžďŤŽĎ .,-ёйў]\*</format>-->
+    </field>
+    <field id="correspondenceAddresses.addressForm.street">
+        <visible>true</visible>
+        <usable>true</usable>
+        <required>true</required>
+        <previousCTMImportable>true</previousCTMImportable>
+        <priorityImportable>true</priorityImportable>
+        <seniorityImportable>true</seniorityImportable>
+        <transformationImportable>true</transformationImportable>
+        <generalImportable>true</generalImportable>
+        <editableImport>true</editableImport>
+        <!-- In case some one needs to limit characters un-comment/modify regex -->
+        <!--<format>^[а-яα-ωa-zА-Я0-9Α-ΩA-ZÀ-ÿĄ-ţťžďŤŽĎ][А-ЯΑ-Ω0-9A-Zа-яα-ωa-zÀ-ÿĄ-ţťžďŤŽĎ .,-ёйў]\*</format>-->
+    </field>
+    <field id="correspondenceAddresses.addressForm.houseNumber">
+        <visible>true</visible>
+        <usable>true</usable>
+        <required>true</required>
+        <previousCTMImportable>true</previousCTMImportable>
+        <priorityImportable>true</priorityImportable>
+        <seniorityImportable>true</seniorityImportable>
+        <transformationImportable>true</transformationImportable>
+        <generalImportable>true</generalImportable>
+        <editableImport>true</editableImport>
+        <!-- In case some one needs to limit characters un-comment/modify regex -->
+        <!--<format>^[a-zĄ-ţťžďŤŽĎA-Z0-9 ]\*$</format>-->
+    </field>
+    <field id="correspondenceAddresses.addressForm.postalCode">
+        <visible>true</visible>
+        <usable>true</usable>
+        <required>false</required>
+        <previousCTMImportable>true</previousCTMImportable>
+        <priorityImportable>true</priorityImportable>
+        <seniorityImportable>true</seniorityImportable>
+        <transformationImportable>true</transformationImportable>
+        <generalImportable>true</generalImportable>
+        <editableImport>true</editableImport>
+        <!-- In case some one needs to limit characters un-comment/modify regex -->
+        <!--<format>^[a-zĄ-ţťžďŤŽĎA-Z0-9 ]\*$</format>-->
+        <format>.{1,15}</format>
+    </field>
+    <field id="correspondenceAddresses.addressForm.country">
+        <visible>true</visible>
+        <usable>true</usable>
+        <required>true</required>
+        <previousCTMImportable>true</previousCTMImportable>
+        <priorityImportable>true</priorityImportable>
+        <seniorityImportable>true</seniorityImportable>
+        <transformationImportable>true</transformationImportable>
+        <generalImportable>true</generalImportable>
+        <editableImport>true</editableImport>
+    </field>
+    <field id="correspondenceAddresses.addressForm.stateprovince">
+        <visible>false</visible>
+        <usable>false</usable>
+        <required>false</required>
+        <previousCTMImportable>true</previousCTMImportable>
+        <priorityImportable>true</priorityImportable>
+        <seniorityImportable>true</seniorityImportable>
+        <transformationImportable>true</transformationImportable>
+        <generalImportable>true</generalImportable>
+        <editableImport>true</editableImport>
+    </field>
+
+    <!-- end of correspondence addresses -->
+
+    <field id="internationalprefix">
+        <visible>false</visible>
+        <usable>false</usable>
+        <required>false</required>
+        <previousCTMImportable>false</previousCTMImportable>
+        <priorityImportable>false</priorityImportable>
+        <seniorityImportable>false</seniorityImportable>
+        <transformationImportable>false</transformationImportable>
+        <generalImportable>false</generalImportable>
+        <editableImport>true</editableImport>
+    </field>
+    <field id="phone">
+        <visible>true</visible>
+        <usable>true</usable>
+        <required>false</required>
+        <previousCTMImportable>true</previousCTMImportable>
+        <priorityImportable>true</priorityImportable>
+        <seniorityImportable>true</seniorityImportable>
+        <transformationImportable>true</transformationImportable>
+        <generalImportable>true</generalImportable>
+        <editableImport>false</editableImport>
+    </field>
+    <field id="fax">
+        <visible>false</visible>
+        <usable>true</usable>
+        <required>false</required>
+        <previousCTMImportable>true</previousCTMImportable>
+        <priorityImportable>true</priorityImportable>
+        <seniorityImportable>true</seniorityImportable>
+        <transformationImportable>true</transformationImportable>
+        <generalImportable>true</generalImportable>
+        <editableImport>true</editableImport>
+    </field>
+    <field id="email">
+        <visible>true</visible>
+        <usable>true</usable>
+        <required>false</required>
+        <previousCTMImportable>true</previousCTMImportable>
+        <priorityImportable>true</priorityImportable>
+        <seniorityImportable>true</seniorityImportable>
+        <transformationImportable>true</transformationImportable>
+        <generalImportable>true</generalImportable>
+        <format>^[A-Za-z0-9\._-]+@([A-Za-z0-9][A-Za-z0-9-]*[A-Za-z0-9]\.)+([A-Za-z]+\.)?([A-Za-z]+)$</format>
+        <editableImport>false</editableImport>
+    </field>
+    <field id="website">
+        <visible>true</visible>
+        <usable>true</usable>
+        <required>false</required>
+        <previousCTMImportable>true</previousCTMImportable>
+        <priorityImportable>true</priorityImportable>
+        <seniorityImportable>true</seniorityImportable>
+        <transformationImportable>true</transformationImportable>
+        <generalImportable>true</generalImportable>
+        <format></format>
+        <editableImport>false</editableImport>
+    </field>
+    <field id="powValidityEndDate">
+        <visible>true</visible>
+        <usable>true</usable>
+        <required>false</required>
+        <previousCTMImportable>false</previousCTMImportable>
+        <priorityImportable>false</priorityImportable>
+        <seniorityImportable>false</seniorityImportable>
+        <transformationImportable>false</transformationImportable>
+        <generalImportable>false</generalImportable>
+        <format>^(0[1-9]|[12][0-9]|3[01])[/.](0[1-9]|1[012])[/.](19|20)\d\d$</format>
+        <editableImport>true</editableImport>
+    </field>
+    <field id="powReauthorizationIndicator">
+        <visible>true</visible>
+        <usable>true</usable>
+        <required>false</required>
+        <previousCTMImportable>false</previousCTMImportable>
+        <priorityImportable>false</priorityImportable>
+        <seniorityImportable>false</seniorityImportable>
+        <transformationImportable>false</transformationImportable>
+        <generalImportable>false</generalImportable>
+        <format></format>
+        <editableImport>true</editableImport>
+    </field>
+    <field id="powNote">
+        <visible>true</visible>
+        <usable>true</usable>
+        <required>false</required>
+        <previousCTMImportable>false</previousCTMImportable>
+        <priorityImportable>false</priorityImportable>
+        <seniorityImportable>false</seniorityImportable>
+        <transformationImportable>false</transformationImportable>
+        <generalImportable>false</generalImportable>
+        <format></format>
+        <editableImport>true</editableImport>
+    </field>
+    <field id="powValidityIndefiniteIndicator">
+        <visible>true</visible>
+        <usable>true</usable>
+        <required>false</required>
+        <previousCTMImportable>false</previousCTMImportable>
+        <priorityImportable>false</priorityImportable>
+        <seniorityImportable>false</seniorityImportable>
+        <transformationImportable>false</transformationImportable>
+        <generalImportable>false</generalImportable>
+        <format></format>
+        <editableImport>true</editableImport>
+    </field>
+    <field id="powRevokesPreviousIndicator">
+        <visible>true</visible>
+        <usable>true</usable>
+        <required>false</required>
+        <previousCTMImportable>false</previousCTMImportable>
+        <priorityImportable>false</priorityImportable>
+        <seniorityImportable>false</seniorityImportable>
+        <transformationImportable>false</transformationImportable>
+        <generalImportable>false</generalImportable>
+        <format></format>
+        <editableImport>true</editableImport>
+    </field>

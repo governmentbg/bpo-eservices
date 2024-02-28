@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow abstract="true" xmlns="http://www.springframework.org/schema/webflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow
+                          http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+
+	<on-start>
+		<evaluate
+			expression="(requestParameters.form_id==null?(requestParameters.draftId==null?new eu.ohim.sp.tmefiling.ui.flow.FlowBeanImpl():draftApplicationService.loadApplication(requestParameters.draftId, false)):draftApplicationService.loadApplication(requestParameters.form_id, true))"
+			result="flowScope.flowBean" result-type="java.io.Serializable" />
+		<evaluate expression="flowScope.flowBean.initializationErrorCode" result="flashScope.error_code"/>
+		<evaluate expression="flowScope.flowBean.setInitializationErrorCode(null)"/> 
+		<evaluate expression="requestParameters.timeout" result="flashScope.timeout" result-type="java.io.Serializable" />
+		<evaluate
+			expression="flowScope.flowBean.setIdreserventity(draftApplicationService.provideProvisionalID())" />
+	</on-start>
+
+	<view-state id="savetopc" view="externalRedirect:contextRelative:saveToPC.htm?flowKey=#{requestParameters.execution}"/>
+	<view-state id="printDraftReceipt" view="externalRedirect:contextRelative:receipt.htm?flowKey=#{requestParameters.execution}"/>
+	<view-state id="failureState" view="failureTile" />
+	
+	<end-state id="submitted" view="redirect:/submitted.htm" >
+		<on-entry>
+			<evaluate
+				expression="draftApplicationService.storeReceipt(flowBean, flowBean.idreserventity, localeComponent.getLocale(externalContext.nativeRequest).getValue())" />
+			<evaluate
+				expression="draftApplicationService.fileTMApplication(flowBean, flowBean.idreserventity)" />
+			<evaluate result="flowScope.uuid" result-type="java.io.Serializable" 
+				expression="draftApplicationService.storeSubmittedApplication(flowBean)" />
+		</on-entry>
+	</end-state>
+	
+	<global-transitions>
+		<transition on="GlobalLogin" validate="false">
+			<secured  attributes="ROLE_TMEFILING-REGISTERED" />
+		</transition>
+			
+		<transition on="Cancel" validate="false">
+			<evaluate expression="flowBean.clear()" />
+		</transition>
+		<transition on="ChangeLanguage" validate="false">
+			<evaluate expression="false" />
+		</transition>
+		<transition on="Refresh" validate="false">
+			<evaluate
+				expression="personService.initializePersonsForRegisteredUsers(flowScope.flowBean, flowScope.flowModeId)" />
+		</transition>
+		<transition on="SaveLocally" to="savetopc" validate="false" />
+		<transition on="PrintDraftReceipt" to="printDraftReceipt" validate="false" />
+		<transition on="ImportCTM" validate="false">
+			<evaluate
+				expression="importService.getTradeMark(requestParameters.officeCode, requestParameters.importCTMId, requestParameters.extraImport, flowScope.flowModeId)"
+				result="flowScope.flowBean" />
+		</transition>
+		<transition on="ImportCTMPriority" validate="false">
+			<evaluate
+				expression="importService.getTradeMarkPriority(flowScope.flowBean, requestParameters.officeCode, requestParameters.importCTMId, requestParameters.extraImport, flowScope.flowModeId)"
+				result="flowScope.flowBean" />
+		</transition>
+		<transition on="ImportCTMSeniority" validate="false">
+			<evaluate
+				expression="importService.getTradeMarkSeniority(flowScope.flowBean, requestParameters.officeCode, requestParameters.importCTMId, requestParameters.extraImport, flowScope.flowModeId)"
+				result="flowScope.flowBean" />
+		</transition>
+		<transition on="ImportCTMTransformation" validate="false">
+			<evaluate
+				expression="importService.getTradeMarkTransformation(flowScope.flowBean, requestParameters.officeCode, requestParameters.importCTMId, requestParameters.extraImport, flowScope.flowModeId)"
+				result="flowScope.flowBean" />
+		</transition>
+		<transition on="doPayment" validate="true" >
+			<evaluate expression="true" result="flashScope.doPayment"
+				result-type="java.lang.Boolean" />
+		</transition>
+		<transition on="doSubmit" to="submitted" history="discard" validate="true" />
+		<transition on="PAYMENT_OK" to="submitted" history="discard" validate="true" />
+		<transition on="PAYMENT_CANCELLED" />			
+		<transition on="PAYMENT_ERROR">			
+			<evaluate expression="requestParameters.paymentMessage" result="flashScope.paymentMessage"
+				result-type="java.lang.String" />
+		</transition>
+	</global-transitions>
+
+	<exception-handler bean="SpFlowExecutionExceptionHandler"/>
+</flow>

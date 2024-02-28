@@ -1,0 +1,381 @@
+package org.domain.rules;
+
+dialect "mvel"
+
+import eu.ohim.sp.core.domain.validation.ErrorCore;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.domain.trademark.Mark;
+import eu.ohim.sp.core.domain.trademark.TradeMark;
+import eu.ohim.sp.core.domain.trademark.Collective;
+import eu.ohim.sp.core.domain.resources.Colour;
+import eu.ohim.sp.core.domain.trademark.MarkFeature;
+import eu.ohim.sp.core.domain.resources.Document;
+import eu.ohim.sp.core.domain.validation.RulesInformation;
+
+import eu.ohim.sp.core.configuration.domain.xsd.Sections;
+import eu.ohim.sp.core.configuration.domain.xsd.Sections;
+import eu.ohim.sp.core.configuration.domain.xsd.Section;
+import eu.ohim.sp.core.configuration.domain.xsd.Field;
+
+import eu.ohim.sp.core.rules.BusinessRulesService;
+
+import org.apache.commons.lang.StringUtils;
+
+rule "BR54 - Empty"
+salience 1000
+when
+	$rulesInformation : RulesInformation(sectionName == "undefinedMark")
+	Mark(markType.toString() == "Undefined")
+then
+	addError(null,
+		 "BR54.markType.Empty",
+		 "This field is mandatory",
+		 "mainForm.markRepresentationSection",
+		 $rulesInformation);
+end
+
+rule "BR57 - Empty"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "mainForm.firstDisclaimer", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true &&
+		 $fieldRequired == true)
+	Mark(StringUtils.isEmpty(disclaimer) == true)
+then
+	addError("mainForm.firstDisclaimer",
+		 "BR57.disclaimer.Empty",
+		 "This field is mandatory",
+		 "mainForm.markRepresentationSection",
+		 $rulesInformation);
+end
+
+rule "BR57 - Content"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "mainForm.firstDisclaimer", $fieldUsable : usable) from $fields
+	eval($fieldUsable == true)
+	Mark(StringUtils.isEmpty(disclaimer) == false &&
+		 $description : disclaimer)
+then
+	$rulesInformation.getErrorList().addAllErrors(checkDescription("mainForm.firstDisclaimer",
+																	$description,
+																	"BR57.disclaimer.Wrong",
+																	"mainForm.markRepresentationSection",
+																	"Disclaimer"));
+end
+
+rule "BR58 - Disclaimer 2nd Language - Empty"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "mainForm.secondDisclaimer", $fieldUsable : usable) from $fields
+	TradeMark($secondLanguage : secondLanguageTranslation)
+	eval($fieldUsable == true && $secondLanguage == true)
+	Mark(StringUtils.isEmpty(disclaimerSecondLanguage) == true)
+then
+	addError("mainForm.secondDisclaimer",
+		 "BR58.disclaimerSecondLanguage.Empty",
+		 "This field is mandatory",
+		 "mainForm.markRepresentationSection",
+		 $rulesInformation);
+end
+
+rule "BR58  - Disclaimer 2nd Language - Content"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "mainForm.secondDisclaimer", $fieldUsable : usable, $regex : format) from $fields
+	eval($fieldUsable == true &&
+		 StringUtils.isEmpty($regex) == false)
+	Mark(StringUtils.isEmpty(disclaimerSecondLanguage) == false &&
+		 disclaimerSecondLanguage not matches $regex)
+then
+	addError("mainForm.secondDisclaimer",
+		 "BR58.disclaimerSecondLanguage.Wrong",
+		 "This field has a bad format",
+		 "mainForm.markRepresentationSection",
+		 $rulesInformation);
+end
+
+rule "BR423 - Empty"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "mainForm.trademarkRegulationDocuments", $fieldUsable: usable) from $fields
+	Mark(collective != null &&
+	$listOfDocuments : collective.regulations)
+	Document(StringUtils.isEmpty(documentName) == true) from $listOfDocuments
+	eval($fieldUsable == true)
+then
+	addError("mainForm.trademarkRegulationDocuments"+".attachment",
+		 "BR423.collective.regulations.Empty",
+		 "This field is mandatory",
+		 "mainForm.markRepresentationSection",
+		 $rulesInformation);
+end
+
+rule "BRb9 Attached Applicants - Empty"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "mainForm.trademarkApplicantDocuments", $fieldUsable: usable) from $fields
+	Mark(collective != null &&
+	$listOfDocuments : collective.applicants)
+	Document(StringUtils.isEmpty(documentName) == true) from $listOfDocuments
+	eval($fieldUsable == true)
+then
+	addError("mainForm.trademarkApplicantDocuments"+".attachment",
+		 "BRXXX.collective.applicants.Empty",
+		 "This field is mandatory",
+		 "mainForm.markRepresentationSection",
+		 $rulesInformation);
+end
+
+rule "BR424 - Empty"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "mainForm.trademarkTranslationDocuments", $fieldUsable: usable) from $fields
+	Mark(collective != null &&
+	$listOfDocuments : collective.translation)
+	Document(StringUtils.isEmpty(documentName) == true) from $listOfDocuments
+	eval($fieldUsable == true)
+then
+	addError("mainForm.trademarkTranslationDocuments"+".attachment",
+		 "BR424.collective.translations.Empty",
+		 "This field is mandatory",
+		 "mainForm.markRepresentationSection",
+		 $rulesInformation);
+end
+
+rule "BR63 - Empty"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "mainForm.charset", $fieldUsable: usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Mark(StringUtils.isEmpty(characterSet) == true)
+then
+	addError("mainForm.charset",
+		 "BR63.characterSet.Empty",
+		 "This field is mandatory",
+		 "mainForm.markRepresentationSection",
+		 $rulesInformation);
+end
+
+rule "BR63 - Content"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "mainForm.charset", $fieldUsable : usable, $regex : format) from $fields
+	eval($fieldUsable == true &&
+		 StringUtils.isEmpty($regex) == false)
+	Mark(StringUtils.isEmpty(characterSet) == false &&
+		 characterSet not matches $regex)
+then
+	addError("mainForm.charset",
+		 "BR63.characterSet.Wrong",
+		 "This field has a bad format",
+		 "mainForm.markRepresentationSection",
+		 $rulesInformation);
+end
+
+rule "BR65 BR75 BR92 BR104 - Image - Empty"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "mainForm.fileWrapperImage", $fieldUsable: usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Mark(markType.text != "Undefined" &&
+		 markType.text != "Word" &&
+		 representation == null)
+then
+	addError("mainForm.fileWrapperImage"+".attachment",
+		 "BR.representation.Empty",
+		 "A file need to be attached to this field",
+		 "mainForm.markRepresentationSection",
+		 $rulesInformation);
+end
+
+rule "BR100 - Sound - Empty"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "mainForm.soundFile", $fieldUsable: usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Mark(markType.text == "Sound" &&
+		 soundRepresentation == null)
+then
+	addError("mainForm.soundFile"+".attachment",
+		 "BR.representation.Empty",
+		 "A file need to be attached to this field",
+		 "mainForm.markRepresentationSection",
+		 $rulesInformation);
+end
+
+rule "BR67 BR77 BR106 Word Elements - Empty"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "mainForm.wordRepresentation", $fieldUsable: usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Mark(StringUtils.isEmpty(wordElements) == true)
+then
+	addError("mainForm.wordRepresentation",
+		 "BR67.wordElements.Empty",
+		 "This field is mandatory",
+		 "mainForm.markRepresentationSection",
+		 $rulesInformation);
+end
+
+rule "BR67 BR77 BR106 Word elements - Content"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "mainForm.wordRepresentation", $fieldUsable : usable, $regex : format) from $fields
+	eval($fieldUsable == true &&
+		 StringUtils.isEmpty($regex) == false)
+	Mark(StringUtils.isEmpty(wordElements) == false &&
+		 wordElements not matches $regex)
+then
+	addError("mainForm.wordRepresentation",
+		 "BR67.wordElements.Wrong",
+		 "This field has a bad format",
+		 "mainForm.markRepresentationSection",
+		 $rulesInformation);
+end
+
+rule "BR69 BR97 BR102 BR107 - Empty"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "mainForm.markDescription", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true &&
+		 $fieldRequired == true)
+	Mark(StringUtils.isEmpty(description) == true)
+then
+	addError("mainForm.markDescription",
+		 "BR69.description.Empty",
+		 "This field is mandatory",
+		 "mainForm.markRepresentationSection",
+		 $rulesInformation);
+end
+
+rule "BR69 BR97 BR102 BR107 - Content"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "mainForm.markDescription", $fieldUsable : usable) from $fields
+	eval($fieldUsable == true)
+	Mark(StringUtils.isEmpty(description) == false &&
+		 $description : description)
+then
+	$rulesInformation.getErrorList().addAllErrors(checkDescription("mainForm.markDescription",
+																	$description,
+																	"BR69.description.Wrong",
+																	"mainForm.markRepresentationSection",
+																	"Description"));
+end
+
+rule "BR70 BR88 BR98 BR103 - Description of Mark 2nd Language - Empty"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "mainForm.markDescriptionSecond", $fieldUsable : usable) from $fields
+	TradeMark($secondLanguage : secondLanguageTranslation)
+	eval($fieldUsable == true && $secondLanguage == true)
+	Mark(StringUtils.isEmpty(descriptionSecondLanguage) == true)
+then
+	addError("mainForm.markDescriptionSecond",
+		 "BR70.descriptionSecondLanguage.Empty",
+		 "This field is mandatory",
+		 "mainForm.markRepresentationSection",
+		 $rulesInformation);
+end
+
+rule "BR70 BR88 BR98 BR103 BR108 - Description of Mark 2nd Language - Content"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "mainForm.markDescriptionSecond", $fieldUsable : usable, $regex : format) from $fields
+	eval($fieldUsable == true &&
+		 StringUtils.isEmpty($regex) == false)
+	Mark(StringUtils.isEmpty(descriptionSecondLanguage) == false &&
+		 descriptionSecondLanguage not matches $regex)
+then
+	addError("mainForm.markDescriptionSecond",
+		 "BR70.descriptionSecondLanguage.Wrong",
+		 "This field has a bad format",
+		 "mainForm.markRepresentationSection",
+		 $rulesInformation);
+end
+
+rule "BR73 BR90 BR96 BR108 - Colour description 2nd Language - Empty"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName : sectionName)
+	Section( $sectionName == id.value(), $fields : field )
+	Field( id == "mainForm.markColorsIndicationSecond", $fieldUsable : usable) from $fields
+	TradeMark($secondLanguage : secondLanguageTranslation)
+	eval($fieldUsable == true && $secondLanguage == true)
+	Mark(StringUtils.isEmpty(colourSecondLanguage) == true)
+then
+	addError("mainForm.markColorsIndicationSecond",
+		 "BR73.colourSecondLanguage.Empty",
+		 "This field is mandatory",
+		 "mainForm.markRepresentationSection",
+		 $rulesInformation);
+end
+
+rule "BRb10 BRb11 RBb12 - Colour List without colours"
+salience 1000
+when
+$rulesInformation : RulesInformation($sectionName : sectionName)
+$section : Section($sectionName == id.value())
+Mark((colorChecked == true || $sectionName == "colourmark") &&
+	 (colours == null || colours.size() <= 0))
+then
+	addError("mainForm.colourChecked",
+		 "BRCL",
+		 "The colour list can't be empty",
+		 "mainForm.markRepresentationSection",
+		 $rulesInformation);
+end
+
+rule "BR74 BR91 BR99 - Colour List with colours"
+salience 1000
+when
+$rulesInformation : RulesInformation($sectionName : sectionName)
+$section : Section($sectionName == id.value())
+Mark($listColours : getColours() &&
+	 (colorChecked == true || $sectionName == "colourmark") &&
+	 colours != null &&
+	 colours.size() > 0)
+then
+	if(!checkColourList($listColours)){
+		addError("mainForm.colourChecked",
+			 "BRCL",
+			 "A colour without description has been found",
+			 "mainForm.markRepresentationSection",
+			 $rulesInformation);
+	}
+end

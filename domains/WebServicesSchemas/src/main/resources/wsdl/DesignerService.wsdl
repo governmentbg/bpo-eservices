@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions name="DesignerService"
+	targetNamespace="http://ohim.eu/sp/services/designer/v3"
+	xmlns:tns="http://ohim.eu/sp/services/designer/v3"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap12/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	
+	<wsdl:types>
+		<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+			<xsd:import namespace="http://ohim.eu/sp/services/designer/v3" schemaLocation="../xsd/services/DesignerService.xsd" />
+		</xsd:schema>
+	</wsdl:types>
+	
+	<wsdl:message name="searchDesigner">
+		<wsdl:part name="parameters" element="tns:searchDesigner" />
+	</wsdl:message>
+	<wsdl:message name="searchDesignerResponse">
+		<wsdl:part name="parameters" element="tns:searchDesignerResponse" />
+	</wsdl:message>
+
+	<wsdl:message name="getDesigner">
+		<wsdl:part name="parameters" element="tns:getDesigner" />
+	</wsdl:message>
+	<wsdl:message name="getDesignerResponse">
+		<wsdl:part name="parameters" element="tns:getDesignerResponse" />
+	</wsdl:message>
+
+	<wsdl:message name="getDesignerAutocomplete">
+		<wsdl:part name="parameters" element="tns:getDesignerAutocomplete" />
+	</wsdl:message>
+	<wsdl:message name="getDesignerAutocompleteResponse">
+		<wsdl:part name="parameters" element="tns:getDesignerAutocompleteResponse" />
+	</wsdl:message>
+
+	<wsdl:message name="matchDesigner">
+		<wsdl:part name="parameters" element="tns:matchDesigner" />
+	</wsdl:message>
+	<wsdl:message name="matchDesignerResponse">
+		<wsdl:part  name="parameters" element="tns:matchDesignerResponse" />
+	</wsdl:message>
+	
+	<wsdl:message name="saveDesigner">
+		<wsdl:part name="parameters" element="tns:saveDesigner" />
+	</wsdl:message>
+	<wsdl:message name="saveDesignerResponse">
+		<wsdl:part name="parameters" element="tns:saveDesignerResponse" />
+	</wsdl:message>
+	
+	<wsdl:message name="designerFault">
+		<wsdl:part name="parameters" element="tns:designerFault" />
+	</wsdl:message>
+
+	<wsdl:portType name="DesignerServicePortType">
+		<wsdl:operation name="saveDesigner">
+			<wsdl:input name="saveDesigner" message="tns:saveDesigner" />
+			<wsdl:output name="saveDesignerResponse" message="tns:saveDesignerResponse" />
+			<wsdl:fault name="designerFault" message="tns:designerFault" />
+		</wsdl:operation>
+		<wsdl:operation name="matchDesigner">
+			<wsdl:input name="matchDesigner" message="tns:matchDesigner" />
+			<wsdl:output name="matchDesignerResponse" message="tns:matchDesignerResponse" />
+			<wsdl:fault name="designerFault" message="tns:designerFault" />
+		</wsdl:operation>
+		<wsdl:operation name="getDesigner">
+			<wsdl:input name="getDesigner" message="tns:getDesigner" />
+			<wsdl:output name="getDesignerResponse" message="tns:getDesignerResponse" />
+			<wsdl:fault name="designerFault" message="tns:designerFault" />
+		</wsdl:operation>
+		<wsdl:operation name="searchDesigner">
+			<wsdl:input name="searchDesigner" message="tns:searchDesigner" />
+			<wsdl:output name="searchDesignerResponse" message="tns:searchDesignerResponse" />
+			<wsdl:fault name="designerFault" message="tns:designerFault" />
+		</wsdl:operation>
+		<wsdl:operation name="getDesignerAutocomplete">
+			<wsdl:input name="getDesignerAutocomplete" message="tns:getDesignerAutocomplete" />
+			<wsdl:output name="getDesignerAutocompleteResponse" message="tns:getDesignerAutocompleteResponse" />
+			<wsdl:fault name="designerFault" message="tns:designerFault" />
+		</wsdl:operation>
+	</wsdl:portType>
+	
+	<wsdl:binding name="DesignerServiceBinding" type="tns:DesignerServicePortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="matchDesigner">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="matchDesigner">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="matchDesignerResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="designerFault">
+				<soap:fault use="literal" name="designerFault" />
+			</wsdl:fault>	
+		</wsdl:operation>
+		<wsdl:operation name="saveDesigner">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="saveDesigner">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="saveDesignerResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="designerFault">
+				<soap:fault use="literal" name="designerFault" />
+			</wsdl:fault>			
+		</wsdl:operation>
+		<wsdl:operation name="getDesigner">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="getDesigner">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="getDesignerResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="designerFault">
+				<soap:fault use="literal" name="designerFault" />
+			</wsdl:fault>			
+		</wsdl:operation>
+		<wsdl:operation name="searchDesigner">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="searchDesigner">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="searchDesignerResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="designerFault">
+				<soap:fault use="literal" name="designerFault" />
+			</wsdl:fault>			
+		</wsdl:operation>
+		<wsdl:operation name="getDesignerAutocomplete">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="getDesignerAutocomplete">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="getDesignerAutocompleteResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="designerFault">
+				<soap:fault use="literal" name="designerFault" />
+			</wsdl:fault>			
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="DesignerService">
+		<wsdl:port name="DesignerServicePort" binding="tns:DesignerServiceBinding">
+			<soap:address location="http://${fsp.ws.host}/${fsp.ws.context.root}${fsp.ws.designer.path}${fsp.ws.wsdl.services.path}" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<div th:fragment="serviceBar-fragment" class="inlBlW100">
+
+    <div th:text="#{title.applications}" style="display: inline-block" class="mRL10px"></div>
+
+    <input type="text" onclick="serviceDropdownFunction()" readonly th:value="#{choose_option}"
+           style="width: 85% !important;" name="applicationTypes" id="applicationTypes"
+           class="dropdown" autocomplete="on"
+           th:attr="data-service=${null}">
+
+    <div id="servicesDropdown" class="dropdown-content">
+        <div th:if="${applicationTypes != null}" style="overflow-y:auto; height: 300px">
+            <th:block th:if="${!applicationTypes.isEmpty()}"
+                      th:each="entry : ${applicationTypes}">
+                <a th:value="${entry.getValue()}" th:text="#{${entry.getKey()}}" class="serviceDropdownOption" style="font-size: 17px"></a>
+            </th:block>
+        </div>
+    </div>
+
+</div>
+</html>

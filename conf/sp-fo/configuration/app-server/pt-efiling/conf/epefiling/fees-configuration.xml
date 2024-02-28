@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<feeList>
+	<feeTypeList>
+		<code>001</code>
+		<nameKey>validationPublicationFee</nameKey>
+		<description>validation publication fee</description>
+		<defaultValue>45.0</defaultValue>
+	</feeTypeList>
+	<feeTypeList>
+		<code>002</code>
+		<nameKey>tempProtectPublicationFee</nameKey>
+		<description>temporary protection publication fee</description>
+		<defaultValue>45.0</defaultValue>
+	</feeTypeList>
+	<feeTypeList>
+		<code>003</code>
+		<nameKey>validationDescriptionPublicationFee</nameKey>
+		<description>validation description publication fee up to 10th page</description>
+		<defaultValue>80.0</defaultValue>
+	</feeTypeList>
+	<feeTypeList>
+		<code>004</code>
+		<nameKey>validationDescriptionPublicationFeeNext</nameKey>
+		<description>validation description publication after 10th page for each page</description>
+		<defaultValue>10.0</defaultValue>
+	</feeTypeList>
+	<feeTypeList>
+		<code>005</code>
+		<nameKey>validationChangePublicationFee</nameKey>
+		<description>validation change publication fee</description>
+		<defaultValue>45.0</defaultValue>
+	</feeTypeList>
+	<feeTypeList>
+		<code>006</code>
+		<nameKey>validationChangeDescriptionPublicationFee</nameKey>
+		<description>validation change description publication fee up to 10th page</description>
+		<defaultValue>80.0</defaultValue>
+	</feeTypeList>
+	<feeTypeList>
+		<code>007</code>
+		<nameKey>validationChangeDescriptionPublicationFeeNext</nameKey>
+		<description>validation change description publication after 10th page for each page</description>
+		<defaultValue>10.0</defaultValue>
+	</feeTypeList>
+
+</feeList>

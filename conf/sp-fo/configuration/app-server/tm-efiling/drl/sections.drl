@@ -1,0 +1,462 @@
+package org.domain.rules;
+dialect "mvel"
+
+import java.util.List;
+import java.util.Date;
+import java.util.Map;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Calendar;
+import org.apache.commons.lang.StringUtils;
+import eu.ohim.sp.core.domain.contact.Phone;
+import eu.ohim.sp.core.domain.contact.Email;
+import eu.ohim.sp.core.domain.resources.Colour;
+import eu.ohim.sp.core.domain.contact.PhoneKind;
+import eu.ohim.sp.core.domain.contact.ContactDetails;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.configuration.domain.xsd.Section;
+import eu.ohim.sp.core.domain.validation.RulesInformation;
+import eu.ohim.sp.core.domain.trademark.ImageSpecification;
+import eu.ohim.sp.core.domain.trademark.TradeMarkApplication;
+import eu.ohim.sp.core.configuration.domain.country.xsd.Countries;
+import eu.ohim.sp.core.domain.application.Signatory;
+import eu.ohim.sp.core.domain.trademark.ClassDescription;
+import eu.ohim.sp.core.domain.trademark.ClassificationTerm;
+import eu.ohim.sp.core.domain.trademark.TradeMark;
+import eu.ohim.sp.core.configuration.domain.xsd.AvailableSection;
+import eu.ohim.sp.core.configuration.domain.xsd.Field;
+import eu.ohim.sp.core.domain.trademark.MarkFeature;
+import eu.ohim.sp.core.domain.person.Representative;
+
+rule "BR8 Number of Applicants"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "applicant_details" || coreName == "applicant_details_gi")
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark(applicants == null || (applicants != null && applicants.size() <= 0))	from $tradeMark	
+then
+	addError(null,"BR8.ApplicantNumber.Empty","You must add at least one applicant","mainForm.personalDataSection", $errorList);
+end
+
+rule "BR8 Number of Applicants - maximum of 1"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "applicant_details_gi")
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark(applicants != null && applicants.size() > 1)	from $tradeMark
+then
+	addError(null,"BR8.ApplicantNumber.maxOne","You must exactly one applicant","mainForm.personalDataSection", $errorList);
+end
+
+rule "BR Number of Representatives"
+salience 1000
+when
+ $errorList : ErrorList()
+ Section (coreName == "representative_details") 
+ TradeMarkApplication($tradeMark : tradeMark)
+ TradeMark(representatives != null && representatives.size() > 1000) from $tradeMark
+then
+ addError(null, "error.ef.max.RepresentativeNaturalPersonForm", "You have reached the maximum number of permitted representatives.","mainForm.personalDataSection", $errorList);
+end
+
+# Checks the list looking for a EEA person
+/*rule "BREEA - EEA Applicants or Representatives"
+salience 1000
+when
+	$errorList : ErrorList()
+	$section : Section( $fields : field, coreName == "applicant_details" )
+	TradeMarkApplication($tradeMark : tradeMark)
+ 	$TDeApp:	TradeMark($listRepresentatives : representatives, $listApplicants : applicants)	from $tradeMark
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	HashMap co = $customObjects;
+	Countries countries = co.get("countries");
+
+	if($section.getCoreName().equals("applicant_details") ){
+		if(!checkApplicantsEEA($TDeApp,true, $section, countries) && !checkRepresentativesEEA($TDeApp, false, $section, countries)){
+			addError(null, "BREEA",  "At least one Representative or Applicant must be from the EEA", "mainForm.personalDataSection",  $errorList);
+		}
+	}
+end*/
+
+
+rule "BRGS - Number of G&S"
+salience 1000
+when
+	$errorList : ErrorList()
+	$section : Section( coreName == "gs_details" )
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark($classDescriptions : classDescriptions, classDescriptions == null) from $tradeMark
+then
+	addError(null,
+		"BRGS.GSNumber.Empty",
+		"You must add at least one Good and Service",
+		"mainForm.gsSection",
+		$errorList);
+end
+
+rule "BRGS - Number of G&S gi-efiling"
+salience 1000
+when
+	$errorList : ErrorList()
+	$section : Section( coreName == "gs_details_GI" )
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark($classDescriptions : classDescriptions, classDescriptions == null) from $tradeMark
+then
+	addError(null,
+		"BRGS.GSNumber.Empty.gi-efiling",
+		"You must select exactly one good",
+		"mainForm.gsSection",
+		$errorList);
+end
+
+rule "BRGS - Number of G&S - too many - gi-efiling"
+salience 1000
+when
+	$errorList : ErrorList()
+	$section : Section( coreName == "gs_details_GI" )
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark($classDescriptions : classDescriptions, classDescriptions != null) from $tradeMark
+	eval($classDescriptions.size() > 1 ) or (exists ClassDescription(classificationTerms != null && classificationTerms.size() > 1 ) from $classDescriptions)
+then
+	addError(null,
+		"BRGS.more.than.one.gi-efiling",
+		"You must add exactly one good",
+		"mainForm.gsSection",
+		$errorList);
+end
+
+rule "BRGS - Classes not allowed - gi-efiling"
+salience 1000
+when
+	$errorList : ErrorList()
+	$section : Section( coreName == "gs_details_GI" )
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark($classDescriptions : classDescriptions, classDescriptions != null) from $tradeMark
+	exists ClassDescription(classNumberInt != null && classNumberInt != -1 && classNumberInt > 34) from $classDescriptions
+then
+	addError(null,
+		"BRGS.bad.class.gi-efiling",
+		"You have to select or enter terms only from classes that are describing goods (1 to 34)",
+		"mainForm.gsSection",
+		$errorList);
+end
+
+
+rule "BR230 - Reference Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	$section : Section( $fields : field, coreName == "reference_details" )
+	Field( id == "reference",
+			$fieldUsable : usable,
+			$fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	TradeMarkApplication($tradeMark : tradeMark) 	
+	TradeMark($applicationReference : applicationReference,  applicationUseReference == true && ( applicationReference == null ||  StringUtils.isEmpty(applicationReference))) from $tradeMark
+then
+	addError("reference",
+			 "BR230.Reference.Empty",
+			 "This field is mandatory",
+			 "mainForm.referenceSection",
+			 $errorList); 	 
+end
+
+
+rule "BR230 Reference - Length"
+salience 1000
+when
+	$errorList : ErrorList()	
+	$section : Section( $fields : field, coreName == "reference_details" )	
+	Field( id == "reference", $regex : format, $fieldUsable : usable, $fieldRequired : required) from $fields
+	TradeMarkApplication($tradeMark : tradeMark) 	
+	TradeMark($applicationReference : applicationReference,   applicationReference != null && StringUtils.isNotEmpty(applicationReference)) from $tradeMark
+then
+	if ($applicationReference.length() > 30 ){	
+		addError("reference", "BR.design.reference.Length", "This field has a bad format (30 char max).", "mainForm.referenceSection", $errorList); 	 
+	} 	
+end
+
+
+rule "BR19 - Divisional Application Number"
+salience 1000
+when
+	$errorList : ErrorList()	
+	$section : Section( $fields : field, coreName == "divisionalApplication_details" )	
+	Field( id == "dateDivisionalApplication", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval(	 $fieldUsable == true && $fieldRequired == true)
+	TradeMarkApplication($tradeMark : tradeMark) 	
+	TradeMark(divisionalApplicationDetails != null &&
+	StringUtils.isEmpty(divisionalApplicationDetails.initialApplicationNumber)) from $tradeMark
+then
+	addError("mainForm.numberDivisionalApplication",
+		 "BR19.Divisional.Number",
+		 "This field is mandatory",
+		 "mainForm.divisionalSection",
+			 $errorList); 	 
+end
+
+rule "BR19 - Divisional Application Date"
+salience 1000
+when
+	$errorList : ErrorList()	
+	$section : Section( $fields : field, coreName == "divisionalApplication_details" )	
+	Field( id == "dateDivisionalApplication", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval( $fieldUsable == true && $fieldRequired == true)
+	TradeMarkApplication($tradeMark : tradeMark) 	
+	TradeMark(divisionalApplicationDetails != null &&
+			  divisionalApplicationDetails.initialApplicationDate == null) from $tradeMark
+then
+	addError("mainForm.dateDivisionalApplication",
+		 "BR19.Divisional.Date",
+		 "This field is mandatory",
+		 "mainForm.divisionalSection",
+			 $errorList); 	 
+end
+
+
+rule "BR19b - Divisional Application Date After"
+salience 1000
+when
+	$errorList : ErrorList()	
+	$section : Section( $fields : field, coreName == "divisionalApplication_details" )	
+	Field( id == "dateDivisionalApplication", $fieldUsable : usable) from $fields
+	eval( $fieldUsable == true)
+	TradeMarkApplication($tradeMark : tradeMark) 	
+	TradeMark(divisionalApplicationDetails != null &&
+			  divisionalApplicationDetails.initialApplicationDate != null &&
+			  $divDate : divisionalApplicationDetails.initialApplicationDate &&
+			  $divDate.after(new Date())) from $tradeMark
+then
+	addError("mainForm.dateDivisionalApplication",
+		 "BR19.Divisional.Date.After",
+		 "This field cannot contain a date in the future",
+		 "mainForm.divisionalSection",
+			 $errorList); 	 
+end
+
+
+rule "BR19c - Divisional Application Not Imported"
+salience 1000
+when
+	$errorList : ErrorList()
+	$section : Section( $fields : field, coreName == "divisionalApplication_details" )
+	Field( id == "divisionalApplicationImported", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval( $fieldUsable == true && $fieldRequired == true)
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark(divisionalApplicationDetails != null &&
+			  (divisionalApplicationDetails.initialApplicationImported == null
+			  || divisionalApplicationDetails.initialApplicationImported == false)) from $tradeMark
+then
+	addError("mainForm.divisionalApplicationImported",
+		 "BR19.Divisional.Imported",
+		 "The divisional application information must be imported",
+		 "mainForm.divisionalSection",
+			 $errorList);
+end
+
+
+rule "BR91a - Colour format"
+salience 1000
+when
+	$errorList : ErrorList()	
+	$section : Section( coreName == "mark_details", $subsections : subsection )	
+	Section (coreName == "Colourmark", $fields : field ) from $subsections	
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark($imageSpecification : imageSpecifications)	from $tradeMark
+	ImageSpecification ($listColours : colours, colours != null && colours.size() > 0) from $imageSpecification	
+	Colour($format : format &&
+			$value : value &&
+		   StringUtils.isEmpty(value) == false) from $listColours
+then
+	if(!checkColourFormat($format, $value)){
+		addError(null,
+			 "BR91a.Colour.Format",
+			 "The colour field value has a wrong format",
+			 "mainForm.markRepresentationSection",
+			 $errorList); 	 
+	}
+end
+
+rule "BR Signatures - Empty Array"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "signature")
+	TradeMarkApplication( $tradeMark : tradeMark)
+	TradeMark($signatures : signatures,
+	                  $signatures == null || (signatures != null && $signatures.size() == 0)) from $tradeMark
+then
+	addError(null, "BRMandatory", "You must add at least one signature", "mainForm.signatureSection", $errorList);
+end
+
+rule "BRCA - Number of Correspondence Addresses"
+salience 1000
+when
+    $errorList : ErrorList()
+    TradeMarkApplication( $tradeMark : tradeMark)
+    TradeMark(contactDetails == null || contactDetails.size() == 0) from $tradeMark
+    Section (coreName == "application_ca")
+then
+	addError(null,
+		"BRCA.applicationCANumber.Empty",
+		"You must add at least one correspondence address",
+		"mainForm.applicantionCADataSection",
+		$errorList);
+end
+
+rule "CA mandatory to be in BG"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "application_ca")
+	TradeMarkApplication( $tradeMark : tradeMark)
+	TradeMark($contactDetails: contactDetails) from $tradeMark
+	eval ($contactDetails  != null && $contactDetails.size() > 0)
+	eval (!hasAnyCAFromCountry($tradeMark, "BG"))
+then
+    addError(null, "BR.CA.must.be.in.BG", "It is mandatory that the correspondence address is in Bulgaria", "mainForm.applicantionCADataSection", $errorList);
+end
+
+/*
+//TODO
+rule "BRXX - Application size check"
+salience 1000
+when
+	$rulesInformation : RulesInformation($sectionName: sectionName, $fileSize : fileSize)
+	eval($sectionName != null && $sectionName.equals("ApplicationSize"))
+	$tradeMark : TradeMark()
+then
+	if(($tradeMark.getApplicationSize($tradeMark) + $fileSize)/(1024*1024) > 15){
+		addError(null,
+			 "BRASC",
+			 "The application size exceed the maximum size (15 mb)",
+			 "description",
+			 $errorList);
+	}
+end
+*/
+
+rule "Bad signature provided"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (coreName == "signature")
+	TradeMarkApplication( $tradeMark : tradeMark)
+	TradeMark($signedPersons : signatures,
+	                  $signedPersons !=null && $signedPersons.size()>0) from $tradeMark
+then
+  	for(Signatory signatory:$signedPersons){
+  		if(signatory.getName() == null || signatory.getCapacity() == null || (signatory.getCapacity().toString().equals("Other") && signatory.getAssociatedText() == null)){
+			addError(null, "Signatories.Bad.Signature",	"The data you have provided for the signatories is incomplete. Please check.",	"mainForm.signatureSection",	$errorList);
+		}
+	}
+end
+
+rule "Duplicate priorities"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (id == AvailableSection.CLAIM)
+	TradeMarkApplication( $tradeMark : tradeMark)
+	TradeMark($prioList: priorities) from $tradeMark
+    eval($prioList != null && hasDuplicatePriorities($prioList))
+then
+    addError(null, "Duplicate.Priorities",	"You can not add more than one priority using the same country and number",	"mainForm.claimSection",	$errorList);
+end
+
+rule "Must select declaration when there are attachments"
+no-loop
+    when
+        $errorList : ErrorList()
+        Section(id == AvailableSection.OTHER_ATTACHMENTS, $fields: field)
+        Field(id == "trueDocumentsIndicator", $visible: visible, $usable: usable, $required: required) from $fields
+        eval($visible && $usable && $required)
+        TradeMarkApplication(documents != null && documents.size() >0 && (trueDocumentsIndicator == null || trueDocumentsIndicator == false))
+    then
+        addError("trueDocumentsIndicator", "OtherAttachments.must.select.indicator", "You must declare the integrity of all attached documents ", "mainForm.otherAttachments", $errorList);
+end
+
+rule "BR GS Descriptions - goodsCharacteristicsDescription Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	$section : Section( id == AvailableSection.GOODSANDSERVICES_DESCRIPTIONS, $fields : field )
+    Field(id == "mainForm.goodsCharacteristicsDescription", $fieldUsable: usable, $fieldRequired: required) from $fields
+    eval($fieldRequired && $fieldUsable)
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark(goodsCharacteristicsDescription == null || goodsCharacteristicsDescription.isEmpty() )	from $tradeMark
+then
+	addError("mainForm.goodsCharacteristicsDescription",
+		 "BR.gsdescriptions.goodsCharacteristicsDescription.empty",
+		 "The good characteristics description field is mandatory",
+		 "mainForm.goodsDescriptionDataSection",
+		 $errorList);
+end
+
+rule "BR GS Descriptions - goodsProductionDescription Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	$section : Section( id == AvailableSection.GOODSANDSERVICES_DESCRIPTIONS, $fields : field )
+    Field(id == "mainForm.goodsProductionDescription", $fieldUsable: usable, $fieldRequired: required) from $fields
+    eval($fieldRequired && $fieldUsable)
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark(goodsProductionDescription == null || goodsProductionDescription.isEmpty() )	from $tradeMark
+then
+	addError("mainForm.goodsProductionDescription",
+		 "BR.gsdescriptions.goodsProductionDescription.empty",
+		 "The good production description field is mandatory",
+		 "mainForm.goodsDescriptionDataSection",
+		 $errorList);
+end
+
+rule "BR GS Descriptions - goodsGeographyDescription Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	$section : Section( id == AvailableSection.GOODSANDSERVICES_DESCRIPTIONS, $fields : field )
+    Field(id == "mainForm.goodsGeographyDescription", $fieldUsable: usable, $fieldRequired: required) from $fields
+    eval($fieldRequired && $fieldUsable)
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark(goodsGeographyDescription == null || goodsGeographyDescription.isEmpty() )	from $tradeMark
+then
+	addError("mainForm.goodsGeographyDescription",
+		 "BR.gsdescriptions.goodsGeographyDescription.empty",
+		 "The good geography description field is mandatory",
+		 "mainForm.goodsDescriptionDataSection",
+		 $errorList);
+end
+
+rule "BR GS Descriptions - goodsFactorsDescription Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	$section : Section( id == AvailableSection.GOODSANDSERVICES_DESCRIPTIONS, $fields : field )
+    Field(id == "mainForm.goodsFactorsDescription", $fieldUsable: usable, $fieldRequired: required) from $fields
+    eval($fieldRequired && $fieldUsable)
+	TradeMarkApplication($tradeMark : tradeMark)
+	TradeMark((goodsFactorsDescription == null || goodsFactorsDescription.isEmpty()) &&  markKind == MarkFeature.ORIGIN_NAME)	from $tradeMark
+then
+	addError("mainForm.goodsFactorsDescription",
+		 "BR.gsdescriptions.goodsFactorsDescription.empty",
+		 "The good factors description field is mandatory",
+		 "mainForm.goodsDescriptionDataSection",
+		 $errorList);
+end
+
+
+rule "Bad representative pow details provided"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section (id == AvailableSection.REPRESENTATIVE)
+	TradeMarkApplication($tm: tradeMark)
+	TradeMark($reps: representatives) from $tm
+	eval($reps != null && $reps.size() > 0)
+	Representative(powValidityIndefiniteIndicator == null || (powValidityIndefiniteIndicator == false && powValidityEndDate == null) || (powValidityIndefiniteIndicator == true && powValidityEndDate != null) || powReauthorizationIndicator == null) from $reps
+then
+    addError(null, "Representatives.Bad.Pow.Details",	"You need to provide valid representative POA details for every representative",	"mainForm.personalDataSection",	$errorList);
+end

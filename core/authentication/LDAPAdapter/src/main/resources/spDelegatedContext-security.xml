@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"  
+	xmlns:sec="http://www.springframework.org/schema/security"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+
+
+	<!-- LDAP SERVER CONFIGURATION -->
+	<sec:ldap-server id="ldapServer"
+			url="${ldap.server.url}"
+			manager-dn="${ldap.server.user}"
+			manager-password="${ldap.server.pwd}" />
+
+
+	<!-- LDAP AUTHENTICATION CONFIGURATION -->
+	<sec:authentication-manager alias="spAuthenticationManager">
+		<sec:ldap-authentication-provider
+				server-ref="ldapServer"
+				user-dn-pattern="${ldap.user.dn.pattern}"
+				user-search-base="${ldap.user.search.base}"
+				user-search-filter="${ldap.user.search.filter}"
+				group-search-base="${ldap.group.search.base}"
+				group-role-attribute="${ldap.group.role.attribute}"
+				group-search-filter="${ldap.group.search.filter}"
+				role-prefix="${ldap.role.prefix}"
+				/>
+	</sec:authentication-manager>
+
+
+	<!-- ENTRY POINT - REDIRECTION TO LOGIN PAGE -->
+	<bean id="spDelegateAuthenticationEntryPoint"
+		  class="eu.ohim.sp.integration.adapter.ldap.LdapAuthenticationEntryPoint">
+	</bean>
+
+
+	<!-- AUTHENTICATION FILTER - CHECK CREDENTIALS -->
+	<bean id="spDelegateAuthenticationFilter"
+		  class="eu.ohim.sp.integration.adapter.ldap.LdapAuthenticationFilter">
+		<constructor-arg index="0" value="${ldap.login.filter.url.pattern}" />
+		<property name="authenticationManager" ref="spAuthenticationManager" />
+	</bean>
+
+
+	<!-- EVENT HANDLERS CONFIGURATION -->
+	<bean id="spDelegateAccessDeniedHandler"
+		  class="org.springframework.security.web.access.AccessDeniedHandlerImpl" />
+
+	<bean id="spDelegateLogoutHandler"
+		  class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler" />
+
+	<bean id="spDelegateLogoutSuccessHandler"
+		  class="eu.ohim.sp.integration.adapter.ldap.LdapLogoutSuccessHandler" />
+
+</beans>

@@ -1,0 +1,121 @@
+package org.domain.rules;
+dialect "mvel"
+
+import java.util.Map;
+import java.util.ArrayList;
+import java.util.HashMap;
+import org.apache.commons.lang.*;
+import eu.ohim.sp.core.domain.design.Designer;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.configuration.domain.xsd.Field;
+import eu.ohim.sp.core.configuration.domain.xsd.Section;
+import eu.ohim.sp.core.domain.validation.RulesInformation;
+import org.apache.commons.lang.*;
+
+global eu.ohim.sp.core.domain.validation.ErrorList errorList;
+
+rule "BR Group Name - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field, $validateImport : validateImport )
+	Field( id == "groupName", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Designer(waiver != true && belongsToAGroup == true && groupName == "")
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	HashMap co = $customObjects;
+	Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+	if ((imported == false || $validateImport == true) && isSectionValidation == false){
+		addError("groupName", "BRMandatory", "This field is mandatory", null, $errorList);
+	}else if((imported == false || $validateImport == true) && isSectionValidation == true){
+		addError(null, "BR.designer.groupName.Empty", "The Group Name field is mandatory.", "mainForm.designerDataSection", $errorList);
+	}
+end
+
+rule "BR Group Name - Content"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field, $validateImport : validateImport )
+	Field( id == "groupName", $fieldUsable : usable, $regex : format) from $fields
+	eval($fieldUsable == true && StringUtils.isNotEmpty($regex))
+	Designer(waiver != true &&
+	         belongsToAGroup == true &&
+	         StringUtils.isNotEmpty(groupName) &&
+	         groupName not matches $regex)
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	HashMap co = $customObjects;
+	Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+	if ((imported == false || $validateImport == true) && isSectionValidation == false){
+		addError("groupName", "BRFormat", "This field has a bad format", null, $errorList);
+	}else if((imported == false || $validateImport == true) && isSectionValidation == true){
+		addError(null, "BR.designer.groupName.Format", "The Group Name field has a bad format.", "mainForm.designerDataSection", $errorList);
+	}
+end
+
+
+//rule "BR Designs Linked - Empty"
+//salience 1000
+//when
+//	$errorList : ErrorList()
+//	Section( $fields : field )
+//	Designer (designsAssociatedIndicator == null || designsAssociatedIndicator == false )
+//	$rulesInformation : RulesInformation($customObjects : customObjects )
+//then
+//	HashMap co = $customObjects;
+//	Boolean imported = co.get("imported");
+//
+//	if (imported == false){
+//		addError("designsLinked",  "BRMandatory", "This field is mandatory", null,	 $errorList);
+//	}
+//end
+
+//rule "BR(natural person) Middle Name - Empty"
+//salience 1000
+//when
+//	$errorList : ErrorList()
+//	Section( $fields : field, $validateImport : validateImport  )
+//	Field( id == "middleName", $fieldUsable : usable) from $fields
+//	eval($fieldUsable == true)
+//	Designer(waiver != true &&  belongsToAGroup != true && (addresses != null && addresses.size() > 0 && addresses.get(0) != null && addresses.get(0).country != null && addresses.get(0).country.equals("BG")))
+//	Designer((name==null) || (StringUtils.isEmpty(name.middleName) == true) || name.middleName == "")
+//	$rulesInformation : RulesInformation($customObjects : customObjects )
+//then
+//	HashMap co = $customObjects;
+//	Boolean imported = co.get("imported");
+//	Boolean isSectionValidation = co.get("isSectionValidation");
+//
+//	if ((imported == false || $validateImport == true) && isSectionValidation == false){
+//		addError("middleName", "BR.designer.middleName.emtpy", "The Middle Name field is mandatory for designers from Bulgaria.", null, $errorList);
+//	}else if((imported == false || $validateImport == true) && isSectionValidation == true){
+//		addError(null, "BR.designer.middleName.emtpy", "The Middle Name field is mandatory for designers from Bulgaria.", "mainForm.designerDataSection", $errorList);
+//	}
+//end
+
+rule "BR Nationality - Empty"
+salience 1000
+when
+	$errorList : ErrorList()
+	Section( $fields : field, $validateImport : validateImport  )
+	Field( id == "nationality", $fieldUsable : usable, $fieldRequired : required) from $fields
+	eval($fieldUsable == true && $fieldRequired == true)
+	Designer(nationality == null || nationality == "Unidentified" || StringUtils.isEmpty(nationality)==true)
+	$rulesInformation : RulesInformation($customObjects : customObjects )
+then
+	HashMap co = $customObjects;
+
+	Boolean imported = co.get("imported");
+	Boolean isSectionValidation = co.get("isSectionValidation");
+
+	if (isSectionValidation == false){
+		addError("nationality",	 "BRMandatory", "This field is mandatory",	 null,	$errorList);
+	}else if(isSectionValidation == true){
+		addError(null, "BR.designer.nationality.Empty", "The nationality field is mandatory.", "mainForm.designerDataSection", $errorList);
+	}
+end

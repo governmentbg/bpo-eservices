@@ -1,0 +1,46 @@
+package org.domain.rules;
+
+dialect "mvel"
+
+import eu.ohim.sp.core.domain.patent.PatentApplication;
+import eu.ohim.sp.core.domain.validation.ErrorCore;
+import eu.ohim.sp.core.domain.validation.ErrorList;
+import eu.ohim.sp.core.domain.payment.FeeList;
+import eu.ohim.sp.core.domain.payment.FeeType;
+import eu.ohim.sp.core.domain.payment.Fee;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.TreeMap;
+import java.util.List;
+import java.util.Date
+import eu.ohim.sp.core.domain.patent.PatentTransformation
+import eu.ohim.sp.core.domain.patent.PCT;
+
+rule "Fees reader"
+salience 1000
+no-loop
+    when
+		FeeList($feeTypeList : feeTypeList)
+        $schemaApplicationFee : FeeType("schemaApplicationFee".equals(nameKey)) from $feeTypeList
+    then
+    	TreeMap map = new TreeMap();
+        map.put("schemaApplicationFee", $schemaApplicationFee);
+        insert(map);
+end
+
+rule "Basic Fee"
+salience 100
+no-loop
+    when
+        $results : HashMap()
+        $map : TreeMap()
+        PatentApplication()
+    then
+        FeeType appFeeType =  (FeeType) $map.get("schemaApplicationFee");
+        Fee fee = new Fee();
+        fee.setFeeType(appFeeType);
+        fee.setUnitAmount(appFeeType.getDefaultValue());
+        fee.setQuantity(1);
+        fee.setAmount(fee.getQuantity() * fee.getUnitAmount());
+        $results.put("schemaApplicationFee", fee);
+end

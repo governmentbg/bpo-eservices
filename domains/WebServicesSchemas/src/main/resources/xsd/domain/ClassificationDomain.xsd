@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="qualified"
+           version="3.2"
+           targetNamespace="http://ohim.eu/sp/domain/classification/v3"
+           xmlns:tns="http://ohim.eu/sp/domain/classification/v3"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:complexType name="MatchedTerm">
+        <xs:sequence>
+            <xs:element name="termSourceType" type="xs:string" minOccurs="0"/>
+            <xs:element name="partial" type="xs:boolean"/>
+            <xs:element name="matchClassType" type="tns:MatchClassType" minOccurs="0"/>
+            <xs:element name="matchProximityType" type="tns:MatchProximityType" minOccurs="0"/>
+            <xs:element name="matchedClassNumber" type="xs:integer" minOccurs="0"/>
+            <xs:element name="matchedTermText" type="xs:string" minOccurs="0"/>
+            <xs:element name="identifier" type="xs:string" minOccurs="0"/>
+            <xs:element name="matchedTermPositionInInputTermList" type="xs:integer" minOccurs="0"/>
+            <xs:element name="matchedTermPositionInInputTerm" type="xs:integer" minOccurs="0"/>
+            <xs:element name="matchRank" type="xs:integer" minOccurs="0"/>
+            <xs:element name="legacyTermFrequency" type="xs:integer"  minOccurs="0"/>
+            <xs:element name="legacyTermFirstUseDate" type="xs:dateTime" minOccurs="0"/>
+            <xs:element name="legacyTermLastUseDate" type="xs:dateTime" minOccurs="0"/>
+            <xs:element name="matchedTerminologySourceList" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ClassificationTerm">
+        <xs:sequence>
+            <xs:element name="termText" type="xs:string" minOccurs="0" />
+            <xs:element name="termAssessment" type="tns:ClassificationErrorType" minOccurs="0" />
+            <xs:element name="assessmentDate" type="xs:date" minOccurs="0" />
+            <xs:element name="examinationStatus" type="xs:string" minOccurs="0" />
+            <xs:element name="examinationStatusDate" type="xs:date" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ClassDescription">
+        <xs:sequence>
+            <xs:element name="classNumber" type="xs:string" minOccurs="0"/>
+            <xs:element name="language" type="xs:string" minOccurs="0"/>
+            <xs:element name="goodsServicesDescription" type="xs:string" minOccurs="0"/>
+            <xs:element name="fullClassCoverageIndicator" type="xs:boolean" minOccurs="0"/>
+            <xs:element name="classificationTerms" type="tns:ClassificationTerm" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ClassificationErrorType">
+        <xs:sequence>
+            <xs:element name="errorEnum" type="tns:ClassificationErrorEnum" minOccurs="0"/>
+            <xs:element name="matchedTerms" type="tns:MatchedTerm" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="verificationAssessment" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:simpleType name="VerificationAssessmentType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="REJECTED_TERM"/>
+            <xs:enumeration value="CONTROLLED_TERM"/>
+            <xs:enumeration value="HOMONYM"/>
+            <xs:enumeration value="WRONG_CLASS"/>
+            <xs:enumeration value="SYNONYM"/>
+            <xs:enumeration value="SYNONYM_WRONG_CLASS"/>
+            <xs:enumeration value="NOT_FOUND"/>
+            <xs:enumeration value="NO_CLASS_GIVEN"/>
+            <xs:enumeration value="SIMILAR_TERMS"/>
+            <xs:enumeration value="CONTAINS_CONTROLLED_TERM"/>
+            <xs:enumeration value="LEGACY_TERM"/>
+            <xs:enumeration value="CONTAINS_LEGACY_TERM" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!--ENUM-->
+
+    <xs:simpleType name="ClassificationErrorEnum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="HINT"/>
+            <xs:enumeration value="NOT_OK"/>
+            <xs:enumeration value="NONE"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="VerifiedTermResult">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="OK"/>
+            <xs:enumeration value="HINT"/>
+            <xs:enumeration value="NOT_OK"/>
+            <xs:enumeration value="NONE"/>
+            <xs:enumeration value="NOT_FOUND"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="MatchClassType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="SAME_CLASS"/>
+            <xs:enumeration value="WRONG_CLASS"/>
+            <xs:enumeration value="NONE"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="MatchProximityType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="TERM_MATCH"/>
+            <xs:enumeration value="LINGUISTIC_MATCH"/>
+            <xs:enumeration value="MATCH_TO_VERIFY"/>
+            <xs:enumeration value="NO_MATCH"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

@@ -1,0 +1,64 @@
+.w25 {
+    width: 25%;
+}
+
+.w30 {
+    width: 30%;
+}
+
+.w60px {
+    width: 60px;
+}
+
+.mB1em {
+    margin-bottom: 1em;
+}
+
+.mB10px {
+    margin-bottom: 10px;
+}
+
+.font-size-15 {
+    font-size: 15px !important;
+}
+
+.float-left {
+    float: left;
+}
+
+.clear {
+    clear: both;
+}
+
+.h60px {
+    height: 60px;
+}
+
+.bold{
+    font-weight: bold;
+}
+
+.align-center {
+    text-align: center;
+}
+
+.jumping-text{
+    animation: jump .8s infinite;
+}
+
+
+@keyframes jump {
+    0%{
+        transform: translateY(0px);
+    }
+    50%{
+        transform: translateY(-5px);
+    }
+    100%{
+        transform: translateY(0px);
+    }
+}
+
+.zoom:hover{
+    transform: scale(1.1);
+}

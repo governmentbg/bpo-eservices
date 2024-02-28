@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<roles xmlns="http://www.example.org/permissions" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.example.org/permissions permissions.xsd ">
+	<role name="ROLE_TMEFILING-REGISTERED">
+		<permissions>
+			<permission>Import_Previous</permission>
+			<permission>CTM_Search</permission>
+			<permission>Priority_Add</permission>
+			<permission>Priority_Import</permission>
+			<permission>Priority_Search</permission>
+			<permission>Seniority_Add</permission>
+			<permission>Seniority_Import</permission>
+			<permission>Seniority_Search</permission>
+			<permission>Exhibition_Priority_Add</permission>
+			<permission>Transformation_Add</permission>
+			<permission>Transformation_Import</permission>
+			<permission>Transformation_Search</permission>
+			<permission>Attachment_Add</permission>
+			<permission>Applicant_Add</permission>
+			<permission>Applicant_Import</permission>
+			<permission>Applicant_Search</permission>
+			<permission>Goods_Services_Add</permission>
+			<permission>Goods_Services_Manual_Add</permission>
+			<permission>Representative_Add</permission>
+			<permission>Representative_Import</permission>
+			<permission>Representative_Search</permission>
+			<permission>PersonChange_Add</permission>
+			<permission>Word_Mark</permission>
+			<permission>Figurative_Mark</permission>
+			<permission>ThreeD_Mark</permission>
+			<permission>Colour_Mark</permission>
+			<permission>Sound_Mark</permission>
+			<permission>Submit_Application</permission>
+			<permission>Save_Load_Application</permission>
+		</permissions>
+	</role>
+	<role name="ROLE_TMEFILING-PREMIUM">
+		<permissions>
+			<permission>Import_Previous</permission>
+			<permission>CTM_Search</permission>
+			<permission>Priority_Add</permission>
+			<permission>Priority_Import</permission>
+			<permission>Priority_Search</permission>
+			<permission>Seniority_Add</permission>
+			<permission>Seniority_Import</permission>
+			<permission>Seniority_Search</permission>
+			<permission>Exhibition_Priority_Add</permission>
+			<permission>Transformation_Add</permission>
+			<permission>Transformation_Import</permission>
+			<permission>Transformation_Search</permission>
+			<permission>Attachment_Add</permission>
+			<permission>Applicant_Add</permission>
+			<permission>Applicant_Import</permission>
+			<permission>Applicant_Search</permission>
+			<permission>Goods_Services_Add</permission>
+			<permission>Goods_Services_Manual_Add</permission>
+			<permission>Representative_Add</permission>
+			<permission>Representative_Import</permission>
+			<permission>Representative_Search</permission>
+			<permission>PersonChange_Add</permission>
+			<permission>Word_Mark</permission>
+			<permission>Figurative_Mark</permission>
+			<permission>ThreeD_Mark</permission>
+			<permission>Colour_Mark</permission>
+			<permission>Sound_Mark</permission>
+			<permission>Submit_Application</permission>
+			<permission>Save_Load_Locally</permission>
+			<permission>Save_Load_Application</permission>
+		</permissions>
+	</role>
+</roles>

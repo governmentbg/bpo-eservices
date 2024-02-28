@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="unqualified"
+	version="3.1"
+	targetNamespace="http://ohim.eu/sp/services/fee-calculation/v3"
+	xmlns:tns="http://ohim.eu/sp/services/fee-calculation/v3"
+	xmlns:payment="http://ohim.eu/sp/domain/payment/v3"
+	xmlns:common="http://ohim.eu/sp/domain/common/v3"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	
+	<xs:import namespace="http://ohim.eu/sp/domain/payment/v3" schemaLocation="../domain/PaymentDomain.xsd" />
+	<xs:import namespace="http://ohim.eu/sp/domain/common/v3" schemaLocation="../domain/CommonDomain.xsd" />		
+
+	<xs:element name="calculateApplicationFees" type="tns:CalculateApplicationFees" />
+	<xs:element name="calculateApplicationFeesResponse" type="tns:CalculateApplicationFeesResponse" />
+	<xs:element name="feeFault" type="tns:FeeFault" />
+
+	<xs:complexType name="CalculateApplicationFees">
+		<xs:sequence>
+			<xs:element name="applicationType" type="xs:string" />
+			<xs:element name="applicationXML" type="xs:base64Binary" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="CalculateApplicationFeesResponse">
+		<xs:sequence>
+			<xs:element name="fees" type="payment:Fee" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="FeeFault">
+		<xs:sequence>
+			<xs:element name="fault" type="common:Fault" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+</xs:schema>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="unqualified"
+	version="1.0"
+	targetNamespace="http://ohim.eu/sp/services/nice-classification/v3"
+	xmlns:tns="http://ohim.eu/sp/services/nice-classification/v3"
+	xmlns:class="http://ohim.eu/sp/domain/classification-wrapper/v3"
+	xmlns:common="http://ohim.eu/sp/domain/common/v3"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	
+	<xs:import namespace="http://ohim.eu/sp/domain/classification-wrapper/v3" schemaLocation="../domain/ClassificationWrapperDomain.xsd" />
+    <xs:import namespace="http://ohim.eu/sp/domain/common/v3" schemaLocation="../domain/CommonDomain.xsd"/>
+	
+	<xs:element name="getDistribution" type="tns:GetDistribution" />
+	<xs:element name="getDistributionResponse" type="tns:GetDistributionResponse" />
+	
+	<xs:element name="getNiceClassHeading" type="tns:GetNiceClassHeading" />
+	<xs:element name="getNiceClassHeadingResponse" type="tns:GetNiceClassHeadingResponse" />
+	
+	<xs:element name="getClassScopes" type="tns:GetClassScopes" />
+	<xs:element name="getClassScopesResponse" type="tns:GetClassScopesResponse" />	
+	
+	<xs:element name="getAutocomplete" type="tns:GetAutocomplete" />
+	<xs:element name="getAutocompleteResponse" type="tns:GetAutocompleteResponse" />
+	
+	<xs:element name="getTaxonomy" type="tns:GetTaxonomy" />
+	<xs:element name="getTaxonomyResponse" type="tns:GetTaxonomyResponse" />
+	
+	<xs:element name="searchTerm" type="tns:SearchTerm" />
+	<xs:element name="searchTermResponse" type="tns:SearchTermResponse" />
+	
+	<xs:element name="verifyListOfTerms" type="tns:VerifyListOfTerms" />
+	<xs:element name="verifyListOfTermsResponse" type="tns:VerifyListOfTermsResponse" />
+	
+	<xs:element name="niceClassificationFault" type="tns:NiceClassificationFault" />
+
+	<xs:complexType name="GetDistribution">
+		<xs:sequence>
+			<xs:element name="criteria" type="class:DistributionCriteria" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="GetDistributionResponse">
+		<xs:sequence>
+			<xs:element name="return" type="class:DistributionResults" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="GetNiceClassHeading">
+		<xs:sequence>
+			<xs:element name="criteria" type="class:NiceHeadingCriteria" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="GetNiceClassHeadingResponse">
+		<xs:sequence>
+			<xs:element name="return" type="class:Term" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="GetClassScopes">
+		<xs:sequence>
+			<xs:element name="criteria" type="class:ClassScopesCriteria" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="GetClassScopesResponse">
+		<xs:sequence>
+			<xs:element name="return" type="class:ClassScope" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="GetAutocomplete">
+		<xs:sequence>
+			<xs:element name="criteria" type="class:DidYouMeanCriteria" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="GetAutocompleteResponse">
+		<xs:sequence>
+			<xs:element name="return" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>		
+
+	<xs:complexType name="GetTaxonomy">
+		<xs:sequence>
+			<xs:element name="criteria" type="class:TaxonomyCriteria" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="GetTaxonomyResponse">
+		<xs:sequence>
+			<xs:element name="return" type="class:TaxonomyConceptNode" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="SearchTerm">
+		<xs:sequence>
+			<xs:element name="criteria" type="class:SearchTermCriteria" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SearchTermResponse">
+		<xs:sequence>
+			<xs:element name="return" type="class:SearchResults" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="VerifyListOfTerms">
+		<xs:sequence>
+			<xs:element name="termsList" type="class:TermsToBeValidated" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="VerifyListOfTermsResponse">
+		<xs:sequence>
+			<xs:element name="return" type="class:TermsValidated" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+ 	<xs:complexType name="NiceClassificationFault">
+        <xs:sequence>
+            <xs:element name="return" type="common:Fault" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+	
+</xs:schema>
